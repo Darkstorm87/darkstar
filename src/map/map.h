@@ -73,8 +73,8 @@ struct map_config_t
     string_t server_message_fr;
 
 	uint32 max_time_lastupdate;		// max interval wait of last update player char
-    int32  vanadiel_time_offset;    // �?мещение игрового времени отно�?ительно реального времени
-    int32  lightluggage_block;      // е�?ли значение отлично от нул�?, то пер�?онажи �? lightluggage будут удал�?ть�?�? �? �?ервера автоматиче�?ки
+    int32  vanadiel_time_offset;    // смещение игрового времени относительно реального времени
+    int32  lightluggage_block;      // если значение отлично от нуля, то персонажи с lightluggage будут удаляться с сервера автоматически
     float  exp_rate;                // множитель получаемого опыта
 	float  exp_loss_rate;			// same as exp rate but applies when player dies
 	uint8  exp_party_gap_penalties;	// if 1 Party Gap Penalties will apply
@@ -111,8 +111,8 @@ struct map_config_t
 	bool   audit_yell;
 	bool   audit_linkshell;
 	bool   audit_party;
-	uint16 chatPort;				// chat server port
-	const char* chatIp;				// chat server IP
+	uint16 msg_server_port;			// central message server port
+	const char* msg_server_ip;		// central message server IP
 };
 
 /************************************************************************
@@ -125,9 +125,9 @@ struct map_session_data_t
 {
 	uint32		client_addr;
 	uint16		client_port;
-	uint16		client_packet_id;			// id по�?леднего пакета, пришедшего от клиента
-	uint16		server_packet_id;			// id по�?леднего пакета, отправленного �?ервером
-	int8*		server_packet_data; 		// указатель на �?обранный пакет, который был ранее отправлен клиенту
+	uint16		client_packet_id;			// id последнего пакета, пришедшего от клиента
+	uint16		server_packet_id;			// id последнего пакета, отправленного сервером
+	int8*		server_packet_data; 		// указатель на собранный пакет, который был ранее отправлен клиенту
 	size_t		server_packet_size;			// размер пакета, который был ранее отправлен клиенту
 	time_t		last_update;				// time of last packet recv
 	blowfish_t  blowfish;					// unique decypher keys
@@ -169,7 +169,7 @@ int32 map_config_default();
 
 int32 map_cleanup(uint32 tick,CTaskMgr::CTask *PTask);									// Clean up timed out players
 int32 map_close_session(uint32 tick, map_session_data_t* map_session_data);
-int32 map_close_session(uint32 tick,CTaskMgr::CTask *PTask);							// завершение �?е�?�?ии
+int32 map_close_session(uint32 tick,CTaskMgr::CTask *PTask);							// завершение сессии
 
 int32 map_garbage_collect(uint32 tick, CTaskMgr::CTask* PTask);
 
