@@ -13,7 +13,7 @@ install:
 
 before_script:
   - sh autogen.sh
-  - mysql -u ***REMOVED*** -e 'create database myapp_test;'
+  - mysql -u ***REMOVED*** -e 'create database dspdb_test;'
 
 script:
   - ./configure
