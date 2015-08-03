@@ -32,7 +32,7 @@ function onTrigger(player,npc)
 		if (player:getVar("***REMOVED***ProblemQ1") == 2 and player:getVar("***REMOVED***ProblemQ2") == 2) then
 			player:startEvent(0x30);
 		end
-	elseif(player:getVar("***REMOVED***Problem") == 3) then
+	elseif (player:getVar("***REMOVED***Problem") == 3) then
 		player:startEvent(0x37);
 	end
 end;
