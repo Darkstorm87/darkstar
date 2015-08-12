@@ -29,8 +29,8 @@ end;
 
 function onTrigger(player,npc)
 	if (player:getVar("***REMOVED***Problem") == 2) then 
-		if(player:getVar("***REMOVED***ProblemQ2") <= 1) then
-			if(player:hasStatusEffect(EFFECT_MANAFONT) == true) then
+		if (player:getVar("***REMOVED***ProblemQ2") <= 1) then
+			if (player:hasStatusEffect(EFFECT_MANAFONT) == true) then
 				player:startEvent(0x2F);
 			else
 				player:startEvent(0x2E);
