@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Toraimarai Canal
---  NM: Magic Sludge
+--  NM:  Magic Sludge
 -----------------------------------
 
 require("scripts/globals/titles");
@@ -24,6 +24,6 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
-	killer:setVar("***REMOVED***Problem",3);
+function onMobDeath(mob, killer, ally)
+    ally:setVar("***REMOVED***Problem",3);
 end;
