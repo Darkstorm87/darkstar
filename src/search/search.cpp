@@ -80,7 +80,7 @@ struct SearchCommInfo
 
 void TaskManagerThread();
 
-int32 ah_cleanup(uint32 tick, CTaskMgr::CTask* PTask);
+int32 ah_cleanup(time_point tick, CTaskMgr::CTask* PTask);
 
 
 const int8* SEARCH_CONF_FILENAME = "./conf/search_server.conf";
@@ -107,7 +107,7 @@ void login_config_read(const int8* file);		// We only need the search server por
 
 /************************************************************************
 *																		*
-*  Отображени�? �?одержимого вход�?щего пакета в кон�?оли					*
+*  Отображения содержимого входящего пакета в консоли					*
 *																		*
 ************************************************************************/
 
@@ -264,7 +264,7 @@ int32 main(int32 argc, int8 **argv)
     ShowMessage(CL_WHITE"========================================================\n\n" CL_RESET);
     if (search_config.expire_auctions == 1) {
         ShowMessage(CL_GREEN"AH task to return items older than %u days is running\n" CL_RESET, search_config.expire_days);
-        CTaskMgr::getInstance()->AddTask("ah_cleanup", gettick(), nullptr, CTaskMgr::TASK_INTERVAL, ah_cleanup, search_config.expire_interval * 1000);
+        CTaskMgr::getInstance()->AddTask("ah_cleanup", server_clock::now(), nullptr, CTaskMgr::TASK_INTERVAL, ah_cleanup, std::chrono::milliseconds(search_config.expire_interval));
     }
     //	ShowMessage(CL_CYAN"[TASKMGR] Starting task manager thread..\n" CL_RESET);
 
@@ -286,7 +286,7 @@ int32 main(int32 argc, int8 **argv)
 
         std::thread(TCPComm, ClientSocket).detach();
     }
-    // TODO: �?ейча�? мы никогда �?юда не попадем
+    // TODO: сейчас мы никогда сюда не попадем
 
     // shutdown the connection since we're done
 #ifdef WIN32
@@ -518,7 +518,7 @@ void TCPComm(SOCKET socket)
 
 /************************************************************************
 *                                                                       *
-*  Запро�? �?пи�?ка пер�?онажей (party/linkshell)                           *
+*  Запрос списка персонажей (party/linkshell)                           *
 *                                                                       *
 ************************************************************************/
 
@@ -633,16 +633,16 @@ void HandleAuctionHouseRequest(CTCPRequestPacket& PTCPRequest)
     uint8  AHCatID = RBUFB(data, (0x16));
 
     //2 - уровень -- level
-    //3 - ра�?а -- race
-    //4 - профе�?�?и�? -- job
+    //3 - раса -- race
+    //4 - профессия -- job
     //5 - урон -- damage
     //6 - задержка -- delay
     //7 - защита -- defense
-    //8 - �?опротивление -- resistance
+    //8 - сопротивление -- resistance
     //9 - название -- name
     string_t OrderByString = "ORDER BY";
     uint8 paramCount = RBUFB(data, 0x12);
-    for (uint8 i = 0; i < paramCount; ++i) // параметры �?ортировки предметов
+    for (uint8 i = 0; i < paramCount; ++i) // параметры сортировки предметов
     {
         uint8 param = RBUFL(data, (0x18) + 8 * i);
         ShowMessage(" Param%u: %u\n", i, param);
@@ -714,8 +714,8 @@ void HandleAuctionHouseHistory(CTCPRequestPacket& PTCPRequest)
 
 search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
 {
-    // �?уть в том, чтобы заполнить некоторую �?труктуру, на о�?новании которой будет �?оздан запро�? к базе
-    // результат пои�?ка в базе отправл�?ет�?�? клиенту
+    // суть в том, чтобы заполнить некоторую структуру, на основании которой будет создан запрос к базе
+    // результат поиска в базе отправляется клиенту
 
     uint32 bitOffset = 0;
 
@@ -975,7 +975,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
     }
 
     return sr;
-    // не обрабатываем по�?ледние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
+    // не обрабатываем последние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
 }
 /************************************************************************
 *                                                                       *
@@ -985,11 +985,11 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
 
 void TaskManagerThread()
 {
-    int next;
+    duration next;
     while (true)
     {
-        next = CTaskMgr::getInstance()->DoTimer(gettick_nocache());
-        std::this_thread::sleep_for(std::chrono::milliseconds(next / 1000));
+        next = CTaskMgr::getInstance()->DoTimer(server_clock::now());
+        std::this_thread::sleep_for(next);
     }
 }
 
@@ -999,7 +999,7 @@ void TaskManagerThread()
 *                                                                       *
 ************************************************************************/
 
-int32 ah_cleanup(uint32 tick, CTaskMgr::CTask* PTask)
+int32 ah_cleanup(time_point tick, CTaskMgr::CTask* PTask)
 {
     //ShowMessage(CL_YELLOW"[TASK] ah_cleanup tick..\n" CL_RESET);
 
