@@ -107,7 +107,7 @@ void login_config_read(const int8* file);		// We only need the search server por
 
 /************************************************************************
 *																		*
-*  Отображени�? �?одержимого вход�?щего пакета в кон�?оли					*
+*  Отображения содержимого входящего пакета в консоли					*
 *																		*
 ************************************************************************/
 
@@ -153,13 +153,12 @@ int32 main(int32 argc, int8 **argv)
 
     std::string logFile;
 
-#ifdef DEBUGLOGSEARCH
 #ifdef WIN32
     logFile = "log\\search-server.log";
 #else
     logFile = "log/search-server.log";
 #endif
-#endif
+
 
     for (int i = 0; i < argc; i++)
     {
@@ -286,7 +285,7 @@ int32 main(int32 argc, int8 **argv)
 
         std::thread(TCPComm, ClientSocket).detach();
     }
-    // TODO: �?ейча�? мы никогда �?юда не попадем
+    // TODO: сейчас мы никогда сюда не попадем
 
     // shutdown the connection since we're done
 #ifdef WIN32
@@ -518,7 +517,7 @@ void TCPComm(SOCKET socket)
 
 /************************************************************************
 *                                                                       *
-*  Запро�? �?пи�?ка пер�?онажей (party/linkshell)                           *
+*  Запрос списка персонажей (party/linkshell)                           *
 *                                                                       *
 ************************************************************************/
 
@@ -633,16 +632,16 @@ void HandleAuctionHouseRequest(CTCPRequestPacket& PTCPRequest)
     uint8  AHCatID = RBUFB(data, (0x16));
 
     //2 - уровень -- level
-    //3 - ра�?а -- race
-    //4 - профе�?�?и�? -- job
+    //3 - раса -- race
+    //4 - профессия -- job
     //5 - урон -- damage
     //6 - задержка -- delay
     //7 - защита -- defense
-    //8 - �?опротивление -- resistance
+    //8 - сопротивление -- resistance
     //9 - название -- name
     string_t OrderByString = "ORDER BY";
     uint8 paramCount = RBUFB(data, 0x12);
-    for (uint8 i = 0; i < paramCount; ++i) // параметры �?ортировки предметов
+    for (uint8 i = 0; i < paramCount; ++i) // параметры сортировки предметов
     {
         uint8 param = RBUFL(data, (0x18) + 8 * i);
         ShowMessage(" Param%u: %u\n", i, param);
@@ -714,8 +713,8 @@ void HandleAuctionHouseHistory(CTCPRequestPacket& PTCPRequest)
 
 search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
 {
-    // �?уть в том, чтобы заполнить некоторую �?труктуру, на о�?новании которой будет �?оздан запро�? к базе
-    // результат пои�?ка в базе отправл�?ет�?�? клиенту
+    // суть в том, чтобы заполнить некоторую структуру, на основании которой будет создан запрос к базе
+    // результат поиска в базе отправляется клиенту
 
     uint32 bitOffset = 0;
 
@@ -899,7 +898,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
             printf("SEARCH::Comment Entry found. (%8X).\n", comment);
             break;
         }
-        //the following 4 Entries were generated with /sea (ballista|friend|linkshell|away|inv) 
+        //the following 4 Entries were generated with /sea (ballista|friend|linkshell|away|inv)
         //so they may be off
         case SEARCH_LINKSHELL: // 4 Byte
         {
@@ -914,7 +913,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
             printf("SEARCH::Friend Entry found.\n");
             break;
         }
-        case SEARCH_FLAGS1: // Flag Entry #1, 2 byte, 
+        case SEARCH_FLAGS1: // Flag Entry #1, 2 byte,
         {
             if (isPresent == 0x1)
             {
@@ -975,7 +974,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
     }
 
     return sr;
-    // не обрабатываем по�?ледние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
+    // не обрабатываем последние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
 }
 /************************************************************************
 *                                                                       *
