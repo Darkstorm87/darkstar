@@ -24,6 +24,6 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
-    ally:setVar("***REMOVED***Problem",3);
+function onMobDeath(mob, player, isKiller)
+    player:setVar("***REMOVED***Problem",3);
 end;
