@@ -7,7 +7,14 @@
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Old_Two_Wings's spawnpoint and respawn time (21-24 hours)
     UpdateNMSpawnPoint(mob:getID());

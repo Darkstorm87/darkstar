@@ -594,7 +594,12 @@ namespace spell
             uint8 JobSLVL = spell->getJob(PCaster->GetSJob());
             uint8 requirements = spell->getRequirements();
 
-            if(PCaster->objtype == TYPE_MOB){
+            if (PCaster->objtype == TYPE_MOB)
+            {
+                // cant cast cause im hidden or untargetable
+                if (PCaster->IsNameHidden() || static_cast<CMobEntity*>(PCaster)->IsUntargetable())
+                    return false;
+
                 // Mobs can cast any non-given char spell
                 return true;
             }
@@ -611,14 +616,14 @@ namespace spell
                 }
                 if (requirements & SPELLREQ_ADDENDUM_BLACK && PCaster->GetMJob() == JOB_SCH)
                 {
-                    if(!PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ADDENDUM_BLACK) && !PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHTENMENT))
+                    if (!PCaster->StatusEffectContainer->HasStatusEffect({EFFECT_ADDENDUM_BLACK, EFFECT_ENLIGHTENMENT}))
                     {
                         usable = false;
                     }
                 }
                 else if (requirements & SPELLREQ_ADDENDUM_WHITE && PCaster->GetMJob() == JOB_SCH)
                 {
-                    if (!PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ADDENDUM_WHITE) && !PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHTENMENT))
+                    if (!PCaster->StatusEffectContainer->HasStatusEffect({EFFECT_ADDENDUM_WHITE, EFFECT_ENLIGHTENMENT}))
                     {
                         usable = false;
                     }
@@ -629,8 +634,7 @@ namespace spell
                     {
                         if (requirements & SPELLREQ_UNBRIDLED_LEARNING)
                         {
-                            if (!PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_UNBRIDLED_LEARNING) &&
-                                !PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_UNBRIDLED_WISDOM))
+                            if (!PCaster->StatusEffectContainer->HasStatusEffect({EFFECT_UNBRIDLED_LEARNING, EFFECT_UNBRIDLED_WISDOM}))
                             {
                                 usable = false;
                             }
@@ -655,14 +659,14 @@ namespace spell
                 }
                 if (requirements & SPELLREQ_ADDENDUM_BLACK && PCaster->GetSJob() == JOB_SCH)
                 {
-                    if (!PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ADDENDUM_BLACK) && !PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHTENMENT))
+                    if (!PCaster->StatusEffectContainer->HasStatusEffect({EFFECT_ADDENDUM_BLACK, EFFECT_ENLIGHTENMENT}))
                     {
                         usable = false;
                     }
                 }
                 else if (requirements & SPELLREQ_ADDENDUM_WHITE && PCaster->GetSJob() == JOB_SCH)
                 {
-                    if (!PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ADDENDUM_WHITE) && !PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHTENMENT))
+                    if (!PCaster->StatusEffectContainer->HasStatusEffect({EFFECT_ADDENDUM_WHITE, EFFECT_ENLIGHTENMENT}))
                     {
                         usable = false;
                     }
@@ -673,8 +677,7 @@ namespace spell
                     {
                         if (requirements & SPELLREQ_UNBRIDLED_LEARNING)
                         {
-                            if (!PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_UNBRIDLED_LEARNING) &&
-                                !PCaster->StatusEffectContainer->HasStatusEffect(EFFECT_UNBRIDLED_WISDOM))
+                            if (!PCaster->StatusEffectContainer->HasStatusEffect({EFFECT_UNBRIDLED_LEARNING, EFFECT_UNBRIDLED_WISDOM}))
                             {
                                 usable = false;
                             }

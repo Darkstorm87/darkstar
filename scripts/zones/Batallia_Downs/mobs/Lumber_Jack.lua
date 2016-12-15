@@ -17,7 +17,14 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Weeping Willow's respawn time (21-24 hours)
     GetMobByID(mob:getID() -6):setRespawnTime(math.random(75600,86400));

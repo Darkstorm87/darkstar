@@ -19,10 +19,10 @@ end;
 function onMobEngaged(mob,target)
 
     local gurfurlur = mob:getID()
-    SpawnMob(gurfurlur+1,180):updateEnmity(target);
-    SpawnMob(gurfurlur+2,180):updateEnmity(target);
-    SpawnMob(gurfurlur+3,180):updateEnmity(target);
-    SpawnMob(gurfurlur+4,180):updateEnmity(target);
+    SpawnMob(gurfurlur+1):updateEnmity(target);
+    SpawnMob(gurfurlur+2):updateEnmity(target);
+    SpawnMob(gurfurlur+3):updateEnmity(target);
+    SpawnMob(gurfurlur+4):updateEnmity(target);
 
 end;
 
@@ -57,6 +57,6 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
-    ally:addTitle(TROLL_SUBJUGATOR);
+function onMobDeath(mob, player, isKiller)
+    player:addTitle(TROLL_SUBJUGATOR);
 end;

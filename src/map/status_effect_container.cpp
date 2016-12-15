@@ -363,6 +363,7 @@ bool CStatusEffectContainer::AddStatusEffect(CStatusEffect* PStatusEffect, bool 
         m_StatusEffectList.push_back(PStatusEffect);
 
         luautils::OnEffectGain(m_POwner, PStatusEffect);
+        m_POwner->PAI->EventHandler.triggerListener("EFFECT_GAIN", m_POwner, PStatusEffect);
 
         m_POwner->addModifiers(&PStatusEffect->modList);
 
@@ -425,6 +426,7 @@ void CStatusEffectContainer::RemoveStatusEffect(uint32 id, bool silent)
 
     m_StatusEffectList.erase(m_StatusEffectList.begin() + id);
     luautils::OnEffectLose(m_POwner, PStatusEffect);
+    m_POwner->PAI->EventHandler.triggerListener("EFFECT_LOSE", m_POwner, PStatusEffect);
 
     m_POwner->delModifiers(&PStatusEffect->modList);
     m_POwner->UpdateHealth();
@@ -993,6 +995,20 @@ bool CStatusEffectContainer::HasStatusEffect(EFFECT StatusID, uint16 SubID)
     return false;
 }
 
+bool CStatusEffectContainer::HasStatusEffect(std::initializer_list<EFFECT> effects)
+{
+    for (auto&& effect_from_list : m_StatusEffectList)
+    {
+        for (auto&& effect_to_check : effects)
+        {
+            if (effect_to_check == effect_from_list->GetStatusID())
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 CStatusEffect* CStatusEffectContainer::GetStatusEffect(EFFECT StatusID)
 {
@@ -1427,15 +1443,15 @@ void CStatusEffectContainer::CheckRegen(time_point tick)
 
 bool CStatusEffectContainer::HasPreventActionEffect()
 {
-    return HasStatusEffect(EFFECT_SLEEP) ||
-        HasStatusEffect(EFFECT_SLEEP_II) ||
-        HasStatusEffect(EFFECT_PETRIFICATION) ||
-        HasStatusEffect(EFFECT_LULLABY) ||
-        HasStatusEffect(EFFECT_CHARM) ||
-        HasStatusEffect(EFFECT_CHARM_II) ||
-        HasStatusEffect(EFFECT_PENALTY) ||
-        HasStatusEffect(EFFECT_STUN) ||
-        HasStatusEffect(EFFECT_TERROR);
+    return HasStatusEffect({EFFECT_SLEEP,
+        EFFECT_SLEEP_II,
+        EFFECT_PETRIFICATION,
+        EFFECT_LULLABY,
+        EFFECT_CHARM,
+        EFFECT_CHARM_II,
+        EFFECT_PENALTY,
+        EFFECT_STUN,
+        EFFECT_TERROR});
 }
 
 uint16 CStatusEffectContainer::GetConfrontationEffect()
@@ -1477,9 +1493,9 @@ bool CStatusEffectContainer::CheckForElevenRoll()
 
 bool CStatusEffectContainer::IsAsleep()
 {
-    return HasStatusEffect(EFFECT_SLEEP) ||
-        HasStatusEffect(EFFECT_SLEEP_II) ||
-        HasStatusEffect(EFFECT_LULLABY);
+    return HasStatusEffect({EFFECT_SLEEP,
+        EFFECT_SLEEP_II,
+        EFFECT_LULLABY});
 }
 
 void CStatusEffectContainer::WakeUp()

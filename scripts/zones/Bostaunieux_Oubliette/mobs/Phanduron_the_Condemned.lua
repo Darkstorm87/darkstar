@@ -7,7 +7,14 @@
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Phanduron_the_Condemned's spawnpoint and respawn time (60-72 hours)
     UpdateNMSpawnPoint(mob:getID());

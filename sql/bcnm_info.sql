@@ -108,7 +108,7 @@ INSERT INTO `bcnm_info` VALUES ('115', '146', 'avian_apostates', null, null, '18
 INSERT INTO `bcnm_info` VALUES ('116', '146', 'beyond_infinity', null, null, '600', '0', '6', '0', '6');
 INSERT INTO `bcnm_info` VALUES ('128', '163', 'temple_of_uggalepih', null, null, '1800', '99', '6', '0', '5');
 INSERT INTO `bcnm_info` VALUES ('129', '163', 'jungle_boogymen', null, null, '1800', '60', '6', '10', '15');
-INSERT INTO `bcnm_info` VALUES ('130', '163', 'amphibian_assault', null, null, '1800', '60', '6', '0', '15');
+INSERT INTO `bcnm_info` VALUES ('130', '163', 'amphibian_assault', null, null, '1800', '60', '6', '156', '15');
 INSERT INTO `bcnm_info` VALUES ('131', '163', 'project_shantottofication', null, null, '1800', '99', '6', '0', '5');
 INSERT INTO `bcnm_info` VALUES ('132', '163', 'whom_wilt_thou_call', null, null, '1800', '0', '6', '0', '15');
 INSERT INTO `bcnm_info` VALUES ('160', '165', 'shadow_lord_battle', null, null, '1800', '90', '6', '0', '5');
@@ -201,7 +201,7 @@ INSERT INTO `bcnm_info` VALUES ('611', '211', 'sugar-coated_directive', null, nu
 INSERT INTO `bcnm_info` VALUES ('640', '6', 'flames_for_the_dead', null, null, '1800', '60', '6', '0', '5');
 INSERT INTO `bcnm_info` VALUES ('641', '6', 'follow_the_white_rabbit', null, null, '1800', '75', '18', '0', '15');
 INSERT INTO `bcnm_info` VALUES ('642', '6', 'when_hell_freezes_over', null, null, '900', '75', '18', '0', '15');
-INSERT INTO `bcnm_info` VALUES ('643', '6', 'brothers', null, null, '1800', '75', '18', '0', '15');
+INSERT INTO `bcnm_info` VALUES ('643', '6', 'brothers', null, null, '1800', '75', '18', '180', '15');
 INSERT INTO `bcnm_info` VALUES ('644', '6', 'holy_cow', null, null, '1800', '75', '18', '0', '15');
 INSERT INTO `bcnm_info` VALUES ('672', '8', 'head_wind', null, null, '1800', '50', '6', '0', '5');
 INSERT INTO `bcnm_info` VALUES ('673', '8', 'like_the_wind', null, null, '900', '75', '18', '179', '15');

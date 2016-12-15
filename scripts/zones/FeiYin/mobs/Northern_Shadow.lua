@@ -7,7 +7,14 @@
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Northern Shadow's ToD
     SetServerVariable("[POP]Northern_Shadow", os.time(t) + 57600); -- 16 hours

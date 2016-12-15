@@ -17,7 +17,7 @@ local npcid = {51, {16986721,16986722,16986723,16986724,16986725,16986726},  -- 
                52, {16990603,16990604,16990605,16990606,16990607,16990608},  -- Bhaflau Thickets
                89, {17142545,17142546,17142547,17142548,17142549,17142550},  -- Grauberg [S]
                95, {17167162,17167163,17167164,17167165,17167166,17167167},  -- West Sarutabaruta [S]
-               115,{17248869,17248870,17248871,17248872,17248873,17248874},  -- West Sarutabaruta
+               115,{17248868,17248869,17248870,17248871,17248893,17248894},  -- West Sarutabaruta
                123,{17281632,17281633,17281634},                             -- Yuhtunga Jungle
                124,{17285677,17285678,17285679},                             -- Yhoator Jungle
                145,{17371605,17371606,17371607,17371608,17371609,17371610},  -- Giddeus
@@ -91,9 +91,9 @@ end
 function getHarvestingItem(player,zone)
     local Rate = math.random();
 
-    for zon = 1, table.getn(drop), 2 do
+    for zon = 1, #drop, 2 do
         if (drop[zon] == zone) then
-            for itemlist = 1, table.getn(drop[zon + 1]), 2 do
+            for itemlist = 1, #drop[zon + 1], 2 do
                 if (Rate <= drop[zon + 1][itemlist + 1]) then
                     item = drop[zon + 1][itemlist];
                     break;
@@ -124,9 +124,9 @@ end
 function getNewHarvestingPositionNPC(player,npc,zone)
     local newnpcid = npc:getID();
 
-    for u = 1, table.getn(npcid), 2 do
+    for u = 1, #npcid, 2 do
         if (npcid[u] == zone) then
-            nbNPC = table.getn(npcid[u + 1]);
+            nbNPC = #npcid[u + 1];
             while newnpcid == npc:getID() do
                 newnpcid = math.random(1,nbNPC);
                 newnpcid = npcid[u + 1][newnpcid];

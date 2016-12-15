@@ -15,7 +15,14 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     for i = 0, 16, 1 do
 

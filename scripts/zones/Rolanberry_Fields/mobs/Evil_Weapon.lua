@@ -9,7 +9,14 @@ require("scripts/zones/Rolanberry_Fields/MobIDs");
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     local mobID = mob:getID();
     if (Eldritch_Edge_PH[mobID] ~= nil) then

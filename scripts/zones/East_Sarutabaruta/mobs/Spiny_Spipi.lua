@@ -7,7 +7,14 @@
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Spiny_Spipi's Window Open Time
     local wait = math.random(2700,7200)

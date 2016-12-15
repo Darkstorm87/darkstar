@@ -25,7 +25,14 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
     local Diamond_Quadav = mob:getID();
     local Za_Dha_Adamantking = 17383443;
     local ToD = GetServerVariable("[POP]Za_Dha_Adamantking");

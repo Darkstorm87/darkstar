@@ -39,7 +39,14 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
     local JoL = GetMobByID(16912848);
     local HPEMDES = JoL:getLocalVar("JoL_Qn_hpemde_Killed");
     JoL:setLocalVar("JoL_Qn_hpemde_Killed", HPEMDES+1);

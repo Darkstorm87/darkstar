@@ -10,7 +10,14 @@ require("scripts/zones/South_Gustaberg/MobIDs");
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
     local mobID = mob:getID();
     if (Carnero_PH[mobID] ~= nil) then
         local ToD = GetServerVariable("[POP]Carnero");

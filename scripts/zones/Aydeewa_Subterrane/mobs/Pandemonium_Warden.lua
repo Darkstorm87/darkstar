@@ -33,7 +33,7 @@ end;
 function onMobEngaged(mob,target)
     -- pop pets
     for i = 17056170, 17056177, 1 do
-        SpawnMob(i,180):updateEnmity(target);
+        SpawnMob(i):updateEnmity(target);
         GetMobByID(i):setModelId(1841);
     end
 end;
@@ -311,7 +311,7 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
     -- TODO: Death speech.
-    ally:addTitle(PANDEMONIUM_QUELLER);
+    player:addTitle(PANDEMONIUM_QUELLER);
 end;

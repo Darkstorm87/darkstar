@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Al'Taieu
---  MOB: Qn'phuabo
+--  MOB: Ru'phuabo
 -- Jailor of Love Pet version
 -----------------------------------
 
@@ -16,5 +16,5 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
+function onMobDeath(mob, player, isKiller)
 end;

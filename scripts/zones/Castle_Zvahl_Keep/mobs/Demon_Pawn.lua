@@ -9,7 +9,14 @@ require("scripts/zones/Castle_Zvahl_Keep/MobIDs");
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     mobID = mob:getID();
     if (Baronet_Romwe_PH[mobID] ~= nil) then

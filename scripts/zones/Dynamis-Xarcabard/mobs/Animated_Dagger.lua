@@ -20,12 +20,12 @@ function onMobEngaged(mob,target)
     
     target:showText(mob,ANIMATED_DAGGER_DIALOG);
     
-    SpawnMob(17330306,120):updateEnmity(target);
-    SpawnMob(17330307,120):updateEnmity(target);
-    SpawnMob(17330308,120):updateEnmity(target);
-    SpawnMob(17330316,120):updateEnmity(target);
-    SpawnMob(17330317,120):updateEnmity(target);
-    SpawnMob(17330318,120):updateEnmity(target);
+    SpawnMob(17330306):updateEnmity(target);
+    SpawnMob(17330307):updateEnmity(target);
+    SpawnMob(17330308):updateEnmity(target);
+    SpawnMob(17330316):updateEnmity(target);
+    SpawnMob(17330317):updateEnmity(target);
+    SpawnMob(17330318):updateEnmity(target);
 
 end;
 
@@ -49,9 +49,9 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
     
-    ally:showText(mob,ANIMATED_DAGGER_DIALOG+1);
+    player:showText(mob,ANIMATED_DAGGER_DIALOG+1);
     
     DespawnMob(17330306);
     DespawnMob(17330307);
