@@ -27,7 +27,6 @@
 #include "battleentity.h"
 
 #include "../lua/luautils.h"
-#include "../alliance.h"
 #include "../utils/battleutils.h"
 #include "../items/item_weapon.h"
 #include "../status_effect_container.h"
@@ -38,6 +37,8 @@
 #include "../ai/states/raise_state.h"
 #include "../ai/states/inactive_state.h"
 #include "../ai/states/weaponskill_state.h"
+#include "../ai/states/despawn_state.h"
+#include "../attack.h"
 #include "../attackround.h"
 #include "../weapon_skill.h"
 #include "../packets/action.h"
@@ -88,7 +89,8 @@ CBattleEntity::~CBattleEntity()
 
 bool CBattleEntity::isDead()
 {
-    return (health.hp <= 0 || status == STATUS_DISAPPEAR || PAI->IsCurrentState<CDeathState>());
+    return (health.hp <= 0 || status == STATUS_DISAPPEAR ||
+        PAI->IsCurrentState<CDeathState>() || PAI->IsCurrentState<CDespawnState>());
 }
 
 bool CBattleEntity::isAlive()
@@ -225,10 +227,7 @@ int16 CBattleEntity::GetWeaponDelay(bool tp)
     uint16 WeaponDelay = m_Weapons[SLOT_MAIN]->getDelay() - getMod(MOD_DELAY);
     if (m_Weapons[SLOT_MAIN]->getSkillType() == SKILL_H2H)
     {
-        if (!StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
-        {
-            WeaponDelay -= getMod(MOD_MARTIAL_ARTS) * 1000 / 60;
-        }
+        WeaponDelay -= getMod(MOD_MARTIAL_ARTS) * 1000 / 60;
     }
     else if (m_Weapons[SLOT_SUB]->getDmgType() > 0 &&
              m_Weapons[SLOT_SUB]->getDmgType() < 4)
@@ -264,10 +263,10 @@ int16 CBattleEntity::GetRangedWeaponDelay(bool tp)
     CItemWeapon* PAmmo = (CItemWeapon*)m_Weapons[SLOT_AMMO];
 
     // base delay
-    int delay = 240;
+    int delay = 0;
 
     if (PRange != nullptr && PRange->getDamage() != 0) {
-        delay += ((PRange->getDelay() * 60) / 1000);
+        delay = ((PRange->getDelay() * 60) / 1000);
     }
 
     delay = (((delay - getMod(MOD_RANGED_DELAY)) * 1000) / 120);
@@ -279,7 +278,7 @@ int16 CBattleEntity::GetRangedWeaponDelay(bool tp)
     }
     else if (PAmmo)
     {
-        delay += ((PAmmo->getDelay() * 60) / 1000);
+        delay += PAmmo->getDelay() / 2;
     }
     return delay;
 }
@@ -288,12 +287,11 @@ int16 CBattleEntity::GetAmmoDelay()
 {
     CItemWeapon* PAmmo = (CItemWeapon*)m_Weapons[SLOT_AMMO];
 
-    int delay = 240;
+    int delay = 0;
     if (PAmmo != nullptr && PAmmo->getDamage() != 0) {
-        delay += ((PAmmo->getDelay() * 60) / 1000);
+        delay = PAmmo->getDelay() / 2;
     }
 
-    delay = ((delay * 1000) / 120);
     return delay;
 }
 
@@ -661,10 +659,10 @@ uint16 CBattleEntity::ACC(uint8 attackNumber, uint8 offsetAccuracy)
 
 uint16 CBattleEntity::DEF()
 {
-    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE, 0)) {
-        return VIT() / 2 + 1;
-    }
     int32 DEF = 8 + m_modStat[MOD_DEF] + VIT() / 2;
+    if (this->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE, 0)) {
+	return DEF / 2;
+    }
 
     return DEF + (DEF * m_modStat[MOD_DEFP] / 100) +
         dsp_min((DEF * m_modStat[MOD_FOOD_DEFP] / 100), m_modStat[MOD_FOOD_DEF_CAP]);
@@ -1124,9 +1122,9 @@ void CBattleEntity::Spawn()
 
 void CBattleEntity::Die()
 {
-    //#TODO - get killer
+    auto PKiller {GetEntity(m_OwnerID.targid)};
+    PAI->EventHandler.triggerListener("DEATH", this, PKiller);
     SetBattleTargetID(0);
-    PAI->EventHandler.triggerListener("DEATH", this, nullptr);
 }
 
 void CBattleEntity::OnDeathTimer()
@@ -1214,8 +1212,8 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         auto ce = PSpell->getCE();
         auto ve = PSpell->getVE();
 
-        // take all shadows
-        if (PSpell->canTargetEnemy() && aoeType > 0)
+        // Take all shadows
+        if (PSpell->canTargetEnemy() && (aoeType > 0 || (PSpell->getFlag() & SPELLFLAG_WIPE_SHADOWS)))
         {
             PTarget->StatusEffectContainer->DelStatusEffect(EFFECT_BLINK);
             PTarget->StatusEffectContainer->DelStatusEffect(EFFECT_COPY_IMAGE);
@@ -1436,7 +1434,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
                         float DamageRatio = battleutils::GetDamageRatio(PTarget, this, attack.IsCritical(), 0);
                         auto damage = ((PTarget->GetMainWeaponDmg() + naturalh2hDMG + battleutils::GetFSTR(PTarget, this, SLOT_MAIN)) * DamageRatio);
-                        actionTarget.spikesParam = battleutils::TakePhysicalDamage(PTarget, this, damage, false, SLOT_MAIN, 1, nullptr, true, false, true);
+                        actionTarget.spikesParam = battleutils::TakePhysicalDamage(PTarget, this, attack.GetAttackType(), damage, false, SLOT_MAIN, 1, nullptr, true, false, true);
                         actionTarget.spikesMessage = 33;
                         if (PTarget->objtype == TYPE_PC)
                         {
@@ -1486,7 +1484,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     actionTarget.reaction = REACTION_BLOCK;
                 }
 
-                actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true);
+                actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true);
                 if (actionTarget.param < 0)
                 {
                     actionTarget.param = -(actionTarget.param);
@@ -1565,7 +1563,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                   actionTarget.spikesEffect == SUBEFFECT_COUNTER) && dsprand::GetRandomNumber(100) < zanshinChance) ||
                 (GetMJob() == JOB_SAM && this->StatusEffectContainer->HasStatusEffect(EFFECT_HASSO) && dsprand::GetRandomNumber(100) < (zanshinChance / 4)))
             {
-                attack.SetAttackType(ZANSHIN_ATTACK);
+                attack.SetAttackType(PHYSICAL_ATTACK_TYPE::ZANSHIN);
                 attack.SetAsFirstSwing(false);
             }
             else
@@ -1611,6 +1609,14 @@ void CBattleEntity::TryHitInterrupt(CBattleEntity* PAttacker)
         PAI->GetCurrentState()->TryInterrupt(PAttacker);
 }
 
+void CBattleEntity::OnDespawn(CDespawnState&)
+{
+    FadeOut();
+    //#event despawn
+    PAI->EventHandler.triggerListener("DESPAWN", this);
+    PAI->Internal_Respawn(0s);
+}
+
 void CBattleEntity::SetBattleStartTime(time_point time)
 {
     m_battleStartTime = time;
@@ -1627,7 +1633,8 @@ void CBattleEntity::Tick(time_point)
 
 void CBattleEntity::PostTick()
 {
-    if (health.hp == 0 && PAI->IsSpawned() && !PAI->IsCurrentState<CDeathState>() && !PAI->IsCurrentState<CRaiseState>())
+    if (health.hp == 0 && PAI->IsSpawned() && !PAI->IsCurrentState<CDeathState>() &&
+        !PAI->IsCurrentState<CRaiseState>() && !PAI->IsCurrentState<CDespawnState>())
     {
         Die();
     }

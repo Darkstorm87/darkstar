@@ -20,12 +20,12 @@ function onMobEngaged(mob,target)
     
     target:showText(mob,ANIMATED_KNUCKLES_DIALOG);
     
-    SpawnMob(17330309,120):updateEnmity(target);
-    SpawnMob(17330310,120):updateEnmity(target);
-    SpawnMob(17330311,120):updateEnmity(target);
-    SpawnMob(17330319,120):updateEnmity(target);
-    SpawnMob(17330320,120):updateEnmity(target);
-    SpawnMob(17330321,120):updateEnmity(target);
+    SpawnMob(17330309):updateEnmity(target);
+    SpawnMob(17330310):updateEnmity(target);
+    SpawnMob(17330311):updateEnmity(target);
+    SpawnMob(17330319):updateEnmity(target);
+    SpawnMob(17330320):updateEnmity(target);
+    SpawnMob(17330321):updateEnmity(target);
 
 end;
 
@@ -49,9 +49,9 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
     
-    ally:showText(mob,ANIMATED_KNUCKLES_DIALOG+1);
+    player:showText(mob,ANIMATED_KNUCKLES_DIALOG+1);
     
     DespawnMob(17330309);
     DespawnMob(17330310);

@@ -9,7 +9,14 @@ require("scripts/globals/weather");
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Kruetzet's spawnpoint and respawn time (9-12 hours)
     UpdateNMSpawnPoint(mob:getID());

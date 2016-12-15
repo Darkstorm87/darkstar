@@ -96,7 +96,7 @@ void CRecastContainer::Add(RECASTTYPE type, uint16 id, uint32 duration, uint32 c
 
     if (type == RECAST_ABILITY)
     {
-        Sql_Query(SqlHandle, "REPLACE INTO char_recast VALUES (%u, %u, %llu, %u);", m_PChar->id, recast->ID, recast->TimeStamp, recast->RecastTime);
+        Sql_Query(SqlHandle, "REPLACE INTO char_recast VALUES (%u, %u, %u, %u);", m_PChar->id, recast->ID, static_cast<uint32>(recast->TimeStamp), recast->RecastTime);
     }
 }
 
@@ -129,6 +129,12 @@ Recast_t* CRecastContainer::Load(RECASTTYPE type, uint16 id, uint32 duration, ui
             if (recast->RecastTime == 0)
             {
                 recast->TimeStamp = time(nullptr);
+            }
+            else if (recast->RecastTime + duration > recast->chargeTime * recast->maxCharges)
+            {
+                auto diff = (recast->chargeTime * recast->maxCharges) - recast->RecastTime + duration;
+                recast->TimeStamp += diff;
+                duration -= diff;
             }
             recast->RecastTime += duration;
         }

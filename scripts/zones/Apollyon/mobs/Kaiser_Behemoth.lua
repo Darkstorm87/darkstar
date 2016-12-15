@@ -49,7 +49,14 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
       local mobX = mob:getXPos();
     local mobY = mob:getYPos();
     local mobZ = mob:getZPos();

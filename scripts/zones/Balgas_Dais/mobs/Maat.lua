@@ -29,9 +29,26 @@ function onMobEngaged(mob,target)
 end;
 
 -----------------------------------
+-- onMobFight Action
+-----------------------------------
+
+function onMobFight(mob, target)
+    local bf = mob:getBattlefield();
+
+    if (mob:getHPP() <20) then
+        bf:win();
+        return;
+    -- WHM's Maat additionally gives up if kept fighting for 5 min
+    elseif (target:getMainJob() == JOBS.WHM and mob:getBattleTime() > 300) then
+        bf:win();
+        return;
+    end
+end;
+
+-----------------------------------
 -- onMobDeath Action
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
-    killer:showText(mob,YOUVE_COME_A_LONG_WAY);
+function onMobDeath(mob, player, isKiller)
+    player:showText(mob,YOUVE_COME_A_LONG_WAY);
 end;

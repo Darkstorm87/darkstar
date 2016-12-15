@@ -355,11 +355,26 @@ uint8 calcSynthResult(CCharEntity* PChar)
 				#endif
 			}
 
+			// Apply synthesis success rate modifier
+			int16 modSynthSuccess = PChar->getMod(MOD_SYNTH_SUCCESS);
+			success += (double)modSynthSuccess * 0.01;
+
             if(!canSynthesizeHQ(PChar,skillID))
             {
                 success += 0.01; //the crafting rings that block HQ synthesis all also increase their respective craft's success rate by 1%
                 canHQ = false; //assuming here that if a crafting ring is used matching a recipe's subsynth, overall HQ will still be blocked
             }
+
+			if (success > 0.99)
+			{
+				// Clamp success rate to 0.99
+				// Even if using kitron macaron, breaks can still happen
+				// https://www.bluegartr.com/threads/120352-CraftyMath
+				//   "I get a 99% success rate, so Kitron is doing something and it's not small."
+				// http://www.ffxiah.com/item/5781/kitron-macaron
+				//   "According to one of the Japanese wikis, it is said to decrease the minimum break rate from ~5% to 0.5%-2%."
+				success = 0.99;
+			}
 
 			double random = dsprand::GetRandomNumber(1.);
 			#ifdef _DSP_SYNTH_DEBUG_MESSAGES_
@@ -388,21 +403,25 @@ uint8 calcSynthResult(CCharEntity* PChar)
 
 					if(chance > 0)
 					{
-						chance *= 1.0 - (MoonPhase - 50)/150;  //new moon +33% of base rate bonus to hq chance, full moon -33%, corresponding/weakday/lightsday -33%, opposing/darksday +33%
-						if (crystalElement == WeekDay)
-							chance *= 1.0 - ((double)1/3);
-						else if (strongElement[crystalElement] == WeekDay)
-							chance *= 1.0 + ((double)1/3);
-						else if (strongElement[WeekDay] == crystalElement)
-							chance *= 1.0 - ((double)1/3);
-						else if (WeekDay == LIGHTSDAY)
-							chance *= 1.0 - ((double)1/3);
-						else if (WeekDay == DARKSDAY)
-							chance *= 1.0 + ((double)1/3);
-					}
+                        if (map_config.craft_moonphase_matters)
+                            chance *= 1.0 - (MoonPhase - 50)/150;  //new moon +33% of base rate bonus to hq chance, full moon -33%, corresponding/weakday/lightsday -33%, opposing/darksday +33%
+						
+                        if (map_config.craft_day_matters)
+                        {
+                            if (crystalElement == WeekDay)
+                                chance *= 1.0 - ((double)1 / 3);
+                            else if (strongElement[crystalElement] == WeekDay)
+                                chance *= 1.0 + ((double)1 / 3);
+                            else if (strongElement[WeekDay] == crystalElement)
+                                chance *= 1.0 - ((double)1 / 3);
+                            else if (WeekDay == LIGHTSDAY)
+                                chance *= 1.0 - ((double)1 / 3);
+                            else if (WeekDay == DARKSDAY)
+                                chance *= 1.0 + ((double)1 / 3);
+                        }
 
-					if(chance > 0.500)
-					    chance = 0.500;
+                        chance = dsp_cap(chance, 0., 0.500);
+					}
 
 					#ifdef _DSP_SYNTH_DEBUG_MESSAGES_
 					ShowDebug(CL_CYAN"HQ Tier: %i HQ Chance: %g Random: %g SkillID: %u\n" CL_RESET, hqtier, chance, random, skillID);
@@ -477,16 +496,6 @@ uint8 calcSynthResult(CCharEntity* PChar)
 
 int32 doSynthSkillUp(CCharEntity* PChar)
 {
-	//if (PChar->CraftContainer->getType() == ELEMENT_LIGHTNING)
-	//{
-	//	return 0;
-	//} bad idea, you cannot synth any item with lightning crystal
-
-//	double MoonPhase = (double)CVanaTime::getInstance()->getMoonPhase();
-//	double MoonCorrection = MoonPhase / 500;
-//  removed: there's no evidence that moon phase directly modifies skill up rate
-
-
 	for(uint8 skillID = 49; skillID < 57; ++skillID)
 	{
 		if (PChar->CraftContainer->getQuantity(skillID-40) == 0)	// получаем необходимый уровень умения рецепта
@@ -511,17 +520,21 @@ int32 doSynthSkillUp(CCharEntity* PChar)
 		uint16 maxSkill  = (skillRank+1)*100;
 
 		int32  charSkill = PChar->RealSkills.skill[skillID];
-		int32  basDiff   = PChar->CraftContainer->getQuantity(skillID-40) - (charSkill/10 + PChar->getMod(ModID)); //the 5 lvl difference rule for breaks does consider the effects of image support/gear
-		double synthDiff = getSynthDifficulty(PChar, skillID);
+		int32  baseDiff   = PChar->CraftContainer->getQuantity(skillID-40) - charSkill/10; //the 5 lvl difference rule for breaks does NOT consider the effects of image support/gear
 
-		if ((basDiff <= 0) || ((basDiff > 5) && (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL)))		// результат синтеза хранится в quantity нулевой ячейки
+		if ((baseDiff <= 0) || ((baseDiff > 5) && (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL)))		// результат синтеза хранится в quantity нулевой ячейки
 		{
 			continue;
 		}
 
 		if (charSkill < maxSkill)
 		{
-			double skillUpChance = (synthDiff*(map_config.craft_chance_multiplier - (log(1.2 + charSkill/100))))/10;
+			double skillUpChance = ((double)baseDiff*(map_config.craft_chance_multiplier - (log(1.2 + charSkill/100))))/10;
+
+			// Apply synthesis skill gain rate modifier before synthesis fail modifier
+			int16 modSynthSkillGain = PChar->getMod(MOD_SYNTH_SKILL_GAIN);
+			skillUpChance += (double)modSynthSkillGain * 0.01;
+
 			skillUpChance = skillUpChance/(1 + (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL));		// результат синтеза хранится в quantity нулевой ячейки
 
             double random = dsprand::GetRandomNumber(1.);
@@ -535,18 +548,16 @@ int32 doSynthSkillUp(CCharEntity* PChar)
 				int32  skillAmount  = 1;
 				double chance = 0;
 
-				if((synthDiff >= 1) && (synthDiff < 3)){
+				if((baseDiff >= 1) && (baseDiff < 3))
 					satier = 1;
-				}else if((synthDiff >= 3) && (synthDiff < 5)){
+				else if((baseDiff >= 3) && (baseDiff < 5))
 					satier = 2;
-				}else if((synthDiff >= 5) && (synthDiff < 8)){
+				else if((baseDiff >= 5) && (baseDiff < 8))
 					satier = 3;
-				}else if((synthDiff >= 8) && (synthDiff < 10)){
+				else if((baseDiff >= 8) && (baseDiff < 10))
 					satier = 4;
-				}else if (synthDiff >= 10)
+				else if (baseDiff >= 10)
 					satier = 5;
-				//if (skillRank > 5)
-				//	satier--;
 
 				for(uint8 i = 0; i < 4; i ++)
 				{
@@ -564,10 +575,12 @@ int32 doSynthSkillUp(CCharEntity* PChar)
 						case 1:  chance = 0.200; break;
 						default: chance = 0.000; break;
 					}
-					if(chance < random)
-						break;
-					skillAmount += 1;
-					satier -= 1;
+					
+                    if(chance < random)
+                        break;
+					
+                    skillAmount++;
+                    satier--;
 				}
 
 				// Do craft amount multiplier

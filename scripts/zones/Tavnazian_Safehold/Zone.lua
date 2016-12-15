@@ -15,6 +15,9 @@ require("scripts/zones/Tavnazian_Safehold/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
+    local vwnpc = {16883886,16883888};
+    SetVoidwatchNPC(vwnpc);
+	
     zone:registerRegion(1, -5, -24, 18, 5, -20, 27);
     zone:registerRegion(2, 104, -42, -88, 113, -38, -77);
 end;
@@ -30,8 +33,6 @@ function onConquestUpdate(zone, updatetype)
         conquestUpdate(zone, player, updatetype, CONQUEST_BASE);
     end
 end;
-
-
 -----------------------------------
 -- onZoneIn
 -----------------------------------
@@ -89,8 +90,8 @@ end;
 -----------------------------------
 
 function onEventUpdate(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 end;
 
 -----------------------------------
@@ -98,8 +99,8 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
---printf("CSID: %u",csid);
---printf("RESULT: %u",option);
+    -- printf("CSID: %u",csid);
+    -- printf("RESULT: %u",option);
 
     if (csid == 0x0065) then
         player:completeMission(COP,AN_INVITATION_WEST);

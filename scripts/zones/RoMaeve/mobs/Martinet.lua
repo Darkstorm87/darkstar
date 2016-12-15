@@ -47,7 +47,14 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
+function onMobDeath(mob, player, isKiller)
+end;
+
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
     -- UpdateNMSpawnPoint(mob:getID());
     -- mob:setRespawnTime(math.random((?),(?))); -- Uncertain repop time
 end;

@@ -15,11 +15,21 @@ function onMobInitialize(mob)
 end;
 
 -----------------------------------
+-- onMobSpawn
+-----------------------------------
+
+function onMobSpawn(mob)
+    if (LandKingSystem_NQ > 0 or LandKingSystem_HQ > 0) then
+        GetNPCByID(17301567):setStatus(STATUS_DISAPPEAR);
+    end
+end;
+
+-----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
-    ally:addTitle(TORTOISE_TORTURER);
+function onMobDeath(mob, player, isKiller)
+    player:addTitle(TORTOISE_TORTURER);
 end;
 
 -----------------------------------
@@ -48,5 +58,9 @@ function onMobDespawn(mob)
             mob:setRespawnTime(math.random(75600,86400));
             SetServerVariable("[PH]Aspidochelone", kills + 1);
         end
+    end
+
+    if (LandKingSystem_NQ > 0 or LandKingSystem_HQ > 0) then
+        GetNPCByID(17301567):updateNPCHideTime(FORCE_SPAWN_QM_RESET_TIME);
     end
 end;

@@ -20,12 +20,12 @@ function onMobEngaged(mob,target)
     
     target:showText(mob,ANIMATED_SHIELD_DIALOG);
     
-    SpawnMob(17330290,120):updateEnmity(target);
-    SpawnMob(17330291,120):updateEnmity(target);
-    SpawnMob(17330292,120):updateEnmity(target);
-    SpawnMob(17330299,120):updateEnmity(target);
-    SpawnMob(17330300,120):updateEnmity(target);
-    SpawnMob(17330301,120):updateEnmity(target);
+    SpawnMob(17330290):updateEnmity(target);
+    SpawnMob(17330291):updateEnmity(target);
+    SpawnMob(17330292):updateEnmity(target);
+    SpawnMob(17330299):updateEnmity(target);
+    SpawnMob(17330300):updateEnmity(target);
+    SpawnMob(17330301):updateEnmity(target);
     
 end;
 
@@ -49,9 +49,9 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer,ally)
+function onMobDeath(mob, player, isKiller)
     
-    ally:showText(mob,ANIMATED_SHIELD_DIALOG+1);
+    player:showText(mob,ANIMATED_SHIELD_DIALOG+1);
     
     DespawnMob(17330290);
     DespawnMob(17330291);

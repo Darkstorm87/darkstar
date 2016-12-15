@@ -321,7 +321,6 @@ int32 lobbydata_parse(int32 fd)
                 memcpy(MainReservePacket, ReservePacket, RBUFB(ReservePacket, 0));
             }
 
-            // disallow change of pos while 'zoning'
             fmtQuery = "UPDATE char_stats SET zoning = 2 WHERE charid = %u";
             Sql_Query(SqlHandle, fmtQuery, charid);
 
@@ -495,6 +494,7 @@ int32 lobbyview_parse(int32 fd)
             {
                 LOBBY_026_RESERVEPACKET(ReservePacket);
                 WBUFW(ReservePacket, 32) = login_config.expansions; // BitMask for expansions;
+                WBUFW(ReservePacket, 36) = login_config.features; // Bitmask for account features
                 memcpy(MainReservePacket, ReservePacket, sendsize);
             }
             //Хеширование пакета, и запись значения Хеш функции в пакет
