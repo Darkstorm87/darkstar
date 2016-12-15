@@ -18,9 +18,15 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
+function onMobDeath(mob, player, isKiller)
+    player:addTitle(ASPIDOCHELONE_SINKER);
+end;
 
-    ally:addTitle(ASPIDOCHELONE_SINKER);
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
+
+function onMobDespawn(mob)
 
     -- Set Aspidochelone's Window Open Time
     if (LandKingSystem_HQ ~= 1) then

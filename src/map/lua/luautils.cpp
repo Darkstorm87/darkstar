@@ -2704,7 +2704,7 @@ namespace luautils
             // onMobDeathEx
             lua_prepscript("scripts/globals/mobs.lua");
 
-            PChar->ForAlliance([PChar, PMob, PKiller, &File](CBattleEntity* PMember)
+            PChar->ForAlliance([PMob, PChar, &File](CBattleEntity* PMember)
             {
                 if (PMember->getZone() == PChar->getZone())
                 {
@@ -2714,18 +2714,18 @@ namespace luautils
                     }
 
                     CLuaBaseEntity LuaMobEntity(PMob);
-                    CLuaBaseEntity LuaKillerEntity(PChar);
                     CLuaBaseEntity LuaAllyEntity(PMember);
-
+                    bool isKiller = PMember == PChar;
                     bool isWeaponSkillKill = PChar->getWeaponSkillKill();
 
                     Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
-                    Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaKillerEntity);
                     Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaAllyEntity);
+                    lua_pushboolean(LuaHandle, isKiller);
+
                     lua_pushboolean(LuaHandle, isWeaponSkillKill);
                     // lua_pushboolean(LuaHandle, isMagicKill);
                     // lua_pushboolean(LuaHandle, isPetKill);
-                    // Upcoming AI rewrite will likely have a better way to handle it..
+                    // Todo: look at better way do do these than additional bools...
 
                     if (lua_pcall(LuaHandle, 4, 0, 0))
                     {
@@ -2743,14 +2743,14 @@ namespace luautils
 
             snprintf(File, sizeof(File), "scripts/zones/%s/mobs/%s.lua", PMob->loc.zone->GetName(), PMob->GetName());
 
-            PChar->ForAlliance([PChar, PMob, &File, oldtop](CBattleEntity* PPartyMember)
+            PChar->ForAlliance([PMob, PChar, &File, oldtop](CBattleEntity* PPartyMember)
             {
                 CCharEntity* PMember = (CCharEntity*)PPartyMember;
                 if (PMember->getZone() == PChar->getZone())
                 {
                     CLuaBaseEntity LuaMobEntity(PMob);
-                    CLuaBaseEntity LuaKillerEntity(PChar);
                     CLuaBaseEntity LuaAllyEntity(PMember);
+                    bool isKiller = PMember == PChar;
 
                     PMember->m_event.reset();
                     PMember->m_event.Target = PMob;
@@ -2773,10 +2773,9 @@ namespace luautils
                     Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaMobEntity);
                     if (PMember)
                     {
-                        CLuaBaseEntity LuaKillerEntity(PChar);
                         CLuaBaseEntity LuaAllyEntity(PMember);
-                        Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaKillerEntity);
                         Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaAllyEntity);
+                        lua_pushboolean(LuaHandle, isKiller);
                     }
                     else
                     {
@@ -3084,7 +3083,7 @@ namespace luautils
     *                                                                       *
     ************************************************************************/
 
-    std::tuple<int32, uint8, uint8> OnUseWeaponSkill(CCharEntity* PChar, CBaseEntity* PMob, CWeaponSkill* wskill, uint16 tp, bool primary, action_t& action)
+    std::tuple<int32, uint8, uint8> OnUseWeaponSkill(CCharEntity* PChar, CBaseEntity* PMob, CWeaponSkill* wskill, uint16 tp, bool primary, action_t& action, CBattleEntity* taChar)
     {
         lua_prepscript("scripts/globals/weaponskills/%s.lua", wskill->getName());
 
@@ -3106,7 +3105,18 @@ namespace luautils
         CLuaAction LuaAction(&action);
         Lunar<CLuaAction>::push(LuaHandle, &LuaAction);
 
-        if (lua_pcall(LuaHandle, 6, LUA_MULTRET, 0))
+        if (taChar == nullptr)
+        {
+            lua_pushnil(LuaHandle);
+        }
+        else
+        {
+            CLuaBaseEntity LuaTrickAttackEntity(taChar);
+            Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaTrickAttackEntity);
+        }
+        
+
+        if (lua_pcall(LuaHandle, 7, LUA_MULTRET, 0))
         {
             ShowError("luautils::onUseWeaponSkill: %s\n", lua_tostring(LuaHandle, -1));
             lua_pop(LuaHandle, 1);

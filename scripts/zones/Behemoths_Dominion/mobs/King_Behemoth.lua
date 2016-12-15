@@ -33,10 +33,15 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
+function onMobDeath(mob, player, isKiller)
+    player:addTitle(BEHEMOTH_DETHRONER);
+end;
 
-    ally:addTitle(BEHEMOTH_DETHRONER);
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
 
+function onMobDespawn(mob)
     -- Todo: move this to SQL after drop slots are a thing
     if (math.random(1,100) <= 5) then -- Hardcoded "this or this item" drop rate until implemented.
         SetDropRate(1936,13566,1000); -- Defending Ring

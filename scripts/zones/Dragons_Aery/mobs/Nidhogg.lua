@@ -38,10 +38,15 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer, ally)
+function onMobDeath(mob, player, isKiller)
+    player:addTitle(NIDHOGG_SLAYER);
+end;
 
-    ally:addTitle(NIDHOGG_SLAYER);
+-----------------------------------
+-- onMobDespawn
+-----------------------------------
 
+function onMobDespawn(mob)
     -- Set Nidhogg's Window Open Time
     if (LandKingSystem_HQ ~= 1) then
         local wait = 72 * 3600;

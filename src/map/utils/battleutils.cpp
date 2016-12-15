@@ -148,7 +148,7 @@ namespace battleutils
     void LoadWeaponSkillsList()
     {
         const int8* fmtQuery = "SELECT weaponskillid, name, jobs, type, skilllevel, element, animation, "
-                            "animationTime, `range`, aoe, primary_sc, secondary_sc, tertiary_sc, main_only "
+                            "animationTime, `range`, aoe, primary_sc, secondary_sc, tertiary_sc, main_only, unlock_id "
 							"FROM weapon_skills "
 							"WHERE weaponskillid < %u "
 							"ORDER BY type, skilllevel ASC";
@@ -174,6 +174,7 @@ namespace battleutils
                 PWeaponSkill->setSecondarySkillchain(Sql_GetIntData(SqlHandle, 11));
                 PWeaponSkill->setTertiarySkillchain(Sql_GetIntData(SqlHandle, 12));
                 PWeaponSkill->setMainOnly(Sql_GetIntData(SqlHandle, 13));
+                PWeaponSkill->setUnlockId(Sql_GetIntData(SqlHandle, 14));
 
                 g_PWeaponSkillList[PWeaponSkill->getID()] = PWeaponSkill;
                 g_PWeaponSkillsList[PWeaponSkill->getType()].push_back(PWeaponSkill);
@@ -703,14 +704,14 @@ namespace battleutils
                 // Dmg math.
                 float DamageRatio = GetDamageRatio(PDefender, PAttacker, crit, 0);
                 uint16 dmg = (uint32)((PDefender->GetMainWeaponDmg() + battleutils::GetFSTR(PDefender, PAttacker, SLOT_MAIN)) * DamageRatio);
-                dmg = attackutils::CheckForDamageMultiplier(((CCharEntity*)PDefender), PDefender->m_Weapons[SLOT_MAIN], dmg, ATTACK_NORMAL);
+                dmg = attackutils::CheckForDamageMultiplier(((CCharEntity*)PDefender), PDefender->m_Weapons[SLOT_MAIN], dmg, PHYSICAL_ATTACK_TYPE::NORMAL);
                 uint16 bonus = dmg * (PDefender->getMod(MOD_RETALIATION) / 100);
                 dmg = dmg + bonus;
 
                 // FINISH HIM! dun dun dun
                 // TP and stoneskin are handled inside TakePhysicalDamage
                 Action->spikesMessage = 536;
-                Action->spikesParam = battleutils::TakePhysicalDamage(PDefender, PAttacker, dmg, false, SLOT_MAIN, 1, nullptr, true, true, true);
+                Action->spikesParam = battleutils::TakePhysicalDamage(PDefender, PAttacker, PHYSICAL_ATTACK_TYPE::NORMAL, dmg, false, SLOT_MAIN, 1, nullptr, true, true, true);
             }
         }
 
@@ -1445,10 +1446,16 @@ namespace battleutils
             if ((charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_AMBUSH)) && ((abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23))) {
                 acc += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_AMBUSH, (CCharEntity*)PAttacker);
             }
+
         }
         else if (PAttacker->objtype == TYPE_PET && ((CPetEntity*)PAttacker)->getPetType() == PETTYPE_AUTOMATON)
         {
             acc = PAttacker->RACC(SKILL_ARA);
+        }
+        // Check for Yonin evasion bonus while in front of target
+        if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_YONIN) && ((abs(abs(PAttacker->loc.p.rotation - PDefender->loc.p.rotation) - 128) < 23)))
+        {
+            acc -= PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_YONIN)->GetPower();
         }
 
         int eva = PDefender->EVA();
@@ -1802,7 +1809,7 @@ namespace battleutils
     *																		*
     ************************************************************************/
 
-    int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 damage, bool isBlocked, uint8 slot, uint16 tpMultiplier, CBattleEntity* taChar, bool giveTPtoVictim, bool giveTPtoAttacker, bool isCounter)
+    int32 TakePhysicalDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, PHYSICAL_ATTACK_TYPE attackType, int32 damage, bool isBlocked, uint8 slot, uint16 tpMultiplier, CBattleEntity* taChar, bool giveTPtoVictim, bool giveTPtoAttacker, bool isCounter)
     {
         bool isRanged = (slot == SLOT_AMMO || slot == SLOT_RANGED);
         int32 baseDamage = damage;
@@ -1974,7 +1981,7 @@ namespace battleutils
 
                 int16 delay = PAttacker->GetRangedWeaponDelay(true);
 
-                baseTp = CalculateBaseTP((delay * 110) / 1000);
+                baseTp = CalculateBaseTP((delay * 120) / 1000);
 
             }
             else
@@ -1999,6 +2006,11 @@ namespace battleutils
 
             if (giveTPtoAttacker)
             {
+                if (PAttacker->objtype == TYPE_PC && attackType == PHYSICAL_ATTACK_TYPE::ZANSHIN)
+                {
+                    baseTp += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_IKISHOTEN, (CCharEntity*)PAttacker);
+                }
+
                 PAttacker->addTP(tpMultiplier * (baseTp * (1.0f + 0.01f * (float)((PAttacker->getMod(MOD_STORETP) + getStoreTPbonusFromMerit(PAttacker))))));
             }
 
@@ -2094,7 +2106,7 @@ namespace battleutils
             if (isRanged)
             {
                 int16 delay = PChar->GetRangedWeaponDelay(true);
-                baseTp = CalculateBaseTP((delay * 110) / 1000);
+                baseTp = CalculateBaseTP((delay * 120) / 1000);
             }
             else
             {
@@ -2144,7 +2156,7 @@ namespace battleutils
     *																		*
     ************************************************************************/
 
-    uint8 GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, uint8 offsetAccuracy) //subWeaponAttack is for calculating acc of dual wielded sub weapon
+    uint8 GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy) //subWeaponAttack is for calculating acc of dual wielded sub weapon
     {
         int32 hitrate = 75;
 
@@ -2155,23 +2167,40 @@ namespace battleutils
         }
         else
         {
+            //ShowDebug("Accuracy mod before direction checks: %d\n", offsetAccuracy);
             //Check For Ambush Merit - Melee
-            if (PAttacker->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_AMBUSH)) && ((abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23))) {
+            if (PAttacker->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_AMBUSH)) && ((abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23)))
+            {
                 offsetAccuracy += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_AMBUSH, (CCharEntity*)PAttacker);
             }
             // Check for Closed Position merit on attacker and that attacker and defender are facing each other (within ~20 degrees from straight on)
-            if (PAttacker->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_CLOSED_POSITION)) && ((abs(abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) - 128) < 15))) {
+            if (PAttacker->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_CLOSED_POSITION)) && ((abs(abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) - 128) < 15)))
+            {
                 offsetAccuracy += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_CLOSED_POSITION, (CCharEntity*)PAttacker);
             }
             // Check for Closed Position merit on defender that attacker and defender are facing each other (within ~20 degrees from straight on)
-            if (PDefender->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PDefender, TRAIT_CLOSED_POSITION)) && ((abs(abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) - 128) < 15))) {
+            if (PDefender->objtype == TYPE_PC && (charutils::hasTrait((CCharEntity*)PDefender, TRAIT_CLOSED_POSITION)) && ((abs(abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) - 128) < 15)))
+            {
                 offsetAccuracy -= ((CCharEntity*)PDefender)->PMeritPoints->GetMeritValue(MERIT_CLOSED_POSITION, (CCharEntity*)PDefender);
             }
+            // Check for Innin accuracy bonus from behind target
+            if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_INNIN) && ((abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23)))
+            {
+                offsetAccuracy += PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_INNIN)->GetPower();
+            }
+            // Check for Yonin evasion bonus while in front of target
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_YONIN) && ((abs(abs(PAttacker->loc.p.rotation - PDefender->loc.p.rotation) - 128) < 23)))
+            {
+                offsetAccuracy -= PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_YONIN)->GetPower();
+            }
+            //ShowDebug("Accuracy mod after direction checks: %d\n", offsetAccuracy);
 
             hitrate = hitrate + (PAttacker->ACC(attackNumber, offsetAccuracy) - PDefender->EVA()) / 2 + (PAttacker->GetMLevel() - PDefender->GetMLevel()) * 2;
 
             if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_ENLIGHT))
+            {
                 hitrate += PAttacker->getMod(MOD_ENSPELL_DMG);
+            }
 
             hitrate = dsp_cap(hitrate, 20, 95);
         }
@@ -2185,7 +2214,7 @@ namespace battleutils
     {
         return GetHitRateEx(PAttacker, PDefender, attackNumber, 0);
     }
-    uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, uint8 offsetAccuracy)
+    uint8 GetHitRate(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy)
     {
         return GetHitRateEx(PAttacker, PDefender, attackNumber, offsetAccuracy);
     }
@@ -2222,6 +2251,18 @@ namespace battleutils
             //apply merit mods
             if (PAttacker->objtype == TYPE_PC) crithitrate += ((CCharEntity*)PAttacker)->PMeritPoints->GetMeritValue(MERIT_CRIT_HIT_RATE, (CCharEntity*)PAttacker);
             if (PDefender->objtype == TYPE_PC) crithitrate -= ((CCharEntity*)PDefender)->PMeritPoints->GetMeritValue(MERIT_ENEMY_CRIT_RATE, (CCharEntity*)PDefender);
+            //ShowDebug("Crit rate mod before Innin/Yonin: %d\n", crithitrate);
+            // Check for Innin crit rate bonus from behind target
+            if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_INNIN) && ((abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23)))
+            {
+                crithitrate += PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_INNIN)->GetPower();
+            }
+            // Check for Yonin crit rate bonus while in front of target
+            if (PDefender->StatusEffectContainer->HasStatusEffect(EFFECT_YONIN) && ((abs(abs(PAttacker->loc.p.rotation - PDefender->loc.p.rotation) - 128) < 23)))
+            {
+                crithitrate -= PDefender->StatusEffectContainer->GetStatusEffect(EFFECT_YONIN)->GetPower();
+            }
+            //ShowDebug("Crit rate mod after Innin/Yonin: %d\n", crithitrate);
 
             int32 attackerdex = PAttacker->DEX();
             int32 defenderagi = PDefender->AGI();
@@ -2470,52 +2511,6 @@ namespace battleutils
                 break;
         }
         return dsp_min(num, 8); // не более восьми ударов за одну атаку
-    }
-
-    /************************************************************************
-    *                                                                       *
-    *  Returns a mob / pets multihits								        *
-    *                                                                       *
-    ************************************************************************/
-
-    uint8 CheckMobMultiHits(CBattleEntity* PEntity)
-    {
-
-        if (PEntity->objtype == TYPE_MOB || PEntity->objtype == TYPE_PET)
-        {
-            uint8 num = 1;
-
-            //Monk
-            if (PEntity->GetMJob() == JOB_MNK)
-            {
-                num = 2;
-            }
-
-            //check for unique mobs
-            switch (PEntity->id)
-            {
-                case 17498522:// Charybdis 2-6
-                    return (1 + getHitCount(5));
-
-                default:
-                    break;
-            }
-
-            int16 tripleAttack = PEntity->getMod(MOD_TRIPLE_ATTACK);
-            int16 doubleAttack = PEntity->getMod(MOD_DOUBLE_ATTACK);
-            doubleAttack = dsp_cap(doubleAttack, 0, 100);
-            tripleAttack = dsp_cap(tripleAttack, 0, 100);
-            if (dsprand::GetRandomNumber(100) < tripleAttack)
-            {
-                num += 2;
-            }
-            else if (dsprand::GetRandomNumber(100) < doubleAttack)
-            {
-                num += 1;
-            }
-            return num;
-        }
-        return 0;
     }
 
     /************************************************************************
@@ -3138,7 +3133,7 @@ namespace battleutils
         return PDefender->getMod(defMod);
     }
 
-    int32 TakeSkillchainDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 lastSkillDamage)
+    int32 TakeSkillchainDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, int32 lastSkillDamage, CBattleEntity* taChar)
     {
         DSP_DEBUG_BREAK_IF(PAttacker == nullptr);
         DSP_DEBUG_BREAK_IF(PDefender == nullptr);
@@ -3206,7 +3201,7 @@ namespace battleutils
 
             case TYPE_MOB:
             {
-                ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(PAttacker, (uint16)damage);
+                ((CMobEntity*)PDefender)->PEnmityContainer->UpdateEnmityFromDamage(taChar ? taChar : PAttacker, (uint16)damage);
             }
             break;
         }
@@ -3526,7 +3521,7 @@ namespace battleutils
         {
             CMobEntity* PCurrentMob = (CMobEntity*)it->second;
 
-            if (PCurrentMob->m_HiPCLvl > 0 && PCurrentMob->PEnmityContainer->HasTargetID(PTarget->id))
+            if (PCurrentMob->m_HiPCLvl > 0 && PCurrentMob->PEnmityContainer->HasID(PTarget->id))
             {
                 PCurrentMob->PEnmityContainer->UpdateEnmityFromCure(PSource, PTarget->GetMLevel(), amount, (amount == 65535)); //true for "cure v"
             }
@@ -3559,7 +3554,7 @@ namespace battleutils
             {
                 CMobEntity* PCurrentMob = (CMobEntity*)it->second;
 
-                if (PCurrentMob->m_HiPCLvl > 0 && PCurrentMob->PEnmityContainer->HasTargetID(PSource->id))
+                if (PCurrentMob->m_HiPCLvl > 0 && PCurrentMob->PEnmityContainer->HasID(PSource->id))
                 {
                     PCurrentMob->PEnmityContainer->UpdateEnmity(PSource, CE, VE);
                 }
@@ -3646,7 +3641,7 @@ namespace battleutils
         if (m_PChar->objtype == TYPE_PC) // Some mobskills use TakeWeaponskillDamage function, which calls upon this one.
         {
             // must be facing mob
-            if (isFaceing(PDefender->loc.p, m_PChar->loc.p, 90))
+            if (isFaceing(PDefender->loc.p, m_PChar->loc.p, 23))
             {
                 uint8 meritCount = m_PChar->PMeritPoints->GetMeritValue(MERIT_OVERWHELM, m_PChar);
                 // ShowDebug("Merits: %u\n", meritCount);
@@ -3819,7 +3814,7 @@ namespace battleutils
                     realHits++;
 
                     // incase player has gungnir^^ (or any other damage increases weapons)
-                    damageForRound = attackutils::CheckForDamageMultiplier((CCharEntity*)PAttacker, PWeapon, damageForRound, ATTACK_NORMAL);
+                    damageForRound = attackutils::CheckForDamageMultiplier((CCharEntity*)PAttacker, PWeapon, damageForRound, PHYSICAL_ATTACK_TYPE::NORMAL);
 
                     totalDamage += damageForRound;
                 }
@@ -3875,7 +3870,7 @@ namespace battleutils
             charutils::TrySkillUP((CCharEntity*)PAttacker, (SKILLTYPE)PWeapon->getSkillType(), PVictim->GetMLevel());
 
         // jump + high jump doesn't give any tp to victim
-        battleutils::TakePhysicalDamage(PAttacker, PVictim, totalDamage, false, fstrslot, realHits, nullptr, false, true);
+        battleutils::TakePhysicalDamage(PAttacker, PVictim, PHYSICAL_ATTACK_TYPE::NORMAL, totalDamage, false, fstrslot, realHits, nullptr, false, true);
 
         return totalDamage;
     }
@@ -4099,6 +4094,7 @@ namespace battleutils
         {
             CMobEntity* mob = (CMobEntity*)PDefender;
 
+            mob->PEnmityContainer->UpdateEnmity(PAttacker, 0, 0);
             if (PAttacker->objtype != TYPE_PC) {
                 if (PAttacker->PMaster != nullptr)
                 {
@@ -4118,7 +4114,6 @@ namespace battleutils
                     mob->m_HiPCLvl = PAttacker->GetMLevel();
                 }
 
-                mob->PEnmityContainer->AddBaseEnmity(PAttacker);
                 mob->m_OwnerID.id = PAttacker->id;
                 mob->m_OwnerID.targid = PAttacker->targid;
                 mob->updatemask |= UPDATE_STATUS;

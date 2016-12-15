@@ -15,7 +15,7 @@ require("scripts/globals/magicburst");
 
 
 -- params contains: ftp100, ftp200, ftp300, str_wsc, dex_wsc, vit_wsc, int_wsc, mnd_wsc, canCrit, crit100, crit200, crit300, acc100, acc200, acc300, ignoresDef, ignore100, ignore200, ignore300, atkmulti
-function doPhysicalWeaponskill(attacker, target, wsID, params, tp, primary)
+function doPhysicalWeaponskill(attacker, target, wsID, tp, primary, action, taChar, params)
 
     local criticalHit = false;
     local bonusTP = params.bonusTP or 0
@@ -51,11 +51,6 @@ function doPhysicalWeaponskill(attacker, target, wsID, params, tp, primary)
         ignoredDef = calculatedIgnoredDef(tp, target:getStat(MOD_DEF), params.ignored100, params.ignored200, params.ignored300);
     end
 
-    local taChar = nil
-    if (primary and attacker:hasStatusEffect(EFFECT_TRICK_ATTACK)) then
-        taChar = attacker:getTrickAttackChar(target)
-    end
-
     -- get cratio min and max
     local cratio, ccritratio = cMeleeRatio(attacker, target, params, ignoredDef);
     local ccmin = 0;
@@ -85,7 +80,10 @@ function doPhysicalWeaponskill(attacker, target, wsID, params, tp, primary)
             critrate = critrate + (10 + flourisheffect:getSubPower()/2)/100;
         end
         nativecrit = (attacker:getStat(MOD_DEX) - target:getStat(MOD_AGI))*0.005; -- assumes +0.5% crit rate per 1 dDEX
-        nativecrit = nativecrit + (attacker:getMod(MOD_CRITHITRATE)/100) + attacker:getMerit(MERIT_CRIT_HIT_RATE)/100;
+        nativecrit = nativecrit + (attacker:getMod(MOD_CRITHITRATE)/100) + attacker:getMerit(MERIT_CRIT_HIT_RATE)/100 - target:getMerit(MERIT_ENEMY_CRIT_RATE)/100;
+        if (attacker:hasStatusEffect(EFFECT_INNIN) and attacker:isBehind(target, 23)) then -- Innin acc boost attacker is behind target
+            nativecrit = nativecrit + attacker:getStatusEffect(EFFECT_INNIN):getPower();
+        end
 
         if (nativecrit > 0.2) then -- caps!
             nativecrit = 0.2;
@@ -228,7 +226,7 @@ end;
 -- params: ftp100, ftp200, ftp300, wsc_str, wsc_dex, wsc_vit, wsc_agi, wsc_int, wsc_mnd, wsc_chr,
 --         ele (ELE_FIRE), skill (SKILL_STF), includemab = true
 
-function doMagicWeaponskill(attacker, target, wsID, params, tp, primary)
+function doMagicWeaponskill(attacker, target, wsID, tp, primary, action, params)
 
     local bonusTP = params.bonusTP or 0
     local bonusfTP, bonusacc = handleWSGorgetBelt(attacker);
@@ -308,9 +306,17 @@ function getHitRate(attacker,target,capHitRate,bonus)
     if flourisheffect ~= nil and flourisheffect:getPower() > 1 then
         attacker:delMod(MOD_ACC, 20 + flourisheffect:getSubPower())
     end
-    if (bonus) then
-        acc = acc + bonus;
+    if (bonus == nil) then
+        bonus = 0;
     end
+    if (attacker:hasStatusEffect(EFFECT_INNIN) and attacker:isBehind(target, 23)) then -- Innin acc boost if attacker is behind target
+        bonus = bonus + attacker:getStatusEffect(EFFECT_INNIN):getPower();
+    end
+    if (target:hasStatusEffect(EFFECT_YONIN) and attacker:isFacing(target, 23)) then -- Yonin evasion boost if attacker is facing target
+        bonus = bonus - target:getStatusEffect(EFFECT_YONIN):getPower();
+    end
+
+    acc = acc + bonus;
     
     if (attacker:getMainLvl() > target:getMainLvl()) then -- acc bonus!
         acc = acc + ((attacker:getMainLvl()-target:getMainLvl())*4);
@@ -347,9 +353,14 @@ function getRangedHitRate(attacker,target,capHitRate,bonus)
     local acc = attacker:getRACC();
     local eva = target:getEVA();
 
-    if (bonus) then
-        acc = acc + bonus;
+    if (bonus == nil) then
+        bonus = 0;
     end
+    if (target:hasStatusEffect(EFFECT_YONIN) and target:isFacing(attacker, 23)) then -- Yonin evasion boost if defender is facing attacker
+        bonus = bonus - target:getStatusEffect(EFFECT_YONIN):getPower();
+    end
+
+    acc = acc + bonus;
 
     if (attacker:getMainLvl() > target:getMainLvl()) then -- acc bonus!
         acc = acc + ((attacker:getMainLvl()-target:getMainLvl())*4);
@@ -439,7 +450,7 @@ function cMeleeRatio(attacker, defender, params, ignoredDef)
         pdifmax = cratio + 0.3;
     elseif (cratio < 1.5) then
         pdifmax = (cratio * 0.25) + cratio;
-    elseif (cratio < 1.5) then
+    elseif (cratio < 2.625) then
         pdifmax = cratio + 0.375;
     else
         pdifmax = 3;
@@ -476,7 +487,7 @@ function cMeleeRatio(attacker, defender, params, ignoredDef)
         pdifmax = cratio + 0.3;
     elseif (cratio < 1.5) then
         pdifmax = (cratio * 0.25) + cratio;
-    elseif (cratio < 1.5) then
+    elseif (cratio < 2.625) then
         pdifmax = cratio + 0.375;
     else
         pdifmax = 3;
@@ -673,6 +684,11 @@ end;
         critrate = fTP(tp,params.crit100,params.crit200,params.crit300);
         -- add on native crit hit rate (guesstimated, it actually follows an exponential curve)
         local nativecrit = (attacker:getStat(MOD_DEX) - target:getStat(MOD_AGI))*0.005; -- assumes +0.5% crit rate per 1 dDEX
+        nativecrit = nativecrit + (attacker:getMod(MOD_CRITHITRATE)/100) + attacker:getMerit(MERIT_CRIT_HIT_RATE)/100 - target:getMerit(MERIT_ENEMY_CRIT_RATE)/100;
+        if (attacker:hasStatusEffect(EFFECT_INNIN) and attacker:isBehind(target, 23)) then -- Innin crit boost if attacker is behind target
+            nativecrit = nativecrit + attacker:getStatusEffect(EFFECT_INNIN):getPower();
+        end
+
         if (nativecrit > 0.2) then -- caps!
             nativecrit = 0.2;
         elseif (nativecrit < 0.05) then
