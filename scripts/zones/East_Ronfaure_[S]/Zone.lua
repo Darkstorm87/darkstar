@@ -7,6 +7,7 @@ package.loaded["scripts/zones/East_Ronfaure_[S]/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/zones/East_Ronfaure_[S]/TextIDs");
 require("scripts/globals/quests");
 require("scripts/globals/missions");

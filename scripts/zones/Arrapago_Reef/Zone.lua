@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Arrapago_Reef/TextIDs"] = nil;
 -----------------------------------
 require("scripts/zones/Arrapago_Reef/TextIDs");
 require("scripts/globals/missions");
+require("scripts/globals/zone");
 require("scripts/globals/keyitems");
 require("scripts/globals/settings");
 

@@ -8,6 +8,7 @@ package.loaded["scripts/zones/Fort_Karugo-Narugo_[S]/TextIDs"] = nil;
 
 require("scripts/zones/Fort_Karugo-Narugo_[S]/TextIDs");
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/weather");
 require("scripts/globals/status");
 

@@ -8,6 +8,7 @@ package.loaded["scripts/zones/Pashhow_Marshlands_[S]/TextIDs"] = nil;
 
 require("scripts/zones/Pashhow_Marshlands_[S]/TextIDs");
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/weather");
 require("scripts/globals/status");
 

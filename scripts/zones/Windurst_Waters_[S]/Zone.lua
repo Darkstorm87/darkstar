@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Windurst_Waters_[S]/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/zones/Windurst_Waters_[S]/TextIDs");
 
 -----------------------------------

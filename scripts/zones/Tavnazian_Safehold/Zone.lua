@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Tavnazian_Safehold/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/missions");
 require("scripts/zones/Tavnazian_Safehold/TextIDs");
 

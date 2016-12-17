@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Mamook/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/zones/Mamook/TextIDs");
 
 -----------------------------------
