@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Rolanberry_Fields_[S]/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/zones/Rolanberry_Fields_[S]/TextIDs");
 
 -----------------------------------

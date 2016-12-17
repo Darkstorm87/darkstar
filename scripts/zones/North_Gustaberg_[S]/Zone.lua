@@ -7,6 +7,7 @@ package.loaded["scripts/zones/North_Gustaberg_[S]/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/zones/North_Gustaberg_[S]/TextIDs");
 
 -----------------------------------

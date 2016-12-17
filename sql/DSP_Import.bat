@@ -58,7 +58,6 @@ del char_stats.sql
 del char_storage.sql
 del char_vars.sql
 del char_weapon_skill_points.sql
-del chars.sql
 del conquest_system.sql
 del delivery_box.sql
 del linkshells.sql

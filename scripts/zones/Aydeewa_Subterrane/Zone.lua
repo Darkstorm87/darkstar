@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Aydeewa_Subterrane/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/quests");
 require("scripts/globals/keyitems");
 require("scripts/globals/titles");

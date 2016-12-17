@@ -8,6 +8,7 @@ package.loaded["scripts/zones/Vunkerl_Inlet_[S]/TextIDs"] = nil;
 
 require("scripts/zones/Vunkerl_Inlet_[S]/TextIDs");
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/weather");
 require("scripts/globals/status");
 
