@@ -5115,7 +5115,7 @@ inline int32 CLuaBaseEntity::addBardSong(lua_State *L)
         (uint16)lua_tointeger(L, 6),
         (uint16)lua_tointeger(L, 7),
         (uint16)lua_tointeger(L, 8));
-    uint8 maxSongs = 2;
+    uint8 maxSongs = 3;
     if (PEntity && PEntity->m_PBaseEntity && PEntity->m_PBaseEntity->objtype == TYPE_PC)
     {
         CCharEntity* PCaster = (CCharEntity*)PEntity->m_PBaseEntity;

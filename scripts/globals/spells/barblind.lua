@@ -20,7 +20,7 @@ function onSpellCast(caster,target,spell)
 
     local duration = 150;
 
-    local power = 1 + 0.02 * enhanceSkill + meritBonus;
+    local power = 1 + 0.2 * enhanceSkill + meritBonus;
 
     if (enhanceSkill > 180) then
         duration = 150 + 0.8 * (enhanceSkill - 180);

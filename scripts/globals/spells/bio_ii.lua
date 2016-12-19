@@ -43,24 +43,11 @@ function onSpellCast(caster,target,spell)
     -- Calculate duration.
     local duration = 120;
 
-    -- Check for Dia.
-    local dia = target:getStatusEffect(EFFECT_DIA);
-
     -- Calculate DoT (rough, though fairly accurate)
     local dotdmg = 3 + math.floor(caster:getSkillLevel(DARK_MAGIC_SKILL) / 60);
 
-    -- Do it!
-    if (dia == nil or (BIO_OVERWRITE == 0 and dia:getPower() <= 2) or (BIO_OVERWRITE == 1 and dia:getPower() < 2)) then
-        target:delStatusEffect(EFFECT_BIO); -- delete old bio
-        target:addStatusEffect(EFFECT_BIO,dotdmg,3,duration,FLAG_ERASABLE, 10);
-    end
-
-    --Try to kill same tier Dia (default behavior)
-    if (DIA_OVERWRITE == 1 and dia ~= nil) then
-        if (dia:getPower() <= 2) then
-            target:delStatusEffect(EFFECT_DIA);
-        end
-    end
+    target:delStatusEffect(EFFECT_BIO); -- delete old bio
+    target:addStatusEffect(EFFECT_BIO,dotdmg,3,duration,FLAG_ERASABLE, 10);
 
     return final;
 

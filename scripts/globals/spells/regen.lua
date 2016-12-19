@@ -23,7 +23,7 @@ function onSpellCast(caster,target,spell)
     hp = hp + caster:getMerit(MERIT_REGEN_EFFECT); -- bonus hp from merits
     hp = hp + caster:getMod(MOD_LIGHT_ARTS_REGEN); -- bonus hp from light arts
     
-    local duration = 75 + caster:getMod(MOD_REGEN_DURATION);
+    local duration = 180 + caster:getMod(MOD_REGEN_DURATION);
 
     if (caster:hasStatusEffect(EFFECT_COMPOSURE) == true and caster:getID() == target:getID()) then
         duration = duration * 3;

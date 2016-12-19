@@ -23,9 +23,11 @@ end;
 
 function onUseAbility(player,target,ability)
     local boost = player:getStatusEffect(EFFECT_BOOST);
-    local multiplier = 1.0;
+    local multiplier = 2.0;
+	local boostMultiplier = 0;
     if (boost ~= nil) then
-        multiplier = (boost:getPower()/100) * 4; --power is the raw % atk boost
+        boostMultiplier = (boost:getPower()/100) * 4; --power is the raw % atk boost
+		multipler = multipler + boostMultiplier;
     end
     
     local dmg = math.floor(player:getStat(MOD_MND)*(0.5+(math.random()/2))) * multiplier;

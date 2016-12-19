@@ -21,7 +21,7 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
-    local power = 12.5 + (0.10 * player:getMod(MOD_BOOST_EFFECT));
+    local power = 20 + (0.10 * player:getMod(MOD_BOOST_EFFECT));
 
     if (player:hasStatusEffect(EFFECT_BOOST) == true) then
         local effect = player:getStatusEffect(EFFECT_BOOST);
