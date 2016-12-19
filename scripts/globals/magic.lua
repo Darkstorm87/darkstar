@@ -946,15 +946,15 @@ end
 function getElementalDebuffDOT(INT)
     local DOT = 0;
     if (INT<= 39) then
-        DOT = 1;
-    elseif (INT <= 69) then
         DOT = 2;
-    elseif (INT <= 99) then
+    elseif (INT <= 69) then
         DOT = 3;
-    elseif (INT <= 149) then
+    elseif (INT <= 99) then
         DOT = 4;
-    else
+    elseif (INT <= 149) then
         DOT = 5;
+    else
+        DOT = 6;
     end
     return DOT;
 end;

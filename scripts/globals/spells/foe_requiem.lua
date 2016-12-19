@@ -14,7 +14,7 @@ end;
 function onSpellCast(caster,target,spell)
     local effect = EFFECT_REQUIEM;
     local duration = 63;
-    local power = 1;
+    local power = 3;
 
     local pCHR = caster:getStat(MOD_CHR);
     local mCHR = target:getStat(MOD_CHR);

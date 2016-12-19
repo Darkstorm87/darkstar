@@ -21,6 +21,6 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
-    local power = 20 + player:getMod(MOD_DODGE_EFFECT);
-    player:addStatusEffect(EFFECT_DODGE,power,0,120);
+    local power = 25 + player:getMod(MOD_DODGE_EFFECT);
+    player:addStatusEffect(EFFECT_DODGE,power,0,180);
 end;

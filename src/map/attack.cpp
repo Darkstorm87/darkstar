@@ -392,7 +392,7 @@ void CAttack::ProcessDamage()
         ((abs(m_victim->loc.p.rotation - m_attacker->loc.p.rotation) < 23) ||
             m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE)))
     {
-        m_trickAttackDamage = m_attacker->DEX();
+        m_trickAttackDamage = m_attacker->DEX() * 1.25;
     }
 
     // Trick attack.
@@ -400,7 +400,7 @@ void CAttack::ProcessDamage()
         m_isFirstSwing &&
         m_attackRound->GetTAEntity() != nullptr)
     {
-        m_trickAttackDamage += m_attacker->AGI() * (1 + m_attacker->getMod(MOD_TRICK_ATK_AGI) / 100);
+        m_trickAttackDamage += m_attacker->AGI() * (1 + m_attacker->getMod(MOD_TRICK_ATK_AGI) / 100) * 1.15;
     }
 
     // H2H.

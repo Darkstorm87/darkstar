@@ -18,7 +18,9 @@ end;
 function onSpellCast(caster,target,spell)
 
     local cap = 1200
-    local dmg = math.random(100, 1200);
+	local minDmg = caster:getSkillLevel(DARK_MAGIC_SKILL) * 1.4;
+	
+	local dmg = math.random(minDmg, cap);
     
     --get resist multiplier (1x if no resist)
     local resist = applyResistance(caster, spell, target, 

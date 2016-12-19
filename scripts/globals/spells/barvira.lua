@@ -18,7 +18,7 @@ function onSpellCast(caster,target,spell)
     
     local enhanceSkill = caster:getSkillLevel(34);
 
-    local power = 1 + 0.02 * enhanceSkill + meritBonus;
+    local power = 1 + 0.2 * enhanceSkill + meritBonus;
 
     local duration = 150;
 

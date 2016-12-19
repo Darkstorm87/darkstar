@@ -47,23 +47,8 @@ function onSpellCast(caster,target,spell)
     
     dotBonus = dotBonus+caster:getMod(MOD_DIA_DOT);  -- Dia Wand
 
-    -- Check for Bio.
-    local bio = target:getStatusEffect(EFFECT_BIO);
-
-    -- Do it!
-    if (bio == nil or (DIA_OVERWRITE == 0 and bio:getPower() <= 2) or (DIA_OVERWRITE == 1 and bio:getPower() < 2)) then
-        target:addStatusEffect(EFFECT_DIA,2+dotBonus,3,duration,FLAG_ERASABLE, 10);
-        spell:setMsg(2);
-    else
-        spell:setMsg(75);
-    end
-
-    -- Try to kill same tier Bio
-    if (BIO_OVERWRITE == 1 and bio ~= nil) then
-        if (bio:getPower() <= 2) then
-            target:delStatusEffect(EFFECT_BIO);
-        end
-    end
+	target:addStatusEffect(EFFECT_DIA,2+dotBonus,3,duration,FLAG_ERASABLE, 10);
+    spell:setMsg(2);
 
     return final;
 

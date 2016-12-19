@@ -3605,12 +3605,12 @@ namespace battleutils
             drainPercent = drainPercent + std::min(0.02, 0.01 * gearBonusPercent);
 
             damage = damage + m_PChar->health.hp*drainPercent;
-            m_PChar->addHP(-drainPercent*m_PChar->health.hp);
+            m_PChar->addHP(-drainPercent * 0.5 * m_PChar->health.hp); //drain only 50% of the hp added to dmg
         }
         else if (m_PChar->GetSJob() == JOB_DRK &&m_PChar->health.hp >= 10 && m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_SOULEATER)) {
             //lose 10% Current HP, only HALF (5%) converted to damage
             damage = damage + m_PChar->health.hp*0.05;
-            m_PChar->addHP(-0.1*m_PChar->health.hp);
+            m_PChar->addHP(-0.05*m_PChar->health.hp);
         }
         return damage;
     }
@@ -3706,11 +3706,11 @@ namespace battleutils
             shotCount++;
 
         if (lvl < 30)	return 0;
-        else if (lvl < 50)	shotCount += 3;
-        else if (lvl < 75)	shotCount += 4;
-        else if (lvl < 90)	shotCount += 5;
-        else if (lvl < 99)	shotCount += 6;
-        else if (lvl >= 99) shotCount += 7;
+        else if (lvl < 50)	shotCount += 4;
+        else if (lvl < 75)	shotCount += 5;
+        else if (lvl < 90)	shotCount += 6;
+        else if (lvl < 99)	shotCount += 7;
+        else if (lvl >= 99) shotCount += 8;
 
 
         // make sure we have enough ammo for all these shots
