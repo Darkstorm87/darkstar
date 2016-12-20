@@ -27,7 +27,7 @@ function onUseAbility(player,target,ability)
 	local boostMultiplier = 0;
     if (boost ~= nil) then
         boostMultiplier = (boost:getPower()/100) * 4; --power is the raw % atk boost
-		multipler = multipler + boostMultiplier;
+		multiplier = multiplier + boostMultiplier;
     end
     
     local dmg = math.floor(player:getStat(MOD_MND)*(0.5+(math.random()/2))) * multiplier;
