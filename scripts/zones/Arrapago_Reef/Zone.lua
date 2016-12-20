@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Arrapago_Reef/TextIDs"] = nil;
 -----------------------------------
 require("scripts/zones/Arrapago_Reef/TextIDs");
 require("scripts/globals/missions");
+require("scripts/globals/zone");
 require("scripts/globals/keyitems");
 require("scripts/globals/settings");
 
@@ -15,6 +16,9 @@ require("scripts/globals/settings");
 -----------------------------------
 
 function onInitialize(zone)
+    local vwnpc = {16999056,16999057,16999058};
+    SetVoidwatchNPC(vwnpc);
+
     zone:registerRegion(1,-462,-4,-420,-455,-1,-392);
 end;
 

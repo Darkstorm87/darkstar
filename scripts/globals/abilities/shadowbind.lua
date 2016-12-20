@@ -31,7 +31,7 @@ function onUseAbility(player,target,ability,action)
         action:animation(target:getID(), action:animation(target:getID()) + 1);
     end
 
-    local duration = 30 + player:getMod(MOD_SHADOW_BIND_EXT);
+    local duration = 60 + player:getMod(MOD_SHADOW_BIND_EXT);
     local recycleChance = player:getMod(MOD_RECYCLE) + player:getMerit(MERIT_RECYCLE);
     if (player:hasStatusEffect(EFFECT_UNLIMITED_SHOT)) then
         player:delStatusEffect(EFFECT_UNLIMITED_SHOT);

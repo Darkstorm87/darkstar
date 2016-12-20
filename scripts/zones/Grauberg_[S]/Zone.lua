@@ -8,6 +8,7 @@ package.loaded["scripts/zones/Grauberg_[S]/TextIDs"] = nil;
 
 require("scripts/zones/Grauberg_[S]/TextIDs");
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/weather");
 require("scripts/globals/status");
 
@@ -16,6 +17,10 @@ require("scripts/globals/status");
 -----------------------------------
 
 function onInitialize(zone)
+
+    local vwnpc = {17142614,17142615,17142616};
+    SetVoidwatchNPC(vwnpc);
+
 end;
 
 -----------------------------------

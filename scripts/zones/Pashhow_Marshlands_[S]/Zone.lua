@@ -8,6 +8,7 @@ package.loaded["scripts/zones/Pashhow_Marshlands_[S]/TextIDs"] = nil;
 
 require("scripts/zones/Pashhow_Marshlands_[S]/TextIDs");
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/weather");
 require("scripts/globals/status");
 
@@ -16,6 +17,10 @@ require("scripts/globals/status");
 -----------------------------------
 
 function onInitialize(zone)
+
+    local vwnpc = {17146647,17146648,17146649};
+    SetVoidwatchNPC(vwnpc);
+
 end;
 
 -----------------------------------
@@ -51,7 +56,7 @@ function onZoneWeatherChange(weather)
             npc:setStatus(STATUS_NORMAL);
         end
     end
-    
+
     npc = GetNPCByID(17146624); -- Indescript Markings (BODY)
     if (npc ~= nil) then
         if (weather == WEATHER_RAIN) then

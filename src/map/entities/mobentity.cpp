@@ -613,7 +613,6 @@ void CMobEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& actio
 
     auto PSkill = state.GetSkill();
     auto PBattleTarget = static_cast<CBattleEntity*>(state.GetTarget());
-    PAI->EventHandler.triggerListener("WEAPONSKILL_USE", this, PSkill->getID());
 
     static_cast<CMobController*>(PAI->GetController())->TapDeaggroTime();
 }
@@ -671,7 +670,10 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
             PAI->TargetFind->findSingleTarget(PTarget, findFlags);
         }
     }
-    else
+
+    uint16 targets = PAI->TargetFind->m_targets.size();
+
+    if (!PTarget || targets == 0)
     {
         action.actiontype = ACTION_MOBABILITY_INTERRUPT;
         actionList_t& actionList = action.getNewActionList();
@@ -682,9 +684,7 @@ void CMobEntity::OnMobSkillFinished(CMobSkillState& state, action_t& action)
         return;
     }
 
-    uint16 actionsLength = PAI->TargetFind->m_targets.size();
-
-    PSkill->setTotalTargets(actionsLength);
+    PSkill->setTotalTargets(targets);
     PSkill->setTP(state.GetSpentTP());
     PSkill->setHPP(GetHPP());
 
@@ -965,6 +965,15 @@ void CMobEntity::OnDeathTimer()
         PAI->Despawn();
 }
 
+void CMobEntity::OnDespawn(CDespawnState&)
+{
+    FadeOut();
+    PAI->Internal_Respawn(std::chrono::milliseconds(m_RespawnTime));
+    luautils::OnMobDespawn(this);
+    //#event despawn
+    PAI->EventHandler.triggerListener("DESPAWN", this);
+}
+
 void CMobEntity::Die()
 {
     m_THLvl = PEnmityContainer->GetHighestTH();
@@ -977,7 +986,10 @@ void CMobEntity::Die()
     PAI->Internal_Die(15s);
     CBattleEntity::Die();
     PAI->QueueAction(queueAction_t(std::chrono::milliseconds(m_DropItemTime), false, [this](CBaseEntity* PEntity) {
-        DropItems();
+        if (static_cast<CMobEntity*>(PEntity)->isDead())
+        {
+            DropItems();
+        }
     }));
     if (PMaster && PMaster->PPet == this && PMaster->objtype == TYPE_PC)
     {

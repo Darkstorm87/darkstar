@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Windurst_Waters_[S]/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/zones/Windurst_Waters_[S]/TextIDs");
 
 -----------------------------------
@@ -14,6 +15,8 @@ require("scripts/zones/Windurst_Waters_[S]/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
+    local vwnpc = {17163014,17163015,17163016};
+    SetVoidwatchNPC(vwnpc);
 end;
 
 -----------------------------------

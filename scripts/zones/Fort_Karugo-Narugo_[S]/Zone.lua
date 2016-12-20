@@ -8,6 +8,7 @@ package.loaded["scripts/zones/Fort_Karugo-Narugo_[S]/TextIDs"] = nil;
 
 require("scripts/zones/Fort_Karugo-Narugo_[S]/TextIDs");
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/weather");
 require("scripts/globals/status");
 
@@ -16,6 +17,10 @@ require("scripts/globals/status");
 -----------------------------------
 
 function onInitialize(zone)
+
+    local vwnpc = {17171276,17171277,17171278};
+    SetVoidwatchNPC(vwnpc);
+
 end;
 
 -----------------------------------

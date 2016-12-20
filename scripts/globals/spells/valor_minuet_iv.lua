@@ -27,6 +27,9 @@ function onSpellCast(caster,target,spell)
     if (power >= 56) then
         power = 56;
     end
+	
+	local targetATT = target:getStat(MOD_ATT);
+	power = math.max(targetATT * 0.2, power);
     
     local iBoost = caster:getMod(MOD_MINUET_EFFECT) + caster:getMod(MOD_ALL_SONGS_EFFECT);
     if (iBoost > 0) then

@@ -23,7 +23,7 @@ end;
 function onUseAbility(player,target,ability)
     local hp = player:getHP();
     local vit = player:getStat(MOD_VIT);
-    local multi = 2;
+    local multi = 3;
     local merits = player:getMerit(MERIT_INVIGORATE);
     local body = player:getEquipID(SLOT_BODY);
     local hand = player:getEquipID(SLOT_HANDS);
@@ -35,11 +35,24 @@ function onUseAbility(player,target,ability)
     if (player:hasStatusEffect(EFFECT_BLINDNESS)) then
         player:delStatusEffect(EFFECT_BLINDNESS);
     end
+	
+	if (player:hasStatusEffect(EFFECT_PARALYSIS)) then
+        player:delStatusEffect(EFFECT_PARALYSIS);
+    end
 
     if ((body == 12639) or (body == 14474)) then -- Temple Cyclas (+1) equipped
-        if (player:hasStatusEffect(EFFECT_PARALYSIS)) then
-            player:delStatusEffect(EFFECT_PARALYSIS);
-        end
+		if (player:hasStatusEffect(EFFECT_SLOW)) then
+			player:delStatusEffect(EFFECT_SLOW);
+		end
+		
+		if (player:hasStatusEffect(EFFECT_ATTACK_DOWN)) then
+			player:delStatusEffect(EFFECT_ATTACK_DOWN);
+		end
+		
+		if (player:hasStatusEffect(EFFECT_ACCURACY_DOWN)) then
+			player:delStatusEffect(EFFECT_ACCURACY_DOWN);
+		end
+		
         multi = multi + 1;
     end
 

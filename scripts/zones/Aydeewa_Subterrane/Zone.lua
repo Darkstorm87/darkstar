@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Aydeewa_Subterrane/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/globals/quests");
 require("scripts/globals/keyitems");
 require("scripts/globals/titles");
@@ -17,7 +18,10 @@ require("scripts/zones/Aydeewa_Subterrane/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
-zone:registerRegion(1,378,-3,338,382,3,342);
+    local vwnpc = {17056466,17056467,17056468};
+    SetVoidwatchNPC(vwnpc);
+
+    zone:registerRegion(1,378,-3,338,382,3,342);
 end;
 
 -----------------------------------

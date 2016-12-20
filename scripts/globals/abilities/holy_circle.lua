@@ -22,5 +22,8 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
-    target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,60);
+    target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,180);
+	if (player:getID() ~= target:getID()) then
+		target:addStatusEffect(EFFECT_ENMITY_DOWN,5,0,180);
+	end
 end;

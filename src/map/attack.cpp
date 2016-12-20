@@ -209,12 +209,6 @@ uint8 CAttack::GetWeaponSlot()
 ************************************************************************/
 uint8 CAttack::GetAnimationID()
 {
-    // Footwork
-    if (m_attacker->GetMJob() == JOB_MNK && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_FOOTWORK))
-    {
-        return this->m_attackDirection == RIGHTATTACK ? 2 : 3;
-    }
-
     // Try normal kick attacks (without footwork)
     if (this->m_attackType == PHYSICAL_ATTACK_TYPE::KICK)
     {
@@ -324,12 +318,12 @@ bool CAttack::CheckAnticipated()
     else
     { //do have seigan, decay anticipations correctly (guesstimated)
         //5-6 anticipates is a 'lucky' streak, going to assume 15% decay per proc, with a 100% base w/ Seigan
-        if (dsprand::GetRandomNumber(100) < (100 - (pastAnticipations * 15)))
+        if (dsprand::GetRandomNumber(100) < (100 - (pastAnticipations * 15) + m_victim->getMod(MOD_THIRD_EYE_ANTICIPATE_RATE)))
         {
             //increment power and don't remove
             effect->SetPower(effect->GetPower() + 1);
             //chance to counter - 25% base
-            if (dsprand::GetRandomNumber(100) < 25 + m_victim->getMod(MOD_AUGMENTS_THIRD_EYE))
+            if (dsprand::GetRandomNumber(100) < 25 + m_victim->getMod(MOD_THIRD_EYE_COUNTER_RATE))
             {
                 m_isCountered = true;
                 m_isCritical = (dsprand::GetRandomNumber(100) < battleutils::GetCritHitRate(m_victim, m_attacker, false));
@@ -398,7 +392,7 @@ void CAttack::ProcessDamage()
         ((abs(m_victim->loc.p.rotation - m_attacker->loc.p.rotation) < 23) ||
             m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE)))
     {
-        m_trickAttackDamage = m_attacker->DEX();
+        m_trickAttackDamage = m_attacker->DEX() * 1.25;
     }
 
     // Trick attack.
@@ -406,18 +400,18 @@ void CAttack::ProcessDamage()
         m_isFirstSwing &&
         m_attackRound->GetTAEntity() != nullptr)
     {
-        m_trickAttackDamage += m_attacker->AGI() * (1 + m_attacker->getMod(MOD_TRICK_ATK_AGI) / 100);
+        m_trickAttackDamage += m_attacker->AGI() * (1 + m_attacker->getMod(MOD_TRICK_ATK_AGI) / 100) * 1.15;
     }
 
     // H2H.
     if (m_attackRound->IsH2H())
     {
         // FFXIclopedia H2H: Remove 3 dmg from weapon, DB has an extra 3 for weapon rank. h2hSkill*0.11+3
-        m_naturalH2hDamage = (float)(m_attacker->GetSkill(SKILL_H2H) * 0.11f) + 3;
-        m_baseDamage = m_attacker->GetMainWeaponDmg() - 3;
+        m_naturalH2hDamage = (float)(m_attacker->GetSkill(SKILL_H2H) * 0.11f);
+        m_baseDamage = dsp_max(m_attacker->GetMainWeaponDmg(), 3);
         if (m_attackType == PHYSICAL_ATTACK_TYPE::KICK)
         {
-            m_baseDamage = m_attacker->getMod(MOD_KICK_DMG);
+            m_baseDamage = m_attacker->getMod(MOD_KICK_DMG) + 3;
         }
         m_damage = (uint32)(((m_baseDamage + m_naturalH2hDamage + m_trickAttackDamage +
             battleutils::GetFSTR(m_attacker, m_victim, GetWeaponSlot())) * m_damageRatio));

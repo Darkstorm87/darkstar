@@ -322,7 +322,7 @@ local miningpoints = {
     [62] =  {17031711,17031712,17031713,17031714,17031715,17031716}, -- Halvung
     [88] =  {17138511,17138512,17138513,17138514,17138515,17138516}, -- Gustaberg[S]
     [142] = {17359049,17359050,17359051,17359052,17359053,17359054}, -- Yughott
-    [143] = {17363360,17363361,17363362,17363363,17363364,17363365}, -- Palborough
+    [143] = {17363361,17363362,17363363,17363364,17363365,17363366}, -- Palborough
     [172] = {17481834,17481836,17481837,17481838,17481839,17481840}, -- Zeruhn
     [196] = {17580393,17580394,17580395,17580396,17580397,17580398}, -- Gusgen
     [205] = {17617221,17617222,17617223,17617224,17617225,17617226} -- Ifrit's Cauldron
@@ -371,12 +371,17 @@ end;
 -------------------------------------------------
 
 function pickaxeBreak(player,trade)
-    local broken = 0;
-    if (math.random(0,100) <= MINING_BREAK_CHANCE) then
-        broken = 1;
+    local broke = 0;
+    local pickbreak = math.random();
+
+    pickbreak = pickbreak + (player:getMod(MOD_MINING_RESULT) / 1000);
+
+    if (pickbreak < MINING_BREAK_CHANCE) then
+        broke = 1;
         player:tradeComplete();
-    end;
-    return broken;
+    end
+
+    return broke;
 end;
 
 -------------------------------------------------

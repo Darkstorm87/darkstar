@@ -25,9 +25,7 @@
 #include "../../common/timer.h"
 #include "../../common/utils.h"
 
-#include <string.h>
 #include <unordered_map>
-#include <cstdio>
 
 #include "luautils.h"
 #include "lua_action.h"
@@ -72,11 +70,11 @@
 #include "../ai/ai_container.h"
 #include "../ai/states/attack_state.h"
 #include "../ai/states/death_state.h"
-#include "../ai/states/despawn_state.h"
 #include "../ai/states/inactive_state.h"
 #include "../ai/states/raise_state.h"
 #include "../ai/states/item_state.h"
 #include "../ai/states/range_state.h"
+#include "../ai/states/respawn_state.h"
 #include "../ai/states/weaponskill_state.h"
 #include "../ai/states/ability_state.h"
 #include "../ai/states/mobskill_state.h"
@@ -1035,7 +1033,7 @@ namespace luautils
             {
                 lua_pushinteger(L, 16);
             }
-            else if (PMob->PAI->IsCurrentState<CDespawnState>())
+            else if (PMob->PAI->IsCurrentState<CRespawnState>())
             {
                 lua_pushinteger(L, 0);
             }
@@ -1446,7 +1444,7 @@ namespace luautils
         auto ret = luaL_loadfile(LuaHandle, File);
         if (ret)
         {
-            ShowError("luautils::%s: %s\n", "onTrigger", lua_tostring(LuaHandle, -1));
+            ShowWarning("luautils::%s: %s\n", "onTrigger", lua_tostring(LuaHandle, -1));
             lua_pop(LuaHandle, 1);
             return -1;
         }
@@ -1526,7 +1524,6 @@ namespace luautils
 
             if (luaL_loadfile(LuaHandle, File) || lua_pcall(LuaHandle, 0, 0, 0))
             {
-                ShowError("luautils::onEventUpdate %s\n", lua_tostring(LuaHandle, -1));
                 ShowError("luautils::onEventUpdate: %s\n", lua_tostring(LuaHandle, -1));
                 lua_pop(LuaHandle, 1);
                 return -1;
@@ -1581,7 +1578,6 @@ namespace luautils
 
             if (luaL_loadfile(LuaHandle, File) || lua_pcall(LuaHandle, 0, 0, 0))
             {
-                ShowError("luautils::onEventUpdate %s\n", lua_tostring(LuaHandle, -1));
                 ShowError("luautils::onEventUpdate: %s\n", lua_tostring(LuaHandle, -1));
                 lua_pop(LuaHandle, 1);
                 return -1;
@@ -1629,7 +1625,7 @@ namespace luautils
     int32 OnEventFinish(CCharEntity* PChar, uint16 eventID, uint32 result)
     {
         //#TODO: move this to BCNM stuff when it's rewritten
-        if (PChar->PBCNM && PChar->PBCNM->won())
+        if (PChar->PBCNM && (PChar->PBCNM->won() || PChar->PBCNM->lost()))
         {
             PChar->PBCNM->delPlayerFromBcnm(PChar);
         }
@@ -1795,7 +1791,7 @@ namespace luautils
         return 0;
     }
 
-    int32 OnSpikesDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, apAction_t* Action, uint32 damage)
+    int32 OnSpikesDamage(CBattleEntity* PDefender, CBattleEntity* PAttacker, actionTarget_t* Action, uint32 damage)
     {
         lua_prepscript("scripts/zones/%s/mobs/%s.lua", PDefender->loc.zone->GetName(), PDefender->GetName());
 
@@ -2765,7 +2761,7 @@ namespace luautils
                     lua_getglobal(LuaHandle, "onMobDeath");
                     if (lua_isnil(LuaHandle, -1))
                     {
-                        ShowError("luautils::onMobDeath: undefined procedure onMobDeath\n");
+                        ShowError("luautils::onMobDeath (%s): undefined procedure onMobDeath\n", File);
                         lua_pop(LuaHandle, 1);
                         return;
                     }
@@ -2819,7 +2815,7 @@ namespace luautils
             lua_getglobal(LuaHandle, "onMobDeath");
             if (lua_isnil(LuaHandle, -1))
             {
-                ShowError("luautils::onMobDeath: undefined procedure onMobDeath\n");
+                ShowError("luautils::onMobDeath (%s): undefined procedure onMobDeath\n", File);
                 lua_pop(LuaHandle, 1);
                 return -1;
             }
@@ -3114,7 +3110,7 @@ namespace luautils
             CLuaBaseEntity LuaTrickAttackEntity(taChar);
             Lunar<CLuaBaseEntity>::push(LuaHandle, &LuaTrickAttackEntity);
         }
-        
+
 
         if (lua_pcall(LuaHandle, 7, LUA_MULTRET, 0))
         {

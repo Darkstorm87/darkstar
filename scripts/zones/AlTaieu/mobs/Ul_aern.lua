@@ -1,20 +1,16 @@
 -----------------------------------
--- Area: The Garden of Ru'Hmet
---  MOB: Aern_s_Wynav
+-- Area: Al'Taieu
+--  MOB: Ul'Aern
 -----------------------------------
 
+require("scripts/globals/missions");
 require("scripts/globals/status");
-require("scripts/zones/The_Garden_of_RuHmet/MobIDs");
-
+mixins = { require("scripts/mixins/families/aern") }
 -----------------------------------
 -- onMobInitialize Action
 -----------------------------------
 
 function onMobInitialize(mob)
-    -- Ix'Aern DRG pets are Wyverns that 2hour.
-    if (mob:getID() >= wynavA and mob:getID() <= wynavC) then
-        mob:setMobMod(MOBMOD_MAIN_2HOUR, 1);
-    end
 end;
 
 -----------------------------------
@@ -25,9 +21,17 @@ function onMobSpawn(mob)
 end;
 
 -----------------------------------
--- onMobFight Action
+-- onMobEngaged
 -----------------------------------
-function onMobFight(mob,target)
+
+function onMobEngaged(mob, target)
+end;
+
+-----------------------------------
+-- onMobDisengage
+-----------------------------------
+
+function onMobDisengage(mob)
 end;
 
 -----------------------------------
@@ -35,10 +39,4 @@ end;
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- OnMobDespawn
------------------------------------
-function onMobDespawn( mob )
 end;

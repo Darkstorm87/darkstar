@@ -17,6 +17,8 @@ function onSpellCast(caster,target,spell)
 
     local sLvl = caster:getSkillLevel(SKILL_SNG); -- Gets skill level of Singing
     local iLvl = caster:getWeaponSkillLevel(SLOT_RANGED);
+	
+	local targetACC = target:getStat(MOD_ACC);
 
     local power = 9;
 
@@ -27,6 +29,8 @@ function onSpellCast(caster,target,spell)
     if (power >= 30) then
         power = 30;
     end
+	
+	power = math.max(targetACC * 0.15, power);
     
     local iBoost = caster:getMod(MOD_MADRIGAL_EFFECT) + caster:getMod(MOD_ALL_SONGS_EFFECT);
     if (iBoost > 0) then

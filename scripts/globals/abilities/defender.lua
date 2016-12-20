@@ -22,5 +22,6 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
+	player:delStatusEffect(EFFECT_BERSERK);
     player:addStatusEffect(EFFECT_DEFENDER,1,0,180);
 end;

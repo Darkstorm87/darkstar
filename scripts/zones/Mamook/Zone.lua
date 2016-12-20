@@ -7,6 +7,7 @@ package.loaded["scripts/zones/Mamook/TextIDs"] = nil;
 -----------------------------------
 
 require("scripts/globals/settings");
+require("scripts/globals/zone");
 require("scripts/zones/Mamook/TextIDs");
 
 -----------------------------------
@@ -14,6 +15,10 @@ require("scripts/zones/Mamook/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
+
+    local vwnpc = {17044048,17044049,17044050};
+    SetVoidwatchNPC(vwnpc);
+
 end;
 
 -----------------------------------
