@@ -101,6 +101,7 @@ public:
     int32 getZone(lua_State*);              // Get Entity zone
     int32 getZoneID(lua_State*);            // Get Entity zone ID
     int32 getZoneName(lua_State*);          // Get Entity zone name
+	int32 getZoneType(lua_State*);          // Get Entity zone type
     int32 isInMogHouse(lua_State*);         // Check if entity inside a mog house
     int32 getCurrentRegion(lua_State*);     // Get Entity conquest region
     int32 getPreviousZone(lua_State*);      // Get Entity previous zone
@@ -323,6 +324,7 @@ public:
     int32 getStatusEffect(lua_State*);        //
     int32 getStatusEffects(lua_State*);
     int32 delStatusEffect(lua_State*);        // Removes Status Effect
+	int32 delStatusEffectNoSilent(lua_State*);        // Removes Status Effect and does not suppress messages
     int32 delStatusEffectsByFlag(lua_State*); // Removes Status Effects by Flag
     int32 delStatusEffectSilent(lua_State*);  // Removes Status Effect, suppresses message
     int32 eraseStatusEffect(lua_State*);      // Used with "Erase" spell
