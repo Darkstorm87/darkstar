@@ -1189,6 +1189,15 @@ inline int32 CLuaBaseEntity::getZoneName(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::getZoneType(lua_State *L)
+{
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity->loc.zone == nullptr);
+
+	lua_pushinteger(L, m_PBaseEntity->loc.zone->GetType());
+	return 1;
+}
+
 //==========================================================//
 
 inline int32 CLuaBaseEntity::isInMogHouse(lua_State* L)
@@ -5006,6 +5015,33 @@ inline int32 CLuaBaseEntity::delStatusEffect(lua_State *L)
 
     lua_pushboolean(L, result);
     return 1;
+}
+
+inline int32 CLuaBaseEntity::delStatusEffectNoSilent(lua_State *L)
+{
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+	bool result = false;
+
+	if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+	{
+		if (lua_gettop(L) >= 2)
+		{
+			/* Delete matching status effect with matching power */
+			result = ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffect(
+				(EFFECT)lua_tointeger(L, 1),
+				(uint16)lua_tointeger(L, 2));
+		}
+		else
+		{
+			/* Delete matching status effect any power */
+			result = ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectNoSilent((EFFECT)lua_tointeger(L, 1));
+		}
+	}
+
+	lua_pushboolean(L, result);
+	return 1;
 }
 
 inline int32 CLuaBaseEntity::delStatusEffectsByFlag(lua_State *L)
@@ -11013,6 +11049,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getZoneID),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getZoneName),
+	LUNAR_DECLARE_METHOD(CLuaBaseEntity,getZoneType),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isInMogHouse),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getCurrentRegion),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getPreviousZone),
@@ -11152,6 +11189,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,numBustEffects),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStatusEffectElement),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffect),
+	LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectNoSilent),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectsByFlag),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectSilent),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,eraseStatusEffect),

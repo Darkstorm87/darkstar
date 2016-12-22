@@ -25,7 +25,7 @@ function onSpellCast(caster,target,spell)
 	
 	for i, effect in ipairs(removables) do
         if (target:hasStatusEffect(effect)) then
-			target:delStatusEffect(effect);
+			target:delStatusEffectNoSilent(effect);
 			delCount = delCount + 1;
 			
 			statusDel = effect;

@@ -292,7 +292,9 @@ function CharCreate(player)
 
     if (START_INVENTORY > 30) then
        player:changeContainerSize(0,(START_INVENTORY))
+	   player:changeContainerSize(1,(START_INVENTORY))
        player:changeContainerSize(5,(START_INVENTORY))
+	   player:changeContainerSize(6,(START_INVENTORY))
     end
 
     if (UNLOCK_OUTPOST_WARPS >= 1) then
