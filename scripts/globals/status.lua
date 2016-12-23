@@ -2247,3 +2247,8 @@ ANIMATION_SYNTH                    = 44;
 ANIMATION_SIT                      = 47;
 ANIMATION_RANGED                   = 48;
 ANIMATION_FISHING_START            = 50;
+
+------------------------------------
+-- JOB TRAITS
+------------------------------------
+TRAIT_STORE_TP					   = 14;
