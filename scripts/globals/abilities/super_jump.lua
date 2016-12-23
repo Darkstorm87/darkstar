@@ -32,7 +32,7 @@ function onUseAbility(player,target,ability)
     ability:setMsg(0);
     
     -- Prevent the player from performing actions while in the air
-    player:stun(5000);
+    -- player:stun(5000); -- Removing temporarily until DSP has a fix -- causing server crashes
     
     -- If the Dragoon's wyvern is out and alive, tell it to use Super Climb
     local wyvern = player:getPet();
