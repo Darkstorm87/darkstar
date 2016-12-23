@@ -20,7 +20,7 @@ function onSpellCast(caster,target,spell)
     local bonusAcc = 0;
     local bonusMab = caster:getMerit(MERIT_DOTON_EFFECT); -- T1 mag atk
 
-    local dmg = doNinjutsuNuke(28,0.5,caster,spell,target,false,bonusAcc,bonusMab);
+    local dmg = doNinjutsuNuke(40,0.5,caster,spell,target,false,bonusAcc,bonusMab);
     handleNinjutsuDebuff(caster,target,spell,30,duration,MOD_WINDRES);
 
     return dmg;

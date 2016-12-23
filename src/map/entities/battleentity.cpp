@@ -586,13 +586,9 @@ uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill)
     }
     int skill_level = GetSkill(skill) + bonusSkill;
     uint16 acc = skill_level;
-    if (skill_level > 200)
-    {
-        acc = 200 + (skill_level - 200)*0.9;
-    }
     acc += getMod(MOD_RACC);
     acc += battleutils::GetRangedAccuracyBonuses(this);
-    acc += AGI() / 2;
+    acc += AGI() * 0.75;
     if (this->objtype == TYPE_PET && ((CPetEntity*)this)->getPetType() == PETTYPE_AUTOMATON)
     {
         acc += ((CCharEntity*)PMaster)->PMeritPoints->GetMeritValue(MERIT_FINE_TUNING, (CCharEntity*)PMaster);
@@ -627,14 +623,13 @@ uint16 CBattleEntity::ACC(uint8 attackNumber, uint8 offsetAccuracy)
             skill = SKILL_H2H;
         }
         int16 ACC = GetSkill(skill) + iLvlSkill;
-        ACC = (ACC > 200 ? (((ACC - 200)*0.9) + 200) : ACC);
         if (m_Weapons[SLOT_MAIN]->isTwoHanded() == true)
         {
             ACC += DEX() * 0.75;
         }
         else
         {
-            ACC += DEX() * 0.5;
+            ACC += DEX() * 0.75;
         }
         ACC = (ACC + m_modStat[MOD_ACC] + offsetAccuracy);
         ACC = ACC + dsp_min((ACC * m_modStat[MOD_FOOD_ACCP] / 100), m_modStat[MOD_FOOD_ACC_CAP]);
