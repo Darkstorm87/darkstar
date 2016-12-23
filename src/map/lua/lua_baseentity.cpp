@@ -8801,6 +8801,17 @@ inline int32 CLuaBaseEntity::hasTrait(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::getTraitValue(lua_State *L)
+{
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+	DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+	lua_pushinteger(L, charutils::getTraitValue((CCharEntity*)m_PBaseEntity, lua_tointeger(L, 1)));
+	return 1;
+}
+
 inline int32 CLuaBaseEntity::getTrickAttackChar(lua_State *L)
 {
     DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
@@ -11359,6 +11370,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,injectActionPacket),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMobFlags),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasTrait),
+	LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTraitValue),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTrickAttackChar),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDelay),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDamage),

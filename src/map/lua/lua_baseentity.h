@@ -362,6 +362,7 @@ public:
     int32 delMobMod(lua_State*);
 
     int32 hasTrait(lua_State*);
+	int32 getTraitValue(lua_State*);
 
     int32 addExp(lua_State*);                // Add to Character Experience
     int32 delExp(lua_State*);                // Subtracts from Character Experience

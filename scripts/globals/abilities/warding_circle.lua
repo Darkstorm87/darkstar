@@ -22,6 +22,12 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
-    local duration = 60 + player:getMod(MOD_WARDING_CIRCLE_DURATION);
+    local duration = 180 + player:getMod(MOD_WARDING_CIRCLE_DURATION);
     target:addStatusEffect(EFFECT_WARDING_CIRCLE,1,0,duration);
+	
+	local merits = player:getMerit(MERIT_STORE_TP_EFFECT);
+	local storeTPTraitValue = player:getTraitValue(TRAIT_STORE_TP);
+	if (target:getMainJob() ~= JOBS.SAM) then
+		target:addStatusEffect(EFFECT_STORE_TP,(merits + storeTPTraitValue) / 2,0,duration);
+	end
 end;
