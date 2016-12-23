@@ -364,8 +364,8 @@ INSERT INTO `traits` VALUES ('81','beast affinity ','9','75','1','0','0','TOAU')
 INSERT INTO `traits` VALUES ('82','beast healer','9','75','1','0','0','TOAU');
 INSERT INTO `traits` VALUES ('83','snapshot','11','75','1','0','0','TOAU');
 INSERT INTO `traits` VALUES ('84','recycle','11','20','1','305','30','TOAU');
-INSERT INTO `traits` VALUES ('84','recycle','11','20','2','305','40','TOAU');
-INSERT INTO `traits` VALUES ('84','recycle','11','20','3','305','50','TOAU');
+INSERT INTO `traits` VALUES ('84','recycle','11','50','2','305','40','TOAU');
+INSERT INTO `traits` VALUES ('84','recycle','11','75','3','305','50','TOAU');
 INSERT INTO `traits` VALUES ('84','recycle','17','35','1','305','10','TOAU');
 INSERT INTO `traits` VALUES ('85','ikishoten','12','75','1','0','0','TOAU');
 INSERT INTO `traits` VALUES ('86','overwhelm','12','75','1','0','0','TOAU');
