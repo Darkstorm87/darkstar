@@ -509,7 +509,8 @@ function cMeleeRatio(attacker, defender, params, ignoredDef)
         pdifmin = cratio - 0.375;
     end
 
-    local critbonus = attacker:getMod(MOD_CRIT_DMG_INCREASE)
+    local critbonus = attacker:getMod(MOD_CRIT_DMG_INCREASE);
+		
     critbonus = utils.clamp(critbonus, 0, 100);
     pdifcrit[1] = pdifmin * ((100 + critbonus)/100);
     pdifcrit[2] = pdifmax * ((100 + critbonus)/100);

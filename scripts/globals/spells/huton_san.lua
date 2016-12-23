@@ -25,7 +25,7 @@ function onSpellCast(caster,target,spell)
         bonusAcc = bonusAcc + caster:getMerit(MERIT_HUTON_SAN) - 5;
     end
 
-    local dmg = doNinjutsuNuke(134,1.5,caster,spell,target,false,bonusAcc,bonusMab);
+    local dmg = doNinjutsuNuke(160,1.5,caster,spell,target,false,bonusAcc,bonusMab);
     handleNinjutsuDebuff(caster,target,spell,30,duration,MOD_ICERES);
 
     return dmg;

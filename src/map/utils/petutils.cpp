@@ -1384,7 +1384,7 @@ namespace petutils
 		PPet->m_Weapons[SLOT_MAIN]->setDamage(1 + floor(PPet->GetMLevel()*0.9f));
 		//Set A+ weapon skill
 		PPet->setModifier(MOD_ATT, battleutils::GetMaxSkill(SKILL_GAX, JOB_WAR, PPet->GetMLevel()));
-		PPet->setModifier(MOD_ACC, battleutils::GetMaxSkill(SKILL_GAX, JOB_WAR, PPet->GetMLevel()));
+		PPet->setModifier(MOD_ACC, PMaster->getMod(MOD_ACC));
 		//Set D evasion and def
 		PPet->setModifier(MOD_EVA, battleutils::GetMaxSkill(SKILL_H2H, JOB_WAR, PPet->GetMLevel()));
 		PPet->setModifier(MOD_DEF, battleutils::GetMaxSkill(SKILL_H2H, JOB_WAR, PPet->GetMLevel()));
