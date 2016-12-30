@@ -124,17 +124,6 @@ function doBoostGain(caster,target,spell,effect)
 
     --printf("BOOST-GAIN: POTENCY = %d", potency);
 
-    --Only one Boost Effect can be active at once, so if the player has any we have to cancel & overwrite
-    local effectOverwrite = {80, 81, 82, 83, 84, 85, 86};
-
-    for i, effect in ipairs(effectOverwrite) do
-            --printf("BOOST-GAIN: CHECKING FOR EFFECT %d...",effect);
-            if (caster:hasStatusEffect(effect)) then
-                --printf("BOOST-GAIN: HAS EFFECT %d, DELETING...",effect);
-                caster:delStatusEffect(effect);
-            end
-    end
-
     if (target:addStatusEffect(effect,potency,0,duration)) then
         spell:setMsg(230);
     else
