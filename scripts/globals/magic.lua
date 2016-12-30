@@ -39,6 +39,14 @@ require("scripts/globals/settings");
     ELE_THUNDER   = 6;
     ELE_LIGHT     = 7;
     ELE_DARK      = 8;
+	
+	AOE = 1;
+	NOT_AOE = 0;
+	ELEMENTAL_TIER_1 = 1;
+	ELEMENTAL_TIER_2 = 2;
+	ELEMENTAL_TIER_3 = 3;
+	ELEMENTAL_TIER_4 = 4;
+	ELEMENTAL_TIER_5 = 5;
 
     dayStrong = {FIRESDAY, EARTHSDAY, WATERSDAY, WINDSDAY, ICEDAY, LIGHTNINGDAY, LIGHTSDAY, DARKSDAY};
     dayWeak = {WATERSDAY, WINDSDAY, LIGHTNINGDAY, ICEDAY, FIRESDAY, EARTHSDAY, DARKSDAY, LIGHTSDAY};
@@ -685,15 +693,15 @@ function calculateMagicBurst(caster, spell, target)
 
     if (skillchainTier > 0) then
         if (skillchainCount == 1) then
-            burst = 1.3;
+            burst = 2;
         elseif (skillchainCount == 2) then
-            burst = 1.35;
+            burst = 2.2;
         elseif (skillchainCount == 3) then
-             burst = 1.40;
+             burst = 2.4;
         elseif (skillchainCount == 4) then
-            burst = 1.45;
+            burst = 2.6;
         elseif (skillchainCount == 5) then
-            burst = 1.50;
+            burst = 2;
         else
             -- Something strange is going on if this occurs.
             burst = 1.0;
@@ -1246,3 +1254,36 @@ function outputMagicHitRateInfo()
 end;
 
 -- outputMagicHitRateInfo();
+
+function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
+	local spellParams = {};
+	local skillLevel = caster:getSkillLevel(ELEMENTAL_MAGIC_SKILL) + caster:getMod(79 + ELEMENTAL_MAGIC_SKILL);
+	
+	if (AOE == 1) then
+		if (nukeTier == 1) then
+		elseif (nukeTier == 2) then
+		elseif (nukeTier == 3) then
+		elseif (nukeTier == 4) then
+		elseif (nukeTier == 5) then
+		end
+	else
+		if (nukeTier == 1) then
+			spellParams.hasMultipleTargetReduction = false;
+			spellParams.resistBonus = 1.0;
+			spellParams.V0 = utils.clamp(1.25 * skillLevel + 2.5, 10, 85);
+			spellParams.V50 = utils.clamp(0.42 * skillLevel + 107.5, 110, 135);
+			spellParams.V100 = utils.clamp(0.42 * skillLevel + 157.5, 160, 185);
+			spellParams.V200 = spellParams.V100;
+			spellParams.M0 = 1;
+			spellParams.M50 = 1;
+			spellParams.M100 = 0;
+			spellParams.M200 = 0;
+		elseif (nukeTier == 2) then
+		elseif (nukeTier == 3) then
+		elseif (nukeTier == 4) then
+		elseif (nukeTier == 5) then
+		end
+	end
+	
+	return spellParams;
+end;
