@@ -701,7 +701,7 @@ function calculateMagicBurst(caster, spell, target)
         elseif (skillchainCount == 4) then
             burst = 2.6;
         elseif (skillchainCount == 5) then
-            burst = 2;
+            burst = 2.8;
         else
             -- Something strange is going on if this occurs.
             burst = 1.0;
