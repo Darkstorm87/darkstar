@@ -39,7 +39,7 @@ end;
 function onEffectGain(target,effect)
     target:addMod(MOD_DEX, -5);
     target:addMod(MOD_VIT, 4);
-    target:addMod(MOD_DEFP, 16.4);
+    target:addMod(MOD_FOOD_DEFP, 16.4);
 end;
 
 -----------------------------------------
@@ -49,5 +49,5 @@ end;
 function onEffectLose(target,effect)
     target:delMod(MOD_DEX, -5);
     target:delMod(MOD_VIT, 4);
-    target:delMod(MOD_DEFP, 16.4);
+    target:delMod(MOD_FOOD_DEFP, 16.4);
 end;

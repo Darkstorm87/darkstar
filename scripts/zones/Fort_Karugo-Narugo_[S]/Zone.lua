@@ -18,7 +18,7 @@ require("scripts/globals/status");
 
 function onInitialize(zone)
 
-    local vwnpc = {17171276,17171277,17171278};
+    local vwnpc = {17171280,17171281,17171282};
     SetVoidwatchNPC(vwnpc);
 
 end;
@@ -48,7 +48,7 @@ end;
 
 function onZoneWeatherChange(weather)
 
-    local npc = GetNPCByID(17171268); -- Indescript Markings
+    local npc = GetNPCByID(17171272); -- Indescript Markings
     if (npc ~= nil) then
         if (weather == WEATHER_DUST_STORM or weather == WEATHER_SAND_STORM) then
             npc:setStatus(STATUS_DISAPPEAR);
