@@ -393,6 +393,10 @@ function getMagicHitRate(caster, target, skillType, element, percentBonus, bonus
         local elementBonus = caster:getMod(spellAcc[element]);
         -- print(elementBonus);
         bonusAcc = bonusAcc + affinityBonus + elementBonus;
+		
+		if (target:isMob()) then
+			resMod = target:getMod(MOD_MEVA) * (resMod/100);
+		end
     end
 
     -- Base magic evasion (base magic evasion plus resistances(players), plus elemental defense(mobs)
