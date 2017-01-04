@@ -489,3 +489,15 @@ INSERT INTO `traits` VALUES ('8','max mp boost','21','60','2','5','20','SOA');
 -- CUSTOM TRAITS --
 INSERT INTO `traits` VALUES ('118','crit dmg bonus','6','1','1','421','10',NULL); --MOD_CRIT_DMG_INCREASE
 INSERT INTO `traits` VALUES ('118','crit dmg bonus','13','1','1','421','10',NULL); --MOD_CRIT_DMG_INCREASE
+
+INSERT INTO `traits` VALUES ('119','enmity cap','7','25','1','2000','100',NULL); --Adjust the enmity cap
+INSERT INTO `traits` VALUES ('119','enmity cap','7','50','2','2000','500',NULL);
+INSERT INTO `traits` VALUES ('119','enmity cap','7','75','3','2000','1000',NULL);
+INSERT INTO `traits` VALUES ('119','enmity cap','7','99','4','2000','1500',NULL);
+
+INSERT INTO `traits` VALUES ('120','damage taken II','7','10','1','2001','2',NULL); -- -DT% II
+INSERT INTO `traits` VALUES ('120','damage taken II','7','30','2','2001','4',NULL);
+INSERT INTO `traits` VALUES ('120','damage taken II','7','50','3','2001','6',NULL);
+INSERT INTO `traits` VALUES ('120','damage taken II','7','70','4','2001','8',NULL);
+INSERT INTO `traits` VALUES ('120','damage taken II','7','75','5','2001','10',NULL);
+INSERT INTO `traits` VALUES ('120','damage taken II','7','99','6','2001','12',NULL);

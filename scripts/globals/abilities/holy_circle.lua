@@ -22,8 +22,9 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
-    target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,180);
 	if (target:getMainJob() ~= JOBS.PLD) then
-		target:addStatusEffect(EFFECT_ENMITY_DOWN,5,0,180);
+		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,180,0,5);
+	else
+		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,180);
 	end
 end;

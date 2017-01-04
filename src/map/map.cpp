@@ -1305,6 +1305,14 @@ int32 map_config_read(const int8* cfgName)
         {
             map_config.healing_tick_delay = atoi(w2);
         }
+		else if (strcmp(w1, "cumulative_enmity_cap") == 0)
+		{
+			map_config.cumulative_enmity_cap = atoi(w2);
+		}
+		else if (strcmp(w1, "volatile_enmity_cap") == 0)
+		{
+			map_config.volatile_enmity_cap = atoi(w2);
+		}
         else
         {
             ShowWarning(CL_YELLOW"Unknown setting '%s' in file %s\n" CL_RESET, w1, cfgName);

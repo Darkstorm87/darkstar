@@ -12,6 +12,8 @@ require("scripts/globals/status");
 
 function onEffectGain(target,effect)
    target:addMod(MOD_ARCANA_KILLER, effect:getPower());
+   target:addMod(MOD_CRITHITRATE,effect:getSubPower());
+   target:addMod(MOD_CRIT_DMG_INCREASE,effect:getSubPower());
 end;
 
 -----------------------------------
@@ -27,4 +29,6 @@ end;
 
 function onEffectLose(target,effect)
    target:delMod(MOD_ARCANA_KILLER, effect:getPower());
+   target:delMod(MOD_CRITHITRATE, effect:getSubPower());
+   target:delMod(MOD_CRIT_DMG_INCREASE, effect:getSubPower());
 end;

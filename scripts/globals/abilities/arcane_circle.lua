@@ -21,5 +21,10 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
-    target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,180);
+	if (target:getMainJob() ~= JOBS.DRK) then
+		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,180,0,5); -- Pass a sub power of 5
+	else
+		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,180);
+	end
+    
 end;
