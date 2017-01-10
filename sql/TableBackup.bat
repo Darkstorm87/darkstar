@@ -1,7 +1,7 @@
 For /f "tokens=2-4 delims=/ " %%a in ('date /t') do (set mydate=%%c-%%a-%%b)
 
-A:
-cd "A:\FFIvalice\Database Backups"
+B:
+cd "B:\FFIvalice\Database Backups"
 mkdir %mydate%
 cd %mydate%
 
