@@ -65,6 +65,7 @@ enum MODIFIER
 
     MOD_ENMITY                    = 27, // Enmity
     MOD_ENMITY_LOSS_REDUCTION     = 502, // Reduces Enmity lost when taking damage
+	MOD_ENMITY_CAP				  = 2000, //Adjusts a characters Enmity Cap
 
     MOD_MATT                      = 28, // Magic Attack
     MOD_MDEF                      = 29, // Magic Defense
@@ -187,6 +188,7 @@ enum MODIFIER
     MOD_ANTIHQ_COOK               = 151, // Cooking Success Rate %
 
     // Damage / Crit Damage / Delay
+	MOD_DMG_II                    = 2001, // Damage Taken % II
     MOD_DMG                       = 160, // Damage Taken %
     MOD_DMGPHYS                   = 161, // Physical Damage Taken %
     MOD_DMGBREATH                 = 162, // Breath Damage Taken %

@@ -101,6 +101,7 @@ public:
     int32 getZone(lua_State*);              // Get Entity zone
     int32 getZoneID(lua_State*);            // Get Entity zone ID
     int32 getZoneName(lua_State*);          // Get Entity zone name
+	int32 getZoneType(lua_State*);          // Get Entity zone type
     int32 isInMogHouse(lua_State*);         // Check if entity inside a mog house
     int32 getCurrentRegion(lua_State*);     // Get Entity conquest region
     int32 getPreviousZone(lua_State*);      // Get Entity previous zone
@@ -122,6 +123,7 @@ public:
     int32 addTreasure(lua_State*);          // Add item to directly to treasure pool
     int32 addItem(lua_State*);              // Add item to Entity inventory (additem(itemNumber,quantity))
     int32 hasItem(lua_State*);              // Check to see if Entity has item in inventory (hasItem(itemNumber))
+    int32 addUsedItem(lua_State*);          // Add charged item with timer already on full cooldown
     int32 addTempItem(lua_State*);          // Add temp item to Entity Temp inventory
     int32 delItem(lua_State*);
     int32 getFreeSlotsCount(lua_State*);    // Gets value of free slots in Entity inventory
@@ -323,6 +325,7 @@ public:
     int32 getStatusEffect(lua_State*);        //
     int32 getStatusEffects(lua_State*);
     int32 delStatusEffect(lua_State*);        // Removes Status Effect
+	int32 delStatusEffectNoSilent(lua_State*);        // Removes Status Effect and does not suppress messages
     int32 delStatusEffectsByFlag(lua_State*); // Removes Status Effects by Flag
     int32 delStatusEffectSilent(lua_State*);  // Removes Status Effect, suppresses message
     int32 eraseStatusEffect(lua_State*);      // Used with "Erase" spell
@@ -360,6 +363,7 @@ public:
     int32 delMobMod(lua_State*);
 
     int32 hasTrait(lua_State*);
+	int32 getTraitValue(lua_State*);
 
     int32 addExp(lua_State*);                // Add to Character Experience
     int32 delExp(lua_State*);                // Subtracts from Character Experience

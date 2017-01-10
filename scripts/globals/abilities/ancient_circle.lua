@@ -22,5 +22,12 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
-    target:addStatusEffect(EFFECT_ANCIENT_CIRCLE,1,0,60);
+	local duration = 180;
+
+	if (target:getMainJob() ~= JOBS.DRG) then
+		local accBonusValue = player:getTraitValue(TRAIT_ACCURACY_BONUS);
+		target:addStatusEffect(EFFECT_ANCIENT_CIRCLE,1,0,duration,0,accBonusValue/2);
+	else
+		target:addStatusEffect(EFFECT_ANCIENT_CIRCLE,1,0,duration);
+	end
 end;

@@ -37,12 +37,12 @@ INSERT INTO `traits` VALUES ('1','accuracy bonus','11','70','4','25','48',null);
 INSERT INTO `traits` VALUES ('1','accuracy bonus','11','70','4','26','48',null);
 INSERT INTO `traits` VALUES ('1','accuracy bonus','11','86','5','25','60','ABYSSEA');
 INSERT INTO `traits` VALUES ('1','accuracy bonus','11','86','5','26','60','ABYSSEA');
-INSERT INTO `traits` VALUES ('1','accuracy bonus','14','30','1','25','10',null); -- ROTZ
-INSERT INTO `traits` VALUES ('1','accuracy bonus','14','30','1','26','10',null); -- ROTZ
-INSERT INTO `traits` VALUES ('1','accuracy bonus','14','50','2','25','22','TOAU');
-INSERT INTO `traits` VALUES ('1','accuracy bonus','14','50','2','26','22','TOAU');
-INSERT INTO `traits` VALUES ('1','accuracy bonus','14','78','3','25','35','ABYSSEA');
-INSERT INTO `traits` VALUES ('1','accuracy bonus','14','78','3','26','35','ABYSSEA');
+INSERT INTO `traits` VALUES ('1','accuracy bonus','14','30','1','25','20',null); -- ROTZ
+INSERT INTO `traits` VALUES ('1','accuracy bonus','14','30','1','26','20',null); -- ROTZ
+INSERT INTO `traits` VALUES ('1','accuracy bonus','14','50','2','25','50','TOAU');
+INSERT INTO `traits` VALUES ('1','accuracy bonus','14','50','2','26','50','TOAU');
+INSERT INTO `traits` VALUES ('1','accuracy bonus','14','78','3','25','60','ABYSSEA');
+INSERT INTO `traits` VALUES ('1','accuracy bonus','14','78','3','26','60','ABYSSEA');
 INSERT INTO `traits` VALUES ('1','accuracy bonus','19','30','1','25','10','WOTG');
 INSERT INTO `traits` VALUES ('1','accuracy bonus','19','30','1','26','10','WOTG');
 INSERT INTO `traits` VALUES ('1','accuracy bonus','19','60','2','25','22','WOTG');
@@ -151,11 +151,11 @@ INSERT INTO `traits` VALUES ('12','fast cast','5','76','4','170','25','ABYSSEA')
 INSERT INTO `traits` VALUES ('12','fast cast','5','89','5','170','30','ABYSSEA');
 INSERT INTO `traits` VALUES ('13','conserve mp','4','20','1','296','25',null);
 INSERT INTO `traits` VALUES ('13','conserve mp','20','25','1','296','25','WOTG');
-INSERT INTO `traits` VALUES ('14','store tp','12','10','1','73','10',null); -- ROTZ
-INSERT INTO `traits` VALUES ('14','store tp','12','30','2','73','15',null); -- ROTZ
-INSERT INTO `traits` VALUES ('14','store tp','12','50','3','73','20',null); -- ROTZ
-INSERT INTO `traits` VALUES ('14','store tp','12','70','4','73','25',null); -- ROTZ
-INSERT INTO `traits` VALUES ('14','store tp','12','90','5','73','30','ABYSSEA');
+INSERT INTO `traits` VALUES ('14','store tp','12','10','1','73','15',null); -- ROTZ
+INSERT INTO `traits` VALUES ('14','store tp','12','30','2','73','20',null); -- ROTZ
+INSERT INTO `traits` VALUES ('14','store tp','12','50','3','73','25',null); -- ROTZ
+INSERT INTO `traits` VALUES ('14','store tp','12','70','4','73','30',null); -- ROTZ
+INSERT INTO `traits` VALUES ('14','store tp','12','90','5','73','35','ABYSSEA');
 INSERT INTO `traits` VALUES ('15','double attack','1','25','1','288','10',null);
 INSERT INTO `traits` VALUES ('16','triple attack','6','55','1','302','5',null);
 INSERT INTO `traits` VALUES ('16','triple attack','6','96','2','302','6','ABYSSEA');
@@ -328,11 +328,11 @@ INSERT INTO `traits` VALUES ('65','treasure hunter iii','6','90','3','303','1','
 INSERT INTO `traits` VALUES ('66','kick attacks','2','51','1','292','10',null);
 INSERT INTO `traits` VALUES ('66','kick attacks','2','71','2','292','13',null);
 INSERT INTO `traits` VALUES ('66','kick attacks','2','96','3','292','15','ABYSSEA');
-INSERT INTO `traits` VALUES ('67','subtle blow','2','5','1','289','5',null); -- ROTZ
-INSERT INTO `traits` VALUES ('67','subtle blow','2','25','2','289','10',null); -- ROTZ
-INSERT INTO `traits` VALUES ('67','subtle blow','2','45','3','289','15',null); -- ROTZ
-INSERT INTO `traits` VALUES ('67','subtle blow','2','65','4','289','20',null); -- ROTZ
-INSERT INTO `traits` VALUES ('67','subtle blow','2','91','5','289','25','ABYSSEA');
+INSERT INTO `traits` VALUES ('67','subtle blow','2','5','1','289','35',null); -- ROTZ
+INSERT INTO `traits` VALUES ('67','subtle blow','2','25','2','289','40',null); -- ROTZ
+INSERT INTO `traits` VALUES ('67','subtle blow','2','45','3','289','45',null); -- ROTZ
+INSERT INTO `traits` VALUES ('67','subtle blow','2','65','4','289','50',null); -- ROTZ
+INSERT INTO `traits` VALUES ('67','subtle blow','2','91','5','289','55','ABYSSEA');
 INSERT INTO `traits` VALUES ('67','subtle blow','13','15','1','289','5',null); -- ROTZ
 INSERT INTO `traits` VALUES ('67','subtle blow','13','30','2','289','10',null); -- ROTZ
 INSERT INTO `traits` VALUES ('67','subtle blow','13','45','3','289','15',null); -- ROTZ
@@ -363,7 +363,9 @@ INSERT INTO `traits` VALUES ('80','desperate blows','8','75','1','0','0','TOAU')
 INSERT INTO `traits` VALUES ('81','beast affinity ','9','75','1','0','0','TOAU');
 INSERT INTO `traits` VALUES ('82','beast healer','9','75','1','0','0','TOAU');
 INSERT INTO `traits` VALUES ('83','snapshot','11','75','1','0','0','TOAU');
-INSERT INTO `traits` VALUES ('84','recycle','11','20','1','305','10','TOAU');
+INSERT INTO `traits` VALUES ('84','recycle','11','20','1','305','30','TOAU');
+INSERT INTO `traits` VALUES ('84','recycle','11','50','2','305','40','TOAU');
+INSERT INTO `traits` VALUES ('84','recycle','11','75','3','305','50','TOAU');
 INSERT INTO `traits` VALUES ('84','recycle','17','35','1','305','10','TOAU');
 INSERT INTO `traits` VALUES ('85','ikishoten','12','75','1','0','0','TOAU');
 INSERT INTO `traits` VALUES ('86','overwhelm','12','75','1','0','0','TOAU');
@@ -392,9 +394,9 @@ INSERT INTO `traits` VALUES ('100','tactical parry','22','60','20','486','3',nul
 INSERT INTO `traits` VALUES ('100','tactical parry','22','97','30','486','4',null);
 INSERT INTO `traits` VALUES ('106','skillchain bonus','2','85','1','174','8','ABYSSEA');
 INSERT INTO `traits` VALUES ('106','skillchain bonus','2','95','2','174','12','ABYSSEA');
-INSERT INTO `traits` VALUES ('106','skillchain bonus','12','78','1','174','8','ABYSSEA');
-INSERT INTO `traits` VALUES ('106','skillchain bonus','12','88','2','174','12','ABYSSEA');
-INSERT INTO `traits` VALUES ('106','skillchain bonus','12','98','3','174','16','ABYSSEA');
+INSERT INTO `traits` VALUES ('106','skillchain bonus','12','25','1','174','8','ABYSSEA');
+INSERT INTO `traits` VALUES ('106','skillchain bonus','12','50','2','174','12','ABYSSEA');
+INSERT INTO `traits` VALUES ('106','skillchain bonus','12','75','3','174','16','ABYSSEA');
 INSERT INTO `traits` VALUES ('106','skillchain bonus','13','85','1','174','8','ABYSSEA');
 INSERT INTO `traits` VALUES ('106','skillchain bonus','13','95','2','174','12','ABYSSEA');
 INSERT INTO `traits` VALUES ('106','skillchain bonus','19','45','1','174','8','ABYSSEA');
@@ -483,3 +485,19 @@ INSERT INTO `traits` VALUES ('24','clear mind','21','60','3','295','1','SOA');
 -- Max MP Boost Tiers I ~ II
 INSERT INTO `traits` VALUES ('8','max mp boost','21','30','1','5','10','SOA');
 INSERT INTO `traits` VALUES ('8','max mp boost','21','60','2','5','20','SOA');
+
+-- CUSTOM TRAITS --
+INSERT INTO `traits` VALUES ('118','crit dmg bonus','6','1','1','421','10',NULL); --MOD_CRIT_DMG_INCREASE
+INSERT INTO `traits` VALUES ('118','crit dmg bonus','13','1','1','421','10',NULL); --MOD_CRIT_DMG_INCREASE
+
+INSERT INTO `traits` VALUES ('119','enmity cap','7','25','1','2000','100',NULL); --Adjust the enmity cap
+INSERT INTO `traits` VALUES ('119','enmity cap','7','50','2','2000','500',NULL);
+INSERT INTO `traits` VALUES ('119','enmity cap','7','75','3','2000','1000',NULL);
+INSERT INTO `traits` VALUES ('119','enmity cap','7','99','4','2000','1500',NULL);
+
+INSERT INTO `traits` VALUES ('120','damage taken II','7','10','1','2001','2',NULL); -- -DT% II
+INSERT INTO `traits` VALUES ('120','damage taken II','7','30','2','2001','4',NULL);
+INSERT INTO `traits` VALUES ('120','damage taken II','7','50','3','2001','6',NULL);
+INSERT INTO `traits` VALUES ('120','damage taken II','7','70','4','2001','8',NULL);
+INSERT INTO `traits` VALUES ('120','damage taken II','7','75','5','2001','10',NULL);
+INSERT INTO `traits` VALUES ('120','damage taken II','7','99','6','2001','12',NULL);

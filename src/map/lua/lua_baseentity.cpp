@@ -837,6 +837,48 @@ inline int32 CLuaBaseEntity::addItem(lua_State *L)
     lua_pushboolean(L, (SlotID != ERROR_SLOTID));
     return 1;
 }
+
+//==========================================================//
+
+inline int32 CLuaBaseEntity::addUsedItem(lua_State *L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    uint16 itemID = (uint16)lua_tointeger(L, 1);
+    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
+    uint8 SlotID = ERROR_SLOTID;
+
+    if (PChar->getStorage(LOC_INVENTORY)->GetFreeSlotsCount() != 0)
+    {
+        CItem* PItem = itemutils::GetItem(itemID);
+
+        if (PItem != nullptr)
+        {
+            if (PItem->isSubType(ITEM_CHARGED))
+            {
+                // Add charged item with use timer already on full cooldown
+                auto PUsable = static_cast<CItemUsable*>(PItem);
+                PUsable->setQuantity(1);
+                PUsable->setLastUseTime(CVanaTime::getInstance()->getVanaTime());
+                SlotID = charutils::AddItem(PChar, LOC_INVENTORY, PUsable, false);
+            }
+            else
+            {
+                ShowWarning(CL_YELLOW"addUsedItem: tried to setLastUseTime but itemID <%i> is not type ITEM_CHARGED\n" CL_RESET, itemID);
+            }
+        }
+        else
+        {
+            ShowWarning(CL_YELLOW"charplugin::AddItem: Item <%i> is not found in a database\n" CL_RESET, itemID);
+        }
+    }
+    lua_pushboolean(L, (SlotID != ERROR_SLOTID));
+    return 1;
+}
+
 //==========================================================//
 
 inline int32 CLuaBaseEntity::addTempItem(lua_State *L)
@@ -1187,6 +1229,15 @@ inline int32 CLuaBaseEntity::getZoneName(lua_State *L)
 
     lua_pushstring(L, m_PBaseEntity->loc.zone->GetName());
     return 1;
+}
+
+inline int32 CLuaBaseEntity::getZoneType(lua_State *L)
+{
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity->loc.zone == nullptr);
+
+	lua_pushinteger(L, m_PBaseEntity->loc.zone->GetType());
+	return 1;
 }
 
 //==========================================================//
@@ -5008,6 +5059,33 @@ inline int32 CLuaBaseEntity::delStatusEffect(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::delStatusEffectNoSilent(lua_State *L)
+{
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype == TYPE_NPC);
+
+	bool result = false;
+
+	if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
+	{
+		if (lua_gettop(L) >= 2)
+		{
+			/* Delete matching status effect with matching power */
+			result = ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffect(
+				(EFFECT)lua_tointeger(L, 1),
+				(uint16)lua_tointeger(L, 2));
+		}
+		else
+		{
+			/* Delete matching status effect any power */
+			result = ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->DelStatusEffectNoSilent((EFFECT)lua_tointeger(L, 1));
+		}
+	}
+
+	lua_pushboolean(L, result);
+	return 1;
+}
+
 inline int32 CLuaBaseEntity::delStatusEffectsByFlag(lua_State *L)
 {
     DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
@@ -8765,6 +8843,17 @@ inline int32 CLuaBaseEntity::hasTrait(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::getTraitValue(lua_State *L)
+{
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+	DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+	lua_pushinteger(L, charutils::getTraitValue((CCharEntity*)m_PBaseEntity, lua_tointeger(L, 1)));
+	return 1;
+}
+
 inline int32 CLuaBaseEntity::getTrickAttackChar(lua_State *L)
 {
     DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
@@ -9893,6 +9982,7 @@ inline int32 CLuaBaseEntity::getAlliance(lua_State* L)
 
     if (PChar->PParty && PChar->PParty->m_PAlliance)
     {
+        size = 0;
         for (auto PParty : PChar->PParty->m_PAlliance->partyList)
         {
             size += PParty->MemberCount(m_PBaseEntity->getZone());
@@ -9904,7 +9994,7 @@ inline int32 CLuaBaseEntity::getAlliance(lua_State* L)
     }
 
     lua_createtable(L, size, 0);
-    int i = 0;
+    int i = 1;
 
     PChar->ForAlliance([this, &L, &i](CBattleEntity* PMember)
     {
@@ -11001,6 +11091,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getMaxMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addTreasure),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addItem),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,addUsedItem),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,addTempItem),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delItem),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getSpawnPos),
@@ -11013,6 +11104,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getZoneID),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getZoneName),
+	LUNAR_DECLARE_METHOD(CLuaBaseEntity,getZoneType),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,isInMogHouse),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getCurrentRegion),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getPreviousZone),
@@ -11152,6 +11244,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,numBustEffects),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getStatusEffectElement),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffect),
+	LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectNoSilent),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectsByFlag),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,delStatusEffectSilent),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,eraseStatusEffect),
@@ -11321,6 +11414,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,injectActionPacket),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setMobFlags),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasTrait),
+	LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTraitValue),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTrickAttackChar),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDelay),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setDamage),

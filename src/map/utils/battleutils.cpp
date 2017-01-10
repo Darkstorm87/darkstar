@@ -2020,7 +2020,7 @@ namespace battleutils
             if (giveTPtoVictim)
             {
                 //account for attacker's subtle blow which reduces the baseTP gain for the defender
-                float sBlowMult = ((100.0f - dsp_cap((float)PAttacker->getMod(MOD_SUBTLE_BLOW), 0.0f, 50.0f)) / 100.0f);
+                float sBlowMult = ((100.0f - dsp_cap((float)PAttacker->getMod(MOD_SUBTLE_BLOW), 0.0f, 75.0f)) / 100.0f);
 
                 //mobs hit get basetp+30 whereas pcs hit get basetp/3
                 if (PDefender->objtype == TYPE_PC)
@@ -2138,7 +2138,7 @@ namespace battleutils
             }
 
             //account for attacker's subtle blow which reduces the baseTP gain for the defender
-            float sBlowMult = ((100.0f - dsp_cap((float)PChar->getMod(MOD_SUBTLE_BLOW), 0.0f, 50.0f)) / 100.0f);
+            float sBlowMult = ((100.0f - dsp_cap((float)PChar->getMod(MOD_SUBTLE_BLOW), 0.0f, 75.0f)) / 100.0f);
 
             //mobs hit get basetp+30 whereas pcs hit get basetp/3
             if (PDefender->objtype == TYPE_PC)
@@ -4204,6 +4204,8 @@ namespace battleutils
         resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(MOD_DMGBREATH) / 100.0f ) ) / 256.0f )
                       + ( floor( 256.0f * ( PDefender->getMod(MOD_DMG)       / 100.0f ) ) / 256.0f );
         resist = dsp_cap(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
+		resist = resist + (floor(256.0f * (PDefender->getMod(MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = dsp_cap(resist, 0.1f, 1.5f);
         damage *= resist;
 
         if (dsprand::GetRandomNumber(100) < PDefender->getMod(MOD_ABSORB_DMG_CHANCE))
@@ -4233,6 +4235,8 @@ namespace battleutils
         resist = dsp_cap(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
         resist = resist + ( floor( 256.0f * ( PDefender->getMod(MOD_DMGMAGIC_II) / 100.0f ) ) / 256.0f );
         resist = dsp_cap(resist, 0.125f, 1.5f); //Total cap with MDT-% II included is 87.5%
+		resist = resist + (floor(256.0f * (PDefender->getMod(MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = dsp_cap(resist, 0.1f, 1.5f); // MOD_DMG_II lowers to 90% reduction
         damage *= resist;
 
         if (dsprand::GetRandomNumber(100) < PDefender->getMod(MOD_ABSORB_DMG_CHANCE) ||
@@ -4263,6 +4267,9 @@ namespace battleutils
         resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(MOD_DMGPHYS) / 100.0f ) ) / 256.0f )
                       + ( floor( 256.0f * ( PDefender->getMod(MOD_DMG)     / 100.0f ) ) / 256.0f );
         resist = dsp_cap(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
+		resist = resist + (floor(256.0f * (PDefender->getMod(MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = dsp_cap(resist, 0.1f, 1.5f); // MOD_DMG_II lowers to 90% reduction
+
         damage *= resist;
 
         if (dsprand::GetRandomNumber(100) < PDefender->getMod(MOD_ABSORB_DMG_CHANCE) ||
@@ -4291,6 +4298,9 @@ namespace battleutils
         resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(MOD_DMGRANGE) / 100.0f ) ) / 256.0f )
                       + ( floor( 256.0f * ( PDefender->getMod(MOD_DMG)      / 100.0f ) ) / 256.0f );
         resist = dsp_cap(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
+		resist = resist + (floor(256.0f * (PDefender->getMod(MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = dsp_cap(resist, 0.1f, 1.5f); // MOD_DMG_II lowers to 90% reduction
+
         damage *= resist;
 
         if (dsprand::GetRandomNumber(100) < PDefender->getMod(MOD_ABSORB_DMG_CHANCE) ||

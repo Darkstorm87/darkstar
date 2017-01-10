@@ -86,7 +86,7 @@ INSERT INTO `merits` VALUES ('454', 'counter_rate', '5', '1', '2', '6', '6');
 INSERT INTO `merits` VALUES ('456', 'kick_attack_rate', '5', '1', '2', '6', '6');
 INSERT INTO `merits` VALUES ('512', 'divine_seal_recast', '5', '20', '4', '6', '7');
 INSERT INTO `merits` VALUES ('514', 'cure_cast_time', '5', '4', '4', '6', '7');
-INSERT INTO `merits` VALUES ('516', 'bar_spell_effect', '5', '2', '4', '6', '7');
+INSERT INTO `merits` VALUES ('516', 'bar_spell_effect', '5', '4', '4', '6', '7');
 INSERT INTO `merits` VALUES ('518', 'banish_effect', '5', '2', '4', '6', '7');
 INSERT INTO `merits` VALUES ('520', 'regen_effect', '5', '1', '4', '6', '7');
 INSERT INTO `merits` VALUES ('576', 'elemental_seal_recast', '5', '20', '8', '6', '8');

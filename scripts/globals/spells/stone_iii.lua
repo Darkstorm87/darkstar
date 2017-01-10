@@ -15,17 +15,7 @@ function onMagicCastingCheck(caster, target, spell)
 end;
 
 function onSpellCast(caster, target, spell)
-    local spellParams = {};
-    spellParams.hasMultipleTargetReduction = false;
-    spellParams.resistBonus = 1.0;
-    spellParams.V0 = 200;
-    spellParams.V50 = 400;
-    spellParams.V100 = 550;
-    spellParams.V200 = 750;
-    spellParams.M0 = 4;
-    spellParams.M50 = 3;
-    spellParams.M100 = 2;
-    spellParams.M200 = 1;
+    local spellParams = calculateElementalNukeSpellParams(caster, ELEMENTAL_TIER_3, NOT_AOE);
 
     return doElementalNuke(caster, spell, target, spellParams);
 end;

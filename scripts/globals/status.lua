@@ -864,6 +864,7 @@ MOD_ACC        = 25
 MOD_RACC       = 26
 MOD_ENMITY     = 27
 MOD_ENMITY_LOSS_REDUCTION = 502
+MOD_ENMITY_CAP        = 2000
 MOD_MATT              = 28
 MOD_MDEF              = 29
 MOD_MACC              = 30
@@ -966,6 +967,7 @@ MOD_ANTIHQ_LEATHER    = 148
 MOD_ANTIHQ_BONE       = 149
 MOD_ANTIHQ_ALCHEMY    = 150
 MOD_ANTIHQ_COOK       = 151
+MOD_DMG_II            = 2001
 MOD_DMG               = 160
 MOD_DMGPHYS           = 161
 MOD_DMGBREATH         = 162
@@ -2247,3 +2249,9 @@ ANIMATION_SYNTH                    = 44;
 ANIMATION_SIT                      = 47;
 ANIMATION_RANGED                   = 48;
 ANIMATION_FISHING_START            = 50;
+
+------------------------------------
+-- JOB TRAITS
+------------------------------------
+TRAIT_ACCURACY_BONUS				= 1;
+TRAIT_STORE_TP						= 14;

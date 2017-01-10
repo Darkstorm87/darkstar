@@ -33,7 +33,7 @@ function onUseAbility(player, target, ability)
     local chance = 100;
     damage = player:getMod(MOD_SHIELD_BASH);
 
-    if (shieldSize == 1 or shieldSize == 5) then
+    if (shieldSize == 1 or shieldSize == 5 or shieldSize == 6) then
         damage = 25 + damage;
     elseif (shieldSize == 2) then
         damage = 38 + damage;
