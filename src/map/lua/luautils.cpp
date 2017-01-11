@@ -4343,6 +4343,11 @@ namespace luautils
                 }
             }
 
+			if (!lua_isnil(L, 2) && lua_isnumber(L, 2))
+			{
+					OpenTime = (uint32)lua_tointeger(L, 1) * 1000; // respawn based on seconds passed in
+			}
+
             zoneutils::UpdateTreasureSpawnPoint(npcid, OpenTime);
 
             CBaseEntity* PNpc = zoneutils::GetEntity(npcid, TYPE_NPC);
