@@ -19,22 +19,5 @@ end;
 -----------------------------------
 
 function onMobDespawn(mob)
-    local mobID = mob:getID();
-
-    if (Tumbling_Truffle_PH[mobID] ~= nil) then
-    -- printf("%u is a PH",mob);
-        local TT_ToD = GetServerVariable("[POP]Tumbling_Truffle");
-
-        if (TT_ToD <= os.time(t) and GetMobAction(Tumbling_Truffle) == 0) then
-
-            if (math.random(1,20) == 5) then
-                UpdateNMSpawnPoint(Tumbling_Truffle);
-                GetMobByID(Tumbling_Truffle):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Tumbling_Truffle", mobID);
-                DeterMob(mobID, true);
-            end
-        end
-    end
-
 end;
 

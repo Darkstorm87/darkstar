@@ -4,11 +4,6 @@
 -- (Taken from 'mob_spawn_points' table)
 -----------------------------------
 
-Drooling_Daisy=17228236;
-Drooling_Daisy_PH={ 
-  [17228235] = '1', -- -691.786, -34.802, -335.763
-}; 
-
 -- Eldritch Edge
 Eldritch_Edge=17228150;
 Eldritch_Edge_PH={

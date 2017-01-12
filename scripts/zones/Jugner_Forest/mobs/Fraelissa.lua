@@ -19,6 +19,4 @@ function onMobDespawn(mob)
 
     -- Set Fraelissa spawnpoint and respawn time (1-1.15 hours)
     UpdateNMSpawnPoint(mob:getID());
-    mob:setRespawnTime(math.random(3600,4500));
-
 end;

@@ -37,5 +37,4 @@ end;
 -----------------------------------
 
 function onMobDespawn(mob)
-    mob:setRespawnTime((math.random(0,24)*3600)+172800); -- 48-72 hours proper 1 hour windows
 end;
