@@ -43,3 +43,4 @@ function onMobDespawn(mob)
 
 end;
 
+-- test
