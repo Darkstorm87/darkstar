@@ -22,17 +22,4 @@ end;
 -----------------------------------
 
 function onMobDespawn(mob)
-    local mobID = mob:getID();
-
-    if (Fungus_Beetle_PH[mobID] ~= nil) then
-        local ToD = GetServerVariable("[POP]Fungus_Beetle");
-        if (ToD <= os.time(t) and GetMobAction(Fungus_Beetle) == 0) then
-            if (math.random(1,10) == 5) then
-                UpdateNMSpawnPoint(Fungus_Beetle);
-                GetMobByID(Fungus_Beetle):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Fungus_Beetle", mobID);
-                DeterMob(mobID, true);
-            end
-        end
-    end
 end;

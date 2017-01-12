@@ -22,17 +22,4 @@ end;
 -----------------------------------
 
 function onMobDespawn(mob)
-    local mobID = mob:getID();
-
-    if (Valkurm_Emperor_PH[mobID] ~= nil) then
-        local VE_ToD = GetServerVariable("[POP]Valkurm_Emperor");
-        if (VE_ToD <= os.time(t) and GetMobAction(Valkurm_Emperor) == 0) then
-            if (math.random(1,20) == 5) then
-                UpdateNMSpawnPoint(Valkurm_Emperor);
-                GetMobByID(Valkurm_Emperor):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Valkurm_Emperor", mobID);
-                DeterMob(mobID, true);
-            end
-        end
-    end
 end;
