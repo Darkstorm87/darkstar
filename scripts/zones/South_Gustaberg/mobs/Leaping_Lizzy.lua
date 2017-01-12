@@ -15,5 +15,4 @@ end;
 -----------------------------------
 
 function onMobDespawn(mob)
-
 end;
