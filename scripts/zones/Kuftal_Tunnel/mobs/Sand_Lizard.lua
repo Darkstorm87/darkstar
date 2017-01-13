@@ -22,17 +22,4 @@ end;
 -----------------------------------
 
 function onMobDespawn(mob)
-    local mobID = mob:getID();
-
-    if (Amemet_PH[mobID] ~= nil) then
-        local ToD = GetServerVariable("[POP]Amemet");
-        if (ToD <= os.time(t) and GetMobAction(Amemet) == 0) then
-            if (math.random(1,20) == 5) then
-                UpdateNMSpawnPoint(Amemet);
-                GetMobByID(Amemet):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Amemet", mobID);
-                DeterMob(mobID, true);
-            end
-        end
-    end
 end;
