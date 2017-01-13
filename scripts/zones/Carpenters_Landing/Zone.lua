@@ -58,9 +58,6 @@ end;
 
 function onInitialize(zone)
 
-    -- Tempest Tigon
-    SetRespawnTime(16785593, 900, 10800);
-
 end;
 
 -----------------------------------
