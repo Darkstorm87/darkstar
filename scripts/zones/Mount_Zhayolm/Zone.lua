@@ -18,8 +18,6 @@ function onInitialize(zone)
     local vwnpc = {17027619,17027620,17027621};
     SetVoidwatchNPC(vwnpc);
 
-   -- Cerberus
-   GetMobByID(17027458):setRespawnTime(math.random(12,36) * 3600);
 end;
 
 -----------------------------------
