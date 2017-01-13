@@ -66,12 +66,6 @@ function onInitialize(zone)
 
     SetFieldManual(manuals);
 
-    -- Cactrot Rapido
-    SetRespawnTime(17244539, 900, 10800);
-
-    -- Centurio XII-I
-    SetRespawnTime(17244372, 900, 10800);
-
     SetRegionalConquestOverseers(zone:getRegionID())
 end;
 
