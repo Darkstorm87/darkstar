@@ -20,7 +20,7 @@ function onInitialize(zone)
     SetFieldManual(manuals);
 
     if (LandKingSystem_NQ ~= 1) then
-        SetRespawnTime(17301537, 900, 10800); -- Adamantoise
+        SetRespawnTime(17301537, 60, 300); -- Adamantoise
     end
 end;
 
