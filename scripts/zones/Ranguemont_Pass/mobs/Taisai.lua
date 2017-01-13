@@ -55,7 +55,7 @@ function onMobDespawn(mob)
     for i = 1, #Taisaijin_PH_Table, 1 do
         if (Taisaijin_PH_Table[i] ~= nil) then
             if (Taisai == Taisaijin_PH_Table[i]) then
-                GetMobByID(Taisaijin):setLocalVar("ToD",os.time() + math.random((86400), (259200)));
+                GetMobByID(Taisaijin):setLocalVar("ToD",os.time() + math.random((900), (1200)));
             end
         end
     end
