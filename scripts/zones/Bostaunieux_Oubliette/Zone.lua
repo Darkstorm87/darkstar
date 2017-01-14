@@ -18,7 +18,6 @@ function onInitialize(zone)
     local tomes = {17461584,17461585,17461586};
 
     SetGroundsTome(tomes);
-
 end;
 
 -----------------------------------

@@ -17,7 +17,6 @@ banishing_gates_base = 17596761; -- _5k0 (First banishing gate)
 -----------------------------------
 
 function onInitialize(zone)
-
     local tomes = {17596856,17596857,17596858};
     SetGroundsTome(tomes);
 
@@ -43,7 +42,6 @@ function onInitialize(zone)
     UpdateTreasureSpawnPoint(17596812);
 
     UpdateTreasureSpawnPoint(17596813);
-
 end;
 
 -----------------------------------
