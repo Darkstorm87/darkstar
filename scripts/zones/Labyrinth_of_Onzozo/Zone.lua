@@ -20,9 +20,6 @@ function onInitialize(zone)
     
     SetGroundsTome(tomes);
 
-    -- Mysticmaker Profblix
-    SetRespawnTime(17649693, 900, 10800);
-    
     UpdateTreasureSpawnPoint(17649900);
     
 end;

@@ -80,6 +80,4 @@ function onMobDeath(mob, player, isKiller)
 end;
 
 function onMobDespawn(mob)
-    -- Set Manipulator's spawnpoint and respawn time
-    mob:setRespawnTime(7200); -- 2 hours
 end;

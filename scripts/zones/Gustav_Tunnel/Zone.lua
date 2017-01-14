@@ -19,9 +19,6 @@ function onInitialize(zone)
 
     SetGroundsTome(tomes);
 
-    -- Bune
-    SetRespawnTime(17645578, 900, 10800);
-
 end;
 
 -----------------------------------

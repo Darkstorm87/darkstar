@@ -22,9 +22,6 @@ function onInitialize(zone)
     local vwnpc = {17617261,17617262,17617263};
     SetVoidwatchNPC(vwnpc);
 
-    -- Ash Dragon
-    SetRespawnTime(17617147, 900, 10800);
-
     UpdateTreasureSpawnPoint(17617224);
 
 end;

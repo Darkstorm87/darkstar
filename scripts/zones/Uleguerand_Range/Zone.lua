@@ -20,9 +20,6 @@ function onInitialize(zone)
     local vwnpc = {16798144,16798145,16798146};
     SetVoidwatchNPC(vwnpc);
 
-    -- Jormungand
-    SetRespawnTime(16797969, 86400, 259200);
-
 end;
 
 -----------------------------------

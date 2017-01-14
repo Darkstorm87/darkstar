@@ -414,6 +414,5 @@ function onMobDespawn(mob)
 
     -- Set Guivre's spawnpoint and respawn time (18-24 hours)
     UpdateNMSpawnPoint(mob:getID());
-    mob:setRespawnTime(math.random(64800,86400));
 
 end;

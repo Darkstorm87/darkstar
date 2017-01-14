@@ -49,9 +49,7 @@ function onInitialize(zone)
     zone:registerRegion(28, -369.343, 5, -73.449, 0,0,0);
     zone:registerRegion(29, -238, 5, -118, 0,0,0);
     zone:registerRegion(30, -385.349, 5, -173.973, 0,0,0);
-
-    -- Tiamat
-    SetRespawnTime(16806227, 86400, 259200);
+    
 end;
 
 -----------------------------------
