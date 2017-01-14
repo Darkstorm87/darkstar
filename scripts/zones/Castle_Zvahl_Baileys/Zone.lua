@@ -21,18 +21,6 @@ function onInitialize(zone)
     zone:registerRegion(3, -34,17,-10, -30,18,-5);  -- map 4 SE porter
     zone:registerRegion(4, -34,17,45, -30,18,51);  -- map 4 NE porter
 
-    -- Marquis Allocen
-    SetRespawnTime(17436913, 900, 10800);
-
-    -- Marquis Amon
-    SetRespawnTime(17436918, 900, 10800);
-
-    -- Duke Haborym
-    SetRespawnTime(17436923, 900, 10800);
-
-    -- Grand Duke Batym
-    SetRespawnTime(17436927, 900, 10800);
-
     UpdateTreasureSpawnPoint(17436997);
     UpdateTreasureSpawnPoint(17436998);
 end;

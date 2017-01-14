@@ -23,9 +23,6 @@ function onInitialize(zone)
     local vwnpc = {17490319,17490320,17490321};
     SetVoidwatchNPC(vwnpc);
 
-    -- Guivre
-    SetRespawnTime(17490234, 900, 10800);
-
     UpdateTreasureSpawnPoint(17490304);
 
 end;

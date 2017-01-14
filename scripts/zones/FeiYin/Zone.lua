@@ -22,9 +22,6 @@ function onInitialize(zone)
 
     SetGroundsTome(tomes);
 
-    -- Capricious Cassie
-    SetRespawnTime(17613130, 900, 10800);
-
     UpdateTreasureSpawnPoint(17613242);
 end;
 

@@ -15,9 +15,6 @@ require("scripts/zones/Castle_Oztroja/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
-    -- Yagudo Avatar
-    SetRespawnTime(17396134, 900, 10800);
-
     UpdateTreasureSpawnPoint(17396210);
     UpdateTreasureSpawnPoint(17396211);
 end;

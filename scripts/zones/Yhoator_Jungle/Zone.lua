@@ -63,15 +63,6 @@ function onInitialize(zone)
 
     SetFieldManual(manuals);
 
-    -- Bright-handed Kunberry
-    SetRespawnTime(17285220, 900, 10800);
-
-    -- Bisque-heeled Sunberry
-    SetRespawnTime(17285460, 900, 10800);
-
-    -- Bright-handed Kunberry
-    SetRespawnTime(17285526, 900, 10800);
-
     SetRegionalConquestOverseers(zone:getRegionID())
 end;
 

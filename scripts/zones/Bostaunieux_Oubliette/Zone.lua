@@ -19,14 +19,6 @@ function onInitialize(zone)
 
     SetGroundsTome(tomes);
 
-    -- Drexerion the Condemned
-    SetRespawnTime(17461338, 900, 10800);
-
-    -- Phanduron the Condemned
-    SetRespawnTime(17461343, 900, 10800);
-
-    -- Bloodsucker
-    SetRespawnTime(17461478, 3600, 3600);
 end;
 
 -----------------------------------

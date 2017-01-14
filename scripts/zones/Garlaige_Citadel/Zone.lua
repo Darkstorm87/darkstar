@@ -40,15 +40,6 @@ function onInitialize(zone)
     zone:registerRegion(21,-190,-1,322,-188,1,324);
     zone:registerRegion(22,-130,-1,322,-128,1,324);
 
-    -- Old Two-Wings
-    SetRespawnTime(17596506, 900, 10800);
-
-    -- Skewer Sam
-    SetRespawnTime(17596507, 900, 10800);
-
-    -- Serket
-    SetRespawnTime(17596720, 900, 10800);
-
     UpdateTreasureSpawnPoint(17596812);
 
     UpdateTreasureSpawnPoint(17596813);
