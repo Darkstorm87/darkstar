@@ -15,10 +15,8 @@ require("scripts/zones/Caedarva_Mire/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
-
     local vwnpc = {17101345,17101346,17101347};
     SetVoidwatchNPC(vwnpc);
-
 end;
 
 -----------------------------------

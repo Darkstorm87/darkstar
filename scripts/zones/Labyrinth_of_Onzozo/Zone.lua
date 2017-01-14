@@ -15,13 +15,11 @@ require("scripts/zones/Labyrinth_of_Onzozo/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
-
     local tomes = {17649902,17649903,17649904};
     
     SetGroundsTome(tomes);
 
     UpdateTreasureSpawnPoint(17649900);
-    
 end;
 
 -----------------------------------        
