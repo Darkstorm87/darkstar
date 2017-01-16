@@ -968,6 +968,8 @@ int32 map_config_default()
     map_config.max_time_lastupdate = 60000;
     map_config.newstyle_skillups = 7;
     map_config.drop_rate_multiplier = 1.0f;
+	map_config.global_equipment_drop_rate = 30;
+	map_config.global_equipment_drop_range = 3;
     map_config.all_mobs_gil_bonus = 0;
     map_config.max_gil_bonus = 9999;
     map_config.Battle_cap_tweak = 0;
@@ -1157,6 +1159,14 @@ int32 map_config_read(const int8* cfgName)
         {
             map_config.drop_rate_multiplier = atof(w2);
         }
+		else if (strcmp(w1, "global_equipment_drop_rate") == 0)
+		{
+			map_config.global_equipment_drop_rate = atof(w2);
+		}
+		else if (strcmp(w1, "global_equipment_drop_range") == 0)
+		{
+			map_config.global_equipment_drop_range = atof(w2);
+		}
         else if (strcmp(w1, "all_mobs_gil_bonus") == 0)
         {
             map_config.all_mobs_gil_bonus = atoi(w2);
