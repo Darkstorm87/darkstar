@@ -26,6 +26,7 @@
 
 #include <vector>
 
+#include "../entities/charentity.h"
 #include "../items/item.h"
 #include "../items/item_armor.h"
 #include "../items/item_currency.h"
@@ -40,6 +41,7 @@
 #define MAX_ITEMID  32768
 #define MAX_DROPID  5000
 #define MAX_LOOTID  1300
+#define MAX_EQUIPDROPID  99
 
 struct DropItem_t
 {
@@ -55,9 +57,15 @@ struct LootItem_t
 	uint8  LootGroupId;
 };
 
+struct DropEquip_t
+{
+	uint16 ItemID;
+};
+
 
 typedef std::vector<DropItem_t> DropList_t;
 typedef std::vector<LootItem_t> LootList_t;
+typedef std::vector<DropEquip_t> DropEquipList_t;
 
 /************************************************************************
 *                                                                       *
@@ -79,7 +87,8 @@ namespace itemutils
 
 	DropList_t* GetDropList(uint16 DropID);
 	LootList_t* GetLootList(uint16 LootDropID);
-
+	//DropEquipList_t* GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob, uint8 range = 0, bool rare = false);
+	std::unique_ptr<DropEquipList_t> GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob, uint8 range = 0, bool rare = false);
 };
 
 #endif

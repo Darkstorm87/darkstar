@@ -818,6 +818,25 @@ void CMobEntity::DropItems()
                 }
             }
 
+			uint8 baseChance = map_config.global_equipment_drop_rate;
+			uint8 tries = 0;
+			uint8 maxTries = 1 + (m_THLvl > 2 ? 2 : m_THLvl);
+			uint8 bonus = (m_THLvl > 2 ? (m_THLvl - 2) : 0);
+			while (tries < maxTries)
+			{
+				if (dsprand::GetRandomNumber(100) < baseChance + bonus)
+				{
+					auto equipDrops = itemutils::GetEquipDropList(PChar, this, map_config.global_equipment_drop_range);
+					if (equipDrops->size() > 0) {
+						DropEquip_t drop = equipDrops->at(dsprand::GetRandomNumber(equipDrops->size()));
+
+						PChar->PTreasurePool->AddItem(drop.ItemID, this);
+						break;
+					}
+				}
+				tries++;
+			}
+
             // check for gil (beastmen drop gil, some NMs drop gil)
             if (CanDropGil() || (map_config.all_mobs_gil_bonus > 0 && getMobMod(MOBMOD_GIL_MAX) >= 0)) // Negative value of MOBMOD_GIL_MAX is used to prevent gil drops in Dynamis/Limbus.
             {

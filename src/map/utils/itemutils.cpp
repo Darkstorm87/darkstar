@@ -25,12 +25,16 @@
 #include <array>
 
 #include "../entities/battleentity.h"
+#include "../entities/charentity.h"
 #include "../map.h"
 #include "itemutils.h"
+#include "../lua/luautils.h"
+
 
 std::array<CItem*, MAX_ITEMID> g_pItemList;// глобальный массив указателей на игровые предметы
 std::array<DropList_t*, MAX_DROPID> g_pDropList;    // глобальный массив списков выпадающих предметов
 std::array<LootList_t*, MAX_LOOTID> g_pLootList;
+std::array<DropEquipList_t*, MAX_EQUIPDROPID> g_pEquipmentList;
 
 CItemWeapon* PUnarmedItem;
 CItemWeapon* PUnarmedH2HItem;
@@ -256,6 +260,49 @@ namespace itemutils
 	    return nullptr;
     }
 
+	/************************************************************************
+	*                                                                       *
+	*  Get equipment around mob level for random drops                      *
+	*                                                                       *
+	************************************************************************/
+
+	std::unique_ptr<DropEquipList_t> GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob, uint8 range, bool rare)
+	{
+		std::unique_ptr<DropEquipList_t> equipIds(new DropEquipList_t());
+		uint8 maxPCLevel = luautils::GetSettingsVariable("MAX_LEVEL");
+		uint8 targetLevel = CMob->GetMLevel() > maxPCLevel ? maxPCLevel-1 : CMob->GetMLevel()-1;
+
+		uint8 minLevel = targetLevel - range > 0 ? targetLevel - range : 0;
+		uint8 maxLevel = targetLevel + range < maxPCLevel ? targetLevel + range : maxPCLevel-1;
+
+		for (uint8 i = minLevel; i < maxLevel; ++i)
+		{
+			for (uint16 j = 0; j < g_pEquipmentList[i]->size(); ++j)
+			{
+				uint16 itemid = g_pEquipmentList[i]->at(j).ItemID;
+
+				CItemArmor* PItem = (CItemArmor*)GetItem(itemid);
+				bool addItem = false;
+				PChar->ForAlliance([&PItem, &addItem, &rare](CBattleEntity* PPartyMember) {
+					auto PMember = static_cast<CCharEntity*>(PPartyMember);
+
+					if ((PItem->getJobs() & (1 << (PMember->GetMJob() - 1))) && rare == (PItem->getFlag() & (ITEM_FLAG_RARE | ITEM_FLAG_EX))) {
+						addItem = true;
+					}
+				});
+
+				if (addItem) {
+					DropEquip_t dropEquip;
+					dropEquip.ItemID = PItem->getID();
+
+					equipIds->push_back(dropEquip);
+				}
+			}
+		}
+
+		return equipIds;
+	}
+
     /************************************************************************
     *                                                                       *
     *  Загружаем базу предметов                                             *
@@ -393,6 +440,21 @@ namespace itemutils
 					    ((CItemFurnishing*)PItem)->setAura(Sql_GetUIntData(SqlHandle,36));
 				    }
 				    g_pItemList[PItem->getID()] = PItem;
+
+					//Build a list of equipment for each level
+					if (PItem->isType(ITEM_ARMOR))
+					{
+						uint8 reqLvl = ((CItemArmor*)PItem)->getReqLvl() - 1;
+						if (g_pEquipmentList[reqLvl] == 0)
+						{
+							g_pEquipmentList[reqLvl] = new DropEquipList_t;
+						}
+
+						DropEquip_t DropEquip;
+						DropEquip.ItemID = PItem->getID();
+
+						g_pEquipmentList[reqLvl]->push_back(DropEquip);
+					}
 			    }
 		    }
 	    }

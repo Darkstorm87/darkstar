@@ -37,8 +37,8 @@ ENABLE_VOIDWATCH = 1; -- Not an expansion, but has its own storyline.
 -- CHARACTER CONFIG
 INITIAL_LEVEL_CAP = 50; -- The initial level cap for new players.  There seems to be a hardcap of 255.
 MAX_LEVEL = 75; -- Level max of the server, lowers the attainable cap by disabling Limit Break quests.
-NORMAL_MOB_MAX_LEVEL_RANGE_MIN = 81; -- Lower Bound of Max Level Range for Normal Mobs (0 = Uncapped)
-NORMAL_MOB_MAX_LEVEL_RANGE_MAX = 84; -- Upper Bound of Max Level Range for Normal Mobs (0 = Uncapped)
+NORMAL_MOB_MAX_LEVEL_RANGE_MIN = 0; -- Lower Bound of Max Level Range for Normal Mobs (0 = Uncapped)
+NORMAL_MOB_MAX_LEVEL_RANGE_MAX = 0; -- Upper Bound of Max Level Range for Normal Mobs (0 = Uncapped)
 START_GIL = 10000; -- Amount of gil given to newly created characters.
 START_INVENTORY = 80; -- Starting inventory and satchel size.  Ignores values < 30.  Do not set above 80!
 OPENING_CUTSCENE_ENABLE = 0; -- Set to 1 to enable opening cutscenes, 0 to disable.
