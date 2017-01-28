@@ -16,10 +16,6 @@ require("scripts/globals/missions");
 -----------------------------------
 
 function onInitialize(zone)
-
-    local vwnpc = {17109850,17109851,17109852};
-    SetVoidwatchNPC(vwnpc);
-
 end;
 
 -----------------------------------

@@ -15,10 +15,6 @@ require("scripts/zones/Jugner_Forest_[S]/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
-
-    local vwnpc = {17114040,17114041,17114042};
-    SetVoidwatchNPC(vwnpc);
-
 end;
 
 -----------------------------------
