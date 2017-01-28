@@ -1008,6 +1008,8 @@ MOD_FOOD_RATTP        = 186
 MOD_FOOD_RATT_CAP     = 187
 MOD_FOOD_RACCP        = 188
 MOD_FOOD_RACC_CAP     = 189
+MOD_FOOD_MACCP        =  99
+MOD_FOOD_MACC_CAP     = 100
 MOD_VERMIN_KILLER     = 224
 MOD_BIRD_KILLER       = 225
 MOD_AMORPH_KILLER     = 226
@@ -1321,7 +1323,7 @@ MOD_ENHANCES_ELEMENTAL_SIPHON = 540 -- Bonus Base MP added to Elemental Siphon s
 MOD_BP_DELAY_II               = 541 -- Blood Pact Delay Reduction II
 MOD_JOB_BONUS_CHANCE          = 542 -- Chance to apply job bonus to COR roll without having the job in the party.
 MOD_DAY_NUKE_BONUS            = 565 -- Bonus damage from "Elemental magic affected by day" (Sorc. Tonban)
-MOD_IRIDESCENCE               = 566 -- Iridesecnce trait (additional weather damage/penalty)
+MOD_IRIDESCENCE               = 566 -- Iridescence trait (additional weather damage/penalty)
 MOD_BARSPELL_AMOUNT           = 567 -- Additional elemental resistance granted by bar- spells
 MOD_BARSPELL_MDEF_BONUS       = 827 -- Extra magic defense bonus granted to the bar- spell effect
 MOD_RAPTURE_AMOUNT            = 568 -- Bonus amount added to Rapture effect
@@ -1353,8 +1355,6 @@ MOD_WEAPONSKILL_DAMAGE_BASE = 570 -- See modifier.h for how this is used
 -- MOD_SPARE = 65 -- stuff
 -- MOD_SPARE = 67 -- stuff
 -- MOD_SPARE = 98 -- stuff
--- MOD_SPARE = 99 -- stuff
--- MOD_SPARE = 100 -- stuff
 -- 570 - 825 used by WS DMG mods these are not spares.
 -- MOD_SPARE = 840 -- stuff
 -- MOD_SPARE = 841 -- stuff
@@ -1910,16 +1910,21 @@ MSGBASIC_CANNOT_SEE             = 217 -- You cannot see <target>.
 MSGBASIC_MOVE_AND_INTERRUPT     = 218 -- You move and interrupt your aim.
 
 -- Additional effects and spike effects
+MSGBASIC_SPIKES_EFFECT_DMG      = 44  -- <Defender>'s spikes deal <number> points of damage to the <Attacker>.
+MSGBASIC_SPIKES_EFFECT_HP_DRAIN = 132 -- <Defender>'s spikes drain <number> HP from the <Attacker>.
+MSGBASIC_ADD_EFFECT_MP_HEAL     = 152 -- Additional effect: The <player> recovers <number> MP.
 MSGBASIC_ADD_EFFECT_STATUS      = 160 -- Additional effect: <Status Effect>.
 MSGBASIC_ADD_EFFECT_HP_DRAIN    = 161 -- Additional effect: <number> HP drained from <target>.
 MSGBASIC_ADD_EFFECT_MP_DRAIN    = 162 -- Additional effect: <number> MP drained from <target>.
 MSGBASIC_ADD_EFFECT_DMG         = 163 -- Additional effect: <number> points of damage.
-MSGBASIC_ADD_EFFECT_STATUS2     = 164 -- Additional effect: <Status Effect>. (Duplicate?)
+MSGBASIC_ADD_EFFECT_STATUS_2    = 164 -- Additional effect: <Status Effect>. (Duplicate?)
 MSGBASIC_ADD_EFFECT_TP_DRAIN    = 165 -- Additional effect: <number> TP drained from <target>.
-MSGBASIC_ADD_EFFECT_STATUS3     = 166 -- Additional effect: The <target> gains the effect of <Status Effect>. (Only difference from 160 and 164 is "The")
-MSGBASIC_ADD_EFFECT_HEAL        = 167 -- Additional effect: The <target> recovers <number> HP. (used when target absorbs element)
-MSGBASIC_ADD_EFFECT_DISPEL      = 168 -- Additional effect: <target>'s KO effect disappears!
-MSGBASIC_ADD_EFFECT_WARP        = 169 -- Additional effect: Warp! (used by holloween staves)
+MSGBASIC_ADD_EFFECT_STATUS_3    = 166 -- Additional effect: The <target> gains the effect of <Status Effect>. (Only difference from 160 and 164 is "The")
+MSGBASIC_ADD_EFFECT_HP_HEAL     = 167 -- Additional effect: The <player> recovers <number> HP.
+MSGBASIC_ADD_EFFECT_DISPEL      = 168 -- Additional effect: <target>'s <Status Effect> effect disappears!
+MSGBASIC_ADD_EFFECT_WARP        = 169 -- Additional effect: Warp! (used by Halloween staves)
+MSGBASIC_STATUS_SPIKES          = 374 -- Striking <Defender>'s armor causes <Attacker> to become <status effect>.
+MSGBASIC_SPIKES_EFFECT_HEAL     = 383 -- <?>'s spikes restore 0 HP to the <?>.
 
 -- Charm
 MSGBASIC_CANNOT_CHARM           = 210 -- The <player> cannot charm <target>!

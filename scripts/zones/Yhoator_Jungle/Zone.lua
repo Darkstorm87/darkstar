@@ -59,10 +59,6 @@ end;
 -----------------------------------
 
 function onInitialize(zone)
-    local manuals = {17285702,17285703,17285704};
-
-    SetFieldManual(manuals);
-
     SetRegionalConquestOverseers(zone:getRegionID())
 end;
 

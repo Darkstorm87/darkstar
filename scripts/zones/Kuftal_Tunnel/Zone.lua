@@ -16,12 +16,6 @@ require("scripts/globals/weather");
 -----------------------------------
 
 function onInitialize(zone)
-    local tomes = {17490325,17490326,17490327,17490328};
-    SetGroundsTome(tomes);
-
-    local vwnpc = {17490319,17490320,17490321};
-    SetVoidwatchNPC(vwnpc);
-
     UpdateTreasureSpawnPoint(17490304);
 end;
 

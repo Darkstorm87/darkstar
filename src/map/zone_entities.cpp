@@ -81,6 +81,15 @@ void CZoneEntities::InsertPC(CCharEntity* PChar)
     ShowDebug(CL_CYAN"CZone:: %s IncreaseZoneCounter <%u> %s \n" CL_RESET, m_zone->GetName(), m_charList.size(), PChar->GetName());
 }
 
+void CZoneEntities::InsertAlly(CBaseEntity* PMob)
+{
+    if ((PMob != nullptr) && (PMob->objtype == TYPE_MOB))
+    {
+        PMob->loc.zone = m_zone;
+        m_allyList[PMob->targid] = PMob;
+    }
+}
+
 void CZoneEntities::InsertMOB(CBaseEntity* PMob)
 {
     if ((PMob != nullptr) && (PMob->objtype == TYPE_MOB))
@@ -414,7 +423,7 @@ void CZoneEntities::SpawnMOBs(CCharEntity* PChar)
 
         float CurrentDistance = distance(PChar->loc.p, PCurrentMob->loc.p);
 
-        if (PCurrentMob->status == STATUS_MOB &&
+        if (PCurrentMob->status != STATUS_DISAPPEAR &&
             CurrentDistance < 50)
         {
             if (MOB == PChar->SpawnMOBList.end() ||

@@ -15,10 +15,6 @@ require("scripts/zones/West_Sarutabaruta_[S]/TextIDs");
 -----------------------------------
 
 function onInitialize(zone)
-
-    local vwnpc = {17167319,17167320,17167321};
-    SetVoidwatchNPC(vwnpc);
-
 end;
 
 -----------------------------------

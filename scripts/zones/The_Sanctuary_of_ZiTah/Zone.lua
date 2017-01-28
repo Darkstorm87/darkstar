@@ -59,12 +59,6 @@ end;
 -----------------------------------
 
 function onInitialize(zone)
-    local manuals = {17273421,17273422};
-    SetFieldManual(manuals);
-
-    local vwnpc = {17273429,17273430,17273431};
-    SetVoidwatchNPC(vwnpc);
-
     SetRegionalConquestOverseers(zone:getRegionID())
 end;
 
