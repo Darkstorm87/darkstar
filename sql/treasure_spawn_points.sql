@@ -512,7 +512,8 @@ INSERT INTO `treasure_spawn_points` VALUES (17629739,7,156,867.442,1.146,-708.47
 INSERT INTO `treasure_spawn_points` VALUES (17629739,8,27,865.615,1.942,-622.742); -- Quicksand Caves
 INSERT INTO `treasure_spawn_points` VALUES (17629739,9,192,677.287,3.220,-581.735); -- Quicksand Caves
 
-INSERT INTO `treasure_spawn_points` VALUES (17216143,0,0,584,2,-318); --South Gustaberg -- Treasure Casket
+-- Treasure Casket
+INSERT INTO `treasure_spawn_points` VALUES (17216143,0,0,584,2,-318); -- South Gustaberg
 
 /*!40000 ALTER TABLE `treasure_spawn_points` ENABLE KEYS */;
 UNLOCK TABLES;
