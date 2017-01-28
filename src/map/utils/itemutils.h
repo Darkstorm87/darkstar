@@ -87,7 +87,6 @@ namespace itemutils
 
 	DropList_t* GetDropList(uint16 DropID);
 	LootList_t* GetLootList(uint16 LootDropID);
-	//DropEquipList_t* GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob, uint8 range = 0, bool rare = false);
 	std::unique_ptr<DropEquipList_t> GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob, uint8 range = 0, bool rare = false);
 };
 
