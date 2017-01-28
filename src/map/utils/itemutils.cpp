@@ -297,6 +297,8 @@ namespace itemutils
 
 					equipIds->push_back(dropEquip);
 				}
+
+				delete PItem;
 			}
 		}
 

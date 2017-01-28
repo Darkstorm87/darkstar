@@ -831,11 +831,13 @@ void CMobEntity::DropItems()
 						DropEquip_t drop = equipDrops->at(dsprand::GetRandomNumber(equipDrops->size()));
 
 						PChar->PTreasurePool->AddItem(drop.ItemID, this);
-						break;
 					}
+					equipDrops.reset();//make sure to clean up the drop list
+					break;
 				}
 				tries++;
 			}
+
 
             // check for gil (beastmen drop gil, some NMs drop gil)
             if (CanDropGil() || (map_config.all_mobs_gil_bonus > 0 && getMobMod(MOBMOD_GIL_MAX) >= 0)) // Negative value of MOBMOD_GIL_MAX is used to prevent gil drops in Dynamis/Limbus.
