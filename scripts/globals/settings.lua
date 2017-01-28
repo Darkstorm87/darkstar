@@ -121,9 +121,9 @@ FrigiciteDuration = 60; -- When OldSChoolG2 is enabled, this is the time (in sec
 
 -- FIELDS OF VALOR/Grounds of Valor SETTINGS
 REGIME_WAIT = 1; --Make people wait till 00:00 game time as in retail. If it's 0, there is no wait time.
-FIELD_MANUALS = 1; -- Enables Fields of Valor manuals
+FIELD_MANUALS = 0; -- Enables Fields of Valor manuals
 LOW_LEVEL_REGIME = 0; --Allow people to kill regime targets even if they give no exp, allowing people to farm regime targets at 75 in low level areas.
-GROUNDS_TOMES = 1; -- Enables Grounds of Valor tomes
+GROUNDS_TOMES = 0; -- Enables Grounds of Valor tomes
 
 -- JOB ABILITY/TRAIT SPECIFIC SETTINGS
 CIRCLE_KILLER_EFFECT = 20; -- Intimidation percentage granted by circle effects. (made up number)
