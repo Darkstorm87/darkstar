@@ -275,23 +275,20 @@ namespace itemutils
 		uint8 minLevel = targetLevel - range > 0 ? targetLevel - range : 0;
 		uint8 maxLevel = targetLevel + range < maxPCLevel ? targetLevel + range : maxPCLevel-1;
 
+		uint32 allianceJobs = 0;
+		PChar->ForAlliance([&allianceJobs](CBattleEntity* PPartyMember) {
+			auto PMember = static_cast<CCharEntity*>(PPartyMember);
+
+			allianceJobs = allianceJobs | (PMember->GetMJob() - 1);
+		});
+
 		for (uint8 i = minLevel; i < maxLevel; ++i)
 		{
 			for (uint16 j = 0; j < g_pEquipmentList[i]->size(); ++j)
 			{
-				uint16 itemid = g_pEquipmentList[i]->at(j).ItemID;
+				CItemArmor* PItem = (CItemArmor*)GetItem(g_pEquipmentList[i]->at(j).ItemID);
 
-				CItemArmor* PItem = (CItemArmor*)GetItem(itemid);
-				bool addItem = false;
-				PChar->ForAlliance([&PItem, &addItem, &rare](CBattleEntity* PPartyMember) {
-					auto PMember = static_cast<CCharEntity*>(PPartyMember);
-
-					if ((PItem->getJobs() & (1 << (PMember->GetMJob() - 1))) && rare == (PItem->getFlag() & (ITEM_FLAG_RARE | ITEM_FLAG_EX))) {
-						addItem = true;
-					}
-				});
-
-				if (addItem) {
+				if ((PItem->getJobs() & allianceJobs) && rare == ((PItem->getFlag() & (ITEM_FLAG_RARE | ITEM_FLAG_EX)) > 0)) {
 					DropEquip_t dropEquip;
 					dropEquip.ItemID = PItem->getID();
 

@@ -798,14 +798,15 @@ void CMobEntity::DropItems()
             DropList_t* DropList = itemutils::GetDropList(m_DropID);
             //ShowDebug(CL_CYAN"DropID: %u dropping with TH Level: %u\n" CL_RESET, PMob->m_DropID, PMob->m_THLvl);
 
+			uint8 maxTries = 1 + (m_THLvl > 2 ? 2 : m_THLvl);
+			uint8 bonus = (m_THLvl > 2 ? (m_THLvl - 2) : 0);
+
             if (DropList != nullptr && !getMobMod(MOBMOD_NO_DROPS) && DropList->size())
             {
                 for (uint8 i = 0; i < DropList->size(); ++i)
                 {
                     //THLvl is the number of 'extra chances' at an item. If the item is obtained, then break out.
                     uint8 tries = 0;
-                    uint8 maxTries = 1 + (m_THLvl > 2 ? 2 : m_THLvl);
-                    uint8 bonus = (m_THLvl > 2 ? (m_THLvl - 2) * 10 : 0);
                     while (tries < maxTries)
                     {
                         if (DropList->at(i).DropRate > 0 && dsprand::GetRandomNumber(1000) < DropList->at(i).DropRate * map_config.drop_rate_multiplier + bonus)
@@ -818,13 +819,10 @@ void CMobEntity::DropItems()
                 }
             }
 
-			uint8 baseChance = map_config.global_equipment_drop_rate;
 			uint8 tries = 0;
-			uint8 maxTries = 1 + (m_THLvl > 2 ? 2 : m_THLvl);
-			uint8 bonus = (m_THLvl > 2 ? (m_THLvl - 2) : 0);
 			while (tries < maxTries)
 			{
-				if (dsprand::GetRandomNumber(100) < baseChance + bonus)
+				if (dsprand::GetRandomNumber(100) < map_config.global_equipment_drop_rate + bonus)
 				{
 					auto equipDrops = itemutils::GetEquipDropList(PChar, this, map_config.global_equipment_drop_range);
 					if (equipDrops->size() > 0) {
