@@ -279,23 +279,26 @@ namespace itemutils
 		PChar->ForAlliance([&allianceJobs](CBattleEntity* PPartyMember) {
 			auto PMember = static_cast<CCharEntity*>(PPartyMember);
 
-			allianceJobs = allianceJobs | (PMember->GetMJob() - 1);
+			allianceJobs = allianceJobs | (1 << (PMember->GetMJob() - 1));
 		});
 
 		for (uint8 i = minLevel; i < maxLevel; ++i)
 		{
-			for (uint16 j = 0; j < g_pEquipmentList[i]->size(); ++j)
+			if (g_pEquipmentList[i] != NULL)
 			{
-				CItemArmor* PItem = (CItemArmor*)GetItem(g_pEquipmentList[i]->at(j).ItemID);
+				for (uint16 j = 0; j < g_pEquipmentList[i]->size(); ++j)
+				{
+					CItemArmor* PItem = (CItemArmor*)GetItem(g_pEquipmentList[i]->at(j).ItemID);
 
-				if ((PItem->getJobs() & allianceJobs) && rare == ((PItem->getFlag() & (ITEM_FLAG_RARE | ITEM_FLAG_EX)) > 0)) {
-					DropEquip_t dropEquip;
-					dropEquip.ItemID = PItem->getID();
+					if ((PItem->getJobs() & allianceJobs) && rare == ((PItem->getFlag() & (ITEM_FLAG_RARE | ITEM_FLAG_EX)) > 0)) {
+						DropEquip_t dropEquip;
+						dropEquip.ItemID = PItem->getID();
 
-					equipIds->push_back(dropEquip);
+						equipIds->push_back(dropEquip);
+					}
+
+					delete PItem;
 				}
-
-				delete PItem;
 			}
 		}
 
@@ -337,25 +340,26 @@ namespace itemutils
                 "a.scriptType,"     // 20
                 "a.slot,"           // 21
                 "a.rslot,"          // 22
+				"a.globalDrop,"		// 23
 
-			    "w.skill,"          // 23
-				"w.subskill,"       // 24
-                "w.ilvl_skill,"     // 25
-                "w.ilvl_parry,"     // 26
-                "w.ilvl_macc,"      // 27
-                "w.delay,"          // 28
-                "w.dmg,"            // 29
-                "w.dmgType,"        // 30
-                "w.hit,"            // 31
-                "w.unlock_points,"  // 32
+			    "w.skill,"          // 24
+				"w.subskill,"       // 25
+				"w.ilvl_skill,"     // 26
+				"w.ilvl_parry,"     // 27
+				"w.ilvl_macc,"      // 28
+				"w.delay,"          // 29
+				"w.dmg,"            // 30
+				"w.dmgType,"        // 31
+				"w.hit,"            // 32
+                "w.unlock_points,"  // 33
 								       
-                "f.storage,"        // 33
-                "f.moghancement,"   // 34
-                "f.element,"        // 35
-                "f.aura,"           // 36
+                "f.storage,"        // 34
+                "f.moghancement,"   // 35
+                "f.element,"        // 36
+                "f.aura,"           // 37
 
-                "p.slot,"           // 37
-                "p.element "        // 38
+                "p.slot,"           // 38
+                "p.element "        // 39
 		    "FROM item_basic AS b "
 		    "LEFT JOIN item_usable AS u USING (itemId) "
 		    "LEFT JOIN item_armor  AS a USING (itemId) "
@@ -399,8 +403,8 @@ namespace itemutils
 				    }
 				    if (PItem->isType(ITEM_PUPPET))
 				    {
-                        ((CItemPuppet*)PItem)->setEquipSlot(Sql_GetUIntData(SqlHandle,37));
-                        ((CItemPuppet*)PItem)->setElementSlots(Sql_GetUIntData(SqlHandle,38));
+                        ((CItemPuppet*)PItem)->setEquipSlot(Sql_GetUIntData(SqlHandle,38));
+                        ((CItemPuppet*)PItem)->setElementSlots(Sql_GetUIntData(SqlHandle,39));
 				    }
 				    if (PItem->isType(ITEM_ARMOR))
 				    {
@@ -412,48 +416,49 @@ namespace itemutils
 					    ((CItemArmor*)PItem)->setScriptType(Sql_GetUIntData(SqlHandle,20));
 					    ((CItemArmor*)PItem)->setEquipSlotId(Sql_GetUIntData(SqlHandle,21));
 					    ((CItemArmor*)PItem)->setRemoveSlotId(Sql_GetUIntData(SqlHandle,22));
+						((CItemArmor*)PItem)->setGlobalDrop(Sql_GetUIntData(SqlHandle, 23));
 
 					    if (((CItemArmor*)PItem)->getValidTarget() != 0)
 					    {
 						    ((CItemArmor*)PItem)->setSubType(ITEM_CHARGED);
 					    }
+
+						//Build a list of equipment for each level
+						if (((CItemArmor*)PItem)->IsGlobalDrop())
+						{
+							uint8 reqLvl = ((CItemArmor*)PItem)->getReqLvl() - 1;
+							if (g_pEquipmentList[reqLvl] == 0)
+							{
+								g_pEquipmentList[reqLvl] = new DropEquipList_t;
+							}
+
+							DropEquip_t DropEquip;
+							DropEquip.ItemID = PItem->getID();
+
+							g_pEquipmentList[reqLvl]->push_back(DropEquip);
+						}
 				    }
 				    if (PItem->isType(ITEM_WEAPON))
 				    {
-						((CItemWeapon*)PItem)->setSkillType(Sql_GetUIntData(SqlHandle,23));
-						((CItemWeapon*)PItem)->setSubSkillType(Sql_GetUIntData(SqlHandle,24));
-                        ((CItemWeapon*)PItem)->setILvlSkill(Sql_GetUIntData(SqlHandle, 25));
-                        ((CItemWeapon*)PItem)->setILvlParry(Sql_GetUIntData(SqlHandle, 26));
-                        ((CItemWeapon*)PItem)->setILvlMacc(Sql_GetUIntData(SqlHandle, 27));
-					    ((CItemWeapon*)PItem)->setDelay((Sql_GetIntData(SqlHandle,28)*1000)/60);
-					    ((CItemWeapon*)PItem)->setDamage(Sql_GetUIntData(SqlHandle,29));
-					    ((CItemWeapon*)PItem)->setDmgType(Sql_GetUIntData(SqlHandle,30));
-                        ((CItemWeapon*)PItem)->setMaxHit(Sql_GetUIntData(SqlHandle,31));
-                        ((CItemWeapon*)PItem)->setUnlockablePoints(Sql_GetUIntData(SqlHandle,32));
+						((CItemWeapon*)PItem)->setSkillType(Sql_GetUIntData(SqlHandle,24));
+						((CItemWeapon*)PItem)->setSubSkillType(Sql_GetUIntData(SqlHandle,25));
+                        ((CItemWeapon*)PItem)->setILvlSkill(Sql_GetUIntData(SqlHandle, 26));
+                        ((CItemWeapon*)PItem)->setILvlParry(Sql_GetUIntData(SqlHandle, 27));
+                        ((CItemWeapon*)PItem)->setILvlMacc(Sql_GetUIntData(SqlHandle, 28));
+					    ((CItemWeapon*)PItem)->setDelay((Sql_GetIntData(SqlHandle,29)*1000)/60);
+					    ((CItemWeapon*)PItem)->setDamage(Sql_GetUIntData(SqlHandle,30));
+					    ((CItemWeapon*)PItem)->setDmgType(Sql_GetUIntData(SqlHandle,31));
+                        ((CItemWeapon*)PItem)->setMaxHit(Sql_GetUIntData(SqlHandle,32));
+                        ((CItemWeapon*)PItem)->setUnlockablePoints(Sql_GetUIntData(SqlHandle,33));
 				    }
 				    if (PItem->isType(ITEM_FURNISHING))
 				    {
-					    ((CItemFurnishing*)PItem)->setStorage(Sql_GetUIntData(SqlHandle,33));
-					    ((CItemFurnishing*)PItem)->setMoghancement(Sql_GetUIntData(SqlHandle,34));
-					    ((CItemFurnishing*)PItem)->setElement(Sql_GetUIntData(SqlHandle,35));
-					    ((CItemFurnishing*)PItem)->setAura(Sql_GetUIntData(SqlHandle,36));
+					    ((CItemFurnishing*)PItem)->setStorage(Sql_GetUIntData(SqlHandle,34));
+					    ((CItemFurnishing*)PItem)->setMoghancement(Sql_GetUIntData(SqlHandle,35));
+					    ((CItemFurnishing*)PItem)->setElement(Sql_GetUIntData(SqlHandle,36));
+					    ((CItemFurnishing*)PItem)->setAura(Sql_GetUIntData(SqlHandle,37));
 				    }
 				    g_pItemList[PItem->getID()] = PItem;
-
-					//Build a list of equipment for each level
-					if (PItem->isType(ITEM_ARMOR))
-					{
-						uint8 reqLvl = ((CItemArmor*)PItem)->getReqLvl() - 1;
-						if (g_pEquipmentList[reqLvl] == 0)
-						{
-							g_pEquipmentList[reqLvl] = new DropEquipList_t;
-						}
-
-						DropEquip_t DropEquip;
-						DropEquip.ItemID = PItem->getID();
-
-						g_pEquipmentList[reqLvl]->push_back(DropEquip);
-					}
 			    }
 		    }
 	    }

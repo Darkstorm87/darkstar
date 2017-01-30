@@ -116,6 +116,11 @@ void CItemArmor::setRemoveSlotId(uint16 removSlot)
 	m_removeSlotID = removSlot;
 }
 
+void CItemArmor::setGlobalDrop(uint8 globalDrop)
+{
+	m_globalDrop = globalDrop;
+}
+
 uint8 CItemArmor::getSlotType()
 {
 	uint32 result = 0;
@@ -143,6 +148,11 @@ uint8 CItemArmor::getShieldAbsorption()
 bool CItemArmor::IsShield()
 {
     return m_shieldSize > 0 && m_shieldSize <= 6;
+}
+
+bool CItemArmor::IsGlobalDrop()
+{
+	return m_globalDrop > 0 ? true : false;
 }
 
 /************************************************************************
