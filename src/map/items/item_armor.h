@@ -71,6 +71,7 @@ public:
 	uint16  getTrialNumber();
 
     bool    IsShield();
+	bool    IsGlobalDrop();
 
 	void	setReqLvl(uint8 lvl);
     void    setILvl(uint8 lvl);
@@ -80,6 +81,7 @@ public:
 	void	setScriptType(uint16 isScripted);
 	void	setEquipSlotId(uint16 equipSlot);
 	void	setRemoveSlotId(uint16 removSlot);
+	void	setGlobalDrop(uint8 globalDrop);
     void    setAugment(uint8 slot, uint16 type, uint8 value);
 	void    setTrialNumber(uint16);
 
@@ -105,6 +107,7 @@ private:
     uint8   m_absorption;
 	uint16	m_equipSlotID;
 	uint16	m_removeSlotID;
+	uint8	m_globalDrop;
 
     void    SetAugmentMod(uint16 type, uint8 value);
 };
