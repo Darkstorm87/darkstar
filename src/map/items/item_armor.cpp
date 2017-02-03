@@ -300,7 +300,7 @@ void CItemArmor::SetAugmentMod(uint16 type, uint8 value)
         Sql_NumRows(SqlHandle) != 0 &&
         Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
-        uint8 multiplier = (uint8)Sql_GetUIntData(SqlHandle, 1);
+        float multiplier = (float)Sql_GetFloatData(SqlHandle, 1);
         uint32 modId = (uint32)Sql_GetUIntData(SqlHandle, 2);
         int16 modValue = (int16)Sql_GetIntData(SqlHandle, 3);
         
