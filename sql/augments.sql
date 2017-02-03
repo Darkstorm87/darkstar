@@ -14,7 +14,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `augments`;
 CREATE TABLE IF NOT EXISTS `augments` (
   `augmentId` smallint(5) unsigned NOT NULL,
-  `multiplier` smallint(2) NOT NULL DEFAULT '0',
+  `multiplier` DECIMAL(5,2) NOT NULL DEFAULT '0',
   `modId` smallint(5) unsigned NOT NULL DEFAULT '0',
   `value` smallint(5) NOT NULL DEFAULT '0',
   `type` tinyint(1) NOT NULL DEFAULT '0'
@@ -81,8 +81,8 @@ INSERT INTO `augments` VALUES ('45', '0', '366', '1', '0'); -- DMG:+1 (melee, no
 INSERT INTO `augments` VALUES ('46', '0', '366', '-1', '0'); -- DMG:-1 (melee, not ranged...Mainhand only?)
 INSERT INTO `augments` VALUES ('47', '0', '380', '1', '0'); -- Delay:+1% (melee, not ranged)
 INSERT INTO `augments` VALUES ('48', '0', '380', '-1', '0'); -- Delay:-1% (melee, not ranged)
-INSERT INTO `augments` VALUES ('49', '0', '384', '1', '0'); -- Haste+1
-INSERT INTO `augments` VALUES ('50', '0', '384', '-1', '0'); -- Slow+1
+INSERT INTO `augments` VALUES ('49', 10.24, '384', '1', '0'); -- Haste+1
+INSERT INTO `augments` VALUES ('50', 10.24, '384', '-1', '0'); -- Slow+1
 INSERT INTO `augments` VALUES ('51', '0', '72', '1', '0'); -- HP recovered while healing+1
 INSERT INTO `augments` VALUES ('52', '0', '71', '1', '0'); -- MP recovered while healing+1
 INSERT INTO `augments` VALUES ('53', '0', '168', '-1', '0'); -- Spell interruption rate down 1%
