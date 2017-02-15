@@ -9426,6 +9426,22 @@ inline int32 CLuaBaseEntity::PrintToPlayer(lua_State* L)
 
     return 0;
 }
+
+inline int32 CLuaBaseEntity::PrintSayToPlayer(lua_State* L)
+{
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+	DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+	//CNpcEntity* npc = (CNpcEntity*)lua_touserdata(L, 1);
+	CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+	auto PTarget = static_cast<CCharEntity*>(PLuaBaseEntity->GetBaseEntity());
+
+	DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isstring(L, 2));
+
+	((CCharEntity*)m_PBaseEntity)->pushPacket(new CChatMessagePacket(PTarget, MESSAGE_SAY, (char*)lua_tostring(L, 2)));
+
+	return 0;
+}
 /*
 Walk through the given points. NPC only.
 
@@ -11519,6 +11535,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getGMHidden),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setGMHidden),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,PrintToPlayer),
+	LUNAR_DECLARE_METHOD(CLuaBaseEntity,PrintSayToPlayer),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getBaseMP),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,pathThrough),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,atPoint),
