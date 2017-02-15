@@ -15,10 +15,10 @@ function onTrade(player,npc,trade)
 		local item = trade:getItem();
 		if (item:isType(ITEM_ARMOR) and item:getSkillType() ~= SKILL_THR) then
 			local npcId = npc:getID();
-			player:PrintToPlayer(npc:getID());
+			player:PrintSayToPlayer(npc,npc:getID());
 			
 			local message = "Need to check for item augments now";
-			player:PrintToPlayer(message);
+			player:PrintSayToPlayer(npc,message);
 			
 		end
 	end
@@ -30,26 +30,26 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-	local npcId = npc:getID();
+	local npcid = npc:getID();
 	local message = "Do you wish to ascend? Yesss, we can help you.\n"
 
-	if (npcId == 17736005) then
-		message = message .. 'This One can make you stronger.'
-		player:PrintToPlayer(npc:getID());
-	elseif (npcId == 17736012) then
-		message = message .. 'This One can fortify you.'
-		player:PrintToPlayer(npc:getID());
-	elseif (npcId == 17736007) then
-		message = message .. 'This One can hone your martial skills.'
-		player:PrintToPlayer(npc:getID());
+	if (npcid == 17736005) then
+		message = message .. 'This one can make you stronger.'
+		player:PrintSayToPlayer(npc,npcid);
+	elseif (npcid == 17736012) then
+		message = message .. 'This one can fortify you.'
+		player:PrintSayToPlayer(npc,npcid);
+	elseif (npcid == 17736007) then
+		message = message .. 'This one can hone your martial skills.'
+		player:PrintSayToPlayer(npc,npcid);
 	end
-	player:PrintToPlayer(message);
+	player:PrintSayToPlayer(npc,message);
 	
 	message = 'For a price and a simple rare trinket, we can enhance your equipment.'
-	player:PrintToPlayer(message);
+	player:PrintSayToPlayer(npc,message);
 	
-	message = 'Let me have a closer look at a piece of your equipment and we can discuss what I can do for you.'
-	player:PrintToPlayer(message);
+	message = 'Let me have a closer look at a piece of your equipment and we can discuss what i can do for you.'
+	player:PrintSayToPlayer(npc,message);
 end; 
 
 -----------------------------------
