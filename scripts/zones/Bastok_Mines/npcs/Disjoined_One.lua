@@ -20,6 +20,25 @@ local augCost = {
 				  [6] = 3200000,
 				  [7] = 6400000
 				};
+				
+local nmDropItem = {
+					[0] = 3266,
+					[1] = 2910,
+					[2] = 2947,
+					[3] = 3262,
+					[4] = 3261,
+					[5] = 3231,
+					[6] = 3247,
+					[7] = 3294,
+					[3266] = "Darkflame Arm",
+					[2910] = "Armored Dragonhorn",
+					[2947] = "Exorcised Skull",
+					[3262] = "Jaculus Wing",
+					[3261] = "Minaruja Skull",
+					[3231] = "Sharabha Hide",
+					[3247] = "Sisyphus Fragment",
+					[3294] = "Colorless Soul"
+				};
 
 local itemMap = {[1488] = "A Egg",
 				 [1489] = "B Egg",
@@ -123,35 +142,136 @@ npcToAugmentType = {
 				   }
 
 function onTrade(player,npc,trade)
-	if (trade:getItemCount() == 1) then
+	if (trade:getSlotCount() == 1) then
 		local item = trade:getItem();
 		if (item:isType(ITEM_ARMOR) and item:getSkillType() ~= SKILL_THR) then
-			local message = "Need to check for item augments now";
-			player:PrintSayToPlayer(npc,message);
-
 			local itemAugments = {}
             for i = 0, 3 do
                 local augmentId, augmentValue = item:getAugment(i);
 				itemAugments[augmentId] = { Value = augmentValue, AugSlot = i };
-				player:PrintToPlayer(string.format("%s - %s", augmentId, augmentValue));
             end
 
 			local augmentType = npcToAugmentType[npc:getID()];
-			
-			local augId, augVal = findAugment(itemAugments, augmentType);
+			local augId, augVal = findItemAugment(itemAugments, augmentType);
 			if (augId ~= nil) then
 				if (augments[augId].Multiplier ~= nil) then
-					augVal = augVal / augments[augId].Multiplier;
+					augVal = math.floor(augVal / augments[augId].Multiplier);
 				end
 			
-				if (augVal <= 7) then
-					player:PrintSayToPlayer(npc,string.format("Bring me %s Gil, a rare %s, and a %s to enhance your augment.", augCost[augVal+1], "junk_item", itemMap[augments[augId].AugItem1] ));
+				if (augVal < 7) then
+					player:PrintSayToPlayer(npc,string.format("Bring me %s Gil, a %s, and a rare %s to enhance your augment.", augCost[augVal+1], itemMap[augments[augId].AugItem1], nmDropItem[nmDropItem[augVal+1]] ));
 				else
 					player:PrintSayToPlayer(npc,"I cannot enhance this further.  You may begin again with another augment if you'd like.");
 				end
 			else
-				player:PrintSayToPlayer(npc,string.format("Here's what I can do for you. Bring me %s Gil and a rare %s, and one of the following items to choose your augment.", augCost[0], "junk_item" ));
+				player:PrintSayToPlayer(npc,string.format("Here's what I can do for you. Bring me %s Gil and a rare %s, and one of the following items to choose your augment.", augCost[0], nmDropItem[nmDropItem[0]] ));
 				sayAugmentOptions(augmentType, player, npc);
+			end
+		else
+			player:PrintSayToPlayer(npc,"I cannot do anything with this.");
+		end
+	elseif (trade:getSlotCount() == 4) then
+		local tradeGil = trade:getGil();
+		if (tradeGil > 0) then
+			local gearItem, augItemId, nmItemId;
+			for i = 1, 8 do
+				local itemId = trade:getItemId(i);
+				if (itemId > 0) then
+					local item = trade:getItem(i);
+					if (item:isType(ITEM_ARMOR) and item:getSkillType() ~= SKILL_THR and gearItem == nil) then
+						gearItem  = item;
+					elseif(itemMap[itemId] ~= nil)  then
+						augItemId = itemId;
+					elseif(nmDropItem[itemId] ~= nil) then
+						nmItemId = itemId;
+					end
+				end
+			end
+			
+			if (gearItem ~= nil and augItemId ~= nil and nmItemId ~= nil) then
+				local itemAugments = {}
+				local augCount;
+				for i = 0, 3 do
+					local augmentId, augmentValue = gearItem:getAugment(i);
+					if (augmentId > 0) then
+						itemAugments[augmentId] = { Value = augmentValue, AugSlot = i };
+						
+						if (augCount == nil) then
+							augCount = i;
+						elseif (i > augCount) then
+							augCount = i;
+						end
+					end
+				end
+				
+				local augId = findAugment(augItemId, npcToAugmentType[npc:getID()]);
+				if (augId ~= nil and itemAugments[augId] ~= nil) then
+					local augVal = itemAugments[augId].Value;
+					if (augments[augId].Multiplier ~= nil) then
+						augVal = math.floor(augVal / augments[augId].Multiplier);
+					end
+				
+					if (augVal < 7) then
+						local augVal = augVal + 1;
+						if (augCost[augVal] == tradeGil and nmDropItem[augVal] == nmItemId and augments[augId].AugItem1 == augItemId) then
+							if (augments[augId].Multiplier ~= nil) then
+								augVal = augVal+1;
+								augVal = (augVal * augments[augId].Multiplier)-1;
+							end
+							itemAugments[augId].Value = augVal;
+						else
+							player:PrintSayToPlayer(npc,"These are not what I asked for.  I can do nothing with these.");
+							return;
+						end
+					else
+						player:PrintSayToPlayer(npc,"I cannot enhance this further.  You may begin again with another augment if you'd like.");
+						return;
+					end
+				elseif (nmDropItem[0] == nmItemId and tradeGil == augCost[0] and augId ~= nil) then
+					local augVal = 0;
+					if (augments[augId].Multiplier ~= nil) then
+						augVal = augments[augId].Multiplier - 1;
+					end
+					
+					local augSlot;
+					if (augCount == nil) then
+						augSlot = 0;
+					else
+						augSlot = augCount + 1;
+					end
+					
+					itemAugments[augId] = {Value = augVal, AugSlot = augSlot};
+				else
+					player:PrintSayToPlayer(npc,"These are not what I asked for.  I can do nothing with these.");
+					return;
+				end
+				
+				local aug0, aug0val, aug1, aug1val, aug2, aug2val, aug3, aug3val;
+				for k, v in pairs(itemAugments) do
+					--player:PrintToPlayer(string.format("augid: %s, augslot: %s, augval: %s", k, v.AugSlot, v.Value));
+					if (v.AugSlot == 0) then
+						aug0 = k;
+						aug0val = v.Value;
+					elseif (v.AugSlot == 1) then
+						aug1 = k;
+						aug1val = v.Value;
+					elseif (v.AugSlot == 2) then
+						aug2 = k;
+						aug2val = v.Value;
+					elseif (v.AugSlot == 3) then
+						aug3 = k;
+						aug3val = v.Value;
+					end
+				end
+				
+				local gearItemId = gearItem:getID();
+				
+				player:tradeComplete();
+				player:addItem(gearItemId, 1, aug0, aug0val, aug1, aug1val, aug2, aug2val, aug3, aug3val);
+				player:PrintSayToPlayer(npc,"Pleasure doing buisiness with you.");
+				player:messageSpecial(ITEM_OBTAINED, gearItemId);
+			else
+				player:PrintSayToPlayer(npc,"These are not what I asked for.  I can do nothing with these.");
 			end
 		end
 	end
@@ -202,10 +322,18 @@ function onEventFinish(player,csid,option)
     -- printf("RESULT: %u",option);
 end;
 
-function findAugment(itemAugments, augmentType)
+function findItemAugment(itemAugments, augmentType)
 	for k, v in pairs(augments) do
 		if (v.Type == augmentType and itemAugments[k] ~= nil and itemAugments[k].Value ~= nil) then
 			return k, itemAugments[k].Value;
+		end
+	end
+end;
+
+function findAugment(augItemId, augmentType)
+	for k, v in pairs(augments) do
+		if (v.Type == augmentType and v.AugItem1 == augItemId) then
+			return k;
 		end
 	end
 end;
