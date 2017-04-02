@@ -63,18 +63,18 @@ struct map_config_t
     uint16 usMapPort;               // port of map server      -> xxxxx
     uint32 uiMapIp;                 // ip of map server        -> INADDR_ANY
 
-    const int8 *mysql_host;         // mysql addr     -> localhost:3306
+    std::string mysql_host;         // mysql addr     -> localhost:3306
     uint16 mysql_port;              // mysql port     -> 3306
-    const int8 *mysql_login;        // mysql login    -> default ***REMOVED***
-    const int8 *mysql_password;     // mysql pass     -> default nullptr
-    const int8 *mysql_database;     // mysql database -> default dspdb
+    std::string mysql_login;        // mysql login    -> default ***REMOVED***
+    std::string mysql_password;     // mysql pass     -> default nullptr
+    std::string mysql_database;     // mysql database -> default dspdb
 
-    string_t server_message;
-    string_t server_message_fr;
+    std::string server_message;
+    std::string server_message_fr;
 
     uint32 max_time_lastupdate;       // max interval wait of last update player char
-    int32  vanadiel_time_offset;      // смещение игрового времени относительно реального времени
-    int32  lightluggage_block;        // если значение отлично от нуля, то персонажи с lightluggage будут удаляться с сервера автоматически
+    int32  vanadiel_time_offset;      // �?мещение игрового времени отно�?ительно реального времени
+    int32  lightluggage_block;        // е�?ли значение отлично от нул�?, то пер�?онажи �? lightluggage будут удал�?ть�?�? �? �?ервера автоматиче�?ки
 
     uint16 ah_base_fee_single;        // Base AH fee for single items
     uint16 ah_base_fee_stacks;        // Base AH fee for stacks
@@ -132,7 +132,7 @@ struct map_config_t
     bool   audit_party;
     uint8  healing_tick_delay;
     uint16 msg_server_port;           // central message server port
-    const char* msg_server_ip;        // central message server IP
+    std::string msg_server_ip;        // central message server IP
 };
 
 /************************************************************************
@@ -145,9 +145,9 @@ struct map_session_data_t
 {
     uint32       client_addr;
     uint16       client_port;
-    uint16       client_packet_id;          // id последнего пакета, пришедшего от клиента
-    uint16       server_packet_id;          // id последнего пакета, отправленного сервером
-    int8*        server_packet_data;        // указатель на собранный пакет, который был ранее отправлен клиенту
+    uint16       client_packet_id;          // id по�?леднего пакета, пришедшего от клиента
+    uint16       server_packet_id;          // id по�?леднего пакета, отправленного �?ервером
+    int8*        server_packet_data;        // указатель на �?обранный пакет, который был ранее отправлен клиенту
     size_t       server_packet_size;        // размер пакета, который был ранее отправлен клиенту
     time_t       last_update;               // time of last packet recv
     blowfish_t   blowfish;                  // unique decypher keys
