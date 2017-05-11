@@ -136,8 +136,8 @@ void CEnmityContainer::UpdateEnmity(CBattleEntity* PEntity, int16 CE, int16 VE, 
 		
 
         //Check for cap limit
-        enmity_obj->second.CE = dsp_cap(newCE, 0, map_config.cumulative_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP));
-        enmity_obj->second.VE = dsp_cap(newVE, 0, map_config.volatile_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP));
+        enmity_obj->second.CE = dsp_cap(newCE, 0, map_config.cumulative_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP));
+        enmity_obj->second.VE = dsp_cap(newVE, 0, map_config.volatile_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP));
         enmity_obj->second.active = true;
 
         if (CE + VE > 0 && PEntity->getMod(Mod::TREASURE_HUNTER) > enmity_obj->second.maxTH)
@@ -157,8 +157,8 @@ void CEnmityContainer::UpdateEnmity(CBattleEntity* PEntity, int16 CE, int16 VE, 
         if (initial) CE += 200;
         float bonus = CalculateEnmityBonus(PEntity);
 
-        CE = dsp_cap(CE * bonus, 0, map_config.cumulative_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP));
-        VE = dsp_cap(VE * bonus, 0, map_config.volatile_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP));
+        CE = dsp_cap(CE * bonus, 0, map_config.cumulative_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP));
+        VE = dsp_cap(VE * bonus, 0, map_config.volatile_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP));
         auto maxTH = 0;
         if (CE + VE > 0)
             maxTH = (uint8)(PEntity->getMod(Mod::TREASURE_HUNTER));
@@ -220,12 +220,12 @@ void CEnmityContainer::UpdateEnmityFromCure(CBattleEntity* PEntity, uint16 level
 
     if (enmity_obj != m_EnmityList.end())
     {
-        enmity_obj->second.CE = dsp_cap(enmity_obj->second.CE + CE, 0, map_config.cumulative_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP));
-        enmity_obj->second.VE = dsp_cap(enmity_obj->second.VE + VE, 0, map_config.volatile_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP));
+        enmity_obj->second.CE = dsp_cap(enmity_obj->second.CE + CE, 0, map_config.cumulative_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP));
+        enmity_obj->second.VE = dsp_cap(enmity_obj->second.VE + VE, 0, map_config.volatile_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP));
         enmity_obj->second.active = true;
     }
     else
-        m_EnmityList.emplace(PEntity->id, EnmityObject_t{ PEntity, dsp_cap(CE, 0, map_config.cumulative_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP)), dsp_cap(VE, 0, map_config.volatile_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP)), true, 0 });
+        m_EnmityList.emplace(PEntity->id, EnmityObject_t{ PEntity, dsp_cap(CE, 0, map_config.cumulative_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP)), dsp_cap(VE, 0, map_config.volatile_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP)), true, 0 });
 }
 
 /************************************************************************
@@ -320,7 +320,7 @@ void CEnmityContainer::UpdateEnmityFromAttack(CBattleEntity* PEntity, uint16 Dam
 
     if (enmity_obj != m_EnmityList.end())
     {
-        enmity_obj->second.CE = dsp_cap(enmity_obj->second.CE + CE, 0, map_config.cumulative_enmity_cap + PEntity->getMod(MOD_ENMITY_CAP));
+        enmity_obj->second.CE = dsp_cap(enmity_obj->second.CE + CE, 0, map_config.cumulative_enmity_cap + PEntity->getMod(Mod::MOD_ENMITY_CAP));
     }
 }
 

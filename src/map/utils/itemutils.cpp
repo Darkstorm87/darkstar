@@ -470,7 +470,7 @@ namespace itemutils
 		    while(Sql_NextRow(SqlHandle) == SQL_SUCCESS) 
 		    {
 			    uint16 ItemID = (uint16)Sql_GetUIntData(SqlHandle,0);
-			    uint16 modID  = (uint16)Sql_GetUIntData(SqlHandle,1);
+			    Mod modID  = (Mod)Sql_GetUIntData(SqlHandle,1);
 			    int16  value  = (int16) Sql_GetIntData (SqlHandle,2);
 
                 if ((g_pItemList[ItemID] != nullptr) && g_pItemList[ItemID]->isType(ITEM_ARMOR))
