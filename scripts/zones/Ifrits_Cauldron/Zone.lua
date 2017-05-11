@@ -53,7 +53,7 @@ end;
 -- onGameHour
 -----------------------------------
 
-function onGameHour()
+function onGameHour(zone)
 
     local VanadielHour = VanadielHour();
     local FlameSpout = 17617204;

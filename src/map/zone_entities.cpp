@@ -262,7 +262,7 @@ void CZoneEntities::WeatherChange(WEATHER weather)
     {
         CCharEntity* PChar = (CCharEntity*)it->second;
 
-        PChar->PLatentEffectContainer->CheckLatentsZone();
+        PChar->PLatentEffectContainer->CheckLatentsWeather(weather);
         PChar->PAI->EventHandler.triggerListener("WEATHER_CHANGE", PChar, static_cast<int>(weather), element);
     }
 }
@@ -282,7 +282,7 @@ void CZoneEntities::DecreaseZoneCounter(CCharEntity* PChar)
         else {
             PChar->PPet->status = STATUS_DISAPPEAR;
             if (((CPetEntity*)(PChar->PPet))->getPetType() == PETTYPE_AVATAR)
-                PChar->setModifier(MOD_AVATAR_PERPETUATION, 0);
+                PChar->setModifier(Mod::AVATAR_PERPETUATION, 0);
         }
         // It may have been nullptred by DespawnPet
         if (PChar->PPet != nullptr) {

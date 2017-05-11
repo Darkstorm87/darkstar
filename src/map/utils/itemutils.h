@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -43,18 +43,28 @@
 #define MAX_LOOTID  1300
 #define MAX_EQUIPDROPID  99
 
+enum DROP_TYPE
+{
+    DROP_NORMAL  = 0x00,
+    DROP_GROUPED = 0x01,
+    DROP_STEAL   = 0x02,
+    DROP_DESPOIL = 0x04
+};
+
 struct DropItem_t
 {
-	uint16 ItemID;
-	uint8  DropType;
-	uint16  DropRate;
+    uint16 ItemID;
+    uint8  DropType;
+    uint16 DropRate;
+    uint8  GroupId;
+    uint16 GroupRate;
 };
 
 struct LootItem_t
 {
-	uint16 ItemID;
-	uint16 Rolls;
-	uint8  LootGroupId;
+    uint16 ItemID;
+    uint16 Rolls;
+    uint8  LootGroupId;
 };
 
 struct DropEquip_t
@@ -75,12 +85,12 @@ typedef std::vector<DropEquip_t> DropEquipList_t;
 
 namespace itemutils
 {
-	void	Initialize();
-	void	FreeItemList();
+    void    Initialize();
+    void    FreeItemList();
 
     CItem*  GetItem(CItem* PItem);
-	CItem*	GetItem(uint16 ItemID);
-	CItem*	GetItemPointer(uint16 ItemID);
+    CItem*  GetItem(uint16 ItemID);
+    CItem*  GetItemPointer(uint16 ItemID);
 
     CItemWeapon* GetUnarmedItem();
     CItemWeapon* GetUnarmedH2HItem();

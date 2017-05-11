@@ -74,7 +74,8 @@ enum ANIMATIONTYPE
     ANIMATION_SYNTH              = 44,
     ANIMATION_SIT                = 47,
     ANIMATION_RANGED             = 48,
-    ANIMATION_FISHING_START      = 50
+    ANIMATION_FISHING_START_OLD  = 50,
+    ANIMATION_FISHING_START      = 56
 };
 
 enum ALLEGIANCETYPE
@@ -177,7 +178,7 @@ public:
     void            SetModelId(uint16 modelId);     // Set new modelid
     uint16          GetModelId();                   // Get the modelid
 
-    virtual void    HandleErrorMessage(std::unique_ptr<CMessageBasicPacket>&) {};
+    virtual void    HandleErrorMessage(std::unique_ptr<CBasicPacket>&) {};
 
     uint32			id;					// глобальный идентификатор, уникальный на сервере
     uint16			targid;				// локалный идентификатор, уникальный в зоне

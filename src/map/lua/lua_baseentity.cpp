@@ -2220,17 +2220,17 @@ inline int32 CLuaBaseEntity::getStat(lua_State *L)
 
     CBattleEntity* PEntity = (CBattleEntity*)m_PBaseEntity;
 
-    switch (lua_tointeger(L, 1))
+    switch (static_cast<Mod>(lua_tointeger(L, 1)))
     {
-        case MOD_STR:  lua_pushinteger(L, PEntity->STR()); break;
-        case MOD_DEX:  lua_pushinteger(L, PEntity->DEX()); break;
-        case MOD_VIT:  lua_pushinteger(L, PEntity->VIT()); break;
-        case MOD_AGI:  lua_pushinteger(L, PEntity->AGI()); break;
-        case MOD_INT:  lua_pushinteger(L, PEntity->INT()); break;
-        case MOD_MND:  lua_pushinteger(L, PEntity->MND()); break;
-        case MOD_CHR:  lua_pushinteger(L, PEntity->CHR()); break;
-        case MOD_ATT:  lua_pushinteger(L, PEntity->ATT()); break;
-        case MOD_DEF:  lua_pushinteger(L, PEntity->DEF()); break;
+        case Mod::STR:  lua_pushinteger(L, PEntity->STR()); break;
+        case Mod::DEX:  lua_pushinteger(L, PEntity->DEX()); break;
+        case Mod::VIT:  lua_pushinteger(L, PEntity->VIT()); break;
+        case Mod::AGI:  lua_pushinteger(L, PEntity->AGI()); break;
+        case Mod::INT:  lua_pushinteger(L, PEntity->INT()); break;
+        case Mod::MND:  lua_pushinteger(L, PEntity->MND()); break;
+        case Mod::CHR:  lua_pushinteger(L, PEntity->CHR()); break;
+        case Mod::ATT:  lua_pushinteger(L, PEntity->ATT()); break;
+        case Mod::DEF:  lua_pushinteger(L, PEntity->DEF()); break;
         default: lua_pushnil(L);
     }
     return 1;
@@ -3352,7 +3352,7 @@ inline int32 CLuaBaseEntity::addGearSetMod(lua_State *L)
 
     GearSetMod_t gearSetMod;
     gearSetMod.modNameId = lua_tonumber(L, 1);
-    gearSetMod.modId = lua_tonumber(L, 2);
+    gearSetMod.modId = static_cast<Mod>(lua_tointeger(L, 2));
     gearSetMod.modValue = lua_tonumber(L, 3);
 
     CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
@@ -3973,8 +3973,8 @@ inline int32 CLuaBaseEntity::capSkill(lua_State* L)
         /* let's just ignore this part for the moment
         //remove modifiers if valid
         if(skill>=1 && skill<=12 && PItem!=nullptr && PItem->getSkillType()==skill){
-            PChar->delModifier(MOD_ATT, PChar->GetSkill(skill));
-            PChar->delModifier(MOD_ACC, PChar->GetSkill(skill));
+            PChar->delModifier(Mod::ATT, PChar->GetSkill(skill));
+            PChar->delModifier(Mod::ACC, PChar->GetSkill(skill));
         }
         */
         uint16 maxSkill = 10 * battleutils::GetMaxSkill((SKILLTYPE)skill, PChar->GetMJob(), PChar->GetMLevel());
@@ -3986,8 +3986,8 @@ inline int32 CLuaBaseEntity::capSkill(lua_State* L)
         /* and ignore this part
         //reapply modifiers if valid
         if(skill>=1 && skill<=12 && PItem!=nullptr && PItem->getSkillType()==skill){
-            PChar->addModifier(MOD_ATT, PChar->GetSkill(skill));
-            PChar->addModifier(MOD_ACC, PChar->GetSkill(skill));
+            PChar->addModifier(Mod::ATT, PChar->GetSkill(skill));
+            PChar->addModifier(Mod::ACC, PChar->GetSkill(skill));
         }
         */
         charutils::SaveCharSkills(PChar, skill); //save to db
@@ -5202,7 +5202,7 @@ inline int32 CLuaBaseEntity::addBardSong(lua_State *L)
         {
             maxSongs = 1;
         }
-        maxSongs += PCaster->getMod(MOD_MAXIMUM_SONGS_BONUS);
+        maxSongs += PCaster->getMod(Mod::MAXIMUM_SONGS_BONUS);
     }
     lua_pushboolean(L, ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->ApplyBardEffect(PEffect, maxSongs));
     return 1;
@@ -5434,7 +5434,7 @@ inline int32 CLuaBaseEntity::addMod(lua_State *L)
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     ((CBattleEntity*)m_PBaseEntity)->addModifier(
-        lua_tointeger(L, 1),
+        static_cast<Mod>(lua_tointeger(L, 1)),
         lua_tointeger(L, 2));
     return 0;
 }
@@ -5448,7 +5448,7 @@ inline int32 CLuaBaseEntity::getMod(lua_State *L)
 
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
-    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->getMod(lua_tointeger(L, 1)));
+    lua_pushinteger(L, ((CBattleEntity*)m_PBaseEntity)->getMod(static_cast<Mod>(lua_tointeger(L, 1))));
     return 1;
 }
 
@@ -5463,7 +5463,7 @@ inline int32 CLuaBaseEntity::delMod(lua_State *L)
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     ((CBattleEntity*)m_PBaseEntity)->delModifier(
-        lua_tointeger(L, 1),
+        static_cast<Mod>(lua_tointeger(L, 1)),
         lua_tointeger(L, 2));
     return 0;
 }
@@ -5479,7 +5479,7 @@ inline int32 CLuaBaseEntity::setMod(lua_State *L)
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     ((CBattleEntity*)m_PBaseEntity)->setModifier(
-        lua_tointeger(L, 1),
+        static_cast<Mod>(lua_tointeger(L, 1)),
         lua_tointeger(L, 2));
     return 0;
 }
@@ -5493,7 +5493,8 @@ inline int32 CLuaBaseEntity::addPetMod(lua_State* L)
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     ((CBattleEntity*)m_PBaseEntity)->addPetModifier(
-        lua_tointeger(L, 1),
+        static_cast<Mod>(lua_tointeger(L, 1)),
+        PetModType::All,
         lua_tointeger(L, 2));
     return 0;
 }
@@ -5507,7 +5508,8 @@ inline int32 CLuaBaseEntity::delPetMod(lua_State* L)
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     ((CBattleEntity*)m_PBaseEntity)->delPetModifier(
-        lua_tointeger(L, 1),
+        static_cast<Mod>(lua_tointeger(L, 1)),
+        PetModType::All,
         lua_tointeger(L, 2));
     return 0;
 }
@@ -5521,7 +5523,8 @@ inline int32 CLuaBaseEntity::setPetMod(lua_State* L)
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     ((CBattleEntity*)m_PBaseEntity)->setPetModifier(
-        lua_tointeger(L, 1),
+        static_cast<Mod>(lua_tointeger(L, 1)),
+        PetModType::All,
         lua_tointeger(L, 2));
     return 0;
 }
@@ -7173,9 +7176,9 @@ inline int32 CLuaBaseEntity::getRACC(lua_State *L)
     int skill = PChar->GetSkill(weapon->getSkillType());
     int acc = skill;
     if (skill > 200) { acc = 200 + (skill - 200)*0.9; }
-    acc += PChar->getMod(MOD_RACC);
+    acc += PChar->getMod(Mod::RACC);
     acc += PChar->AGI() / 2;
-    acc = acc + dsp_min(((100 + PChar->getMod(MOD_FOOD_RACCP)) * acc) / 100, PChar->getMod(MOD_FOOD_RACC_CAP));
+    acc = acc + dsp_min(((100 + PChar->getMod(Mod::FOOD_RACCP)) * acc) / 100, PChar->getMod(Mod::FOOD_RACC_CAP));
 
     lua_pushinteger(L, acc);
     return 1;
@@ -8016,7 +8019,7 @@ inline int32 CLuaBaseEntity::injectActionPacket(lua_State* L)
 
 /************************************************************************
 *                                                                       *
-* Used to manipulate the mob's flags for testing.                       *
+* Used to manipulate a MOB's entityFlags for testing. TODO: NPC's too   *
 *                                                                       *
 ************************************************************************/
 
@@ -8044,7 +8047,7 @@ inline int32 CLuaBaseEntity::setMobFlags(lua_State* L)
         {
             if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
             {
-                ((CMobEntity*)PMob)->setMobFlags((uint32)(lua_tointeger(L, 1)));
+                ((CMobEntity*)PMob)->setEntityFlags((uint32)(lua_tointeger(L, 1)));
                 PMob->updatemask |= UPDATE_HP;
             }
         }
@@ -8066,7 +8069,7 @@ inline int32 CLuaBaseEntity::setMobFlags(lua_State* L)
         }
         if (!lua_isnil(L, 1) && lua_isnumber(L, 1))
         {
-            ((CMobEntity*)PTarget)->setMobFlags((uint32)(lua_tointeger(L, 1)));
+            ((CMobEntity*)PTarget)->setEntityFlags((uint32)(lua_tointeger(L, 1)));
             PTarget->updatemask |= UPDATE_HP;
         }
     }
@@ -8621,7 +8624,7 @@ inline int32 CLuaBaseEntity::getStealItem(lua_State *L)
     {
         for (uint8 i = 0; i < DropList->size(); ++i)
         {
-            if (DropList->at(i).DropType == 2)
+            if (DropList->at(i).DropType == DROP_STEAL)
             {
                 lua_pushinteger(L, DropList->at(i).ItemID);
                 return 1;
@@ -8898,7 +8901,6 @@ inline int32 CLuaBaseEntity::getTrickAttackChar(lua_State *L)
     return 1;
 }
 
-
 inline int32 CLuaBaseEntity::setDelay(lua_State* L)
 {
     DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
@@ -8909,6 +8911,7 @@ inline int32 CLuaBaseEntity::setDelay(lua_State* L)
     ((CMobEntity*)m_PBaseEntity)->m_Weapons[SLOT_MAIN]->setDelay(lua_tonumber(L, 1));
     return 0;
 }
+
 inline int32 CLuaBaseEntity::setDamage(lua_State* L)
 {
     DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
@@ -8920,7 +8923,8 @@ inline int32 CLuaBaseEntity::setDamage(lua_State* L)
     return 0;
 }
 
-//cast spell in parameter - if no parameter, cast any spell in the spell list
+// cast spell in first parameter - if no parameter, cast any spell in the spell list
+// optional target in second parameter
 inline int32 CLuaBaseEntity::castSpell(lua_State* L)
 {
     DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
@@ -8930,9 +8934,9 @@ inline int32 CLuaBaseEntity::castSpell(lua_State* L)
         auto spellid {lua_tointeger(L, 1)};
         CBattleEntity* PTarget {nullptr};
 
-        if (!lua_isnil(L, 1) && lua_isuserdata(L, 1))
+        if (!lua_isnil(L, 2) && lua_isuserdata(L, 2))
         {
-            CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 1);
+            CLuaBaseEntity* PLuaBaseEntity = Lunar<CLuaBaseEntity>::check(L, 2);
             PTarget = (CBattleEntity*)PLuaBaseEntity->m_PBaseEntity;
         }
 
