@@ -4165,7 +4165,7 @@ namespace battleutils
         resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(Mod::DMGBREATH) / 100.0f ) ) / 256.0f )
                       + ( floor( 256.0f * ( PDefender->getMod(Mod::DMG)       / 100.0f ) ) / 256.0f );
         resist = dsp_cap(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
-		resist = resist + (floor(256.0f * (PDefender->getMod(MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = resist + (floor(256.0f * (PDefender->getMod(Mod::MOD_DMG_II) / 100.0f)) / 256.0f);
 		resist = dsp_cap(resist, 0.1f, 1.5f);
         damage *= resist;
 
@@ -4196,7 +4196,7 @@ namespace battleutils
         resist = dsp_cap(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
         resist = resist + ( floor( 256.0f * ( PDefender->getMod(Mod::DMGMAGIC_II) / 100.0f ) ) / 256.0f );
         resist = dsp_cap(resist, 0.125f, 1.5f); //Total cap with MDT-% II included is 87.5%
-		resist = resist + (floor(256.0f * (PDefender->getMod(MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = resist + (floor(256.0f * (PDefender->getMod(Mod::MOD_DMG_II) / 100.0f)) / 256.0f);
 		resist = dsp_cap(resist, 0.1f, 1.5f); // MOD_DMG_II lowers to 90% reduction
         damage *= resist;
 
@@ -4228,7 +4228,7 @@ namespace battleutils
         resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(Mod::DMGPHYS) / 100.0f ) ) / 256.0f )
                       + ( floor( 256.0f * ( PDefender->getMod(Mod::DMG)     / 100.0f ) ) / 256.0f );
         resist = dsp_cap(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
-		resist = resist + (floor(256.0f * (PDefender->getMod(MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = resist + (floor(256.0f * (PDefender->getMod(Mod::MOD_DMG_II) / 100.0f)) / 256.0f);
 		resist = dsp_cap(resist, 0.1f, 1.5f); // MOD_DMG_II lowers to 90% reduction
 
         damage *= resist;
@@ -4259,7 +4259,7 @@ namespace battleutils
         resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(Mod::DMGRANGE) / 100.0f ) ) / 256.0f )
                       + ( floor( 256.0f * ( PDefender->getMod(Mod::DMG)      / 100.0f ) ) / 256.0f );
         resist = dsp_cap(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
-		resist = resist + (floor(256.0f * (PDefender->getMod(MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = resist + (floor(256.0f * (PDefender->getMod(Mod::MOD_DMG_II) / 100.0f)) / 256.0f);
 		resist = dsp_cap(resist, 0.1f, 1.5f); // MOD_DMG_II lowers to 90% reduction
 
         damage *= resist;
