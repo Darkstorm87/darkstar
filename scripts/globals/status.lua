@@ -900,6 +900,8 @@ MOD_LIGHTRES          = 60
 MOD_DARKRES           = 61
 MOD_ATTP              = 62
 MOD_DEFP              = 63
+MOD_COMBAT_SKILLUP_RATE = 64 -- % increase in skillup combat rate
+MOD_MAGIC_SKILLUP_RATE  = 65 -- % increase in skillup magic rate
 MOD_RATTP             = 66
 MOD_EVA               = 68
 MOD_RDEF              = 69
@@ -1084,12 +1086,11 @@ MOD_BUST               = 332
 MOD_FINISHING_MOVES    = 333
 MOD_SAMBA_DURATION     = 490 -- Samba duration bonus
 MOD_WALTZ_POTENTCY     = 491 -- Waltz Potentcy Bonus
-MOD_CHOCO_JIG_DURATION = 492 -- Chocobo Jig duration bonus
+MOD_JIG_DURATION       = 492 -- Jig duration bonus in percents
 MOD_VFLOURISH_MACC     = 493 -- Violent Flourish accuracy bonus
 MOD_STEP_FINISH        = 494 -- Bonus finishing moves from steps
 MOD_STEP_ACCURACY      = 403 -- Accuracy bonus for steps
-MOD_SPECTRAL_JIG       = 495 -- Spectral Jig duration modifier (percent increase)
-MOD_WALTZ_RECAST       = 497 -- Waltz recast modifier (percent)
+MOD_WALTZ_DELAY        = 497 -- Waltz Ability Delay modifier (-1 mod is -1 second)
 MOD_SAMBA_PDURATION    = 498 -- Samba percent duration bonus
 MOD_WIDESCAN           = 340
 MOD_BARRAGE_ACC        = 420 --
@@ -1283,10 +1284,14 @@ MOD_OVERLOAD_THRESH     = 505 -- Overload Threshold Bonus
 MOD_EXTRA_DMG_CHANCE    = 506 -- Proc rate of MOD_OCC_DO_EXTRA_DMG. 111 would be 11.1%
 MOD_OCC_DO_EXTRA_DMG    = 507 -- Multiplier for "Occasionally do x times normal damage". 250 would be 2.5 times damage.
 
-MOD_EAT_RAW_FISH       = 412 --
-MOD_EAT_RAW_MEAT       = 413 --
-MOD_ENHANCES_CURSNA    = 310 -- Raises success rate of Cursna when removing effect (like Doom) that are not 100% chance to remove
-MOD_RETALIATION        = 414 -- Increases damage of Retaliation hits
+MOD_EAT_RAW_FISH         = 412 --
+MOD_EAT_RAW_MEAT         = 413 --
+
+MOD_ENHANCES_CURSNA_RCVD = 67  -- Potency of "Cursna" effects received
+MOD_ENHANCES_CURSNA      = 310 -- Raises success rate of Cursna when removing effect (like Doom) that are not 100% chance to remove
+MOD_ENHANCES_HOLYWATER   = 495 -- Used by gear with the "Enhances Holy Water" or "Holy Water+" attribute
+
+MOD_RETALIATION          = 414 -- Increases damage of Retaliation hits
 MOD_THIRD_EYE_COUNTER_RATE    = 508 -- Adds counter to 3rd eye anticipates & if using Seigan counter rate is increased by 15%
 MOD_THIRD_EYE_ANTICIPATE_RATE = 839 -- Adds anticipate rate in percents
 
@@ -1346,18 +1351,15 @@ MOD_QUICK_DRAW_DMG_PERCENT    = 834 -- Percentage increase to QD damage
 MOD_SYNTH_SUCCESS    = 851 -- Rate of synthesis success
 MOD_SYNTH_SKILL_GAIN = 852 -- Synthesis skill gain rate
 
-MOD_WEAPONSKILL_DAMAGE_BASE = 570 -- See modifier.h for how this is used
+MOD_WEAPONSKILL_DAMAGE_BASE = 570 -- Specific to 1 Weaponskill: See modifier.h for how this is used
+MOD_ALL_WSDMG_ALL_HITS      = 840 -- Generic (all Weaponskills) damage, on all hits.
+-- Per https://www.bg-wiki.com/bg/Weapon_Skill_Damage we need all 3..
+MOD_ALL_WSDMG_FIRST_HIT     = 841 -- Generic (all Weaponskills) damage, first hit only.
 
 -- The entire mod list is in desperate need of kind of some organizing.
 -- The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.
 
--- MOD_SPARE = 64 -- stuff
--- MOD_SPARE = 65 -- stuff
--- MOD_SPARE = 67 -- stuff
--- MOD_SPARE = 98 -- stuff
 -- 570 - 825 used by WS DMG mods these are not spares.
--- MOD_SPARE = 840 -- stuff
--- MOD_SPARE = 841 -- stuff
 -- MOD_SPARE = 842 -- stuff
 -- MOD_SPARE = 843 -- stuff
 -- MOD_SPARE = 844 -- stuff
@@ -1820,6 +1822,15 @@ TYPE_PET  = 0x08
 TYPE_SHIP = 0x10
 
 ----------------------------------
+-- DropType
+----------------------------------
+
+DROP_NORMAL  = 0x00
+DROP_GROUPED = 0x01
+DROP_STEAL   = 0x02
+DROP_DESPOIL = 0x04
+
+----------------------------------
 -- Allegiance Definitions
 ----------------------------------
 
@@ -1925,6 +1936,7 @@ MSGBASIC_ADD_EFFECT_DISPEL      = 168 -- Additional effect: <target>'s <Status E
 MSGBASIC_ADD_EFFECT_WARP        = 169 -- Additional effect: Warp! (used by Halloween staves)
 MSGBASIC_STATUS_SPIKES          = 374 -- Striking <Defender>'s armor causes <Attacker> to become <status effect>.
 MSGBASIC_SPIKES_EFFECT_HEAL     = 383 -- <?>'s spikes restore 0 HP to the <?>.
+MSGBASIC_ADD_EFFECT_HEAL        = 384 -- Additional effect: <target> recovers <number> HP.
 
 -- Charm
 MSGBASIC_CANNOT_CHARM           = 210 -- The <player> cannot charm <target>!

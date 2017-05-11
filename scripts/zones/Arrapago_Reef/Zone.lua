@@ -8,6 +8,7 @@ package.loaded["scripts/zones/Arrapago_Reef/TextIDs"] = nil;
 require("scripts/zones/Arrapago_Reef/TextIDs");
 require("scripts/globals/missions");
 require("scripts/globals/zone");
+require("scripts/globals/quests");
 require("scripts/globals/keyitems");
 require("scripts/globals/settings");
 
@@ -16,7 +17,7 @@ require("scripts/globals/settings");
 -----------------------------------
 
 function onInitialize(zone)
-    zone:registerRegion(1,-462,-4,-420,-455,-1,-392);
+    zone:registerRegion(1,-462,-4,-420,-455,-1,-392); -- approach the Cutter
 end;
 
 -----------------------------------
@@ -33,8 +34,8 @@ function onZoneIn(player,prevZone)
             else
                 player:setPos(-456, -3, -405, 64);
             end
-	elseif (prevZone == 79 and player:getCurrentMission(TOAU) == PREVALENCE_OF_PIRATES and player:getVar("AhtUrganStatus") == 0) then
-	    cs = 13;
+    elseif (prevZone == 79 and player:getCurrentMission(TOAU) == PREVALENCE_OF_PIRATES and player:getVar("AhtUrganStatus") == 0) then
+        cs = 13;
         else
             player:setPos(-180.028,-10.335,-559.987,182);
         end
@@ -63,6 +64,8 @@ function onRegionEnter(player,region)
         player:startEvent(14);
     elseif (player:getCurrentMission(TOAU) == TESTING_THE_WATERS and player:hasKeyItem(EPHRAMADIAN_GOLD_COIN)) then
         player:startEvent(15);
+    elseif (player:getQuestStatus(AHT_URHGAN,AGAINST_ALL_ODDS) == QUEST_ACCEPTED and player:getVar("AgainstAllOdds") == 1) then
+        player:startEvent(237);
     end
 end;
 
@@ -101,5 +104,9 @@ function onEventFinish(player,csid,option)
         player:setPos(0,0,0,0,57);
     elseif (csid == 34 and player:getVar("AhtUrganStatus") == 1) then
         player:startEvent(35);
+    elseif (csid == 237) then
+        player:startEvent(240);
+    elseif (csid == 240) then
+        player:setVar("AgainstAllOdds",2);
     end
 end;

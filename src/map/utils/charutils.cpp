@@ -24,7 +24,6 @@ This file is part of DarkStar-server source code.
 #include "../../common/socket.h"
 #include "../../common/showmsg.h"
 #include "../../common/sql.h"
-#include "../../common/strlib.h"
 #include "../../common/timer.h"
 #include "../../common/utils.h"
 
@@ -798,8 +797,8 @@ namespace charutils
         PChar->StatusEffectContainer->LoadStatusEffects();
 
         charutils::LoadEquip(PChar);
-        PChar->health.hp = PChar->loc.destination == ZONE_RESIDENTIAL_AREA ? PChar->GetMaxHP() : HP;
-        PChar->health.mp = PChar->loc.destination == ZONE_RESIDENTIAL_AREA ? PChar->GetMaxMP() : MP;
+        PChar->health.hp = zoneutils::IsResidentialArea(PChar->loc.destination) ? PChar->GetMaxHP() : HP;
+        PChar->health.mp = zoneutils::IsResidentialArea(PChar->loc.destination) ? PChar->GetMaxMP() : MP;
         PChar->UpdateHealth();
         luautils::OnGameIn(PChar, zoning == 1);
     }
@@ -1474,7 +1473,7 @@ namespace charutils
 
             if (PItem != nullptr)
             {
-                if (PItem->getStackSize() == 1)
+                if (PItem->getStackSize() == 1 && PItem->getReserve() == 1)
                 {
                     CItem* PNewItem = itemutils::GetItem(PItem);
                     ShowDebug(CL_CYAN"Adding %s to %s inventory stacksize 1\n" CL_RESET, PNewItem->getName(), PTarget->GetName());
@@ -1507,11 +1506,34 @@ namespace charutils
 
         if ((PItem != nullptr) && PItem->isType(ITEM_ARMOR))
         {
-            switch (((CItemArmor*)PItem)->getRemoveSlotId())
+            auto removeSlotID = ((CItemArmor*)PItem)->getRemoveSlotId();
+
+            for (auto i = 0; i < sizeof(removeSlotID) * 8; ++i)
             {
-                case SLOT_HEAD:  PChar->look.head = 0; break;
-                case SLOT_HANDS: PChar->look.hands = 0; break;
-                case SLOT_FEET:  PChar->look.feet = 0; break;
+                if (removeSlotID & (1 << i))
+                {
+                    if (i >= SLOT_HEAD && i <= SLOT_FEET)
+                    {
+                        switch (i)
+                        {
+                        case SLOT_HEAD:
+                            PChar->look.head = 0;
+                            break;
+                        case SLOT_BODY:
+                            PChar->look.body = 0;
+                            break;
+                        case SLOT_HANDS:
+                            PChar->look.hands = 0;
+                            break;
+                        case SLOT_LEGS:
+                            PChar->look.legs = 0;
+                            break;
+                        case SLOT_FEET:
+                            PChar->look.feet = 0;
+                            break;
+                        }
+                    }
+                }
             }
 
             uint8 slotID = PChar->equip[equipSlotID];
@@ -2250,8 +2272,8 @@ namespace charutils
             {
                 PItem = PChar->m_Weapons[std::get<0>(slot)];
 
-                std::get<1>(slot) = battleutils::GetScaledItemModifier(PChar, PItem, MOD_ADDS_WEAPONSKILL);
-                std::get<2>(slot) = battleutils::GetScaledItemModifier(PChar, PItem, MOD_ADDS_WEAPONSKILL_DYN);
+                std::get<1>(slot) = battleutils::GetScaledItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL);
+                std::get<2>(slot) = battleutils::GetScaledItemModifier(PChar, PItem, Mod::ADDS_WEAPONSKILL_DYN);
             }
         }
 
@@ -2474,23 +2496,24 @@ namespace charutils
                 uint16 skillCapE = battleutils::GetMaxSkill(SKILL_DRK, JOB_RDM, PChar->GetMLevel()); // E skill cap
                 uint16 currentSkill = dsp_cap((PChar->RealSkills.skill[i] / 10), 0, dsp_max(MaxMSkill, MaxSSkill)); // working skill before bonuses
                 uint16 artsBaseline = 0; // Level based baseline to which to raise skills
-                if (PChar->GetMJob() < 51)
+                uint8 mLevel = PChar->GetMLevel();
+                if (mLevel < 51)
                 {
-                    artsBaseline = 5 + 2.7 * (PChar->GetMJob() - 1);
+                    artsBaseline = 5 + 2.7 * (mLevel - 1);
                 }
-                else if ((PChar->GetMJob() > 50) && (PChar->GetMJob() < 61))
+                else if ((mLevel > 50) && (mLevel < 61))
                 {
-                    artsBaseline = 137 + 4.7 * (PChar->GetMJob() - 50);
+                    artsBaseline = 137 + 4.7 * (mLevel - 50);
                 }
-                else if ((PChar->GetMJob() > 60) && (PChar->GetMJob() < 71))
+                else if ((mLevel > 60) && (mLevel < 71))
                 {
-                    artsBaseline = 184 + 3.7 * (PChar->GetMJob() - 60);
+                    artsBaseline = 184 + 3.7 * (mLevel - 60);
                 }
-                else if ((PChar->GetMJob() > 70) && (PChar->GetMJob() < 75))
+                else if ((mLevel > 70) && (mLevel < 75))
                 {
-                    artsBaseline = 221 + 5.0 * (PChar->GetMJob() - 70);
+                    artsBaseline = 221 + 5.0 * (mLevel - 70);
                 }
-                else if (PChar->GetMJob() >= 75)
+                else if (mLevel >= 75)
                 {
                     artsBaseline = skillCapD + 36;
                 }
@@ -2516,11 +2539,11 @@ namespace charutils
 
                 if (PChar->StatusEffectContainer->HasStatusEffect({EFFECT_LIGHT_ARTS, EFFECT_ADDENDUM_WHITE}))
                 {
-                    skillBonus += PChar->getMod(MOD_LIGHT_ARTS_SKILL);
+                    skillBonus += PChar->getMod(Mod::LIGHT_ARTS_SKILL);
                 }
                 else
                 {
-                    skillBonus += PChar->getMod(MOD_DARK_ARTS_SKILL);
+                    skillBonus += PChar->getMod(Mod::DARK_ARTS_SKILL);
                 }
             }
             else if (i >= 22 && i <= 24)
@@ -2538,7 +2561,7 @@ namespace charutils
                 meritIndex++;
             }
 
-            skillBonus += PChar->getMod(i + 79);
+            skillBonus += PChar->getMod(static_cast<Mod>(i + 79));
 
             PChar->WorkingSkills.rank[i] = battleutils::GetSkillRank((SKILLTYPE)i, PChar->GetMJob());
 
@@ -2602,10 +2625,10 @@ namespace charutils
             blueutils::CalculateTraits(PChar);
         }
 
-        PChar->delModifier(MOD_MEVA, PChar->m_magicEvasion);
+        PChar->delModifier(Mod::MEVA, PChar->m_magicEvasion);
 
         PChar->m_magicEvasion = battleutils::GetMaxSkill(SKILL_ELE, JOB_RDM, PChar->GetMLevel());
-        PChar->addModifier(MOD_MEVA, PChar->m_magicEvasion);
+        PChar->addModifier(Mod::MEVA, PChar->m_magicEvasion);
     }
 
     /************************************************************************
@@ -2633,6 +2656,18 @@ namespace charutils
             if (SkillUpChance > 0.5)
             {
                 SkillUpChance = 0.5;
+            }
+
+            // Check for skillup% bonus. https://www.bg-wiki.com/bg/Category:Skill_Up_Food
+            // Assuming multiplicative even though rate is already a % because 0.5 + 0.8 would be > 1.
+            if ((SkillID >= 1 && SkillID <= 12) || (SkillID >= 25 && SkillID <= 31))
+            // if should effect automaton replace the above with: (SkillID >= 1 && SkillID <= 31)
+            {
+                SkillUpChance *= ((100.f + PChar->getMod(Mod::COMBAT_SKILLUP_RATE)) / 100.f);
+            }
+            else if (SkillID >= 32 && SkillID <= 44)
+            {
+                SkillUpChance *= ((100.f + PChar->getMod(Mod::MAGIC_SKILLUP_RATE)) / 100.f);
             }
 
             if (Diff > 0 && random < SkillUpChance)
@@ -2691,8 +2726,8 @@ namespace charutils
                     /* ignoring this for now
                     if (SkillID >= 1 && SkillID <= 12)
                     {
-                    PChar->addModifier(MOD_ATT, 1);
-                    PChar->addModifier(MOD_ACC, 1);
+                    PChar->addModifier(Mod::ATT, 1);
+                    PChar->addModifier(Mod::ACC, 1);
                     }
                     */
                 }
@@ -4295,7 +4330,7 @@ namespace charutils
 
         }
 
-        bonus += exp * (PChar->getMod(MOD_EXP_BONUS) / 100.0f);
+        bonus += exp * (PChar->getMod(Mod::EXP_BONUS) / 100.0f);
 
         if (bonus + (int32)exp < 0)
             exp = 0;
@@ -4327,17 +4362,17 @@ namespace charutils
 
     uint16 AvatarPerpetuationReduction(CCharEntity* PChar)
     {
-        uint16 reduction = PChar->getMod(MOD_PERPETUATION_REDUCTION);
+        uint16 reduction = PChar->getMod(Mod::PERPETUATION_REDUCTION);
 
-        static const MODIFIER strong[8] = {
-            MOD_FIRE_AFFINITY_PERP,
-            MOD_EARTH_AFFINITY_PERP,
-            MOD_WATER_AFFINITY_PERP,
-            MOD_WIND_AFFINITY_PERP,
-            MOD_ICE_AFFINITY_PERP,
-            MOD_THUNDER_AFFINITY_PERP,
-            MOD_LIGHT_AFFINITY_PERP,
-            MOD_DARK_AFFINITY_PERP};
+        static const Mod strong[8] = {
+            Mod::FIRE_AFFINITY_PERP,
+            Mod::EARTH_AFFINITY_PERP,
+            Mod::WATER_AFFINITY_PERP,
+            Mod::WIND_AFFINITY_PERP,
+            Mod::ICE_AFFINITY_PERP,
+            Mod::THUNDER_AFFINITY_PERP,
+            Mod::LIGHT_AFFINITY_PERP,
+            Mod::DARK_AFFINITY_PERP};
 
         static const WEATHER weatherStrong[8] = {
             WEATHER_HOT_SPELL,
@@ -4357,14 +4392,14 @@ namespace charutils
 
         if (CVanaTime::getInstance()->getWeekday() == element)
         {
-            reduction = reduction + PChar->getMod(MOD_DAY_REDUCTION);
+            reduction = reduction + PChar->getMod(Mod::DAY_REDUCTION);
         }
 
         WEATHER weather = battleutils::GetWeather(PChar, false);
 
         if (weather == weatherStrong[element] || weather == weatherStrong[element] + 1)
         {
-            reduction = reduction + PChar->getMod(MOD_WEATHER_REDUCTION);
+            reduction = reduction + PChar->getMod(Mod::WEATHER_REDUCTION);
         }
 
         return reduction;
@@ -4701,6 +4736,21 @@ namespace charutils
         }
     }
 
+    bool IsAidBlocked(CCharEntity* PInitiator, CCharEntity* PTarget) {
+        if (PTarget->getBlockingAid())
+        {
+            bool inAlliance = false;
+            PTarget->ForAlliance([&PInitiator, &inAlliance](CBattleEntity* PEntity) {
+                if (PEntity->id == PInitiator->id)
+                    inAlliance = true;
+            });
+
+            if (!inAlliance)
+                return true;
+        }
+        return false;
+    }
+
     //char_points manipulation
     void AddPoints(CCharEntity* PChar, const char* type, int32 amount, int32 max)
     {
@@ -4780,6 +4830,27 @@ namespace charutils
         }
 
         PChar->pushPacket(new CServerIPPacket(PChar, type, ipp));
+    }
+
+    void HomePoint(CCharEntity* PChar)
+    {
+        // remove weakness on homepoint
+        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_WEAKNESS);
+        PChar->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LEVEL_SYNC);
+
+        PChar->health.hp = PChar->GetMaxHP();
+        PChar->health.mp = PChar->GetMaxMP();
+
+        PChar->loc.boundary = 0;
+        PChar->loc.p = PChar->profile.home_point.p;
+        PChar->loc.destination = PChar->profile.home_point.destination;
+
+        PChar->status = STATUS_DISAPPEAR;
+        PChar->animation = ANIMATION_NONE;
+        PChar->updatemask |= UPDATE_HP;
+
+        PChar->clearPacketList();
+        SendToZone(PChar, 2, zoneutils::GetZoneIPP(PChar->loc.destination));
     }
 
     void AddWeaponSkillPoints(CCharEntity* PChar, SLOTTYPE slotid, int wspoints)

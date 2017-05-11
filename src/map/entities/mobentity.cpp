@@ -126,9 +126,14 @@ CMobEntity::CMobEntity()
         std::make_unique<CTargetFind>(this));
 }
 
-void CMobEntity::setMobFlags(uint32 MobFlags)
+uint32 CMobEntity::getEntityFlags()
 {
-    m_flags = MobFlags;
+    return m_flags;
+}
+
+void CMobEntity::setEntityFlags(uint32 EntityFlags)
+{
+    m_flags = EntityFlags;
 }
 
 CMobEntity::~CMobEntity()
@@ -937,12 +942,12 @@ void CMobEntity::DropItems()
 }
 
 
-bool CMobEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CMessageBasicPacket>& errMsg)
+bool CMobEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket>& errMsg)
 {
     auto skill_list_id {getMobMod(MOBMOD_ATTACK_SKILL_LIST)};
     if (skill_list_id)
     {
-        auto attack_range {m_ModelSize};
+        auto attack_range {GetMeleeRange()};
         auto skillList {battleutils::GetMobSkillList(skill_list_id)};
         if (!skillList.empty())
         {
@@ -952,7 +957,8 @@ bool CMobEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CMessageBasic
                 attack_range = skill->getDistance();
             }
         }
-        if (distance(loc.p, PTarget->loc.p) > attack_range || !PAI->GetController()->IsAutoAttackEnabled())
+        if ((distance(loc.p, PTarget->loc.p) - PTarget->m_ModelSize) > attack_range ||
+            !PAI->GetController()->IsAutoAttackEnabled())
         {
             return false;
         }
