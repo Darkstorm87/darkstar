@@ -1,23 +1,13 @@
-/*
-Navicat MySQL Data Transfer
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+--
+-- Host: localhost    Database: dspdb
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.0.20-MariaDB
 
-Source Server         : Darkstar Project
-Source Server Version : 50613
-Source Host           : localhost:3306
-Source Database       : dspdb
+--
+-- Table structure for table `abilities`
+--
 
-Target Server Type    : MYSQL
-Target Server Version : 50613
-File Encoding         : 65001
-
-Date: 2013-08-19 13:59:41
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for abilities
--- ----------------------------
 DROP TABLE IF EXISTS `abilities`;
 CREATE TABLE `abilities` (
   `abilityId` smallint(5) unsigned NOT NULL,
@@ -43,13 +33,11 @@ CREATE TABLE `abilities` (
   PRIMARY KEY (`abilityId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AVG_ROW_LENGTH=56;
 
+--
+-- Dumping data for table `abilities`
+--
+-- ORDER BY:  `abilityId`
 
-
-
-
--- ----------------------------
--- Records of abilities
--- ----------------------------
 INSERT INTO `abilities` VALUES (0,'mighty_strikes',1,0,1,3600,0,0,0,33,2000,0,6,20.0,0,1,300,0,0,null);
 INSERT INTO `abilities` VALUES (1,'hundred_fists',2,0,1,3600,0,0,0,34,2000,0,6,20.0,0,1,300,0,0,null);
 INSERT INTO `abilities` VALUES (2,'benediction',3,0,1,3600,0,102,0,35,2000,0,6,20.0,1,0,0,0,0,null);
