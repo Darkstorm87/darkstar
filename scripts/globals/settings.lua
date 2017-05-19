@@ -56,7 +56,7 @@ ALL_MAPS = 1; -- Set to 1 to give starting characters all the maps.
 UNLOCK_OUTPOST_WARPS = 2; -- Set to 1 to give starting characters all outpost warps.  2 to add Tu'Lia and Tavnazia.
 
 SHOP_PRICE      = 1.000; -- Multiplies prices in NPC shops.
-GIL_RATE        = 1.000; -- Multiplies gil earned from quests.  Won't always display in game.
+GIL_RATE        = 5.000; -- Multiplies gil earned from quests.  Won't always display in game.
 BAYLD_RATE      = 1.000; -- Multiples bayld earned from quests.
 EXP_RATE        = 1.000; -- Multiplies exp earned from fov and quests.
 TABS_RATE       = 1.000; -- Multiplies tabs earned from fov.
@@ -75,10 +75,10 @@ HARVESTING_BREAK_CHANCE = 0.33; -- % chance for the sickle to break during harve
 EXCAVATION_BREAK_CHANCE = 0.33; -- % chance for the pickaxe to break during excavation.  Set between 0 and 1.
 LOGGING_BREAK_CHANCE    = 0.33; -- % chance for the hatchet to break during logging.  Set between 0 and 1.
 MINING_BREAK_CHANCE     = 0.33; -- % chance for the pickaxe to break during mining.  Set between 0 and 1.
-HARVESTING_RATE         = 0.50; -- % chance to recieve an item from haresting.  Set between 0 and 1.
-EXCAVATION_RATE         = 0.50; -- % chance to recieve an item from excavation.  Set between 0 and 1.
-LOGGING_RATE            = 0.50; -- % chance to recieve an item from logging.  Set between 0 and 1.
-MINING_RATE             = 50; -- % chance to recieve an item from mining.  Set between 0 and 100.
+HARVESTING_RATE         = 0.60; -- % chance to recieve an item from haresting.  Set between 0 and 1.
+EXCAVATION_RATE         = 0.60; -- % chance to recieve an item from excavation.  Set between 0 and 1.
+LOGGING_RATE            = 0.60; -- % chance to recieve an item from logging.  Set between 0 and 1.
+MINING_RATE             = 60; -- % chance to recieve an item from mining.  Set between 0 and 100.
 
 HEALING_TP_CHANGE       = -100; -- Change in TP for each healing tick. Default is -100
 
