@@ -35,8 +35,8 @@ REM ECHO Creating Database dspdb
 REM "c:\program files\mysql\mysql server 5.7\bin\mysqladmin" -h localhost -u ***REMOVED*** -p***REMOVED*** CREATE dspdb
 
 ECHO Loading dspdb tables into the database
-B:
-cd B:\FFIvalice\Source\Repos\Ivalice\sql
+F:
+cd F:\FFIvalice\sql
 
 del auction_house.sql
 del chars.sql
