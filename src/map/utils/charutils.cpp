@@ -3266,7 +3266,7 @@ namespace charutils
                         exp *= monsterbonus;
                     }
 
-                    permonstercap = ((PMember->PParty != nullptr && pcinzone > 1) ? 1.35f : 1.15f);
+                    permonstercap = ((PMember->PParty != nullptr && pcinzone > 1) ? 1.5f : 1.15f);
 
                     if (PMember->GetMLevel() <= 50)
                     {
