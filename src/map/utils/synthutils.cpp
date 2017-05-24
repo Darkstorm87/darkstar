@@ -329,7 +329,7 @@ uint8 calcSynthResult(CCharEntity* PChar)
 
 			if(synthDiff <= 0)
 			{
-				success = 0.95;
+				success = 0.99;
 
 				if(synthDiff > -11) //0-10 levels over recipe
 				{
