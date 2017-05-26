@@ -151,7 +151,7 @@ function doEnspell(caster,target,spell,effect)
         duration = duration * 3;
     end
     --calculate potency
-    local magicskill = target:getSkillLevel(ENHANCING_MAGIC_SKILL);
+    local magicskill = caster:getSkillLevel(ENHANCING_MAGIC_SKILL);
 
     local potency = 3 + math.floor((6*magicskill)/100);
     if (magicskill>200) then
