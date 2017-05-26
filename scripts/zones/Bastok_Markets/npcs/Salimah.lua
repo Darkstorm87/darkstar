@@ -109,6 +109,6 @@ function onEventFinish(player,csid,option)
         player:messageSpecial(GIL_OBTAINED,gil*GIL_RATE);
         player:addFame(BASTOK,fame);
         player:addTitle(MOMMYS_HELPER);
-        player:needToZone(true);
+        -- player:needToZone(true);
     end
 end;
