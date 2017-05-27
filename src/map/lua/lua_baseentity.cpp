@@ -3105,14 +3105,14 @@ inline int32 CLuaBaseEntity::sendGuild(lua_State* L)
 
     GUILDSTATUS status = GUILD_OPEN;
 
-    if (VanadielDay == holiday)
+    /*if (VanadielDay == holiday)
     {
         status = GUILD_HOLYDAY;
     }
     else if ((VanadielHour < open) || (VanadielHour >= close))
     {
         status = GUILD_CLOSE;
-    }
+    }*/
     CItemContainer* PGuildShop = guildutils::GetGuildShop(GuildID);
     ((CCharEntity*)m_PBaseEntity)->PGuildShop = PGuildShop;
     ((CCharEntity*)m_PBaseEntity)->pushPacket(new CGuildMenuPacket(status, open, close, holiday));
