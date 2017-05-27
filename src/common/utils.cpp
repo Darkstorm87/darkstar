@@ -185,12 +185,7 @@ uint8 getangle(const position_t& A, const position_t& B)
 bool isFaceing(const position_t& A, const position_t& B, uint8 coneAngle)
 {
 	int32 angle = getangle(A,B);
-    coneAngle = coneAngle >> 1;
-    
-    //need to check to see if the angle and rotation are within the coneAngle
-    //special scenario when the rotation is near 256, need to see if the angle is near to zero in quadrant 1
-    //special scenario when the angle is near 256, need to see if the rotation is near to zero in quadrant 1
-	return abs(angle - A.rotation) <= coneAngle || 256 - A.rotation + angle < coneAngle || A.rotation + 256 - angle < coneAngle;
+    return abs(int8(angle - A.rotation)) < (coneAngle >> 1);
 }
 
 /**
