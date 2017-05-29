@@ -80,24 +80,24 @@ function onEventFinish(player,csid,option)
         player:addQuest(OTHER_AREAS,ONLY_THE_BEST);
     elseif (csid == 0x003e) then
         player:tradeComplete();
-        player:addGil(100);
-        player:messageSpecial(GIL_OBTAINED,100);
+        player:addGil(GIL_RATE*100);
+        player:messageSpecial(GIL_OBTAINED,GIL_RATE*100);
         player:addFame(BASTOK, 10);
         player:addFame(SANDORIA, 10);
         player:addFame(JEUNO, 10);
         player:completeQuest(OTHER_AREAS,ONLY_THE_BEST);
     elseif (csid == 0x003f) then
         player:tradeComplete();
-        player:addGil(120);
-        player:messageSpecial(GIL_OBTAINED,120);
+        player:addGil(GIL_RATE*120);
+        player:messageSpecial(GIL_OBTAINED,GIL_RATE*120);
         player:addFame(BASTOK, 20);
         player:addFame(SANDORIA, 20);
         player:addFame(JEUNO, 20);
         player:completeQuest(OTHER_AREAS,ONLY_THE_BEST);
     elseif (csid == 0x0040) then
         player:tradeComplete();
-        player:addGil(600);
-        player:messageSpecial(GIL_OBTAINED,600);
+        player:addGil(GIL_RATE*600);
+        player:messageSpecial(GIL_OBTAINED,GIL_RATE*600);
         player:addFame(BASTOK, 30);
         player:addFame(SANDORIA, 30);
         player:addFame(JEUNO, 30);
