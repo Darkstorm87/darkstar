@@ -804,7 +804,7 @@ void CMobEntity::DropItems()
             //ShowDebug(CL_CYAN"DropID: %u dropping with TH Level: %u\n" CL_RESET, PMob->m_DropID, PMob->m_THLvl);
 
 			uint8 maxTries = 1 + (m_THLvl > 2 ? 2 : m_THLvl);
-			uint8 bonus = (m_THLvl > 2 ? (m_THLvl - 2) : 0);
+			uint8 bonus = (m_THLvl > 2 ? (m_THLvl - 2) : 0) * 10;// this adds 1% per TH over TH2
 
             if (DropList != nullptr && !getMobMod(MOBMOD_NO_DROPS) && DropList->size())
             {
