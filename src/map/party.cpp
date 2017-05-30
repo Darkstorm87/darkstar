@@ -648,10 +648,13 @@ CBattleEntity* CParty::GetQuaterMaster()
 
 uint16 CParty::GetMemberFlags(CBattleEntity* PEntity)
 {
-    DSP_DEBUG_BREAK_IF(PEntity == nullptr);
-    DSP_DEBUG_BREAK_IF(PEntity->PParty != this);
-
     uint16 Flags = 0;
+    DSP_DEBUG_BREAK_IF(PEntity == nullptr);
+
+    if (PEntity->PParty != this)
+        return Flags;
+
+    DSP_DEBUG_BREAK_IF(PEntity->PParty != this);
 
     if (PEntity->PParty->m_PAlliance != nullptr)
     {

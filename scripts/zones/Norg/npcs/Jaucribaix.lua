@@ -78,7 +78,7 @@ function onTrigger(player,npc)
             player:startEvent(0x008c); -- CS with Mumeito
         end
     elseif (theSacredKatana == QUEST_COMPLETED and yomiOkuri == QUEST_AVAILABLE and mJob == 12 and mLvl >= AF2_QUEST_LEVEL) then 
-        if (player:needToZone() or tonumber(os.date("%j")) == player:getVar("Wait1DayForYomiOkuri_date")) then
+        if (player:needToZone() or tonumber(os.date("%M")) == player:getVar("Wait1DayForYomiOkuri_date")) then
             player:startEvent(0x008e); -- Need to zone and wait midnight after "The Sacred Katana"
         else
             player:startEvent(0x0092); -- Start Quest "Yomi Okuri"
@@ -90,7 +90,7 @@ function onTrigger(player,npc)
             player:startEvent(0x0093);
         elseif (yomotsuFeather) then 
             player:startEvent(0x0098);
-        elseif (yomiOkuriCS == 4 and (tonumber(os.date("%j")) == player:getVar("Wait1DayForYomiOkuri2_date") or player:needToZone())) then
+        elseif (yomiOkuriCS == 4 and (tonumber(os.date("%M")) == player:getVar("Wait1DayForYomiOkuri2_date") or player:needToZone())) then
             player:startEvent(0x0099);
         elseif (yomiOkuriCS == 4) then
             player:startEvent(0x009a);
@@ -100,7 +100,7 @@ function onTrigger(player,npc)
             player:startEvent(0x009c); -- Finish Quest "Yomi Okuri"
         end
     elseif (yomiOkuri == QUEST_COMPLETED and aThiefinNorg == QUEST_AVAILABLE and mJob == 12 and mLvl >= 50) then 
-        if (player:needToZone() or tonumber(os.date("%j")) == player:getVar("Wait1DayForAThiefinNorg_date")) then
+        if (player:needToZone() or tonumber(os.date("%M")) == player:getVar("Wait1DayForAThiefinNorg_date")) then
             player:startEvent(0x009d); -- Need to zone and wait midnight after "Yomi Okuri"
         else
             player:startEvent(0x009e); -- Start Quest "A Thief in Norg!?"
@@ -120,7 +120,7 @@ function onTrigger(player,npc)
             player:startEvent(0x00a0);
         elseif (aThiefinNorgCS == 8) then
             player:startEvent(0x00a1);
-        elseif (aThiefinNorgCS == 9 and (player:needToZone() or tonumber(os.date("%j")) == player:getVar("Wait1DayForAThiefinNorg2_date"))) then
+        elseif (aThiefinNorgCS == 9 and (player:needToZone() or tonumber(os.date("%M")) == player:getVar("Wait1DayForAThiefinNorg2_date"))) then
             player:startEvent(0x00a3);
         elseif (aThiefinNorgCS == 9) then
             player:startEvent(0x00a4); -- Finish Quest "A Thief in Norg!?"
@@ -153,7 +153,7 @@ function onEventFinish(player,csid,option)
         player:addQuest(OUTLANDS,FORGE_YOUR_DESTINY);
     elseif (csid == 0x001b) then
         player:tradeComplete();
-        player:setVar("ForgeYourDestiny_timer", os.time() + 10368); --Add 3 game days
+        player:setVar("ForgeYourDestiny_timer", os.date("%M")); --Add 1 minute
     elseif (csid == 0x001d) then
         player:tradeComplete();
         player:addTitle(BUSHIDO_BLADE);
@@ -170,7 +170,7 @@ function onEventFinish(player,csid,option)
         player:tradeComplete();
         player:delKeyItem(HANDFUL_OF_CRYSTAL_SCALES);
         player:needToZone(true);
-        player:setVar("Wait1DayForYomiOkuri_date", os.date("%j")); -- %M for next minute, %j for next day
+        player:setVar("Wait1DayForYomiOkuri_date", os.date("%M")); -- %M for next minute, %j for next day
         player:setVar("Wait1DayForYomiOkuri",VanadielDayOfTheYear());
         player:addItem(17812);
         player:messageSpecial(ITEM_OBTAINED,17812); -- Magoroku
@@ -184,7 +184,7 @@ function onEventFinish(player,csid,option)
         player:delKeyItem(YOMOTSU_FEATHER);
         player:setVar("yomiOkuriCS",4);
         player:needToZone(true);
-        player:setVar("Wait1DayForYomiOkuri2_date", os.date("%j")); -- %M for next minute, %j for next day
+        player:setVar("Wait1DayForYomiOkuri2_date", os.date("%M")); -- %M for next minute, %j for next day
     elseif (csid == 0x009a) then
         player:setVar("yomiOkuriCS",5);
         player:setVar("Wait1DayForYomiOkuri2_date",0);
@@ -199,7 +199,7 @@ function onEventFinish(player,csid,option)
             player:messageSpecial(ITEM_OBTAINED,14100); -- Myochin Sune-Ate
             player:setVar("yomiOkuriCS",0);
             player:needToZone(true);
-            player:setVar("Wait1DayForAThiefinNorg_date", os.date("%j")); -- %M for next minute, %j for next day
+            player:setVar("Wait1DayForAThiefinNorg_date", os.date("%M")); -- %M for next minute, %j for next day
             player:addFame(NORG,AF2_FAME);
             player:completeQuest(OUTLANDS,YOMI_OKURI);
         end
@@ -222,7 +222,7 @@ function onEventFinish(player,csid,option)
         player:delKeyItem(CHARRED_HELM);
         player:setVar("aThiefinNorgCS",9);
         player:needToZone(true);
-        player:setVar("Wait1DayForAThiefinNorg2_date", os.date("%j")); -- %M for next minute, %j for next day
+        player:setVar("Wait1DayForAThiefinNorg2_date", os.date("%M")); -- %M for next minute, %j for next day
     elseif (csid == 0x00a4) then
         if (player:getFreeSlotsCount() < 1) then 
             player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,13868);
