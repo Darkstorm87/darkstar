@@ -110,15 +110,16 @@ function onEventFinish(player,csid,option)
                         end
                     end
 
-                    if (player:getNation() == guardnation) then
-                        itemCP = inventory[Item + 1];
-                    else
-                        if (inventory[Item + 1] <= 8000) then
-                            itemCP = inventory[Item + 1] * 2;
-                        else
-                            itemCP = inventory[Item + 1] + 8000;
-                        end;
-                    end;
+					itemCP = inventory[Item + 1];
+                    -- if (player:getNation() == guardnation) then
+                        -- itemCP = inventory[Item + 1];
+                    -- else
+                        -- if (inventory[Item + 1] <= 8000) then
+                            -- itemCP = inventory[Item + 1] * 2;
+                        -- else
+                            -- itemCP = inventory[Item + 1] + 8000;
+                        -- end;
+                    -- end;
 
                     if (player:hasItem(inventory[Item + 2]) == false) then
                         player:delCP(itemCP);
