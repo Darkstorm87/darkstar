@@ -293,8 +293,12 @@ function CharCreate(player)
     if (START_INVENTORY > 30) then
        player:changeContainerSize(0,(START_INVENTORY))
 	   player:changeContainerSize(1,(START_INVENTORY))
+	   player:changeContainerSize(4,(START_INVENTORY))
        player:changeContainerSize(5,(START_INVENTORY))
 	   player:changeContainerSize(6,(START_INVENTORY))
+	   
+	   player:setVar("mog-locker-access-type", 1);
+	   player:setVar("mog-locker-expiry-timestamp", 1767139200);
     end
 
     if (UNLOCK_OUTPOST_WARPS >= 1) then
