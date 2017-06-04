@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: dspdb
+-- Host: 192.168.1.10    Database: dspdb
 -- ------------------------------------------------------
 -- Server version	5.7.17-log
 
@@ -2314,9 +2314,9 @@ INSERT INTO `item_armor` VALUES (12551,'judges_cuirass',1,0,4194303,30,0,0,32,0,
 INSERT INTO `item_armor` VALUES (12552,'chainmail',24,0,6593,5,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (12553,'silver_mail',36,0,6593,5,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (12554,'banded_mail',46,0,6593,12,0,0,32,0,1);
-INSERT INTO `item_armor` VALUES (12555,'haubergeon',59,0,6593,40,0,0,32,0,1);
-INSERT INTO `item_armor` VALUES (12556,'hauberk',69,0,385,58,0,0,32,0,1);
-INSERT INTO `item_armor` VALUES (12557,'adaman_hauberk',73,0,385,63,0,0,32,0,0);
+INSERT INTO `item_armor` VALUES (12555,'haubergeon',59,0,14785,40,0,0,32,0,1);
+INSERT INTO `item_armor` VALUES (12556,'hauberk',69,0,14785,58,0,0,32,0,1);
+INSERT INTO `item_armor` VALUES (12557,'adaman_hauberk',73,0,14785,63,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (12558,'ryl.kgt._chainmail',55,0,6593,13,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (12559,'ryl.sqr._chainmail',40,0,6593,12,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (12560,'scale_mail',10,0,2141649,28,0,0,32,0,1);
@@ -3491,7 +3491,7 @@ INSERT INTO `item_armor` VALUES (13731,'faerie_tunic',27,0,3851870,46,0,0,32,16,
 INSERT INTO `item_armor` VALUES (13732,'earth_doublet',42,0,3662710,43,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (13733,'shinobi_gi_+1',49,0,6146,4,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (13734,'scp._harness_+1',57,0,2472947,34,0,0,32,0,1);
-INSERT INTO `item_armor` VALUES (13735,'haubergeon_+1',59,0,6593,40,0,0,32,0,1);
+INSERT INTO `item_armor` VALUES (13735,'haubergeon_+1',59,0,14785,40,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (13736,'stolid_breastplate',45,0,193,2,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (13737,'mtl._brstplate_+1',49,0,193,29,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (13738,'gilt_cuirass',60,0,193,25,0,0,32,0,1);
@@ -3549,7 +3549,7 @@ INSERT INTO `item_armor` VALUES (13789,'cpc._breastplate',61,0,2371507,108,0,0,3
 INSERT INTO `item_armor` VALUES (13790,'cpc._brstplate_+1',61,0,2371507,108,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (13791,'timarli_jawshan',79,0,8385,203,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (13792,'grim_cuirass',80,0,193,202,0,0,32,0,0);
-INSERT INTO `item_armor` VALUES (13793,'hauberk_+1',69,0,385,58,0,0,32,0,1);
+INSERT INTO `item_armor` VALUES (13793,'hauberk_+1',69,0,14785,58,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (13794,'heavy_cuirass',70,0,193,22,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (13795,'arhats_gi',64,0,6146,59,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (13796,'bishops_robe',35,0,4179646,20,0,0,32,0,1);
@@ -4127,7 +4127,7 @@ INSERT INTO `item_armor` VALUES (14367,'crm._scale_mail',73,0,2204880,62,0,0,32,
 INSERT INTO `item_armor` VALUES (14368,'blood_scale_mail',73,0,2204880,62,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (14369,'arcane_robe',80,0,3850780,149,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (14370,'kaiser_cuirass',73,0,65,95,0,0,32,0,0);
-INSERT INTO `item_armor` VALUES (14371,'armada_hauberk',73,0,385,63,0,0,32,0,0);
+INSERT INTO `item_armor` VALUES (14371,'armada_hauberk',73,0,14785,63,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (14372,'cardinal_vest',73,0,2473969,33,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (14373,'bachelor_vest',73,0,2473969,33,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (14374,'field_tunica',1,0,4194303,105,0,0,32,0,0);
@@ -4200,8 +4200,8 @@ INSERT INTO `item_armor` VALUES (14440,'chasuble',72,0,16,143,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (14441,'chasuble_+1',72,0,16,143,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (14442,'yasha_samue_+1',71,0,4096,98,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (14443,'vampire_cloak',70,0,128,46,0,0,32,16,0);
-INSERT INTO `item_armor` VALUES (14444,'alumine_haubert',45,0,6593,150,0,0,32,0,1);
-INSERT INTO `item_armor` VALUES (14445,'luisant_haubert',45,0,6593,150,0,0,32,0,1);
+INSERT INTO `item_armor` VALUES (14444,'alumine_haubert',45,0,14785,150,0,0,32,0,1);
+INSERT INTO `item_armor` VALUES (14445,'luisant_haubert',45,0,14785,150,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (14446,'traders_saio',20,0,4179646,149,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (14447,'barons_saio',20,0,4179646,149,0,0,32,0,1);
 INSERT INTO `item_armor` VALUES (14448,'unicorn_harness',74,0,1,148,0,0,32,0,1);
@@ -13386,4 +13386,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-10 23:45:36
+-- Dump completed on 2017-06-04 13:44:16
