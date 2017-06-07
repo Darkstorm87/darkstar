@@ -25,6 +25,7 @@ This file is part of DarkStar-server source code.
 #define _CATTACK_STATE_H
 
 #include "state.h"
+#include "../../utils/charutils.h"
 
 class CAttackState : public CState
 {

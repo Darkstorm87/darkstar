@@ -1334,6 +1334,7 @@ MOD_BARSPELL_MDEF_BONUS       = 827 -- Extra magic defense bonus granted to the 
 MOD_RAPTURE_AMOUNT            = 568 -- Bonus amount added to Rapture effect
 MOD_EBULLIENCE_AMOUNT         = 569 -- Bonus amount added to Ebullience effect
 MOD_WYVERN_EFFECTIVE_BREATH   = 829 -- Increases the threshold for triggering healing breath
+MOD_DAKEN					  = 830 -- Percent change to proc Daken
 MOD_AQUAVEIL_COUNT            = 832 -- Modifies the amount of hits that Aquaveil absorbs before being removed
 MOD_SONG_RECAST_DELAY         = 833 -- Reduces song recast time in seconds.
 
@@ -1369,6 +1370,9 @@ MOD_ALL_WSDMG_FIRST_HIT     = 841 -- Generic (all Weaponskills) damage, first hi
 -- MOD_SPARE = 848 -- stuff
 -- MOD_SPARE = 849 -- stuff
 -- MOD_SPARE = 850 -- stuff
+MOD_ENMITY_CAP			= 2000
+MOD_DMG_II              = 2001
+
 
 ------------------------------------
 -- Merit Definitions
