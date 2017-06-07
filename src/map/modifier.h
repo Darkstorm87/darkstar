@@ -225,7 +225,7 @@ enum class Mod
     SKILLCHAINBONUS           = 174, // Damage bonus applied to skill chain damage.  Modifier from effects/traits
     SKILLCHAINDMG             = 175, // Damage bonus applied to skill chain damage.  Modifier from gear (multiplicative after effect/traits)
 
-    MAGIC_DAMAGE             = 311, // Magic damage added directly to the spell's base damage
+    MAGIC_DAMAGE              = 311, // Magic damage added directly to the spell's base damage
 
     // FOOD!
     FOOD_HPP                  = 176, //
@@ -392,6 +392,7 @@ enum class Mod
     UTSUSEMI                  = 307, // Everyone's favorite --tracks shadows.
     NINJA_TOOL                = 308, // Percent chance to not use a tool.
     NIN_NUKE_BONUS            = 522, // magic attack bonus for NIN nukes
+    DAKEN                     = 830, // Percent chance to proc Daken
 
     // Dragoon
     JUMP_TP_BONUS             = 361, // bonus tp player receives when using jump (must be divided by 10)

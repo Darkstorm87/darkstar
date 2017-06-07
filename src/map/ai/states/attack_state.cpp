@@ -24,10 +24,12 @@ This file is part of DarkStar-server source code.
 #include "attack_state.h"
 
 #include "../../entities/battleentity.h"
+#include "../../status_effect_container.h"
 
 #include "../../utils/battleutils.h"
 #include "../../packets/action.h"
 #include "../ai_container.h"
+#include "../../items/item_weapon.h"
 
 CAttackState::CAttackState(CBattleEntity* PEntity, uint16 targid) :
     CState(PEntity, targid),
@@ -66,8 +68,23 @@ bool CAttackState::Update(time_point tick)
             action_t action;
             if (m_PEntity->OnAttack(*this, action))
             {
+                //IF PC and has Daken and Ammo is MId 22 which appears to be shuriken
+                if (m_PEntity->objtype == TYPE_PC)
+                {
+                    CCharEntity* PChar = (CCharEntity*)m_PEntity;
+                    if (charutils::hasTrait(PChar, TRAIT_DAKEN) && ((CItemWeapon*)PChar->getEquip(SLOT_AMMO))->getModelId() == 22)
+                    {
+                        auto chance = m_PEntity->getMod(Mod::DAKEN);
+                        if (dsprand::GetRandomNumber(100) < chance || m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE))
+                        {
+                            PChar->OnDakenAttack(PTarget, action);
+                        }
+                    }
+                }
+
                 m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             }
+
         }
         else if (m_PEntity->OnAttackError(*this))
         {
