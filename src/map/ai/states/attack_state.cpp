@@ -72,7 +72,8 @@ bool CAttackState::Update(time_point tick)
                 if (m_PEntity->objtype == TYPE_PC)
                 {
                     CCharEntity* PChar = (CCharEntity*)m_PEntity;
-                    if (charutils::hasTrait(PChar, TRAIT_DAKEN) && ((CItemWeapon*)PChar->getEquip(SLOT_AMMO))->getModelId() == 22)
+                    CItemWeapon* CItem = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
+                    if (charutils::hasTrait(PChar, TRAIT_DAKEN) && CItem != nullptr && CItem->getModelId() == 22)
                     {
                         auto chance = m_PEntity->getMod(Mod::DAKEN);
                         if (dsprand::GetRandomNumber(100) < chance || m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE))
