@@ -142,6 +142,7 @@ npcToAugmentType = {
 				   }
 
 function onTrade(player,npc,trade)
+	local augmentType = npcToAugmentType[npc:getID()];
 	if (trade:getSlotCount() == 1) then
 		local item = trade:getItem();
 		if (item:isType(ITEM_ARMOR) and item:getSkillType() ~= SKILL_THR) then
@@ -151,7 +152,7 @@ function onTrade(player,npc,trade)
 				itemAugments[augmentId] = { Value = augmentValue, AugSlot = i };
             end
 
-			local augmentType = npcToAugmentType[npc:getID()];
+			
 			local augId, augVal = findItemAugment(itemAugments, augmentType);
 			if (augId ~= nil) then
 				if (augments[augId].Multiplier ~= nil) then
@@ -189,24 +190,19 @@ function onTrade(player,npc,trade)
 			end
 			
 			if (gearItem ~= nil and augItemId ~= nil and nmItemId ~= nil) then
-				local itemAugments = {}
-				local augCount;
-				for i = 0, 3 do
+				local itemAugments = {};
+				local augCount = 0;
+				for i = 0, 2 do
 					local augmentId, augmentValue = gearItem:getAugment(i);
-					if (augmentId > 0) then
-						itemAugments[augmentId] = { Value = augmentValue, AugSlot = i };
-						
-						if (augCount == nil) then
-							augCount = i;
-						elseif (i > augCount) then
-							augCount = i;
-						end
+					if (augmentId > 0 and augments[augmentId] ~= nil) then
+						itemAugments[augments[augmentId].Type] = {Value = augmentValue, AugId = augmentId, AugSlot = i};
+						augCount = augCount + 1;
 					end
 				end
-				
-				local augId = findAugment(augItemId, npcToAugmentType[npc:getID()]);
-				if (augId ~= nil and itemAugments[augId] ~= nil) then
-					local augVal = itemAugments[augId].Value;
+												
+				local augId = getAugmentId(augItemId, augmentType);
+				if (augId ~= nil and itemAugments[augmentType] ~= nil and itemAugments[augmentType].AugId == augId) then
+					local augVal = itemAugments[augmentType].Value;
 					if (augments[augId].Multiplier ~= nil) then
 						augVal = math.floor(augVal / augments[augId].Multiplier);
 					end
@@ -218,7 +214,7 @@ function onTrade(player,npc,trade)
 								augVal = augVal+1;
 								augVal = (augVal * augments[augId].Multiplier)-1;
 							end
-							itemAugments[augId].Value = augVal;
+							itemAugments[augmentType].Value = augVal;
 						else
 							player:PrintSayToPlayer(npc,"These are not what I asked for.  I can do nothing with these.");
 							return;
@@ -233,41 +229,36 @@ function onTrade(player,npc,trade)
 						augVal = augments[augId].Multiplier - 1;
 					end
 					
-					local augSlot;
-					if (augCount == nil) then
-						augSlot = 0;
+					if (itemAugments[augmentType] ~= nil) then
+						itemAugments[augmentType].AugId = augId;
+						itemAugments[augmentType].Value = augVal;
 					else
-						augSlot = augCount + 1;
+						itemAugments[augmentType] = {AugId = augId, Value = augVal, AugSlot = augCount}; -- this is a new augment of this type
 					end
-					
-					itemAugments[augId] = {Value = augVal, AugSlot = augSlot};
 				else
 					player:PrintSayToPlayer(npc,"These are not what I asked for.  I can do nothing with these.");
 					return;
 				end
 				
-				local aug0, aug0val, aug1, aug1val, aug2, aug2val, aug3, aug3val;
+				local aug0, aug0val, aug1, aug1val, aug2, aug2val;
 				for k, v in pairs(itemAugments) do
-					--player:PrintToPlayer(string.format("augid: %s, augslot: %s, augval: %s", k, v.AugSlot, v.Value));
+					--player:PrintToPlayer(string.format("augid: %s, augslot: %s, augval: %s", v.AugId, v.AugSlot, v.Value));
 					if (v.AugSlot == 0) then
-						aug0 = k;
+						aug0 = v.AugId;
 						aug0val = v.Value;
 					elseif (v.AugSlot == 1) then
-						aug1 = k;
+						aug1 = v.AugId;
 						aug1val = v.Value;
 					elseif (v.AugSlot == 2) then
-						aug2 = k;
+						aug2 = v.AugId;
 						aug2val = v.Value;
-					elseif (v.AugSlot == 3) then
-						aug3 = k;
-						aug3val = v.Value;
 					end
 				end
 				
 				local gearItemId = gearItem:getID();
 				
 				player:tradeComplete();
-				player:addItem(gearItemId, 1, aug0, aug0val, aug1, aug1val, aug2, aug2val, aug3, aug3val);
+				player:addItem(gearItemId, 1, aug0, aug0val, aug1, aug1val, aug2, aug2val);
 				player:PrintSayToPlayer(npc,"Pleasure doing buisiness with you.");
 				player:messageSpecial(ITEM_OBTAINED, gearItemId);
 			else
@@ -330,7 +321,7 @@ function findItemAugment(itemAugments, augmentType)
 	end
 end;
 
-function findAugment(augItemId, augmentType)
+function getAugmentId(augItemId, augmentType)
 	for k, v in pairs(augments) do
 		if (v.Type == augmentType and v.AugItem1 == augItemId) then
 			return k;
