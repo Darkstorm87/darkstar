@@ -400,6 +400,7 @@ enum class Mod
     HIGH_JUMP_ENMITY_REDUCTION = 363, // for gear that reduces more enmity from high jump
     FORCE_JUMP_CRIT           = 828, // Critical hit rate bonus for jump and high jump
     WYVERN_EFFECTIVE_BREATH   = 829, // Increases the threshold for triggering healing breath/offensive breath more inclined to pick elemental weakness
+    ANCIENT_CIRCLE_DURATION   = 842, // Increases the duration of Ancient Circle/shutdown
 
     // Summoner
     AVATAR_PERPETUATION       = 371, // stores base cost of current avatar
@@ -655,7 +656,6 @@ enum class Mod
     ALL_WSDMG_FIRST_HIT       = 841 // Generic (all Weaponskills) damage, first hit only.
 
     // 570 through 825 used by WS DMG mods these are not spares.
-    // SPARE = 842, // stuff
     // SPARE = 843, // stuff
     // SPARE = 844, // stuff
     // SPARE = 845, // stuff
