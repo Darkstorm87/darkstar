@@ -26,7 +26,7 @@ function onTrigger(player,npc)
     
     local cprog = player:getVar("theCrimsonTrial_prog");
     local cdate = player:getVar("theCrimsonTrial_date");
-    local realday = tonumber(os.date("%j")); -- %M for next minute, %j for next day
+    local realday = tonumber(os.date("%M")); -- %M for next minute, %j for next day
     
     if (player:hasKeyItem(CRAWLER_BLOOD) == true and player:hasKeyItem(OLD_BOOTS) == true) then
         player:startEvent(4);

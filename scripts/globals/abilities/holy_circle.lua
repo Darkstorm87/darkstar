@@ -22,9 +22,11 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
+	local duration = 180 + player:getMod(MOD_HOLY_CIRCLE_DURATION);
+	
 	if (target:getMainJob() ~= JOBS.PLD) then
-		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,180,0,5);
+		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,duration,0,5);
 	else
-		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,180);
+		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,duration);
 	end
 end;

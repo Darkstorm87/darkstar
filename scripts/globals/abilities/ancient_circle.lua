@@ -22,7 +22,7 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
-	local duration = 180 + player:getMod(MOD_ANCIENT_CIRCLE_DURATION);;
+	local duration = 180 + player:getMod(MOD_ANCIENT_CIRCLE_DURATION);
 
 	if (target:getMainJob() ~= JOBS.DRG) then
 		local accBonusValue = player:getTraitValue(TRAIT_ACCURACY_BONUS);
