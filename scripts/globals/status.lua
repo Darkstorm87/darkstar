@@ -1357,6 +1357,7 @@ MOD_ALL_WSDMG_ALL_HITS      = 840 -- Generic (all Weaponskills) damage, on all h
 -- Per https://www.bg-wiki.com/bg/Weapon_Skill_Damage we need all 3..
 MOD_ALL_WSDMG_FIRST_HIT     = 841 -- Generic (all Weaponskills) damage, first hit only.
 MOD_ANCIENT_CIRCLE_DURATION = 842
+MOD_HOLY_CIRCLE_DURATION    = 843
 
 -- The entire mod list is in desperate need of kind of some organizing.
 -- The spares take care of finding the next ID to use so long as we don't forget to list IDs that have been freed up by refactoring.

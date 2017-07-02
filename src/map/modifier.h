@@ -329,6 +329,7 @@ enum class Mod
     ENMITY_REDUCTION_PHYSICAL = 427, // TODO: Reduces Enmity decrease when taking physical damage
     SHIELD_MASTERY_TP         = 485, // Shield mastery TP bonus when blocking with a shield
     SENTINEL_EFFECT           = 837, // Sentinel effect in percents
+    HOLY_CIRCLE_DURATION      = 843, // Holy circle duration
 
     // Dark Knight
     SOULEATER_EFFECT          = 96,  // Souleater power in percents
@@ -656,7 +657,6 @@ enum class Mod
     ALL_WSDMG_FIRST_HIT       = 841 // Generic (all Weaponskills) damage, first hit only.
 
     // 570 through 825 used by WS DMG mods these are not spares.
-    // SPARE = 843, // stuff
     // SPARE = 844, // stuff
     // SPARE = 845, // stuff
     // SPARE = 846, // stuff
