@@ -22,9 +22,17 @@ end;
 
 function onUseAbility(player,target,ability)
 	if (target:getMainJob() ~= JOBS.DRK) then
-		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,180,0,5); -- Pass a sub power of 5
+		local duration = 180 + player:getMod(MOD_ARCANE_CIRCLE_DURATION);
+		
+		local subPower = 5;
+	
+		if (player:getMainLvl() > 50 and player:getMainLvl() % 5 == 0) then
+			subPower = subPower + (player:getMainLvl() - 50) / 5;
+		end
+		
+		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,duration,0,subPower);
 	else
-		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,180);
+		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,duration);
 	end
     
 end;

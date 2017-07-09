@@ -15,7 +15,7 @@ end;
 
 function onSpellCast(caster,target,spell)
     local power = 120;
-    local duration = 1800;
+    local duration = 7200;
 
     duration = calculateDurationForLvl(duration, 63, target:getMainLvl());
 

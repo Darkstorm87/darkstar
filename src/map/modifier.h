@@ -333,6 +333,7 @@ enum class Mod
 
     // Dark Knight
     SOULEATER_EFFECT          = 96,  // Souleater power in percents
+    ARCANE_CIRCLE_DURATION    = 844, // Arcane circle duration
 
     // Beastmaster
     TAME                      = 304, // Additional percent chance to charm
@@ -657,7 +658,6 @@ enum class Mod
     ALL_WSDMG_FIRST_HIT       = 841 // Generic (all Weaponskills) damage, first hit only.
 
     // 570 through 825 used by WS DMG mods these are not spares.
-    // SPARE = 844, // stuff
     // SPARE = 845, // stuff
     // SPARE = 846, // stuff
     // SPARE = 847, // stuff
