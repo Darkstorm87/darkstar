@@ -15,7 +15,7 @@ end;
 
 function onSpellCast(caster,target,spell)
 
-    local duration = 180;
+    local duration = 300;
 
     if (caster:hasStatusEffect(EFFECT_COMPOSURE) == true and caster:getID() == target:getID()) then
        duration = duration * 3;

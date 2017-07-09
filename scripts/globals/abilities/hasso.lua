@@ -33,6 +33,6 @@ function onUseAbility(player,target,ability)
     if (target:isWeaponTwoHanded()) then
         target:delStatusEffect(EFFECT_HASSO);
         target:delStatusEffect(EFFECT_SEIGAN);
-        target:addStatusEffect(EFFECT_HASSO,strboost,0,300);
+        target:addStatusEffect(EFFECT_HASSO,strboost,0,3600);
     end
 end;

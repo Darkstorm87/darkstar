@@ -16,7 +16,7 @@ end;
 
 function onSpellCast(caster,target,spell)
     local mp = 3;
-    local duration = 180;
+    local duration = 300;
 
     mp = mp + caster:getMod(MOD_ENHANCES_REFRESH);
 

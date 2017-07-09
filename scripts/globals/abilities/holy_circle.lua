@@ -25,7 +25,13 @@ function onUseAbility(player,target,ability)
 	local duration = 180 + player:getMod(MOD_HOLY_CIRCLE_DURATION);
 	
 	if (target:getMainJob() ~= JOBS.PLD) then
-		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,duration,0,5);
+		local subPower = 5;
+	
+		if (player:getMainLvl() > 50 and player:getMainLvl() % 5 == 0) then
+			subPower = subPower + (player:getMainLvl() - 50) / 5;
+		end
+	
+		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,duration,0,subPower);
 	else
 		target:addStatusEffect(EFFECT_HOLY_CIRCLE,1,0,duration);
 	end
