@@ -21,9 +21,8 @@ end;
 -----------------------------------
 
 function onUseAbility(player,target,ability)
+	local duration = 180 + player:getMod(MOD_ARCANE_CIRCLE_DURATION);
 	if (target:getMainJob() ~= JOBS.DRK) then
-		local duration = 180 + player:getMod(MOD_ARCANE_CIRCLE_DURATION);
-		
 		local subPower = 5;
 	
 		if (player:getMainLvl() > 50 and player:getMainLvl() % 5 == 0) then
