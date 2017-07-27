@@ -236,8 +236,10 @@ function onTrade(player,npc,trade)
 					end
 				end
 												
-				local augId, augVal = getAugmentId(augItemId, augmentType, itemAugments);
+				local augId, augVal = getAugmentId(augItemId, augmentType, itemAugments, nmItemId);
+				player:PrintToPlayer(string.format("augid: %s, augval: %s", augId, augVal));
 				if (augId ~= nil and itemAugments[augmentType] ~= nil and (itemAugments[augmentType].AugId == augId or augments[itemAugments[augmentType].AugId].NextAugId == augId)) then	
+				player:PrintToPlayer("Here");
 					if (augVal < 8) then
 						if (augCost[augVal] == tradeGil and nmDropItem[augVal] == nmItemId and augments[augId].AugItem1 == augItemId) then
 							augVal = augVal+1;
@@ -350,13 +352,14 @@ function onEventFinish(player,csid,option)
     -- printf("RESULT: %u",option);
 end;
 
-function getAugmentId(augItemId, augmentType, itemAugments)
+function getAugmentId(augItemId, augmentType, itemAugments, nmItemId)
 	local augId;
 	local augTier = 0;
-	if (itemAugments[augmentType] ~= nil) then
+		
+	if (itemAugments[augmentType] ~= nil and nmDropItem[0] ~= nmItemId) then
 		augTier = itemAugments[augmentType].Value;
 		augId = itemAugments[augmentType].AugId;
-		
+				
 		if (augments[augId].Multiplier ~= nil) then
 			augTier = math.floor(augTier / augments[augId].Multiplier);
 		end
@@ -364,10 +367,11 @@ function getAugmentId(augItemId, augmentType, itemAugments)
 		if (augments[augId].EndTier ~= nil and augments[augId].EndTier == augTier) then
 			augId = augments[augId].NextAugId;
 		end
-	else
+	else 
 		for k, v in pairs(augments) do
 			if (v.Type == augmentType and v.AugItem1 == augItemId and (v.StartTier == nil or v.StartTier == true)) then
 				augId = k;
+				break;
 			end
 		end
 	end
