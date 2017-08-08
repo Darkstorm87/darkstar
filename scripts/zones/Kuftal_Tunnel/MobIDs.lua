@@ -7,17 +7,17 @@
 
 
 -- Cancer
-Cancer=17490231;
+Cancer = 17490231;
 
 -- Dervo's Ghost
-Dervo_s_Ghost=17489927;
+Dervo_s_Ghost = 17489927;
 
 -- Gizerl's Ghost
-Gizerl_s_Ghost=17489928;
+Gizerl_s_Ghost = 17489928;
 
 -- Gordov's Ghost
-Gordov_s_Ghost=17489926;
+Gordov_s_Ghost = 17489926;
 
 -- Phantom Worm
-Phantom_Worm=17490233;
+Phantom_Worm = 17490233;
 
