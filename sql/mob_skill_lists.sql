@@ -1128,12 +1128,15 @@ INSERT INTO `mob_skill_lists` VALUES ('IrizIma',295,1707);
 INSERT INTO `mob_skill_lists` VALUES ('IrizIma',295,1706);
 INSERT INTO `mob_skill_lists` VALUES ('IrizIma',295,1705);
 INSERT INTO `mob_skill_lists` VALUES ('IrizIma',295,1704);
+-- INSERT INTO `mob_skill_lists` VALUES ('IrizIma',295,1708);
 INSERT INTO `mob_skill_lists` VALUES ('LividrootAmoo',296,316);
 INSERT INTO `mob_skill_lists` VALUES ('LividrootAmoo',296,317);
 INSERT INTO `mob_skill_lists` VALUES ('LividrootAmoo',296,319);
 INSERT INTO `mob_skill_lists` VALUES ('LividrootAmoo',296,320);
 INSERT INTO `mob_skill_lists` VALUES ('IririSamariri',297,1959);
 INSERT INTO `mob_skill_lists` VALUES ('IririSamariri',297,1958);
+-- INSERT INTO `mob_skill_lists` VALUES ('IririSamariri',297,1960);
+-- INSERT INTO `mob_skill_lists` VALUES ('IririSamariri',297,1962);
 INSERT INTO `mob_skill_lists` VALUES ('Anantaboga',298,644);
 INSERT INTO `mob_skill_lists` VALUES ('Anantaboga',298,645);
 INSERT INTO `mob_skill_lists` VALUES ('Anantaboga',298,646);
@@ -2939,4 +2942,9 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-08 21:24:31
+INSERT INTO `mob_skill_lists` VALUES ('Flame_Skimmer',997,318); -- somersault
+INSERT INTO `mob_skill_lists` VALUES ('Flame_Skimmer',997,659); -- cuirsed_sphere
+INSERT INTO `mob_skill_lists` VALUES ('Flame_Skimmer',997,660); -- venom
+-- INSERT INTO `mob_skill_lists` VALUES ('Flame_Skimmer',997,1624); -- debilitating_drone
+
+INSERT INTO `mob_skill_lists` VALUES ('Hovering_Hotpot',998,521); -- spinning attack
