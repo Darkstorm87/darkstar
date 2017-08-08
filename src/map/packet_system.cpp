@@ -4021,41 +4021,38 @@ void SmallPacket0x0BE(map_session_data_t* session, CCharEntity* PChar, CBasicPac
     break;
     case 3: // change merit
     {
-        if (PChar->m_moghouseID)
+        MERIT_TYPE merit = (MERIT_TYPE)(RBUFW(data, (0x06)) << 1);
+
+        if (PChar->PMeritPoints->IsMeritExist(merit))
         {
-            MERIT_TYPE merit = (MERIT_TYPE)(RBUFW(data, (0x06)) << 1);
-
-            if (PChar->PMeritPoints->IsMeritExist(merit))
+            switch (operation)
             {
-                switch (operation)
-                {
-                case 0: PChar->PMeritPoints->LowerMerit(merit); break;
-                case 1: PChar->PMeritPoints->RaiseMerit(merit); break;
-                }
-                PChar->pushPacket(new CMenuMeritPacket(PChar));
-                PChar->pushPacket(new CMeritPointsCategoriesPacket(PChar, merit));
-
-                charutils::SaveCharExp(PChar, PChar->GetMJob());
-                PChar->PMeritPoints->SaveMeritPoints(PChar->id);
-
-                charutils::BuildingCharSkillsTable(PChar);
-                charutils::CalculateStats(PChar);
-                charutils::CheckValidEquipment(PChar);
-                charutils::BuildingCharAbilityTable(PChar);
-                charutils::BuildingCharTraitsTable(PChar);
-
-                PChar->UpdateHealth();
-                PChar->addHP(PChar->GetMaxHP());
-                PChar->addMP(PChar->GetMaxMP());
-                PChar->pushPacket(new CCharUpdatePacket(PChar));
-                PChar->pushPacket(new CCharStatsPacket(PChar));
-                PChar->pushPacket(new CCharSkillsPacket(PChar));
-                PChar->pushPacket(new CCharRecastPacket(PChar));
-                PChar->pushPacket(new CCharAbilitiesPacket(PChar));
-                PChar->pushPacket(new CCharJobExtraPacket(PChar, true));
-                PChar->pushPacket(new CCharJobExtraPacket(PChar, true));
-                PChar->pushPacket(new CCharSyncPacket(PChar));
+            case 0: PChar->PMeritPoints->LowerMerit(merit); break;
+            case 1: PChar->PMeritPoints->RaiseMerit(merit); break;
             }
+            PChar->pushPacket(new CMenuMeritPacket(PChar));
+            PChar->pushPacket(new CMeritPointsCategoriesPacket(PChar, merit));
+
+            charutils::SaveCharExp(PChar, PChar->GetMJob());
+            PChar->PMeritPoints->SaveMeritPoints(PChar->id);
+
+            charutils::BuildingCharSkillsTable(PChar);
+            charutils::CalculateStats(PChar);
+            charutils::CheckValidEquipment(PChar);
+            charutils::BuildingCharAbilityTable(PChar);
+            charutils::BuildingCharTraitsTable(PChar);
+
+            PChar->UpdateHealth();
+            PChar->addHP(PChar->GetMaxHP());
+            PChar->addMP(PChar->GetMaxMP());
+            PChar->pushPacket(new CCharUpdatePacket(PChar));
+            PChar->pushPacket(new CCharStatsPacket(PChar));
+            PChar->pushPacket(new CCharSkillsPacket(PChar));
+            PChar->pushPacket(new CCharRecastPacket(PChar));
+            PChar->pushPacket(new CCharAbilitiesPacket(PChar));
+            PChar->pushPacket(new CCharJobExtraPacket(PChar, true));
+            PChar->pushPacket(new CCharJobExtraPacket(PChar, true));
+            PChar->pushPacket(new CCharSyncPacket(PChar));
         }
     }
     break;
