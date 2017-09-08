@@ -683,12 +683,7 @@ namespace petutils
         PPet->health.maxmp = (int16)(raceStat + jobStat + sJobStat); // результат расчета MP
         PPet->health.mp = PPet->health.maxmp;
         //add in evasion from skill
-        int16 evaskill = PPet->GetSkill(SKILL_EVA);
-        int16 eva = evaskill;
-        if (evaskill > 200){ //Evasion skill is 0.9 evasion post-200
-            eva = 200 + (evaskill - 200)*0.9;
-        }
-        PPet->setModifier(Mod::EVA, eva);
+        PPet->setModifier(Mod::EVA, PPet->GetSkill(SKILL_EVA));
 
 
         //Начало расчета характеристик
@@ -1047,7 +1042,7 @@ namespace petutils
                 cost = 15;
         }
 
-        return cost;
+        return dsp_min(3,cost);
     }
 
     /*
@@ -1277,16 +1272,16 @@ namespace petutils
             }
             PPet->m_Weapons[SLOT_MAIN]->setDamage(floor(PPet->GetMLevel()*0.74f));
             if (PetID == PETID_CARBUNCLE){
-                PPet->m_Weapons[SLOT_MAIN]->setDamage(floor(PPet->GetMLevel()*0.67f));
+                PPet->m_Weapons[SLOT_MAIN]->setDamage(floor(PPet->GetMLevel()*0.74f));
             }
 
             //Set B+ weapon skill (assumed capped for level derp)
             //attack is madly high for avatars (roughly x2)
             PPet->setModifier(Mod::ATT, 2 * battleutils::GetMaxSkill(SKILL_CLB, JOB_WHM, PPet->GetMLevel()));
-            PPet->setModifier(Mod::ACC, battleutils::GetMaxSkill(SKILL_CLB, JOB_WHM, PPet->GetMLevel()));
+            PPet->setModifier(Mod::ACC, battleutils::GetMaxSkill(SKILL_HEA, JOB_WHM, PPet->GetMLevel()));
             //Set E evasion and def
-            PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_THR, JOB_WHM, PPet->GetMLevel()));
-            PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_THR, JOB_WHM, PPet->GetMLevel()));
+            PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_CLB, JOB_WHM, PPet->GetMLevel()));
+            PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_CLB, JOB_WHM, PPet->GetMLevel()));
             // cap all magic skills so they play nice with spell scripts
             for (int i = SKILL_DIV; i <= SKILL_BLU; i++) {
                 uint16 maxSkill = battleutils::GetMaxSkill((SKILLTYPE)i, PPet->GetMJob(), PPet->GetMLevel());

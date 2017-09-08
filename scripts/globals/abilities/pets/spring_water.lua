@@ -23,6 +23,14 @@ function onPetAbility(target, pet, skill)
     if (target:getHP()+base > target:getMaxHP()) then
         base = target:getMaxHP() - target:getHP(); --cap it
     end
+	
+	local mp = local base = 47 + pet:getMainLvl()*2;
+	mp = mp * tp / 1000;
+	
+	if (target:getMP()+mp > target:getMaxMP()) then
+        mp = target:getMaxMP() - target:getMP(); --cap it
+    end
+	
     target:delStatusEffect(EFFECT_BLINDNESS);
     target:delStatusEffect(EFFECT_POISON);
     target:delStatusEffect(EFFECT_PARALYSIS);
@@ -35,5 +43,6 @@ function onPetAbility(target, pet, skill)
     end
     skill:setMsg(MSG_SELF_HEAL);
     target:addHP(base);
+	target:addMP(mp);
     return base;
 end

@@ -16,7 +16,7 @@ end;
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = EFFECT_SLEEP_I;
 
-    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, math.random(20, 30)));
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 1, 0, math.random(1, 5)));
 
     return typeEffect;
 end;

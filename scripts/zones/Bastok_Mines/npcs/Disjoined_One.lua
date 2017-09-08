@@ -91,6 +91,7 @@ local augments = {
 					[37] = { Type = 2, Description = "Mag.Evasion+1" , AugItem1 = 1490},
 					[39] = { Type = 2, Description = "Enmity+1" , AugItem1 = 1500},
 					[40] = { Type = 2, Description = "Enmity-1" , AugItem1 = 1501},
+					[42] = { Type = 3, Description = "Crit.hit rate+1" , AugItem1 = 1508},
 					[42] = { Type = 2, Description = "Enemy crit. hit rate -1%" , AugItem1 = 1491},
 					[49] = { Type = 3, Description = "Haste+1" , AugItem1 = 1490},
 					[54] = { Type = 2, Description = "Phys. dmg. taken -1%" , AugItem1 = 1492},
@@ -102,9 +103,10 @@ local augments = {
 					[139] = { Type = 3, Description = "Rapid Shot+1" , AugItem1 = 1489},
 					[140] = { Type = 3, Description = "Fastcast+1" , AugItem1 = 1488},
 					[141] = { Type = 2, Description = "Conserve MP+1" , AugItem1 = 1498},
+					[142] = { Type = 2, Description = "Store TP+1" , AugItem1 = 1497},
 					[143] = { Type = 3, Description = "Dbl.Atk.+1" , AugItem1 = 1491},
 					[146] = { Type = 3, Description = "Dual Wield+1" , AugItem1 = 1492},
-					[195] = { Type = 2, Description = "Subtle Blow+1" , AugItem1 = 1497},
+					[195] = { Type = 2, Description = "Subtle Blow+1" , AugItem1 = 1503},
 					[257] = { Type = 3, Description = "Hand-to-Hand skill+1" , AugItem1 = 1493},
 					[258] = { Type = 3, Description = "Dagger skill+1" , AugItem1 = 1494},
 					[259] = { Type = 3, Description = "Sword skill+1" , AugItem1 = 1495},
@@ -134,6 +136,7 @@ local augments = {
 					[298] = { Type = 1, Description = "Wind instrument skill+1" , AugItem1 = 1510},
 					[299] = { Type = 1, Description = "Blue Magic skill+1" , AugItem1 = 1511},
 					[300] = { Type = 1, Description = "Geomancy Skill+1" , AugItem1 = 1512},
+					[328] = { Type = 3, Description = "Crit. hit damage+1%" , AugItem1 = 1509},
 					[329] = { Type = 2, Description = "Cure Potency+1%" , AugItem1 = 1502},
 					[512] = { Type = 1, Description = "STR+1" , AugItem1 = 1488},
 					[513] = { Type = 1, Description = "DEX+1" , AugItem1 = 1489},
@@ -237,9 +240,8 @@ function onTrade(player,npc,trade)
 				end
 												
 				local augId, augVal = getAugmentId(augItemId, augmentType, itemAugments, nmItemId);
-				player:PrintToPlayer(string.format("augid: %s, augval: %s", augId, augVal));
+				--player:PrintToPlayer(string.format("augid: %s, augval: %s", augId, augVal));
 				if (augId ~= nil and itemAugments[augmentType] ~= nil and (itemAugments[augmentType].AugId == augId or augments[itemAugments[augmentType].AugId].NextAugId == augId)) then	
-				player:PrintToPlayer("Here");
 					if (augVal < 8) then
 						if (augCost[augVal] == tradeGil and nmDropItem[augVal] == nmItemId and augments[augId].AugItem1 == augItemId) then
 							augVal = augVal+1;
