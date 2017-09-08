@@ -18,7 +18,7 @@ function onPetAbility(target, pet, skill, summoner)
     local duration = 180 + bonusTime;
 
     target:delStatusEffect(EFFECT_ICE_SPIKES);
-    target:addStatusEffect(EFFECT_ICE_SPIKES,15,0,duration);
+    target:addStatusEffect(EFFECT_ICE_SPIKES,25,0,duration);
     skill:setMsg(MSG_BUFF);
     return EFFECT_ICE_SPIKES;
 end

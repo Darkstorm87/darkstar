@@ -2115,6 +2115,9 @@ namespace charutils
                 }
             }
         }
+
+        charutils::BuildingCharSkillsTable(PChar);
+
         if (equipSlotID == SLOT_MAIN || equipSlotID == SLOT_RANGED || equipSlotID == SLOT_SUB)
         {
             PChar->health.tp = 0;
@@ -2133,8 +2136,6 @@ namespace charutils
             BuildingCharWeaponSkills(PChar);
             PChar->pushPacket(new CCharAbilitiesPacket(PChar));
         }
-
-        charutils::BuildingCharSkillsTable(PChar);
 
         PChar->UpdateHealth();
         PChar->m_EquipSwap = true;
@@ -4319,7 +4320,7 @@ namespace charutils
         {
             CStatusEffect* dedication = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_DEDICATION);
             int16 percentage = dedication->GetPower();
-            int16 cap = dedication->GetSubPower();
+            uint16 cap = dedication->GetSubPower();
             bonus += dsp_cap((exp * percentage) / 100, 0, cap);
             dedication->SetSubPower(cap -= bonus);
 

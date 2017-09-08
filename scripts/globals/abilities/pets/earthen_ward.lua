@@ -14,7 +14,7 @@ end;
 
 function onPetAbility(target, pet, skill)
     target:delStatusEffect(EFFECT_STONESKIN);
-    local amount = pet:getMainLvl()*2 + 50;
+    local amount = pet:getMainLvl()*2 + 150;
     target:addStatusEffect(EFFECT_STONESKIN,amount,0,900);
     skill:setMsg(MSG_BUFF);
     return EFFECT_STONESKIN;

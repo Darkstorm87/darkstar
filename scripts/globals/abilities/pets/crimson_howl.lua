@@ -17,7 +17,7 @@ function onPetAbility(target, pet, skill, summoner)
     local bonusTime = utils.clamp(summoner:getSkillLevel(SKILL_SUM) - 300, 0, 200);
     local duration = 60 + bonusTime;
 
-    target:addStatusEffect(EFFECT_WARCRY,9,0,duration);
+    target:addStatusEffect(EFFECT_WARCRY,15,0,duration);
     skill:setMsg(MSG_BUFF);
     return EFFECT_WARCRY;
 end
