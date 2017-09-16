@@ -739,8 +739,8 @@ public:
     EFFECT  GetStatusID();
     uint32  GetSubID();
     uint16  GetIcon();
-    uint16  GetPower();
-    uint16  GetSubPower();
+    uint32  GetPower();
+    uint32  GetSubPower();
     uint16  GetTier();
     uint32  GetFlag();
     uint16  GetType();
@@ -755,8 +755,8 @@ public:
     void    UnsetFlag(uint32 Flag);
     void    SetType(uint16 Type);
     void    SetIcon(uint16 Icon);
-    void    SetPower(uint16 Power);
-    void    SetSubPower(uint16 subPower);
+    void    SetPower(uint32 Power);
+    void    SetSubPower(uint32 subPower);
     void    SetTier(uint16 tier);
     void    SetDuration(uint32 Duration);
     void    SetOwner(CBattleEntity* Owner);
@@ -777,11 +777,11 @@ public:
     CStatusEffect(
          EFFECT id,
          uint16 icon,
-         uint16 power,
+         uint32 power,
          uint32 tick,
          uint32 duration,
          uint32 subid = 0,
-         uint16 subPower = 0,
+         uint32 subPower = 0,
          uint16 tier = 0);
 
    ~CStatusEffect();
@@ -793,8 +793,8 @@ private:
     EFFECT      m_StatusID;             // основной тип эффекта
     uint32      m_SubID;                // дополнительный тип эффекта
     uint16      m_Icon;                 // иконка эффекта
-    uint16      m_Power;                // сила эффекта
-    uint16      m_SubPower;             // Secondary power of the effect
+    uint32      m_Power;                // сила эффекта
+    uint32      m_SubPower;             // Secondary power of the effect
     uint16      m_Tier;                 // Tier of the effect
     uint32      m_Flag;                 // флаг эффекта (условия его исчезновения)
     uint16      m_Type;                 // used to enforce only one

@@ -1082,29 +1082,35 @@ function doElementalNuke(caster, spell, target, spellParams)
             D is then floored
             For dINT reduce by amount factored into the V value (example: at 134 INT, when using V100 in the calculation, use dINT = 134-100 = 34)
       ]]
-
-    if (dINT <= 49) then
+	
+	if (caster:isMob()) then
+		V = spellParams.VMob;
+		M = spellParams.MMob;	
+	elseif (dINT <= 49) then
         V = spellParams.V0;
         M = spellParams.M0;
+    elseif (dINT >= 50 and dINT <= 99) then
+        V = spellParams.V50;
+        M = spellParams.M50;
+    elseif (dINT >= 100 and dINT <= 199) then
+        V = spellParams.V100;
+        M = spellParams.M100;
+    elseif (dINT > 199) then
+        V = spellParams.V200;
+        M = spellParams.M200;
+    end
+
+    if (dINT <= 49) then
         DMG = math.floor(DMG + mDMG + V + (dINT * M));
 
         if (DMG <= 0) then
             return 0;
         end
-
     elseif (dINT >= 50 and dINT <= 99) then
-        V = spellParams.V50;
-        M = spellParams.M50;
         DMG = math.floor(DMG + mDMG + V + ((dINT - 50) * M));
-
     elseif (dINT >= 100 and dINT <= 199) then
-        V = spellParams.V100;
-        M = spellParams.M100;
         DMG = math.floor(DMG + mDMG + V + ((dINT - 100) * M));
-
     elseif (dINT > 199) then
-        V = spellParams.V200;
-        M = spellParams.M200;
         DMG = math.floor(DMG + mDMG + V + ((dINT - 200) * M));
     end
 
@@ -1270,10 +1276,10 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		if (nukeTier == 1) then
 			spellParams.hasMultipleTargetReduction = true;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(2.22 * skillLevel - 46, 200);
-			spellParams.V50 = math.min(1.43 * skillLevel + 141.5, 300);
-			spellParams.V100 = math.min(1.032 * skillLevel + 260.5, 375);
-			spellParams.V200 = math.min(1.032 * skillLevel + 360.5, 475);
+			spellParams.V0 = math.min(math.max(2.22 * skillLevel - 46, 60), 200);
+			spellParams.V50 = math.min(math.max(1.43 * skillLevel + 141.5, 210), 300);
+			spellParams.V100 = math.min(math.max(1.032 * skillLevel + 260.5, 310), 375);
+			spellParams.V200 = math.min(math.max(1.032 * skillLevel + 360.5, 410), 475);
 			spellParams.M0 = 2;
 			spellParams.M50 = 1.5;
 			spellParams.M100 = 1;
@@ -1281,10 +1287,10 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		elseif (nukeTier == 2) then
 			spellParams.hasMultipleTargetReduction = true;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(1.79 * skillLevel + 30, 400);
-			spellParams.V50 = math.min(0.9 * skillLevel + 340, 525);
-			spellParams.V100 = math.min(0.6 * skillLevel + 527, 650);
-			spellParams.V200 = math.min(0.3 * skillLevel + 763, 825);
+			spellParams.V0 = math.min(math.max(1.79 * skillLevel + 30, 250), 400);
+			spellParams.V50 = math.min(math.max(0.9 * skillLevel + 340, 450), 525);
+			spellParams.V100 = math.min(math.max(0.6 * skillLevel + 527, 600), 650);
+			spellParams.V200 = math.min(math.max(0.3 * skillLevel + 763, 800), 825);
 			spellParams.M0 = 2.5;
 			spellParams.M50 = 2.5;
 			spellParams.M100 = 1.75;
@@ -1292,10 +1298,10 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		elseif (nukeTier == 3) then
 			spellParams.hasMultipleTargetReduction = true;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(4.1 * skillLevel - 385, 700);
-			spellParams.V50 = math.min(2.66 * skillLevel + 174, 880);
-			spellParams.V100 = math.min(2.14 * skillLevel + 486, 1055);
-			spellParams.V200 = math.min(1.53 * skillLevel + 919, 1325);
+			spellParams.V0 = math.min(math.max(4.1 * skillLevel - 385, 500), 700);
+			spellParams.V50 = math.min(math.max(2.66 * skillLevel + 174, 750), 880);
+			spellParams.V100 = math.min(math.max(2.14 * skillLevel + 486, 950), 1055);
+			spellParams.V200 = math.min(math.max(1.53 * skillLevel + 919, 1250), 1330);
 			spellParams.M0 = 3.6;
 			spellParams.M50 = 3.5;
 			spellParams.M100 = 2.75;
@@ -1303,10 +1309,10 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		elseif (nukeTier == 4) then
 			spellParams.hasMultipleTargetReduction = true;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(2.61 * skillLevel - 50, 1000);
-			spellParams.V50 = math.min(1.56 * skillLevel + 572, 1200);
-			spellParams.V100 = math.min(0.91 * skillLevel + 1021, 1385);
-			spellParams.V200 = math.min(0.65 * skillLevel + 1501, 1760);
+			spellParams.V0 = math.min(math.max(2.61 * skillLevel - 50, 800), 1000);
+			spellParams.V50 = math.min(math.max(1.56 * skillLevel + 572, 1100), 1200);
+			spellParams.V100 = math.min(math.max(0.91 * skillLevel + 1021, 1350), 1385);
+			spellParams.V200 = math.min(math.max(0.65 * skillLevel + 1501, 1750), 1760);
 			spellParams.M0 = 4;
 			spellParams.M50 = 3.75;
 			spellParams.M100 = 3.75;
@@ -1316,9 +1322,9 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		if (nukeTier == 1) then
 			spellParams.hasMultipleTargetReduction = false;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(1.25 * skillLevel + 2.5, 85);
-			spellParams.V50 = math.min(0.42 * skillLevel + 107.5, 135);
-			spellParams.V100 = math.min(0.42 * skillLevel + 157.5, 185);
+			spellParams.V0 = math.min(math.max(1.25 * skillLevel + 2.5, 10), 85);
+			spellParams.V50 = math.min(math.max(0.42 * skillLevel + 107.5, 110), 135);
+			spellParams.V100 = math.min(math.max(0.42 * skillLevel + 157.5, 160), 185);
 			spellParams.V200 = spellParams.V100;
 			spellParams.M0 = 1;
 			spellParams.M50 = 1;
@@ -1327,10 +1333,10 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		elseif (nukeTier == 2) then
 			spellParams.hasMultipleTargetReduction = false;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(1.67 * skillLevel - 35, 200);
-			spellParams.V50 = math.min(0.84 * skillLevel + 182.5, 300);
-			spellParams.V100 = math.min(0.42 * skillLevel + 316.25, 375);
-			spellParams.V200 = math.min(0.42 * skillLevel + 416.25, 475);
+			spellParams.V0 = math.min(math.max(1.67 * skillLevel - 35, 100), 200);
+			spellParams.V50 = math.min(math.max(0.84 * skillLevel + 182.5, 250), 300);
+			spellParams.V100 = math.min(math.max(0.42 * skillLevel + 316.25, 350), 375);
+			spellParams.V200 = math.min(math.max(0.42 * skillLevel + 416.25, 450), 475);
 			spellParams.M0 = 2;
 			spellParams.M50 = 1.5;
 			spellParams.M100 = 1;
@@ -1338,10 +1344,10 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		elseif (nukeTier == 3) then
 			spellParams.hasMultipleTargetReduction = false;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(2.03 * skillLevel - 120, 350);
-			spellParams.V50 = math.min(1.02 * skillLevel + 240, 475);
-			spellParams.V100 = math.min(0.68 * skillLevel + 443, 600);
-			spellParams.V200 = math.min(0.34 * skillLevel + 696.6, 775);
+			spellParams.V0 = math.min(math.max(2.03 * skillLevel - 120, 200), 350);
+			spellParams.V50 = math.min(math.max(1.02 * skillLevel + 240, 400), 475);
+			spellParams.V100 = math.min(math.max(0.68 * skillLevel + 443, 550), 600);
+			spellParams.V200 = math.min(math.max(0.34 * skillLevel + 696.6, 750), 775);
 			spellParams.M0 = 2.5;
 			spellParams.M50 = 2.5;
 			spellParams.M100 = 1.75;
@@ -1349,10 +1355,10 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		elseif (nukeTier == 4) then
 			spellParams.hasMultipleTargetReduction = false;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(5.72 * skillLevel - 977, 600);
-			spellParams.V50 = math.min(3.72 * skillLevel - 245, 780);
-			spellParams.V100 = math.min(3 * skillLevel + 127, 955);
-			spellParams.V200 = math.min(2.15 * skillLevel + 633, 1225);
+			spellParams.V0 = math.min(math.max(5.72 * skillLevel - 977, 400), 600);
+			spellParams.V50 = math.min(math.max(3.72 * skillLevel - 245, 650), 780);
+			spellParams.V100 = math.min(math.max(3 * skillLevel + 127, 850), 955);
+			spellParams.V200 = math.min(math.max(2.15 * skillLevel + 633, 1150), 1225);
 			spellParams.M0 = 3.6;
 			spellParams.M50 = 3.5;
 			spellParams.M100 = 2.75;
@@ -1360,10 +1366,10 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 		elseif (nukeTier == 5) then
 			spellParams.hasMultipleTargetReduction = false;
 			spellParams.resistBonus = 1.0;
-			spellParams.V0 = math.min(2.81 * skillLevel - 153, 900);
-			spellParams.V50 = math.min(1.69 * skillLevel + 468, 1100);
-			spellParams.V100 = math.min(0.98 * skillLevel + 920, 1285);
-			spellParams.V200 = math.min(0.7 * skillLevel + 1400, 1660);
+			spellParams.V0 = math.min(math.max(2.81 * skillLevel - 153, 650), 900);
+			spellParams.V50 = math.min(math.max(1.69 * skillLevel + 468, 950), 1100);
+			spellParams.V100 = math.min(math.max(0.98 * skillLevel + 920, 1200), 1285);
+			spellParams.V200 = math.min(math.max(0.7 * skillLevel + 1400, 1600), 1660);
 			spellParams.M0 = 4;
 			spellParams.M50 = 3.74;
 			spellParams.M100 = 3.75;

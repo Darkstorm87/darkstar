@@ -4702,11 +4702,11 @@ inline int32 CLuaBaseEntity::addStatusEffect(lua_State *L)
         CStatusEffect * PEffect = new CStatusEffect(
             (EFFECT)lua_tointeger(L, 1),
             (uint16)lua_tointeger(L, 1),
-            (uint16)lua_tointeger(L, 2),
-            (uint16)lua_tointeger(L, 3),
-            (uint16)lua_tointeger(L, 4),
-            (n >= 5 ? (uint16)lua_tointeger(L, 5) : 0),
-            (n >= 6 ? (uint16)lua_tointeger(L, 6) : 0),
+            (uint32)lua_tointeger(L, 2),
+            (uint32)lua_tointeger(L, 3),
+            (uint32)lua_tointeger(L, 4),
+            (n >= 5 ? (uint32)lua_tointeger(L, 5) : 0),
+            (n >= 6 ? (uint32)lua_tointeger(L, 6) : 0),
             (n >= 7 ? (uint16)lua_tointeger(L, 7) : 0));
 
         lua_pushboolean(L, ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->AddStatusEffect(PEffect));
@@ -4743,11 +4743,11 @@ inline int32 CLuaBaseEntity::addStatusEffectEx(lua_State *L)
     CStatusEffect * PEffect = new CStatusEffect(
         (EFFECT)lua_tointeger(L, 1),
         (uint16)lua_tointeger(L, 2),
-        (uint16)lua_tointeger(L, 3),
-        (uint16)lua_tointeger(L, 4),
-        (uint16)lua_tointeger(L, 5),
-        (n >= 6 ? (uint16)lua_tointeger(L, 6) : 0),
-        (n >= 7 ? (uint16)lua_tointeger(L, 7) : 0),
+        (uint32)lua_tointeger(L, 3),
+        (uint32)lua_tointeger(L, 4),
+        (uint32)lua_tointeger(L, 5),
+        (n >= 6 ? (uint32)lua_tointeger(L, 6) : 0),
+        (n >= 7 ? (uint32)lua_tointeger(L, 7) : 0),
         (n >= 8 ? (uint16)lua_tointeger(L, 8) : 0));
 
     lua_pushboolean(L, ((CBattleEntity*)m_PBaseEntity)->StatusEffectContainer->AddStatusEffect(PEffect, silent));

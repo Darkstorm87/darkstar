@@ -16,6 +16,8 @@ end;
 
 function onSpellCast(caster, target, spell)
     local spellParams = calculateElementalNukeSpellParams(caster, ELEMENTAL_TIER_5, NOT_AOE);
+	spellParams.VMob = 874;
+	spellParams.MMob = 2.3;
 
     return doElementalNuke(caster, spell, target, spellParams);
 end;
