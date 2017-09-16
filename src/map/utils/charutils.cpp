@@ -4320,7 +4320,7 @@ namespace charutils
         {
             CStatusEffect* dedication = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_DEDICATION);
             int16 percentage = dedication->GetPower();
-            uint16 cap = dedication->GetSubPower();
+            uint32 cap = dedication->GetSubPower();
             bonus += dsp_cap((exp * percentage) / 100, 0, cap);
             dedication->SetSubPower(cap -= bonus);
 

@@ -10824,7 +10824,7 @@ INSERT INTO `item_armor` VALUES (25749,'hizamaru_haramaki',99,119,137218,184,0,0
 INSERT INTO `item_armor` VALUES (25750,'hiza._haramaki_+1',99,119,137218,184,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (25756,'wyrmking_suit',1,0,4194303,414,0,0,32,128,0);
 INSERT INTO `item_armor` VALUES (25757,'wyrmking_suit_+1',1,0,4194303,414,0,0,32,128,0);
-INSERT INTO `item_armor` VALUES (25758,'rhapsody_shirt',1,0,4194303,0,0,0,32,0,0);
+INSERT INTO `item_armor` VALUES (25758,'rhapsody_shirt',1,0,4194303,252,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (25759,'rhapsody_shirt_+1',1,0,4194303,0,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (25760,'mrigavyadha_gloves',99,119,66592,246,0,0,64,0,0);
 INSERT INTO `item_armor` VALUES (25761,'iktomi_dastanas',99,119,8385,203,0,0,64,0,0);
@@ -10946,7 +10946,7 @@ INSERT INTO `item_armor` VALUES (26401,'forfend',99,119,2385,45,1,0,2,0,0);
 INSERT INTO `item_armor` VALUES (26402,'forfend_+1',99,119,2385,45,1,0,2,0,0);
 INSERT INTO `item_armor` VALUES (26403,'srivatsa',99,119,64,0,5,0,2,0,0);
 INSERT INTO `item_armor` VALUES (26406,'kupo_shield',1,0,4194303,56,3,0,2,0,0);
-INSERT INTO `item_armor` VALUES (26520,'akitu_shirt',1,0,4194303,0,0,0,32,0,0);
+INSERT INTO `item_armor` VALUES (26520,'akitu_shirt',1,0,4194303,298,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (26624,'agoge_mask',99,109,1,65,0,0,16,0,0);
 INSERT INTO `item_armor` VALUES (26625,'agoge_mask_+1',99,119,1,65,0,0,16,0,0);
 INSERT INTO `item_armor` VALUES (26626,'hes._crown',99,109,2,67,0,0,16,0,0);
@@ -11602,7 +11602,7 @@ INSERT INTO `item_armor` VALUES (27277,'azimuth_tights',99,109,1048576,341,0,0,1
 INSERT INTO `item_armor` VALUES (27278,'azimuth_tights_+1',99,119,1048576,341,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (27279,'erilaz_leg_guards',99,109,2097152,371,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (27280,'eri._leg_guards_+1',99,119,2097152,371,0,0,128,0,0);
-INSERT INTO `item_armor` VALUES (27281,'pupils_trousers',1,0,4194303,0,0,0,128,0,0);
+INSERT INTO `item_armor` VALUES (27281,'pupils_trousers',1,0,4194303,394,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (27282,'eschite_cuisses',99,0,193,392,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (27283,'despair_cuisses',99,0,2141649,389,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (27284,'naga_hakama',99,0,137218,394,0,0,128,0,0);
@@ -11774,7 +11774,7 @@ INSERT INTO `item_armor` VALUES (27451,'azimuth_gaiters',99,109,1048576,341,0,0,
 INSERT INTO `item_armor` VALUES (27452,'azimuth_gaiters_+1',99,119,1048576,341,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (27453,'erilaz_greaves',99,109,2097152,371,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (27454,'erilaz_greaves_+1',99,119,2097152,371,0,0,256,0,0);
-INSERT INTO `item_armor` VALUES (27455,'pupils_shoes',1,0,4194303,0,0,0,256,0,0);
+INSERT INTO `item_armor` VALUES (27455,'pupils_shoes',1,0,4194303,413,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (27456,'criers_gaiters',70,0,1589262,21,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (27457,'eschite_greaves',99,0,193,392,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (27458,'despair_greaves',99,0,2141649,389,0,0,256,0,0);
@@ -12023,7 +12023,7 @@ INSERT INTO `item_armor` VALUES (27713,'weath._corona_+1',99,117,3850780,356,0,0
 INSERT INTO `item_armor` VALUES (27714,'mirth_masquette',1,0,4194303,345,0,0,16,0,0);
 INSERT INTO `item_armor` VALUES (27715,'goblin_masque',1,0,4194303,372,0,0,16,0,0);
 INSERT INTO `item_armor` VALUES (27716,'g._moogle_masque',1,0,4194303,373,0,0,16,0,0);
-INSERT INTO `item_armor` VALUES (27717,'worm_masque',1,0,4194303,370,0,0,16,0,0);
+INSERT INTO `item_armor` VALUES (27717,'worm_masque',1,0,4194303,196,0,0,16,0,0);
 INSERT INTO `item_armor` VALUES (27718,'worm_masque_+1',1,0,4194303,370,0,0,16,0,0);
 INSERT INTO `item_armor` VALUES (27719,'sukeroku_hachi.',99,119,4194303,216,0,0,16,0,0);
 INSERT INTO `item_armor` VALUES (27720,'umbani_cap',99,119,2593826,330,0,0,16,0,0);
@@ -12203,7 +12203,7 @@ INSERT INTO `item_armor` VALUES (27895,'karieyh_haubert_+1',99,109,10689,342,0,0
 INSERT INTO `item_armor` VALUES (27896,'thur._tabard_+1',99,109,2593826,343,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (27897,'orvail_robe_+1',99,109,3850780,344,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (27898,'alliance_shirt_+1',1,0,4194303,311,0,0,32,0,0);
-INSERT INTO `item_armor` VALUES (27899,'alliance_shirt',1,0,4194303,311,0,0,32,0,0);
+INSERT INTO `item_armor` VALUES (27899,'alliance_shirt',1,0,4194303,411,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (27902,'g._spriggan_coat',1,0,4194303,361,0,0,32,16,0);
 INSERT INTO `item_armor` VALUES (27903,'trench_tunic',30,0,4194303,105,0,0,32,0,0);
 INSERT INTO `item_armor` VALUES (27904,'morass_tunic',1,0,4194303,347,0,0,32,0,0);
@@ -12363,7 +12363,7 @@ INSERT INTO `item_armor` VALUES (28059,'bokwus_gloves',99,110,1589788,351,0,0,64
 INSERT INTO `item_armor` VALUES (28060,'treefeller_gloves',30,0,4194303,104,0,0,64,0,0);
 INSERT INTO `item_armor` VALUES (28061,'orvail_cuffs',99,100,3850780,344,0,0,64,0,0);
 INSERT INTO `item_armor` VALUES (28062,'quauhpilli_gloves',99,106,1589788,264,0,0,64,0,0);
-INSERT INTO `item_armor` VALUES (28063,'councilors_cuffs',1,0,4194303,345,0,0,64,0,0);
+INSERT INTO `item_armor` VALUES (28063,'councilors_cuffs',1,0,4194303,413,0,0,64,0,0);
 INSERT INTO `item_armor` VALUES (28064,'thurandaut_gloves',99,100,2593826,343,0,0,64,0,0);
 INSERT INTO `item_armor` VALUES (28065,'karieyh_moufles',99,100,10689,342,0,0,64,0,0);
 INSERT INTO `item_armor` VALUES (28066,'geomancy_mitaines',99,109,1048576,308,0,0,64,0,0);
@@ -12483,7 +12483,7 @@ INSERT INTO `item_armor` VALUES (28181,'haru._slops_+1',99,115,4179646,28,0,0,12
 INSERT INTO `item_armor` VALUES (28182,'kari._brayettes_+1',99,109,10689,342,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (28183,'thur._tights_+1',99,109,2593826,343,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (28184,'orvail_pants_+1',99,109,3850780,344,0,0,128,0,0);
-INSERT INTO `item_armor` VALUES (28185,'alliance_pants',1,0,4194303,311,0,0,128,0,0);
+INSERT INTO `item_armor` VALUES (28185,'alliance_pants',1,0,4194303,415,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (28186,'morass_pants',1,0,4194303,0,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (28187,'woodland_pants',1,0,4194303,0,0,0,128,0,0);
 INSERT INTO `item_armor` VALUES (28188,'gorney_brayettes',99,106,10689,354,0,0,128,0,0);
@@ -12618,7 +12618,7 @@ INSERT INTO `item_armor` VALUES (28320,'kar._sollerets_+1',99,109,10689,342,0,0,
 INSERT INTO `item_armor` VALUES (28321,'thur._boots_+1',99,109,2593826,343,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (28322,'orvail_souliers_+1',99,109,3850780,344,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (28323,'punchinellos',99,119,131072,0,0,0,256,0,0);
-INSERT INTO `item_armor` VALUES (28324,'alliance_boots',1,0,4194303,0,0,0,256,0,0);
+INSERT INTO `item_armor` VALUES (28324,'alliance_boots',1,0,4194303,128,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (28325,'morass_boots',1,0,4194303,0,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (28326,'woodland_boots',1,0,4194303,0,0,0,256,0,0);
 INSERT INTO `item_armor` VALUES (28327,'gorney_sollerets',99,106,10689,354,0,0,256,0,0);
@@ -13386,4 +13386,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-15 19:25:47
+-- Dump completed on 2017-09-08 23:50:28
