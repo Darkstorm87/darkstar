@@ -123,7 +123,7 @@ function lightCutsceneUpdate( player)
         weather = WEATHER_NONE;
     end
 
-    if (player:getVar( "I_CAN_HEAR_A_RAINBOW") < 127) then
+    if (player:getVar("I_CAN_HEAR_A_RAINBOW") < 127) then
         player:updateEvent( 0, 0, weather);
     else
         player:updateEvent( 0, 0, weather, 6);

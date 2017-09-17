@@ -11,7 +11,7 @@ cmdprops =
 
 function error(player, msg)
     player:PrintToPlayer(msg);
-    player:PrintToPlayer("@givegil <amount> {player}");
+    player:PrintToPlayer("!givegil <amount> {player}");
 end;
 
 function onTrigger(player, amount, target)
@@ -36,7 +36,6 @@ function onTrigger(player, amount, target)
 
     -- give gil to target
     targ:addGil(amount);
-    local newAmount = targ:getGil();
-    player:PrintToPlayer(string.format("Gave %i gil to %s.  They now have %i gil.", amount, targ:getName(), newAmount));
+    player:PrintToPlayer(string.format("Gave %i gil to %s.  They now have %i gil.", amount, targ:getName(), targ:getGil()));
     
 end;
