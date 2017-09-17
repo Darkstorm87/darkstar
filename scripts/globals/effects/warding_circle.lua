@@ -11,7 +11,7 @@ require("scripts/globals/status");
 -----------------------------------
 
 function onEffectGain(target,effect)
-   target:addMod(MOD_DEMON_KILLER,8);
+   target:addMod(MOD_DEMON_KILLER,effect:getPower());
    target:addMod(MOD_STORETP,effect:getSubPower());
 end;
 
@@ -27,6 +27,6 @@ end;
 -----------------------------------
 
 function onEffectLose(target,effect)
-   target:delMod(MOD_DEMON_KILLER,8);
+   target:delMod(MOD_DEMON_KILLER,effect:getPower());
    target:delMod(MOD_STORETP,effect:getSubPower());
 end;

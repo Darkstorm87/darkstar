@@ -28,8 +28,8 @@ function onUseAbility(player,target,ability)
 		local merits = player:getMerit(MERIT_STORE_TP_EFFECT);
 		local storeTPTraitValue = player:getTraitValue(TRAIT_STORE_TP);
 		
-		target:addStatusEffect(EFFECT_WARDING_CIRCLE,1,0,duration,0,(merits + storeTPTraitValue)/2);
+		target:addStatusEffect(EFFECT_WARDING_CIRCLE,15,0,duration,0,(merits + storeTPTraitValue)/2);
 	else
-		target:addStatusEffect(EFFECT_WARDING_CIRCLE,1,0,duration);
+		target:addStatusEffect(EFFECT_WARDING_CIRCLE,15,0,duration);
 	end
 end;

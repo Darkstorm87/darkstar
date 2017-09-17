@@ -29,9 +29,9 @@ function onUseAbility(player,target,ability)
 			subPower = subPower + (player:getMainLvl() - 50) / 5;
 		end
 		
-		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,duration,0,subPower);
+		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,15,0,duration,0,subPower);
 	else
-		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,8,0,duration);
+		target:addStatusEffect(EFFECT_ARCANE_CIRCLE,15,0,duration);
 	end
     
 end;
