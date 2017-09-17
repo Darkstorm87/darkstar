@@ -2,7 +2,7 @@
 -- Area: Crawlers Nest
 -- NPC:  ???
 -- Involved in Quest: The Crimson Trial
--- @pos 59 0.1 66 197
+-- !pos 59 0.1 66 197
 -----------------------------------
 package.loaded["scripts/zones/Crawlers_Nest/TextIDs"] = nil;
 -----------------------------------
@@ -23,7 +23,7 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-    
+
     local cprog = player:getVar("theCrimsonTrial_prog");
     local cdate = player:getVar("theCrimsonTrial_date");
     local realday = tonumber(os.date("%M")); -- %M for next minute, %j for next day
@@ -37,8 +37,8 @@ function onTrigger(player,npc)
     else
         player:messageSpecial(SOMEONE_HAS_BEEN_DIGGING_HERE);
     end
-    
-end; 
+
+end;
 
 -----------------------------------
 -- onEventUpdate
@@ -64,7 +64,7 @@ function onEventFinish(player,csid,option)
         player:setVar("theCrimsonTrial_prog", 1);
         player:messageSpecial(YOU_BURY_THE,OLD_BOOTS,CRAWLER_BLOOD);
     elseif (csid == 5) then
-        if (player:getFreeSlotsCount() == 0) then 
+        if (player:getFreeSlotsCount() == 0) then
             player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,14093); -- Warlock's Boots
         else
             player:addItem(14093);

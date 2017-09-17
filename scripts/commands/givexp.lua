@@ -11,16 +11,10 @@ cmdprops =
 
 function error(player, msg)
     player:PrintToPlayer(msg);
-    player:PrintToPlayer("@givexp <amount> {player}");
+    player:PrintToPlayer("!givexp <amount> {player}");
 end;
 
 function onTrigger(player, amount, target)
-
-    -- validate amount
-    if (amount == nil or amount < 1) then
-        error(player, "Invalid amount of gil.");
-        return;
-    end
 
     -- validate target
     local targ;
@@ -34,7 +28,13 @@ function onTrigger(player, amount, target)
         end
     end
 
+    -- validate amount
+    if (amount == nil or amount < 1) then
+        error(player, "Invalid amount.");
+        return;
+    end
+
     -- give XP to target
     targ:addExp(amount);
-    player:PrintToPlayer( string.format( "Gave %i exp to %s.", amount, targ:getName()));
+    player:PrintToPlayer( string.format( "Gave %i exp to %s. They are now level %i.", amount, targ:getName(), targ:getMainLvl() ));
 end;
