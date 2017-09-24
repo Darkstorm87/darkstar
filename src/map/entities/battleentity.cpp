@@ -1111,10 +1111,6 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
     {
         return true;
     }
-    if ((targetFlags & TARGET_PLAYER) && allegiance == PInitiator->allegiance)
-    {
-        return true;
-    }
     return false;
 }
 
