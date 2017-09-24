@@ -341,12 +341,12 @@ function onTrigger(player,npc)
     local automatonName = player:getAutomatonName();
     local CreationStarted_Day = player:getVar("CreationStarted_Day");
     local currentDay = VanadielDayOfTheYear();
-    local CreationReady = ((CreationStarted_Day < currentDay) or (player:getVar("CreationStarted_Year") < VanadielYear()));
+    local CreationReady = true; --((CreationStarted_Day < currentDay) or (player:getVar("CreationStarted_Year") < VanadielYear()));
     local attachments = player:getVar("PUP_Attachments");
     local attachmentStatus = player:getVar("PUP_AttachmentStatus");
     local unlockedAttachments = player:getVar("PUP_AttachmentUnlock");
     local attachmentTime = player:getVar("PUP_AttachmentReady");
-    local attachmentReady = (attachmentTime ~= 0 and attachmentTime < os.time());
+    local attachmentReady = true ; --(attachmentTime ~= 0 and attachmentTime < os.time());
     local attachmentWait = player:getVar("PUP_AttachmentWait");
     
     --[[

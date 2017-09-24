@@ -490,8 +490,8 @@ void SmallPacket0x011(map_session_data_t* session, CCharEntity* PChar, CBasicPac
     {
         if ((bool)Sql_GetUIntData(SqlHandle, 0))
             PChar->pushPacket(new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_1, "Server does not support this client version. Please refrain from posting issues on DSP bugtracker."));
-        else
-            PChar->pushPacket(new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_1, "Report bugs at DSP bugtracker if !revision output matches latest commit hash and server admin confirms the bug occurs on stock DSP."));
+        //else
+            //PChar->pushPacket(new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_1, "Report bugs at DSP bugtracker if !revision output matches latest commit hash and server admin confirms the bug occurs on stock DSP."));
     }
     return;
 }
@@ -1492,8 +1492,8 @@ void SmallPacket0x04B(map_session_data_t* session, CCharEntity* PChar, CBasicPac
     {
         if ((bool)Sql_GetUIntData(SqlHandle, 0))
             PChar->pushPacket(new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_1, "Server does not support this client version. Please refrain from posting issues on DSP bugtracker."));
-        else
-            PChar->pushPacket(new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_1, "Report bugs at DSP bugtracker if !revision output matches latest commit hash and server admin confirms the bug occurs on stock DSP."));
+        //else
+            //PChar->pushPacket(new CChatMessagePacket(PChar, CHAT_MESSAGE_TYPE::MESSAGE_SYSTEM_1, "Report bugs at DSP bugtracker if !revision output matches latest commit hash and server admin confirms the bug occurs on stock DSP."));
     }
     return;
 }

@@ -29,9 +29,9 @@ end;
 
 function onUseAbility(player,target,ability)
 
-    local burden = 15;
+    local burden = 10;
     if (target:getStat(MOD_VIT) < target:getPet():getStat(MOD_VIT)) then
-        burden = 20;
+        burden = 15;
     end
 
     local overload = target:addBurden(ELE_EARTH-1, burden);
@@ -55,11 +55,11 @@ function onUseAbility(player,target,ability)
 
         local bonus = 1 + (level/15) + target:getMod(MOD_MANEUVER_BONUS);
 
-        if (target:getActiveManeuvers() == 3) then
+        if (target:getActiveManeuvers() == 4) then
             target:removeOldestManeuver();
         end
 
-        target:addStatusEffect(EFFECT_EARTH_MANEUVER, bonus, 0, 60);
+        target:addStatusEffect(EFFECT_EARTH_MANEUVER, bonus, 0, 120);
     end
 
     return EFFECT_EARTH_MANEUVER;

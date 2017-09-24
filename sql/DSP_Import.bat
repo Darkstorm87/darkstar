@@ -35,8 +35,8 @@ REM ECHO Creating Database dspdb
 REM "c:\program files\mysql\mysql server 5.7\bin\mysqladmin" -h localhost -u ***REMOVED*** -p***REMOVED*** CREATE dspdb
 
 ECHO Loading dspdb tables into the database
-F:
-cd F:\FFIvalice\sql
+B:
+cd B:\FFIvalice\Source\Repos\Ivalice\sql
 
 del auction_house.sql
 del chars.sql
@@ -62,6 +62,7 @@ del conquest_system.sql
 del delivery_box.sql
 del linkshells.sql
 del FFIvalice_ZoneIPs.sql
+del char_merits.sql
 
 FOR %%X IN (*.sql) DO ECHO Importing %%X & "c:\program files\mysql\mysql server 5.7\bin\mysql" dspdb -h localhost -u ***REMOVED*** -p***REMOVED*** < %%X
 
