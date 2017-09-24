@@ -30,3 +30,4 @@ cd %mydate%
 "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqldump" --hex-blob -u root -pHokuten1 --default-character-set=utf8 --result-file=linkshells.sql dspdb linkshells
 "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqldump" --hex-blob -u root -pHokuten1 --default-character-set=utf8 --result-file=dspdb.sql dspdb
 "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqldump" --hex-blob -u root -pHokuten1 --default-character-set=utf8 --result-file=npc_list.sql dspdb npc_list
+"C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqldump" --hex-blob -u root -pHokuten1 --default-character-set=utf8 --result-file=char_merits.sql dspdb char_merit

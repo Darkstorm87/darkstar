@@ -1231,6 +1231,10 @@ function doDivineBanishNuke(caster, target, spell, params)
     local resistBonus = params.resistBonus;
     local V = params.dmg;
     local M = params.multiplier;
+	
+	params.skillType = DIVINE_MAGIC_SKILL;
+	params.attribute = MOD_MND;
+	
     --calculate raw damage
     local dmg = calculateMagicDamage(caster, target, spell, params);
     --get resist multiplier (1x if no resist)

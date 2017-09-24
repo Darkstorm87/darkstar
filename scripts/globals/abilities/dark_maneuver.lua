@@ -46,11 +46,11 @@ function onUseAbility(player,target,ability)
         target:removeAllManeuvers();
         target:addStatusEffect(EFFECT_OVERLOAD, 0, 0, overload);
     else
-        if (target:getActiveManeuvers() == 3) then
+        if (target:getActiveManeuvers() == 4) then
             target:removeOldestManeuver();
         end
 
-        target:addStatusEffect(EFFECT_DARK_MANEUVER, 0, 0, 60);
+        target:addStatusEffect(EFFECT_DARK_MANEUVER, 0, 0, 120);
     end
 
     return EFFECT_DARK_MANEUVER;
