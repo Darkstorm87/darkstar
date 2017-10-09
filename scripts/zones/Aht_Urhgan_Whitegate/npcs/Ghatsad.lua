@@ -22,7 +22,7 @@ function onTrade(player,npc,trade)
     local attachments = player:getVar("PUP_Attachments");
     local unlockedAttachments = player:getVar("PUP_AttachmentUnlock");
     local attachmentTime = player:getVar("PUP_AttachmentReady");
-    local attachmentReady = (attachmentTime ~= 0 and attachmentTime < os.time());
+    local attachmentReady = true;
     local attachmentWait = player:getVar("PUP_AttachmentWait");
 
     if (attachmentStatus == 2) then
