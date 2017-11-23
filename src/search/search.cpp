@@ -74,7 +74,7 @@ struct SearchCommInfo
 {
     SOCKET socket;
     std::uint32_t ip;
-    uint16 port;
+    std::uint16_t port;
 };
 
 void TaskManagerThread();
@@ -106,7 +106,7 @@ void login_config_read(const int8* file);		// We only need the search server por
 
 /************************************************************************
 *																		*
-*  Отображения содержимого входящего пакета в консоли					*
+*  Отображени�? �?одержимого вход�?щего пакета в кон�?оли					*
 *																		*
 ************************************************************************/
 
@@ -284,7 +284,7 @@ std::int32_t main(std::int32_t argc, int8 **argv)
 
         std::thread(TCPComm, ClientSocket).detach();
     }
-    // TODO: сейчас мы никогда сюда не попадем
+    // TODO: �?ейча�? мы никогда �?юда не попадем
 
     // shutdown the connection since we're done
 #ifdef WIN32
@@ -516,7 +516,7 @@ void TCPComm(SOCKET socket)
 
 /************************************************************************
 *                                                                       *
-*  Запрос списка персонажей (party/linkshell)                           *
+*  Запро�? �?пи�?ка пер�?онажей (party/linkshell)                           *
 *                                                                       *
 ************************************************************************/
 
@@ -524,8 +524,8 @@ void HandleGroupListRequest(CTCPRequestPacket& PTCPRequest)
 {
     uint8* data = (uint8*)PTCPRequest.GetData();
 
-    uint16 partyid = RBUFW(data, (0x10));
-    uint16 allianceid = RBUFW(data, (0x14));
+    std::uint16_t partyid = RBUFW(data, (0x10));
+    std::uint16_t allianceid = RBUFW(data, (0x14));
     std::uint32_t linkshellid1 = RBUFL(data, (0x18));
     std::uint32_t linkshellid2 = RBUFL(data, (0x1C));
 
@@ -631,16 +631,16 @@ void HandleAuctionHouseRequest(CTCPRequestPacket& PTCPRequest)
     uint8  AHCatID = RBUFB(data, (0x16));
 
     //2 - уровень -- level
-    //3 - раса -- race
-    //4 - профессия -- job
+    //3 - ра�?а -- race
+    //4 - профе�?�?и�? -- job
     //5 - урон -- damage
     //6 - задержка -- delay
     //7 - защита -- defense
-    //8 - сопротивление -- resistance
+    //8 - �?опротивление -- resistance
     //9 - название -- name
     string_t OrderByString = "ORDER BY";
     uint8 paramCount = RBUFB(data, 0x12);
-    for (uint8 i = 0; i < paramCount; ++i) // параметры сортировки предметов
+    for (uint8 i = 0; i < paramCount; ++i) // параметры �?ортировки предметов
     {
         uint8 param = RBUFL(data, (0x18) + 8 * i);
         ShowMessage(" Param%u: %u\n", i, param);
@@ -668,9 +668,9 @@ void HandleAuctionHouseRequest(CTCPRequestPacket& PTCPRequest)
     {
         CAHItemsListPacket PAHPacket(20 * i);
 
-        PAHPacket.SetItemCount((uint16)ItemList.size());
+        PAHPacket.SetItemCount((std::uint16_t)ItemList.size());
 
-        for (uint16 y = 20 * i; (y != 20 * (i + 1)) && (y < ItemList.size()); ++y)
+        for (std::uint16_t y = 20 * i; (y != 20 * (i + 1)) && (y < ItemList.size()); ++y)
         {
             PAHPacket.AddItem(ItemList.at(y));
         }
@@ -688,7 +688,7 @@ void HandleAuctionHouseRequest(CTCPRequestPacket& PTCPRequest)
 void HandleAuctionHouseHistory(CTCPRequestPacket& PTCPRequest)
 {
     uint8* data = (uint8*)PTCPRequest.GetData();
-    uint16 ItemID = RBUFW(data, (0x12));
+    std::uint16_t ItemID = RBUFW(data, (0x12));
     uint8  stack = RBUFB(data, (0x15));
 
     CAHHistoryPacket PAHPacket(ItemID);
@@ -712,8 +712,8 @@ void HandleAuctionHouseHistory(CTCPRequestPacket& PTCPRequest)
 
 search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
 {
-    // суть в том, чтобы заполнить некоторую структуру, на основании которой будет создан запрос к базе
-    // результат поиска в базе отправляется клиенту
+    // �?уть в том, чтобы заполнить некоторую �?труктуру, на о�?новании которой будет �?оздан запро�? к базе
+    // результат пои�?ка в базе отправл�?ет�?�? клиенту
 
     std::uint32_t bitOffset = 0;
 
@@ -734,7 +734,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
     uint8 minRank = 0;
     uint8 maxRank = 0;
 
-    uint16 areas[10];
+    std::uint16_t areas[10];
 
     std::uint32_t flags = 0;
 
@@ -742,7 +742,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
     uint8* data = (uint8*)PTCPRequest.GetData();
     uint8  size = RBUFB(data, (0x10));
 
-    uint16 workloadBits = size * 8;
+    std::uint16_t workloadBits = size * 8;
 
     memset(areas, 0, sizeof(areas));
     //ShowMessage("Received a search packet with size %u byte\n", size);
@@ -810,7 +810,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
             }
             else // 8 Bit = 1 Byte per Area Code
             {
-                areas[areaCount] = (uint16)unpackBitsLE(&data[0x11], bitOffset, 10);
+                areas[areaCount] = (std::uint16_t)unpackBitsLE(&data[0x11], bitOffset, 10);
                 areaCount++;
                 bitOffset += 10;
                 //	printf("SEARCH::Area List Entry found(%2X)!\n",areas[areaCount-1]);
@@ -973,7 +973,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
     }
 
     return sr;
-    // не обрабатываем последние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
+    // не обрабатываем по�?ледние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
 }
 /************************************************************************
 *                                                                       *
