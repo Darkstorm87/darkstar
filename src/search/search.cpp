@@ -79,7 +79,7 @@ struct SearchCommInfo
 
 void TaskManagerThread();
 
-std::int32_t ah_cleanup(time_point tick, CTaskMgr::CTask* PTask);
+int32 ah_cleanup(time_point tick, CTaskMgr::CTask* PTask);
 
 
 const char* SEARCH_CONF_FILENAME = "./conf/search_server.conf";
@@ -106,7 +106,7 @@ void login_config_read(const int8* file);		// We only need the search server por
 
 /************************************************************************
 *																		*
-*  Отображения содержимого входящего пакета в консоли					*
+*  Отображени�? �?одержимого вход�?щего пакета в кон�?оли					*
 *																		*
 ************************************************************************/
 
@@ -117,7 +117,7 @@ void PrintPacket(char* data, int size)
 
     printf("\n");
 
-    for (std::int32_t y = 0; y < size; y++)
+    for (int32 y = 0; y < size; y++)
     {
         char msgtmp[50];
         memset(&msgtmp, 0, 50);
@@ -144,7 +144,7 @@ void PrintPacket(char* data, int size)
 *																		*
 ************************************************************************/
 
-std::int32_t main(std::int32_t argc, char **argv)
+int32 main(int32 argc, char **argv)
 {
 #ifdef WIN32
     WSADATA wsaData;
@@ -284,7 +284,7 @@ std::int32_t main(std::int32_t argc, char **argv)
 
         std::thread(TCPComm, ClientSocket).detach();
     }
-    // TODO: сейчас мы никогда сюда не попадем
+    // TODO: �?ейча�? мы никогда �?юда не попадем
 
     // shutdown the connection since we're done
 #ifdef WIN32
@@ -516,7 +516,7 @@ void TCPComm(SOCKET socket)
 
 /************************************************************************
 *                                                                       *
-*  Запрос списка персонажей (party/linkshell)                           *
+*  Запро�? �?пи�?ка пер�?онажей (party/linkshell)                           *
 *                                                                       *
 ************************************************************************/
 
@@ -631,16 +631,16 @@ void HandleAuctionHouseRequest(CTCPRequestPacket& PTCPRequest)
     uint8  AHCatID = RBUFB(data, (0x16));
 
     //2 - уровень -- level
-    //3 - раса -- race
-    //4 - профессия -- job
+    //3 - ра�?а -- race
+    //4 - профе�?�?и�? -- job
     //5 - урон -- damage
     //6 - задержка -- delay
     //7 - защита -- defense
-    //8 - сопротивление -- resistance
+    //8 - �?опротивление -- resistance
     //9 - название -- name
     string_t OrderByString = "ORDER BY";
     uint8 paramCount = RBUFB(data, 0x12);
-    for (uint8 i = 0; i < paramCount; ++i) // параметры сортировки предметов
+    for (uint8 i = 0; i < paramCount; ++i) // параметры �?ортировки предметов
     {
         uint8 param = RBUFL(data, (0x18) + 8 * i);
         ShowMessage(" Param%u: %u\n", i, param);
@@ -712,8 +712,8 @@ void HandleAuctionHouseHistory(CTCPRequestPacket& PTCPRequest)
 
 search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
 {
-    // суть в том, чтобы заполнить некоторую структуру, на основании которой будет создан запрос к базе
-    // результат поиска в базе отправляется клиенту
+    // �?уть в том, чтобы заполнить некоторую �?труктуру, на о�?новании которой будет �?оздан запро�? к базе
+    // результат пои�?ка в базе отправл�?ет�?�? клиенту
 
     uint32 bitOffset = 0;
 
@@ -973,7 +973,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
     }
 
     return sr;
-    // не обрабатываем последние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
+    // не обрабатываем по�?ледние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
 }
 /************************************************************************
 *                                                                       *
@@ -997,7 +997,7 @@ void TaskManagerThread()
 *                                                                       *
 ************************************************************************/
 
-std::int32_t ah_cleanup(time_point tick, CTaskMgr::CTask* PTask)
+int32 ah_cleanup(time_point tick, CTaskMgr::CTask* PTask)
 {
     //ShowMessage(CL_YELLOW"[TASK] ah_cleanup tick..\n" CL_RESET);
 
