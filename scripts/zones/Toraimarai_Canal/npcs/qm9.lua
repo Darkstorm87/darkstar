@@ -27,9 +27,9 @@ end;
 function onTrigger(player,npc)
     if (player:getVar("***REMOVED***Problem") == 2) then
         if (player:getVar("***REMOVED***ProblemQ1") <= 1) then
-            player:startEvent(0x2A);
+            player:startEvent(42);
         else
-            player:startEvent(0x2A);
+            player:startEvent(42);
         end
     end
 end;
@@ -52,7 +52,7 @@ function onEventFinish(player,csid,option)
     -- printf("CSID: %u",csid);
     -- printf("RESULT: %u",option);
 
-    if (csid == 0x2A) then
+    if (csid == 42) then
         player:setVar("***REMOVED***ProblemQ1",2);
     end
 end;
