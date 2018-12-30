@@ -40,5 +40,3 @@ function onEventFinish(player,csid,option)
         player:setVar("***REMOVED***ProblemQ2",2);
     end
 end;
-
-
