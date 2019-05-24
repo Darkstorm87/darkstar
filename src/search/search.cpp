@@ -64,7 +64,7 @@ typedef u_int SOCKET;
 #include "packets/party_list.h"
 #include "packets/search_list.h"
 
-#define DEFAULT_BUFLEN	1024
+#define DEFAULT_BUFLEN  1024
 #define CODE_LVL 17
 #define CODE_JOB 13
 #define CODE_ZONE 20
@@ -102,12 +102,12 @@ void search_config_default();
 void search_config_read(const int8* file);
 
 void login_config_default();
-void login_config_read(const int8* file);		// We only need the search server port defined here
+void login_config_read(const int8* file);       // We only need the search server port defined here
 
 /************************************************************************
-*																		*
-*  Отображени�? �?одержимого вход�?щего пакета в кон�?оли					*
-*																		*
+*                                                                       *
+*  Отображения содержимого входящего пакета в консоли                   *
+*                                                                       *
 ************************************************************************/
 
 void PrintPacket(char* data, int size)
@@ -121,7 +121,7 @@ void PrintPacket(char* data, int size)
     {
         char msgtmp[50];
         memset(&msgtmp, 0, 50);
-        sprintf(msgtmp, "%s %02hx", message, (uint8)data[y]);
+        sprintf(msgtmp, "%s %02x", message, (uint8)data[y]);
         strncpy(message, msgtmp, 50);
         if (((y + 1) % 16) == 0)
         {
@@ -139,9 +139,9 @@ void PrintPacket(char* data, int size)
 }
 
 /************************************************************************
-*																		*
-*																		*
-*																		*
+*                                                                       *
+*                                                                       *
+*                                                                       *
 ************************************************************************/
 
 int32 main(int32 argc, char **argv)
@@ -264,7 +264,7 @@ int32 main(int32 argc, char **argv)
         ShowMessage(CL_GREEN"AH task to return items older than %u days is running\n" CL_RESET, search_config.expire_days);
         CTaskMgr::getInstance()->AddTask("ah_cleanup", server_clock::now(), nullptr, CTaskMgr::TASK_INTERVAL, ah_cleanup, std::chrono::seconds(search_config.expire_interval));
     }
-    //	ShowMessage(CL_CYAN"[TASKMGR] Starting task manager thread..\n" CL_RESET);
+    //  ShowMessage(CL_CYAN"[TASKMGR] Starting task manager thread..\n" CL_RESET);
 
     std::thread(TaskManagerThread).detach();
 
@@ -284,7 +284,7 @@ int32 main(int32 argc, char **argv)
 
         std::thread(TCPComm, ClientSocket).detach();
     }
-    // TODO: �?ейча�? мы никогда �?юда не попадем
+    // TODO: сейчас мы никогда сюда не попадем
 
     // shutdown the connection since we're done
 #ifdef WIN32
@@ -408,7 +408,7 @@ void search_config_read(const int8* file)
 
 /************************************************************************
 *                                                                       *
-*  login_darkstar			                                            *
+*  login_darkstar                                                       *
 *                                                                       *
 ************************************************************************/
 
@@ -420,7 +420,7 @@ void login_config_default()
 
 /************************************************************************
 *                                                                       *
-*  login_darkstar			                                            *
+*  login_darkstar                                                       *
 *                                                                       *
 ************************************************************************/
 
@@ -460,9 +460,9 @@ void login_config_read(const int8* file)
 }
 
 /************************************************************************
-*																		*
-*																		*
-*																		*
+*                                                                       *
+*                                                                       *
+*                                                                       *
 ************************************************************************/
 
 void TCPComm(SOCKET socket)
@@ -516,7 +516,7 @@ void TCPComm(SOCKET socket)
 
 /************************************************************************
 *                                                                       *
-*  Запро�? �?пи�?ка пер�?онажей (party/linkshell)                           *
+*  Запрос списка персонажей (party/linkshell)                           *
 *                                                                       *
 ************************************************************************/
 
@@ -631,22 +631,22 @@ void HandleAuctionHouseRequest(CTCPRequestPacket& PTCPRequest)
     uint8  AHCatID = ref<uint8>(data, 0x16);
 
     //2 - уровень -- level
-    //3 - ра�?а -- race
-    //4 - профе�?�?и�? -- job
+    //3 - раса -- race
+    //4 - профессия -- job
     //5 - урон -- damage
     //6 - задержка -- delay
     //7 - защита -- defense
-    //8 - �?опротивление -- resistance
+    //8 - сопротивление -- resistance
     //9 - название -- name
     string_t OrderByString = "ORDER BY";
     uint8 paramCount = ref<uint8>(data, 0x12);
-    for (uint8 i = 0; i < paramCount; ++i) // параметры �?ортировки предметов
+    for (uint8 i = 0; i < paramCount; ++i) // параметры сортировки предметов
     {
         uint8 param = ref<uint32>(data, 0x18 + 8 * i);
         ShowMessage(" Param%u: %u\n", i, param);
         switch (param) {
         case 2:
-            OrderByString.append(" item_armor.level DESC,");
+            OrderByString.append(" item_equipment.level DESC,");
         case 5:
             OrderByString.append(" item_weapon.dmg DESC,");
         case 6:
@@ -712,8 +712,8 @@ void HandleAuctionHouseHistory(CTCPRequestPacket& PTCPRequest)
 
 search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
 {
-    // �?уть в том, чтобы заполнить некоторую �?труктуру, на о�?новании которой будет �?оздан запро�? к базе
-    // результат пои�?ка в базе отправл�?ет�?�? клиенту
+    // суть в том, чтобы заполнить некоторую структуру, на основании которой будет создан запрос к базе
+    // результат поиска в базе отправляется клиенту
 
     uint32 bitOffset = 0;
 
@@ -813,7 +813,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
                 areas[areaCount] = (uint16)unpackBitsLE(&data[0x11], bitOffset, 10);
                 areaCount++;
                 bitOffset += 10;
-                //	printf("SEARCH::Area List Entry found(%2X)!\n",areas[areaCount-1]);
+                //  printf("SEARCH::Area List Entry found(%2X)!\n",areas[areaCount-1]);
             }
             break;
         }
@@ -973,7 +973,7 @@ search_req _HandleSearchRequest(CTCPRequestPacket& PTCPRequest)
     }
 
     return sr;
-    // не обрабатываем по�?ледние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
+    // не обрабатываем последние биты, что мешает в одну кучу например "/blacklist delete Name" и "/sea all Name"
 }
 /************************************************************************
 *                                                                       *

@@ -73,8 +73,8 @@ struct map_config_t
     std::string server_message_fr;
 
     uint32 max_time_lastupdate;       // max interval wait of last update player char
-    int32  vanadiel_time_offset;      // �?мещение игрового времени отно�?ительно реального времени
-    int32  lightluggage_block;        // е�?ли значение отлично от нул�?, то пер�?онажи �? lightluggage будут удал�?ть�?�? �? �?ервера автоматиче�?ки
+    int32  vanadiel_time_offset;      // смещение игрового времени относительно реального времени
+    int32  lightluggage_block;        // если значение отлично от нуля, то персонажи с lightluggage будут удаляться с сервера автоматически
 
     uint16 ah_base_fee_single;        // Base AH fee for single items
     uint16 ah_base_fee_stacks;        // Base AH fee for stacks
@@ -114,12 +114,13 @@ struct map_config_t
     float  mob_stat_multiplier;       // Multiplier for str/vit/etc of mobs
     float  player_stat_multiplier;    // Multiplier for str/vit/etc. of NMs of player
     float  ability_recast_multiplier; // Adjust ability recast time
+    int8   blood_pact_shared_timer;   // Default is 0. Disable/enable old school shared timer for SMN blood pacts.
     float  drop_rate_multiplier;      // Multiplier for drops
     uint32 all_mobs_gil_bonus;        // Sets the amount of bonus gil (per level) all mobs will drop.
     uint32 max_gil_bonus;             // Maximum total bonus gil that can be dropped. Default 9999 gil.
     uint8  newstyle_skillups;         // Allows failed parries and blocks to trigger skill up chance.
     int8   Battle_cap_tweak;          // Default is 0. Globally adjust the level of level capped fights.
-    int8   CoP_Battle_cap;            // Default is 0. Disable/enable old lv caps on Chains of Promathia mission battles.
+    uint8  lv_cap_mission_bcnm;       // 1 = Enable / 0 = Disable lv caps on mission battles.
     uint8  max_merit_points;          // global variable, amount of merit points players are allowed
     uint16 yell_cooldown;             // Minimum time between uses of yell command (in seconds).
     float  fame_multiplier;           // Fame multiplier
@@ -134,6 +135,7 @@ struct map_config_t
     uint8  healing_tick_delay;
     uint16 msg_server_port;           // central message server port
     std::string msg_server_ip;        // central message server IP
+    bool   skillup_bloodpact;         // Enable/disable skillups for bloodpacts
 };
 
 /************************************************************************
@@ -146,9 +148,9 @@ struct map_session_data_t
 {
     uint32       client_addr;
     uint16       client_port;
-    uint16       client_packet_id;          // id по�?леднего пакета, пришедшего от клиента
-    uint16       server_packet_id;          // id по�?леднего пакета, отправленного �?ервером
-    int8*        server_packet_data;        // указатель на �?обранный пакет, который был ранее отправлен клиенту
+    uint16       client_packet_id;          // id последнего пакета, пришедшего от клиента
+    uint16       server_packet_id;          // id последнего пакета, отправленного сервером
+    int8*        server_packet_data;        // указатель на собранный пакет, который был ранее отправлен клиенту
     size_t       server_packet_size;        // размер пакета, который был ранее отправлен клиенту
     time_t       last_update;               // time of last packet recv
     blowfish_t   blowfish;                  // unique decypher keys
