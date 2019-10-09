@@ -23,6 +23,6 @@ end
 
 function onEventFinish(player,csid,option)
     if csid == 42 then
-        player:setVar("***REMOVED***ProblemQ1", 2)
+        player:setCharVar("***REMOVED***ProblemQ1", 2)
     end
 end
