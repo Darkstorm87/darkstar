@@ -1,31 +1,14 @@
 -----------------------------------
--- Area: Ghelsba outpost
---  MOB: Toadpillow
--- BCNM30
+-- Area: Ghelsba Outpost
+--  Mob: Toadpillow
+-- BCNM: Toadal Recall
+-----------------------------------
+require("scripts/globals/status")
 -----------------------------------
 
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
-
------------------------------------
--- onMobEngaged
------------------------------------
-
-function onMobEngaged(mob,target)
-    GetMobByID(17350937):updateEnmity(target);
-    GetMobByID(17350938):updateEnmity(target);
-    GetMobByID(17350939):updateEnmity(target);
-end;
-
-
------------------------------------
--- onMobDeath Action
------------------------------------
+function onMobSpawn (mob)
+    mob:setMobMod(dsp.mobMod.SUPERLINK, mob:getShortID())
+end
 
 function onMobDeath(mob, player, isKiller)
-end;
+end

@@ -4,18 +4,10 @@
 -- Teaches the black magic Stun
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(252);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(252)
+end
 
 function onItemUse(target)
-    target:addSpell(252);
-end;
+    target:addSpell(252)
+end

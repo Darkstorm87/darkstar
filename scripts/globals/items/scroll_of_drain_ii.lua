@@ -4,18 +4,10 @@
 -- Teaches the black magic Drain II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(246);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(246)
+end
 
 function onItemUse(target)
-    target:addSpell(246);
-end;
+    target:addSpell(246)
+end

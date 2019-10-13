@@ -83,19 +83,22 @@ CParty::CParty(CBattleEntity* PEntity)
 
     m_EffectsChanged = false;
     AddMember(PEntity);
-    SetLeader((int8*)PEntity->name.c_str());
+    SetLeader((char*)PEntity->name.c_str());
 }
 
 CParty::CParty(uint32 id)
 {
+    m_PAlliance = nullptr;
+
     m_PartyID = id;
     m_PartyType = PARTY_PCS;
     m_PartyNumber = 0;
 
     m_PLeader = nullptr;
-    m_PAlliance = nullptr;
     m_PSyncTarget = nullptr;
     m_PQuaterMaster = nullptr;
+
+    m_EffectsChanged = false;
 }
 
 /************************************************************************
@@ -123,6 +126,7 @@ void CParty::DisbandParty(bool playerInitiated)
         for (uint8 i = 0; i < members.size(); ++i)
         {
             CCharEntity* PChar = (CCharEntity*)members.at(i);
+            PChar->ClearTrusts();
 
             PChar->PParty = nullptr;
             PChar->PLatentEffectContainer->CheckLatentsPartyJobs();
@@ -154,8 +158,8 @@ void CParty::DisbandParty(bool playerInitiated)
         if (playerInitiated)
         {
             uint8 data[8] {};
-            WBUFL(data, 0) = m_PartyID;
-            WBUFL(data, 4) = m_PartyID;
+            ref<uint32>(data, 0) = m_PartyID;
+            ref<uint32>(data, 4) = m_PartyID;
             message::send(MSG_PT_DISBAND, data, sizeof data, nullptr);
         }
     }
@@ -174,14 +178,14 @@ void CParty::AssignPartyRole(int8* MemberName, uint8 role)
 
     switch (role)
     {
-        case 0: SetLeader(MemberName);		    break;
-        case 4: SetQuarterMaster(MemberName);   break;
+        case 0: SetLeader((const char*)MemberName);		    break;
+        case 4: SetQuarterMaster((const char*)MemberName);   break;
         case 5: SetQuarterMaster(nullptr);	        break;
         case 6: SetSyncTarget(MemberName, 238);	break;
         case 7: SetSyncTarget(nullptr, 553);       break;
     }
     uint8 data[4] {};
-    WBUFL(data, 0) = m_PartyID;
+    ref<uint32>(data, 0) = m_PartyID;
     message::send(MSG_PT_RELOAD, data, sizeof data, nullptr);
     return;
 }
@@ -217,7 +221,7 @@ CBattleEntity* CParty::GetMemberByName(const int8* MemberName)
     DSP_DEBUG_BREAK_IF(m_PartyType != PARTY_PCS);
 
     for (uint32 i = 0; i < members.size(); ++i)
-        if (strcmp(MemberName, members.at(i)->GetName()) == 0)
+        if (strcmp((const char*)MemberName, (const char*)members.at(i)->GetName()) == 0)
             return members.at(i);
 
     return nullptr;
@@ -236,6 +240,9 @@ void CParty::RemoveMember(CBattleEntity* PEntity)
 
     if (m_PLeader == PEntity)
     {
+        // Remove their trusts
+        CCharEntity* PChar = (CCharEntity*)PEntity;
+        PChar->ClearTrusts();
         RemovePartyLeader(PEntity);
     }
     else
@@ -289,7 +296,7 @@ void CParty::RemoveMember(CBattleEntity* PEntity)
                     Sql_Query(SqlHandle, "DELETE FROM accounts_parties WHERE charid = %u;", PChar->id);
 
                     uint8 data[4] {};
-                    WBUFL(data, 0) = m_PartyID;
+                    ref<uint32>(data, 0) = m_PartyID;
                     message::send(MSG_PT_RELOAD, data, sizeof data, nullptr);
 
                     if (PChar->PTreasurePool != nullptr &&
@@ -424,7 +431,7 @@ void CParty::RemovePartyLeader(CBattleEntity* PEntity)
                                     ORDER BY timestamp ASC LIMIT 1;", m_PartyID, PARTY_LEADER);
     if (ret != SQL_ERROR && Sql_NumRows(SqlHandle) != 0 && Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
-        std::string newLeader(Sql_GetData(SqlHandle, 0));
+        std::string newLeader((const char*)Sql_GetData(SqlHandle, 0));
         SetLeader(newLeader.c_str());
     }
     if (m_PLeader == PEntity)
@@ -450,7 +457,7 @@ std::vector<CParty::partyInfo_t> CParty::GetPartyInfo()
         while (Sql_NextRow(SqlHandle) == SQL_SUCCESS)
         {
             memberinfo.push_back({Sql_GetUIntData(SqlHandle,0), Sql_GetUIntData(SqlHandle, 1),
-                Sql_GetUIntData(SqlHandle, 2), std::string(Sql_GetData(SqlHandle, 3)),
+                Sql_GetUIntData(SqlHandle, 2), std::string((const char*)Sql_GetData(SqlHandle, 3)),
                 static_cast<uint16>(Sql_GetUIntData(SqlHandle, 4)),
                 static_cast<uint16>(Sql_GetUIntData(SqlHandle, 5)),
                 static_cast<uint16>(Sql_GetUIntData(SqlHandle, 6))});
@@ -487,7 +494,7 @@ void CParty::AddMember(CBattleEntity* PEntity)
 
         Sql_Query(SqlHandle, "INSERT INTO accounts_parties (charid, partyid, allianceid, partyflag) VALUES (%u, %u, %u, %u);", PChar->id, m_PartyID, allianceid, GetMemberFlags(PChar));
         uint8 data[4] {};
-        WBUFL(data, 0) = m_PartyID;
+        ref<uint32>(data, 0) = m_PartyID;
         message::send(MSG_PT_RELOAD, data, sizeof data, nullptr);
         ReloadTreasurePool(PChar);
 
@@ -520,6 +527,9 @@ void CParty::AddMember(CBattleEntity* PEntity)
                 PChar->loc.zone->PushPacket(PChar, CHAR_INRANGE, new CCharSyncPacket(PChar));
             }
         }
+
+        // You lose all your summoned trusts upon joining a party
+        PChar->ClearTrusts();
     }
 }
 
@@ -539,8 +549,8 @@ void CParty::AddMember(uint32 id)
         }
         Sql_Query(SqlHandle, "INSERT INTO accounts_parties (charid, partyid, allianceid, partyflag) VALUES (%u, %u, %u, %u);", id, m_PartyID, allianceid, Flags);
         uint8 data[8] {};
-        WBUFL(data, 0) = m_PartyID;
-        WBUFL(data, 4) = id;
+        ref<uint32>(data, 0) = m_PartyID;
+        ref<uint32>(data, 4) = id;
         message::send(MSG_PT_RELOAD, data, sizeof data, nullptr);
 
         /*if (PChar->nameflags.flags & FLAG_INVITE)
@@ -716,7 +726,7 @@ void CParty::ReloadParty()
                     {
                         uint16 zoneid = memberinfo.zone == 0 ? memberinfo.prev_zone : memberinfo.zone;
                         PChar->pushPacket(new CPartyMemberUpdatePacket(
-                            memberinfo.id, memberinfo.name.c_str(),
+                            memberinfo.id, (const int8*)memberinfo.name.c_str(),
                             memberinfo.flags, j, zoneid));
                     }
                     j++;
@@ -748,17 +758,31 @@ void CParty::ReloadParty()
                     PChar->pushPacket(new CPartyMemberUpdatePacket(PPartyMember, j, memberinfo.flags | GetMemberFlags(PPartyMember), PChar->getZone()));
                     //if (PPartyMember != PChar)
                     //    effects->AddMemberEffects(PChar);
+
+                    // Inject the party leader's trusts into the party list
+                    CBattleEntity* PLeader = GetLeader();
+                    if (PLeader != nullptr)
+                    {
+                        for (auto PTrust : ((CCharEntity*)PLeader)->PTrusts)
+                        {
+                            j++;
+                            // trusts don't persist over zonelines, so we know their zone has be the same as the leader.
+                            PChar->pushPacket(new CPartyMemberUpdatePacket(PTrust, j));
+                        }
+                    }
                 }
                 else
                 {
                     uint16 zoneid = memberinfo.zone == 0 ? memberinfo.prev_zone : memberinfo.zone;
                     PChar->pushPacket(new CPartyMemberUpdatePacket(
-                        memberinfo.id, memberinfo.name.c_str(),
+                        memberinfo.id, (const int8*)memberinfo.name.c_str(),
                         memberinfo.flags, j, zoneid));
                     //effects->AddMemberEffects(memberinfo.id);
                 }
                 j++;
             }
+
+
             //PChar->pushPacket(effects.release());
         }
     }
@@ -796,7 +820,7 @@ void CParty::ReloadPartyMembers(CCharEntity* PChar)
         {
             uint16 zoneid = memberinfo.zone == 0 ? memberinfo.prev_zone : memberinfo.zone;
             PChar->pushPacket(new CPartyMemberUpdatePacket(
-                memberinfo.id, memberinfo.name.c_str(),
+                memberinfo.id, (const int8*)memberinfo.name.c_str(),
                 memberinfo.flags, j, zoneid));
         }
         j++;
@@ -813,9 +837,9 @@ void CParty::ReloadTreasurePool(CCharEntity* PChar)
 {
     DSP_DEBUG_BREAK_IF(PChar == nullptr);
 
-    if (PChar->PTreasurePool != nullptr && PChar->PTreasurePool->GetPoolType() == TREASUREPOOL_ZONE) {
+    if (PChar->PTreasurePool != nullptr && PChar->PTreasurePool->GetPoolType() == TREASUREPOOL_ZONE)
         return;
-    }
+    
 
 
     //alliance
@@ -843,8 +867,10 @@ void CParty::ReloadTreasurePool(CCharEntity* PChar)
 
             }//regular party
         }
-        else if (PChar->PParty->m_PAlliance == nullptr) {
-            for (uint8 i = 0; i < members.size(); ++i) {
+        else if (PChar->PParty->m_PAlliance == nullptr)
+        {
+            for (uint8 i = 0; i < members.size(); ++i)
+            {
                 CCharEntity* PPartyMember = (CCharEntity*)members.at(i);
 
                 if (PPartyMember != PChar &&
@@ -896,7 +922,7 @@ void CParty::SetLeader(const char* MemberName)
         Sql_Query(SqlHandle, "UPDATE accounts_parties SET partyid = %u WHERE partyid = %u", newId, m_PartyID);
         Sql_Query(SqlHandle, "UPDATE accounts_parties SET allianceid = %u WHERE allianceid = %u", newId, m_PartyID);
 
-        m_PLeader = GetMemberByName(MemberName);
+        m_PLeader = GetMemberByName((const int8*)MemberName);
         if (this->m_PAlliance && this->m_PAlliance->m_AllianceID == m_PartyID)
             m_PAlliance->m_AllianceID = newId;
 
@@ -959,7 +985,7 @@ void CParty::SetSyncTarget(int8* MemberName, uint16 message)
                     if (member->status != STATUS_DISAPPEAR &&
                         member->getZone() == PChar->getZone())
                     {
-                        member->pushPacket(new CMessageStandardPacket(PChar->GetMLevel(), 0, 0, 0, message));
+                        member->pushPacket(new CMessageStandardPacket(PChar->GetMLevel(), 0, 0, 0, static_cast<MsgStd>(message)));
                         member->StatusEffectContainer->AddStatusEffect(new CStatusEffect(
                             EFFECT_LEVEL_SYNC,
                             EFFECT_LEVEL_SYNC,
@@ -1011,7 +1037,7 @@ void CParty::SetSyncTarget(int8* MemberName, uint16 message)
 
 void CParty::SetQuarterMaster(const char* MemberName)
 {
-    CBattleEntity* PEntity = MemberName ? GetMemberByName(MemberName) : nullptr;
+    CBattleEntity* PEntity = MemberName ? GetMemberByName((const int8*)MemberName) : nullptr;
     m_PQuaterMaster = PEntity;
     Sql_Query(SqlHandle, "UPDATE accounts_parties SET partyflag = partyflag & ~%d WHERE partyid = %u AND partyflag & %d", PARTY_QM, m_PartyID, PARTY_QM);
     if (MemberName != nullptr)

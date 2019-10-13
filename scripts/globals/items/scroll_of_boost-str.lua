@@ -4,18 +4,10 @@
 -- Teaches the white magic Boost-STR
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(479);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(479)
+end
 
 function onItemUse(target)
-    target:addSpell(479);
-end;
+    target:addSpell(479)
+end

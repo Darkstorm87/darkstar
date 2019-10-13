@@ -4,18 +4,10 @@
 -- Teaches the black magic Quake
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(210);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(210)
+end
 
 function onItemUse(target)
-    target:addSpell(210);
-end;
+    target:addSpell(210)
+end

@@ -4,18 +4,10 @@
 -- Teaches the black magic Rasp
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(238);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(238)
+end
 
 function onItemUse(target)
-    target:addSpell(238);
-end;
+    target:addSpell(238)
+end

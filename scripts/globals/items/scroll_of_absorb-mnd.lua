@@ -4,18 +4,10 @@
 -- Teaches the black magic Absorb-MND
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(271);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(271)
+end
 
 function onItemUse(target)
-    target:addSpell(271);
-end;
+    target:addSpell(271)
+end

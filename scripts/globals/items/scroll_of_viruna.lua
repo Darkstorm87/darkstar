@@ -4,18 +4,10 @@
 -- Teaches the white magic Viruna
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(19);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(19)
+end
 
 function onItemUse(target)
-    target:addSpell(19);
-end;
+    target:addSpell(19)
+end

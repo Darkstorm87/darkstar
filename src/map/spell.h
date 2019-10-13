@@ -41,7 +41,8 @@ enum SPELLGROUP
     SPELLGROUP_NINJUTSU  = 4,
     SPELLGROUP_SUMMONING = 5,
     SPELLGROUP_WHITE     = 6,
-    SPELLGROUP_GEOMANCY  = 7
+    SPELLGROUP_GEOMANCY  = 7,
+    SPELLGROUP_TRUST     = 8
 };
 
 enum SPELLREQ
@@ -746,6 +747,8 @@ enum class SpellID : uint16
     Flurry_II               = 846
 };
 
+#define MAX_SPELL_ID 1024U
+
 class CSpell
 {
 public:
@@ -838,7 +841,7 @@ private:
     uint8       m_skillType {};
     float       m_range {};
     float       m_radius {};
-    uint8       m_totalTargets {};
+    uint16      m_totalTargets {};
     uint16      m_mpCost {};                               // mpCost/itemId for ninjitsu tool
     uint8       m_job[MAX_JOBTYPE]{};                      // job
     uint8       m_ValidTarget {};                          // target pc/npc/both

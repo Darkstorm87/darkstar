@@ -4,18 +4,10 @@
 -- Teaches the white magic Barthundra
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(70);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(70)
+end
 
 function onItemUse(target)
-    target:addSpell(70);
-end;
+    target:addSpell(70)
+end

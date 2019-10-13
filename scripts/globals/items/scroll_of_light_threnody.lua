@@ -4,18 +4,10 @@
 -- Teaches the song Light Threnody
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(460);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(460)
+end
 
 function onItemUse(target)
-    target:addSpell(460);
-end;
+    target:addSpell(460)
+end

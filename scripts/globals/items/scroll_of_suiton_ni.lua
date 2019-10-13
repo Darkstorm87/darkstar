@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Suiton: Ni
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(336);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(336)
+end
 
 function onItemUse(target)
-    target:addSpell(336);
-end;
+    target:addSpell(336)
+end

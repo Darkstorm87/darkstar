@@ -4,18 +4,10 @@
 -- Teaches the black magic Flare
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(204);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(204)
+end
 
 function onItemUse(target)
-    target:addSpell(204);
-end;
+    target:addSpell(204)
+end

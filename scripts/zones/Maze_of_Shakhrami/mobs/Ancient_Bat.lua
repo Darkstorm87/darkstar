@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Maze of Shakhrami
---  MOB: Ancient Bat
+--  Mob: Ancient Bat
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,698,2);
-    checkGoVregime(player,mob,699,2);
-end;
+    dsp.regime.checkRegime(player, mob, 698, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 699, 2, dsp.regime.type.GROUNDS)
+end

@@ -1,21 +1,10 @@
 -----------------------------------
---  Area: Zeruhn Mines (172)
---   Mob: Veindigger Leech
+-- Area: Zeruhn Mines (172)
+--  Mob: Veindigger Leech
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobInitialize
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,630,2);
-end;
+    dsp.regime.checkRegime(player, mob, 630, 2, dsp.regime.type.GROUNDS)
+end

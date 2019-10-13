@@ -4,18 +4,10 @@
 -- Teaches the black magic Bio II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(231);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(231)
+end
 
 function onItemUse(target)
-    target:addSpell(231);
-end;
+    target:addSpell(231)
+end

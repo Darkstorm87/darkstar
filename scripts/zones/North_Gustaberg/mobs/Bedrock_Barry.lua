@@ -1,27 +1,20 @@
 -----------------------------------
 -- Area: North Gustaberg
---  NM:  Bedrock Barry
+--   NM: Bedrock Barry
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-require("scripts/globals/status");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
+require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:addStatusEffect(EFFECT_STONESKIN, math.random(30,40), 0, 300);
-end;
+    mob:addStatusEffect(dsp.effect.STONESKIN, math.random(30, 40), 0, 300)
+end
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,16,1);
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+    dsp.regime.checkRegime(player, mob, 16, 1, dsp.regime.type.FIELDS)
+end
 
 function onMobDespawn(mob)
-    UpdateNMSpawnPoint(mob:getID());
-end;
+    UpdateNMSpawnPoint(mob:getID())
+    mob:setRespawnTime(math.random(3600, 4200))
+end

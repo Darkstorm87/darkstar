@@ -1,41 +1,28 @@
 ----------------------------------
---  Area: Fort Karugo Narugo [S]
+-- Area: Fort Karugo Narugo [S]
 --  NPC: Indescript Markings
---  Type: Quest
---  @zone 96
--- !pos -63 -75 4
+-- Type: Quest
+-- !pos -63 -75 4 96
 -----------------------------------
-package.loaded["scripts/zones/Fort_Karugo-Narugo_[S]/TextIDs"] = nil;
------------------------------------
-
-require("scripts/zones/Fort_Karugo-Narugo_[S]/TextIDs");
+local ID = require("scripts/zones/Fort_Karugo-Narugo_[S]/IDs");
 require("scripts/globals/keyitems");
 require("scripts/globals/npc_util");
-
------------------------------------
-
------------------------------------
--- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
 end;
 
------------------------------------
--- onTrigger Action
------------------------------------
-
 function onTrigger(player,npc)
 
     local loafersQuestProgress = player:getVar("AF_SCH_BOOTS");
 
-    player:delStatusEffect(EFFECT_SNEAK);
+    player:delStatusEffect(dsp.effect.SNEAK);
 
     -- SCH AF Quest - Boots
-    if (loafersQuestProgress > 0 and loafersQuestProgress < 3 and player:hasKeyItem(RAFFLESIA_DREAMSPIT) == false) then
+    if (loafersQuestProgress > 0 and loafersQuestProgress < 3 and player:hasKeyItem(dsp.ki.RAFFLESIA_DREAMSPIT) == false) then
 
-        player:addKeyItem(RAFFLESIA_DREAMSPIT);
-        player:messageSpecial(KEYITEM_OBTAINED, RAFFLESIA_DREAMSPIT);
+        player:addKeyItem(dsp.ki.RAFFLESIA_DREAMSPIT);
+        player:messageSpecial(ID.text.KEYITEM_OBTAINED, dsp.ki.RAFFLESIA_DREAMSPIT);
         player:setVar("AF_SCH_BOOTS", loafersQuestProgress + 1);
 
         -- Move the markings around
@@ -54,24 +41,12 @@ function onTrigger(player,npc)
         npc:setPos(newPosition.x, newPosition.y, newPosition.z);
         -- player:PrintToPlayer("Markings moved to position index " .. newPosition);
     else
-        player:messageSpecial(NOTHING_OUT_OF_ORDINARY);
+        player:messageSpecial(ID.text.NOTHING_OUT_OF_ORDINARY);
     end
 end;
 
------------------------------------
--- onEventUpdate
------------------------------------
-
 function onEventUpdate(player,csid,option)
-    --printf("CSID: %u",csid);
-    --printf("RESULT: %u",option);
 end;
 
------------------------------------
--- onEventFinish
------------------------------------
-
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;

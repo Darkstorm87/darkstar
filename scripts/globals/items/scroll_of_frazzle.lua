@@ -4,18 +4,10 @@
 -- Teaches the black magic Frazzle
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(843);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(843)
+end
 
 function onItemUse(target)
-    target:addSpell(843);
-end;
+    target:addSpell(843)
+end

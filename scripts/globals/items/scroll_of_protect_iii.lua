@@ -4,18 +4,10 @@
 -- Teaches the white magic Protect III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(45);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(45)
+end
 
 function onItemUse(target)
-    target:addSpell(45);
-end;
+    target:addSpell(45)
+end

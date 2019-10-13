@@ -4,18 +4,10 @@
 -- Teaches the black magic Tornado
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(208);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(208)
+end
 
 function onItemUse(target)
-    target:addSpell(208);
-end;
+    target:addSpell(208)
+end

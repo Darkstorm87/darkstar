@@ -1,40 +1,14 @@
 -----------------------------------
--- Area: Dynamis Buburimu
---  MOB: Adamantking_Effigy
-
+-- Area: Dynamis - Buburimu
+--  Mob: Adamantking Effigy
 -----------------------------------
-package.loaded["scripts/zones/Dynamis-Buburimu/TextIDs"] = nil;
------------------------------------
-
-require("scripts/globals/dynamis");
-require("scripts/zones/Dynamis-Buburimu/TextIDs");
-
------------------------------------
--- onMobSpawn Action
+require("scripts/globals/dynamis")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:setMobMod(MOBMOD_SUPERLINK, mob:getShortID());
-end;
-
------------------------------------
--- onMobEngaged
------------------------------------
-
-function onMobEngaged(mob,target)
-    dynamis.spawnGroup(mob, BuburimuQuadavList);
-end;
-
------------------------------------
--- onMobDeath
------------------------------------
+    dynamis.refillStatueOnSpawn(mob)
+end
 
 function onMobDeath(mob, player, isKiller)
-    
-    local mobID = mob:getID();
-    
-    if (mobID ==16941457) then --mp
-        player:messageBasic(025,(player:getMaxMP()-player:getMP()));
-        player:restoreMP(3000);        
-    end
-end;
+    dynamis.refillStatueOnDeath(mob, player, isKiller)
+end

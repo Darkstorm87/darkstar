@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Garlaige Citadel
---  MOB: Kaboom
+--  Mob: Kaboom
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,709,2);
+    dsp.regime.checkRegime(player, mob, 709, 2, dsp.regime.type.GROUNDS)
 end;

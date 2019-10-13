@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Garlaige Citadel
---  MOB: Fortalice Bats
+--  Mob: Fortalice Bats
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,710,1);
+    dsp.regime.checkRegime(player, mob, 710, 1, dsp.regime.type.GROUNDS)
 end;

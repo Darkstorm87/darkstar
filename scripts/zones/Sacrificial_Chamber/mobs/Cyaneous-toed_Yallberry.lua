@@ -1,33 +1,19 @@
 -----------------------------------
 -- Area: Sacrificial Chamber
---  MOB: Cyaneous-toed_Yallberry
+--  Mob: Cyaneous-toed Yallberry
 -- BCNM: Jungle Boogymen
 -----------------------------------
-
------------------------------------
--- onMobSpawn Action
+mixins =
+{
+    require("scripts/mixins/families/tonberry"),
+    require("scripts/mixins/job_special")
+}
+require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobEngaged
------------------------------------
-
-function onMobEngaged(mob,target)
-end;
-
------------------------------------
--- onMobDeath Action
------------------------------------
+    mob:setMobMod(dsp.mobMod.SUPERLINK, GetMobByID(mob:getID() - 2):getShortID())
+end
 
 function onMobDeath(mob, player, isKiller)
-
-    local kills = player:getVar("EVERYONES_GRUDGE_KILLS");
-
-    if (kills < 480) then
-        player:setVar("EVERYONES_GRUDGE_KILLS",kills + 1);
-    end
-
-end;
+end

@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: RoMaeve
---  MOB: Darksteel Golem
+--  Mob: Darksteel Golem
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,122,2);
-    checkRegime(player,mob,123,2);
+    dsp.regime.checkRegime(player, mob, 122, 2, dsp.regime.type.FIELDS)
+    dsp.regime.checkRegime(player, mob, 123, 2, dsp.regime.type.FIELDS)
 end;

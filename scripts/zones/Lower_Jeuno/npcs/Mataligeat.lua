@@ -1,29 +1,17 @@
 -----------------------------------
 -- Area: Lower Jeuno
--- NPC: Mataligeat
+--  NPC: Mataligeat
 -- Standard Info NPC
 -- !pos -24 0 -60 245
------------------------------------
-package.loaded["scripts/zones/Lower_Jeuno/TextIDs"] = nil;
------------------------------------
-
-require("scripts/zones/Lower_Jeuno/TextIDs");
-
------------------------------------
--- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
 end;
 
------------------------------------
--- onTrigger Action
------------------------------------
-
 function onTrigger(player,npc)
-    local painfulMemory = player:getQuestStatus(JEUNO,PAINFUL_MEMORY);
-    local theRequiem = player:getQuestStatus(JEUNO,THE_REQUIEM);
-    local pathOfTheBard = player:getQuestStatus(JEUNO,PATH_OF_THE_BARD);
+    local painfulMemory = player:getQuestStatus(JEUNO,dsp.quest.id.jeuno.PAINFUL_MEMORY);
+    local theRequiem = player:getQuestStatus(JEUNO,dsp.quest.id.jeuno.THE_REQUIEM);
+    local pathOfTheBard = player:getQuestStatus(JEUNO,dsp.quest.id.jeuno.PATH_OF_THE_BARD);
 
     -- THE OLD MONUMENT
     if (player:getVar("TheOldMonument_Event") == 1) then
@@ -47,16 +35,8 @@ function onTrigger(player,npc)
     end;
 end;
 
------------------------------------
--- onEventUpdate
------------------------------------
-
 function onEventUpdate(player,csid,option)
 end;
-
------------------------------------
--- onEventFinish
------------------------------------
 
 function onEventFinish(player,csid,option)
 end;

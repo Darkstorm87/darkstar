@@ -4,18 +4,10 @@
 -- Teaches the black magic Aspir
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(247);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(247)
+end
 
 function onItemUse(target)
-    target:addSpell(247);
-end;
+    target:addSpell(247)
+end

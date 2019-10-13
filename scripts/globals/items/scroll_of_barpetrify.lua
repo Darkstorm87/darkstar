@@ -4,18 +4,10 @@
 -- Teaches the white magic Barpetrify
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(77);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(77)
+end
 
 function onItemUse(target)
-    target:addSpell(77);
-end;
+    target:addSpell(77)
+end

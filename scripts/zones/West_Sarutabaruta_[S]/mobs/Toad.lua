@@ -1,21 +1,15 @@
 -----------------------------------
--- Area: West Saurtabaruta (S)
+-- Area: West Sarutabaruta [S]
 --  Mob: Toad
 -- Note: Place holder Ramponneau
 -----------------------------------
-
-require("scripts/zones/West_Sarutabaruta_[S]/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/West_Sarutabaruta_[S]/IDs")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+end
 
 function onMobDespawn(mob)
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.RAMPONNEAU_PH, 20, 5400) -- 90 minutes
+end

@@ -1,18 +1,7 @@
-----------------------------------
+-----------------------------------
 -- Area: Valkurm Dunes
---  NM:  Valkurm Emperor
------------------------------------
-
------------------------------------
--- onMobDeath
+--   NM: Valkurm Emperor
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
-end;
+end

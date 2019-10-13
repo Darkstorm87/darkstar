@@ -4,18 +4,10 @@
 -- Teaches the white magic Animus Augeo
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(308);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(308)
+end
 
 function onItemUse(target)
-    target:addSpell(308);
-end;
+    target:addSpell(308)
+end

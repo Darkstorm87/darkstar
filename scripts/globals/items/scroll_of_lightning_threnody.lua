@@ -4,18 +4,10 @@
 -- Teaches the song Lightning Threnody
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(458);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(458)
+end
 
 function onItemUse(target)
-    target:addSpell(458);
-end;
+    target:addSpell(458)
+end

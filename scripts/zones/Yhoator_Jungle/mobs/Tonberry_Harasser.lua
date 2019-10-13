@@ -1,18 +1,11 @@
 -----------------------------------
 -- Area: Yhoator Jungle
---  MOB: Tonberry Harasser
+--  Mob: Tonberry Harasser
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+mixins = {require("scripts/mixins/families/tonberry")}
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,133,1);
-    local kills = player:getVar("EVERYONES_GRUDGE_KILLS");
-    if (kills < 480) then
-        player:setVar("EVERYONES_GRUDGE_KILLS",kills + 1);
-    end
-end;
+    dsp.regime.checkRegime(player, mob, 133, 1, dsp.regime.type.FIELDS)
+end

@@ -4,18 +4,10 @@
 -- Teaches the black magic Flood
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(214);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(214)
+end
 
 function onItemUse(target)
-    target:addSpell(214);
-end;
+    target:addSpell(214)
+end

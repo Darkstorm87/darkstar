@@ -1,34 +1,24 @@
 -----------------------------------
 -- Area: Phomiuna_Aqueducts
--- NPC:  Oil lamp
+--  NPC: Oil lamp
 -- !pos -60 -23 60 27
 -----------------------------------
-package.loaded["scripts/zones/Phomiuna_Aqueducts/TextIDs"] = nil;
------------------------------------
-
 require("scripts/globals/missions");
-require("scripts/zones/Phomiuna_Aqueducts/TextIDs");
-
------------------------------------
--- onTrade Action
+local ID = require("scripts/zones/Phomiuna_Aqueducts/IDs");
 -----------------------------------
 
 function onTrade(player,npc,trade)
 end;
 
------------------------------------
--- onTrigger Action
------------------------------------
-
 function onTrigger(player,npc)
 
     local DoorOffset = npc:getID();
 
-    player:messageSpecial(LAMP_OFFSET+5); -- lighting lamp
+    player:messageSpecial(ID.text.LAMP_OFFSET+5); -- lighting lamp
     npc:openDoor(7); -- lamp animation
 
     local element = VanadielDayElement();
-    --printf("element: %u",element);
+    -- printf("element: %u",element);
 
     if (element == 5) then -- lightningday
         if (GetNPCByID(DoorOffset-2):getAnimation() == 8) then -- lamp water open ?
@@ -42,20 +32,8 @@ function onTrigger(player,npc)
 
 end;
 
------------------------------------
--- onEventUpdate
------------------------------------
-
 function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;
 
------------------------------------
--- onEventFinish
------------------------------------
-
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;

@@ -1,43 +1,31 @@
 -----------------------------------
 -- Area: Riverne Site #A01
--- NPC:  Unstable Displacement
--- ENM Battlefield
+--  NPC: Unstable Displacement
 -----------------------------------
-package.loaded["scripts/zones/Riverne-Site_A01/TextIDs"] = nil;
------------------------------------
-
-require("scripts/globals/missions");
-require("scripts/zones/Riverne-Site_A01/TextIDs");
-
------------------------------------
--- onTrade
+local ID = require("scripts/zones/Riverne-Site_A01/IDs");
+require("scripts/globals/settings");
+require("scripts/globals/status");
 -----------------------------------
 
 function onTrade(player,npc,trade)
+    local offset = npc:getID() - ID.npc.DISPLACEMENT_OFFSET;
+    if (offset == 5 and TradeBCNM(player,npc,trade)) then -- The Wyrmking Descends
+        return;
+    end
 end;
-
------------------------------------
--- onTrigger
------------------------------------
 
 function onTrigger(player,npc)
-    player:messageSpecial(SPACE_SEEMS_DISTORTED);
+    local offset = npc:getID() - ID.npc.DISPLACEMENT_OFFSET;
+
+    -- OURYU COMETH
+    if (offset == 5) then
+        player:messageSpecial(ID.text.SPACE_SEEMS_DISTORTED);
+    end
 end;
 
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
+function onEventUpdate(player,csid,option,extras)
+    EventUpdateBCNM(player,csid,option,extras)
 end;
-
------------------------------------
--- onEventFinish
------------------------------------
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;

@@ -4,18 +4,10 @@
 -- Teaches the white magic Esuna
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(95);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(95)
+end
 
 function onItemUse(target)
-    target:addSpell(95);
-end;
+    target:addSpell(95)
+end

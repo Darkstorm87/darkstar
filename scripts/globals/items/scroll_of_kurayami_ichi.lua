@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Kurayami: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(347);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(347)
+end
 
 function onItemUse(target)
-    target:addSpell(347);
-end;
+    target:addSpell(347)
+end

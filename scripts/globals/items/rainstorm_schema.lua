@@ -4,18 +4,10 @@
 -- Teaches the white magic Rainstorm
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(113);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(113)
+end
 
 function onItemUse(target)
-    target:addSpell(113);
-end;
+    target:addSpell(113)
+end

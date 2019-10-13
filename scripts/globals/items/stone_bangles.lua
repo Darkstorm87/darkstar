@@ -4,18 +4,11 @@
 --  Enchantment: "Enstone"
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return 0;
-end;
------------------------------------------
--- OnItemUse
------------------------------------------
+    return 0
+end
 
 function onItemUse(target)
-    local effect = EFFECT_ENSTONE;
-    doEnspell(target,target,nil,effect);
-end;
+    local effect = dsp.effect.ENSTONE
+    doEnspell(target,target,nil,effect)
+end

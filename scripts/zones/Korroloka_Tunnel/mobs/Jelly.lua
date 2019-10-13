@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Korroloka Tunnel
---  MOB: Jelly
+--  Mob: Jelly
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,729,2);
-end;
+    dsp.regime.checkRegime(player, mob, 729, 2, dsp.regime.type.GROUNDS)
+end

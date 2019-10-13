@@ -4,18 +4,10 @@
 -- Teaches the white magic Slow
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(56);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(56)
+end
 
 function onItemUse(target)
-    target:addSpell(56);
-end;
+    target:addSpell(56)
+end

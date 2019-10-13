@@ -19,27 +19,18 @@ end;
 function onTrigger(player, logId, missionId, target)
     -- validate logId
     local logName;
-    if (logId == nil) then
-        error(player, "You must provide a logID.");
-        return;
-    elseif (tonumber(logId) ~= nil) then
-        logId = tonumber(logId);
-        logId = MISSION_LOGS[logId];
-    end
-    if (logId ~= nil) then
-        logId = _G[string.upper(logId)];
-    end
-    if ((type(logId) == "table") and logId.mission_log ~= nil) then
-        logName = logId.full_name;
-        logId = logId.mission_log;
-    else
+    local logInfo = GetMissionLogInfo(logId);
+    if (logInfo == nil) then
         error(player, "Invalid logID.");
         return;
     end
+    logName = logInfo.full_name;
+    logId = logInfo.mission_log;
     
     -- validate missionId
+    local areaMissionIds = dsp.mission.id[dsp.mission.area[logId]]
     if (missionId ~= nil) then
-        missionId = tonumber(missionId) or _G[string.upper(missionId)];
+        missionId = tonumber(missionId) or areaMissionIds[string.upper(missionId)] or _G[string.upper(missionId)];
     end
     if (missionId == nil or missionId < 0) then
         error(player, "Invalid missionID.");

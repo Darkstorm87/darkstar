@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Yuhtunga Jungle
---  MOB: Death Jacket
+--  Mob: Death Jacket
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,125,1);
+    dsp.regime.checkRegime(player, mob, 125, 1, dsp.regime.type.FIELDS)
 end;

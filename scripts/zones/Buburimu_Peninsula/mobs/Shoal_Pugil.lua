@@ -1,23 +1,16 @@
 -----------------------------------
--- Area: Buburimu Peninsula
---  MOB: Shoal Pugil
+-- Area: Buburimu Peninsula (118)
+--  Mob: Shoal Pugil
+-- Note: PH for Buburimboo
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-require("scripts/zones/Buburimu_Peninsula/MobIDs");
-
------------------------------------
--- onMobDeath
------------------------------------
+local ID = require("scripts/zones/Buburimu_Peninsula/IDs");
+require("scripts/globals/regimes")
+require("scripts/globals/mobs");
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,62,1);
-
+    dsp.regime.checkRegime(player, mob, 62, 1, dsp.regime.type.FIELDS)
 end;
 
------------------------------------
--- onMobDespawn
------------------------------------
-
 function onMobDespawn(mob)
+    dsp.mob.phOnDespawn(mob,ID.mob.BUBURIMBOO_PH,5,math.random(3600,7200)); -- 1 to 2 hours
 end;

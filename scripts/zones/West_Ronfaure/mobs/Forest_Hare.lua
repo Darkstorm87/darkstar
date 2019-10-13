@@ -1,24 +1,17 @@
 -----------------------------------
 -- Area: West Ronfaure
---  MOB: Forest Hare
+--  Mob: Forest Hare
+-- Note: PH for Jaggedy-Eared Jack
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-require("scripts/zones/West_Ronfaure/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/West_Ronfaure/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    checkRegime(player,mob,2,1);
-
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+    dsp.regime.checkRegime(player, mob, 2, 1, dsp.regime.type.FIELDS)
+end
 
 function onMobDespawn(mob)
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.JAGGEDY_EARED_JACK_PH, 5, math.random(3000, 21600)) -- 50 minutes to 6 hours
+end

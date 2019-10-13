@@ -29,6 +29,8 @@
 #include "../common/cbasetypes.h"
 #include "../common/mmo.h"
 
+constexpr size_t PacketNameLength = 15;
+
 
 int32 checksum(uint8* buf,uint32 buflen,char checkhash[16]);
 int config_switch(const char* str);
@@ -65,10 +67,10 @@ uint64 unpackBitsLE(uint8* target,int32 bitOffset, uint8 lengthInBit);
 uint64 unpackBitsLE(uint8* target,int32 byteOffset, int32 bitOffset, uint8 lengthInBit);
 
     // Encode/Decode Strings to/from FFXI 6-bit format
-int8* EncodeStringLinkshell(int8* signature, int8* target);
-int8* DecodeStringLinkshell(int8* signature, int8* target);
+void EncodeStringLinkshell(int8* signature, int8* target);
+void DecodeStringLinkshell(int8* signature, int8* target);
 int8* EncodeStringSignature(int8* signature, int8* target);
-int8* DecodeStringSignature(int8* signature, int8* target);
+void DecodeStringSignature(int8* signature, int8* target);
 std::string escape(std::string const &s);
 
 #endif

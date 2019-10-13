@@ -1,14 +1,10 @@
 -----------------------------------
--- Area: Outer Horutoto
---  MOB: Thorn Bat
+-- Area: Outer Horutoto Ruins
+--  Mob: Thorn Bat
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,670,1);
-end;
+    dsp.regime.checkRegime(player, mob, 670, 1, dsp.regime.type.GROUNDS)
+end

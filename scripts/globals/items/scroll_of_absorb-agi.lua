@@ -4,18 +4,10 @@
 -- Teaches the black magic Absorb-AGI
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(269);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(269)
+end
 
 function onItemUse(target)
-    target:addSpell(269);
-end;
+    target:addSpell(269)
+end

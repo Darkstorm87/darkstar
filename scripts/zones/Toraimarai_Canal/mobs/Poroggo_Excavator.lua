@@ -1,14 +1,10 @@
 -----------------------------------
--- Area: Toraimorai Canal
---  MOB: Poroggo Excavator
+-- Area: Toraimarai Canal
+--  Mob: Poroggo Excavator
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,625,2);
-end;
+    dsp.regime.checkRegime(player, mob, 625, 2, dsp.regime.type.GROUNDS)
+end

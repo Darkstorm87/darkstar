@@ -4,18 +4,10 @@
 -- Teaches the song Mages Ballad III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(391);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(391)
+end
 
 function onItemUse(target)
-    target:addSpell(391);
-end;
+    target:addSpell(391)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Curaga
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(7);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(7)
+end
 
 function onItemUse(target)
-    target:addSpell(7);
-end;
+    target:addSpell(7)
+end

@@ -4,18 +4,10 @@
 -- Teaches the black magic Stonega
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(189);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(189)
+end
 
 function onItemUse(target)
-    target:addSpell(189);
-end;
+    target:addSpell(189)
+end

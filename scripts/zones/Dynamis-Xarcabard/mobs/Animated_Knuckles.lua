@@ -1,13 +1,9 @@
 -----------------------------------
--- Area: Dynamis Xarcabard
---  MOB: Animated Knuckles
+-- Area: Dynamis - Xarcabard
+--  Mob: Animated Knuckles
 -----------------------------------
-
 require("scripts/globals/status");
-require("scripts/zones/Dynamis-Xarcabard/TextIDs");
-
------------------------------------
--- onMobEngaged
+local ID = require("scripts/zones/Dynamis-Xarcabard/IDs");
 -----------------------------------
 
 function onMobEngaged(mob,target)
@@ -17,9 +13,9 @@ function onMobEngaged(mob,target)
     else
         SetDropRate(108,1571,0);
     end
-    
-    target:showText(mob,ANIMATED_KNUCKLES_DIALOG);
-    
+
+    target:showText(mob,ID.text.ANIMATED_KNUCKLES_DIALOG);
+
     SpawnMob(17330309):updateEnmity(target);
     SpawnMob(17330310):updateEnmity(target);
     SpawnMob(17330311):updateEnmity(target);
@@ -29,35 +25,23 @@ function onMobEngaged(mob,target)
 
 end;
 
------------------------------------
--- onMobFight Action
------------------------------------
-
 function onMobFight(mob,target)
     -- TODO: add battle dialog
 end;
 
------------------------------------
--- onMobDisengage
------------------------------------
-
 function onMobDisengage(mob)
-    mob:showText(mob,ANIMATED_KNUCKLES_DIALOG+2);
+    mob:showText(mob,ID.text.ANIMATED_KNUCKLES_DIALOG+2);
 end;
 
------------------------------------
--- onMobDeath
------------------------------------
-
 function onMobDeath(mob, player, isKiller)
-    
-    player:showText(mob,ANIMATED_KNUCKLES_DIALOG+1);
-    
+
+    player:showText(mob,ID.text.ANIMATED_KNUCKLES_DIALOG+1);
+
     DespawnMob(17330309);
     DespawnMob(17330310);
     DespawnMob(17330311);
     DespawnMob(17330319);
     DespawnMob(17330320);
     DespawnMob(17330321);
-    
+
 end;

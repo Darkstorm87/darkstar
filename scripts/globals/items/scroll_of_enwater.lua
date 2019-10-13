@@ -4,18 +4,10 @@
 -- Teaches the white magic Enwater
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(105);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(105)
+end
 
 function onItemUse(target)
-    target:addSpell(105);
-end;
+    target:addSpell(105)
+end

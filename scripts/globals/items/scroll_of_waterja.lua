@@ -4,18 +4,10 @@
 -- Teaches the Black magic Waterja
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(501);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(501)
+end
 
 function onItemUse(target)
-    target:addSpell(501);
-end;
+    target:addSpell(501)
+end

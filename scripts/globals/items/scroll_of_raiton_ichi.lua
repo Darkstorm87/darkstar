@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Raiton: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(332);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(332)
+end
 
 function onItemUse(target)
-    target:addSpell(332);
-end;
+    target:addSpell(332)
+end

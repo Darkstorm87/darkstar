@@ -1,28 +1,26 @@
 -----------------------------------
 -- Area: The Garden of Ru'Hmet
---  NM:  Jailer of Fortitude
+--   NM: Jailer of Fortitude
 -----------------------------------
-
+local ID = require("scripts/zones/The_Garden_of_RuHmet/IDs");
+mixins = {require("scripts/mixins/job_special")}
+require("scripts/globals/settings");
+require("scripts/globals/limbus");
 require("scripts/globals/status");
 require("scripts/globals/magic");
-require("scripts/globals/limbus");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
 
 function onMobSpawn(mob)
-    -- Give it two hour
-    mob:setMobMod(MOBMOD_MAIN_2HOUR, 1);
-    mob:setMobMod(MOBMOD_2HOUR_MULTI, 1);
+    dsp.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = dsp.jsa.INVINCIBLE, cooldown = 180, hpp = math.random(90, 95)}, -- "Has access to Invincible, which it may use several times."
+        },
+    })
+
     -- Change animation to humanoid w/ prismatic core
     mob:AnimationSub(1);
     mob:setModelId(1169);
 end;
-
------------------------------------
--- onMobFight Action
------------------------------------
 
 function onMobFight(mob, target)
     local delay = mob:getLocalVar("delay");
@@ -34,8 +32,8 @@ function onMobFight(mob, target)
         mob:setLocalVar("delay", 0);
     end;
 
-    if (IsMobDead(16921016) == false or IsMobDead(16921017) == false) then -- check for kf'ghrah
-        if (spell > 0 and mob:hasStatusEffect(EFFECT_SILENCE) == false) then
+    if (not GetMobByID(ID.mob.KFGHRAH_WHM):isDead() or not GetMobByID(ID.mob.KFGHRAH_BLM):isDead()) then -- check for kf'ghrah
+        if (spell > 0 and not mob:hasStatusEffect(dsp.effect.SILENCE)) then
             if (delay >= 3) then
                 mob:castSpell(spell);
                 mob:setLocalVar("COPY_SPELL", 0);
@@ -47,12 +45,8 @@ function onMobFight(mob, target)
     end
 end;
 
------------------------------------
--- onMagicHit Action
------------------------------------
-
 function onMagicHit(caster,target,spell)
-    if (spell:tookEffect() and (caster:isPC() or caster:isPet()) and spell:getSpellGroup() ~= SPELLGROUP_BLUE ) then
+    if (spell:tookEffect() and (caster:isPC() or caster:isPet()) and spell:getSpellGroup() ~= dsp.magic.spellGroup.BLUE ) then
         -- Handle mimicked spells
         target:setLocalVar("COPY_SPELL", spell:getID());
         target:setLocalVar("LAST_CAST", target:getBattleTime());
@@ -63,26 +57,14 @@ function onMagicHit(caster,target,spell)
     return 1;
 end;
 
------------------------------------
--- onMobDeath
------------------------------------
-
 function onMobDeath(mob, player, isKiller)
     -- Despawn the pets if alive
-    DespawnMob(Kf_Ghrah_WHM);
-    DespawnMob(Kf_Ghrah_BLM);
+    DespawnMob(ID.mob.KFGHRAH_WHM);
+    DespawnMob(ID.mob.KFGHRAH_BLM);
 end;
 
------------------------------------
--- onMobDespawn
------------------------------------
-
 function onMobDespawn(mob)
-    -- Set 15 mins respawn
-    local qm1 = GetNPCByID(Jailer_of_Fortitude_QM);
-    qm1:updateNPCHideTime(FORCE_SPAWN_QM_RESET_TIME);
-
-    -- Move it to a random location
-    local qm1position = math.random(1,5);
-    qm1:setPos(Jailer_of_Fortitude_QM_POS[qm1position][1], Jailer_of_Fortitude_QM_POS[qm1position][2], Jailer_of_Fortitude_QM_POS[qm1position][3]);
+    -- Move QM to random location
+    local pos = math.random(1, 5)
+    GetNPCByID(ID.npc.JAILER_OF_FORTITUDE_QM):setPos(ID.npc.JAILER_OF_FORTITUDE_QM_POS[pos][1], ID.npc.JAILER_OF_FORTITUDE_QM_POS[pos][2], ID.npc.JAILER_OF_FORTITUDE_QM_POS[pos][3])
 end;

@@ -4,18 +4,10 @@
 -- Teaches the black magic Dispel
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(260);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(260)
+end
 
 function onItemUse(target)
-    target:addSpell(260);
-end;
+    target:addSpell(260)
+end

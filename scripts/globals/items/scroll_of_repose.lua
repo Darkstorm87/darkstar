@@ -4,18 +4,10 @@
 -- Teaches the white magic Repose
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(98);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(98)
+end
 
 function onItemUse(target)
-    target:addSpell(98);
-end;
+    target:addSpell(98)
+end

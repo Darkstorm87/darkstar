@@ -4,18 +4,10 @@
 -- Teaches the white magic Enaero
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(102);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(102)
+end
 
 function onItemUse(target)
-    target:addSpell(102);
-end;
+    target:addSpell(102)
+end

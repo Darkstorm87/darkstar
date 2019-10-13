@@ -4,18 +4,10 @@
 -- Teaches the black magic Thunder III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(166);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(166)
+end
 
 function onItemUse(target)
-    target:addSpell(166);
-end;
+    target:addSpell(166)
+end

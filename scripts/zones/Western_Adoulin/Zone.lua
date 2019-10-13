@@ -1,67 +1,54 @@
 -----------------------------------
--- 
+--
 -- Zone: Western Adoulin
--- @zone 256
+-- !zone 256
 --
 -----------------------------------
-
-require("scripts/globals/settings");
-package.loaded["scripts/zones/Western_Adoulin/TextIDs"] = nil;
-require("scripts/zones/Western_Adoulin/TextIDs");
-
------------------------------------
---  onInitialize
+local ID = require("scripts/zones/Western_Adoulin/IDs")
+require("scripts/globals/quests")
 -----------------------------------
 
 function onInitialize(zone)
-end;
-
------------------------------------
--- onZoneIn
------------------------------------
+end
 
 function onZoneIn(player,prevZone)
-    local cs = -1;
+    local cs = -1
+    local heartwingsAndTheKindhearted = player:getCurrentMission(SOA) == dsp.mission.id.soa.HEARTWINGS_AND_THE_KINDHEARTED
 
-    if ((player:getXPos() == 0) and (player:getYPos() == 0) and (player:getZPos() == 0)) then
-        player:setPos(-142, 4, -18, 4);
+    if (player:getXPos() == 0 and player:getYPos() == 0 and player:getZPos() == 0) then
+        player:setPos(-142, 4, -18, 4)
     end
 
     if (player:getVar("Raptor_Rapture_Status") == 2) then
         -- Resuming cutscene for Quest: 'Raptor Rapture', after Pagnelle warps you to Rala Waterways mid-CS, then back here.
-        cs = 0x13C0;
+        cs = 5056
     end
 
-    return cs;
-end;
+    if heartwingsAndTheKindhearted then
+        cs = 2
+    end
 
------------------------------------
--- onRegionEnter          
------------------------------------
+    return cs
+end
 
 function onRegionEnter(player,region)
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
+end
 
 function onEventUpdate(player,csid,option)
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
+end
 
 function onEventFinish(player,csid,option)
-    if (csid == 0x13C0) then
+    if csid == 5056 then
         -- Successfully finished introduction CS event chain for Quest: 'Raptor Rapture'.
-        player:setVar("Raptor_Rapture_Status", 3); 
+        player:setVar("Raptor_Rapture_Status", 3)
 
         if (option == 1) then
             -- Starts Quest: 'Raptor Rapture'
-            player:addQuest(ADOULIN, RAPTOR_RAPTURE);
-            player:setVar("Raptor_Rapture_Status", 4);
+            player:addQuest(ADOULIN, dsp.quest.id.adoulin.RAPTOR_RAPTURE)
+            player:setVar("Raptor_Rapture_Status", 4)
         end
+    elseif csid == 2 then
+        player:completeMission(SOA,dsp.mission.id.soa.HEARTWINGS_AND_THE_KINDHEARTED)
+        player:addMission(SOA,dsp.mission.id.soa.PIONEER_REGISTRATION)
     end
-end;
+end

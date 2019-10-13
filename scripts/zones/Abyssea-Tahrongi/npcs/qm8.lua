@@ -2,47 +2,21 @@
 -- Zone: Abyssea-Tahrongi
 --  NPC: qm8 (???)
 -- Spawns Abas
--- !pos ? ? ? 45
+-- !pos 407 -16 -397 45
 -----------------------------------
-require("scripts/globals/status");
-
------------------------------------
--- onTrade Action
+require("scripts/globals/abyssea")
 -----------------------------------
 
 function onTrade(player,npc,trade)
---[[
-    if (trade:hasItemQty(2922,1) and trade:getItemCount() == 1) then -- Player has all the required items.
-        if (GetMobAction(16961924) == ACTION_NONE) then -- Mob not already spawned from this
-            SpawnMob(16961924):updateClaim(player); -- Spawn NM, Despawn after inactive for 5 minutes (pt has to reclaim within 5 of a wipe)
-            player:tradeComplete();
-        end
-    end
-]]
-end;
-
------------------------------------
--- onTrigger Action
------------------------------------
+    abysseaOnTrade(player,npc,trade)
+end
 
 function onTrigger(player,npc)
-    player:startEvent(1010, 2922); -- Inform payer what items they need.
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
+    abysseaOnTrigger(player,npc)
+end
 
 function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
+end
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
+end

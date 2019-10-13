@@ -33,11 +33,12 @@
 
 enum EFFECTOVERWRITE
 {
-    EFFECTOVERWRITE_EQUAL_HIGHER = 0, // only overwrite if equal or higher
-    EFFECTOVERWRITE_HIGHER = 1, // only overwrite if higher
+    EFFECTOVERWRITE_EQUAL_HIGHER = 0, // only overwrite if equal or higher (tier, power)
+    EFFECTOVERWRITE_HIGHER = 1, // only overwrite if higher (tier, power)
     EFFECTOVERWRITE_NEVER = 2, // never overwrite
     EFFECTOVERWRITE_ALWAYS = 3, // always overwrite no matter
-    EFFECTOVERWRITE_IGNORE = 4 // ignore dupes
+    EFFECTOVERWRITE_IGNORE = 4, // ignore dupes
+    EFFECTOVERWRITE_TIER_HIGHER = 5 // only overwrite if tier is higher (regardless of power)
 };
 
 enum EFFECTFLAG
@@ -65,7 +66,10 @@ enum EFFECTFLAG
     EFFECTFLAG_CONFRONTATION    = 0x80000,
     EFFECTFLAG_LOGOUT           = 0x100000,
     EFFECTFLAG_BLOODPACT        = 0x200000,
-    EFFECTFLAG_ON_JOBCHANGE     = 0x400000  // Removes effect when you change jobs
+    EFFECTFLAG_ON_JOBCHANGE     = 0x400000, // Removes effect when you change jobs
+    EFFECTFLAG_NO_CANCEL        = 0x800000, // CAN NOT CLICK IT OFF IN CLIENT
+    EFFECTFLAG_INFLUENCE        = 0x1000000, // Influence effects - e.g. Signet, Sanction, Sigil, Ionis
+    EFFECTFLAG_OFFLINE_TICK     = 0x2000000, // Duration elapses while offline
 };
 
 enum EFFECT
@@ -403,7 +407,7 @@ enum EFFECT
     EFFECT_MISERS_ROLL              = 336,
     EFFECT_COMPANIONS_ROLL          = 337,
     EFFECT_AVENGERS_ROLL            = 338,
-    // EFFECT_NONE                      = 339,
+    EFFECT_NATURALISTS_ROLL         = 339,
     EFFECT_WARRIORS_CHARGE          = 340,
     EFFECT_FORMLESS_STRIKES         = 341,
     EFFECT_ASSASSINS_CHARGE         = 342,
@@ -660,7 +664,7 @@ enum EFFECT
     EFFECT_INUNDATION               = 597,
     EFFECT_CASCADE                  = 598,
     EFFECT_CONSUME_MANA             = 599,
-    EFFECT_RUNEIST_S_ROLL           = 600,
+    EFFECT_RUNEISTS_ROLL            = 600,
     EFFECT_CROOKED_CARDS            = 601,
     EFFECT_VORSEAL                  = 602,
     EFFECT_ELVORSEAL                = 603,
@@ -747,7 +751,7 @@ public:
 
     uint32  GetTickTime();
     uint32  GetDuration();
-    time_point  GetLastTick();
+    int  GetElapsedTickCount();
     time_point  GetStartTime();
     CBattleEntity* GetOwner();
 
@@ -762,7 +766,7 @@ public:
     void    SetOwner(CBattleEntity* Owner);
     void    SetTickTime(uint32 tick);
 
-    void    SetLastTick(time_point LastTick);
+    void    IncrementElapsedTickCount();
     void    SetStartTime(time_point StartTime);
 
     void    addMod(Mod modType, int16 amount);
@@ -772,7 +776,8 @@ public:
 
     const int8* GetName();
 
-    std::vector<CModifier*> modList;    // список модификаторов
+    std::vector<CModifier> modList;    // список модификаторов
+    bool deleted{false};
 
     CStatusEffect(
          EFFECT id,
@@ -782,27 +787,28 @@ public:
          uint32 duration,
          uint32 subid = 0,
          uint32 subPower = 0,
-         uint16 tier = 0);
+         uint16 tier = 0,
+         uint32 flags = 0);
 
    ~CStatusEffect();
 
 private:
 
-    CBattleEntity* m_POwner;            // владелец
+    CBattleEntity* m_POwner {nullptr};            // владелец
 
-    EFFECT      m_StatusID;             // основной тип эффекта
-    uint32      m_SubID;                // дополнительный тип эффекта
-    uint16      m_Icon;                 // иконка эффекта
-    uint32      m_Power;                // сила эффекта
-    uint32      m_SubPower;             // Secondary power of the effect
-    uint16      m_Tier;                 // Tier of the effect
-    uint32      m_Flag;                 // флаг эффекта (условия его исчезновения)
-    uint16      m_Type;                 // used to enforce only one
+    EFFECT      m_StatusID {EFFECT_NONE};             // основной тип эффекта
+    uint32      m_SubID {0};                // дополнительный тип эффекта
+    uint16      m_Icon {0};                 // иконка эффекта
+    uint32      m_Power {0};                // сила эффекта
+    uint32      m_SubPower {0};             // Secondary power of the effect
+    uint16      m_Tier {0};                 // Tier of the effect
+    uint32      m_Flag {0};                 // флаг эффекта (условия его исчезновения)
+    uint16      m_Type {0};                 // used to enforce only one
 
-    uint32      m_TickTime;             // время повторения эффекта (млс)
-    uint32      m_Duration;             // продолжительность эффекта (млс)
+    uint32      m_TickTime {0};             // время повторения эффекта (млс)
+    uint32      m_Duration {0};             // продолжительность эффекта (млс)
     time_point  m_StartTime;            // время получения эффекта (млс)
-    time_point  m_LastTick;             // премя последнего выполнения эффекта (млс)
+    int         m_tickCount {0};             // премя последнего выполнения эффекта (млс)
 
     string_t    m_Name;                 // имя эффекта для скриптов
 };

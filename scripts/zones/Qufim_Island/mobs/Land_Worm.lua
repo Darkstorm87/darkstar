@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Qufim Island
---  MOB: Land Worm
+--  Mob: Land Worm
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,41,2);
-end;
+    dsp.regime.checkRegime(player, mob, 41, 2, dsp.regime.type.FIELDS)
+end

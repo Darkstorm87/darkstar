@@ -4,18 +4,10 @@
 -- Teaches the song Water Carol
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(443);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(443)
+end
 
 function onItemUse(target)
-    target:addSpell(443);
-end;
+    target:addSpell(443)
+end

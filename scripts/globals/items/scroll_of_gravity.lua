@@ -4,18 +4,10 @@
 -- Teaches the black magic Gravity
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(216);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(216)
+end
 
 function onItemUse(target)
-    target:addSpell(216);
-end;
+    target:addSpell(216)
+end

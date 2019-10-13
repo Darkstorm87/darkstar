@@ -1,25 +1,17 @@
 -----------------------------------
 -- Area: Valkurm Dunes
---  MOB: Damselfly
+--  Mob: Damselfly
 -- Note: Place holder Valkurm Emperor
 -----------------------------------
-
-require("scripts/zones/Valkurm_Dunes/MobIDs");
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
------------------------------------
+local ID = require("scripts/zones/Valkurm_Dunes/IDs");
+require("scripts/globals/regimes")
+require("scripts/globals/mobs");
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,9,1);
-    checkRegime(player,mob,10,2);
-
+    dsp.regime.checkRegime(player, mob, 9, 1, dsp.regime.type.FIELDS)
+    dsp.regime.checkRegime(player, mob, 10, 2, dsp.regime.type.FIELDS)
 end;
 
------------------------------------
--- onMobDespawn
------------------------------------
-
 function onMobDespawn(mob)
+    dsp.mob.phOnDespawn(mob,ID.mob.VALKURM_EMPEROR_PH,5,3600); -- 1 hour
 end;

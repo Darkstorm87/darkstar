@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Maze of Shakhrami
---  MOB: Warren Bat
+--  Mob: Warren Bat
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,702,1);
-end;
+    dsp.regime.checkRegime(player, mob, 702, 1, dsp.regime.type.GROUNDS)
+end

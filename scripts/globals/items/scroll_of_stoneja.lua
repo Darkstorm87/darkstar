@@ -4,18 +4,10 @@
 -- Teaches the black magic Stoneja
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(499);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(499)
+end
 
 function onItemUse(target)
-    target:addSpell(499);
-end;
+    target:addSpell(499)
+end

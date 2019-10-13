@@ -1,30 +1,16 @@
 -----------------------------------
 -- Area: Yhoator Jungle
---  NM:  Bisque-heeled Sunberry
+--   NM: Bisque-heeled Sunberry
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+mixins = {require("scripts/mixins/families/tonberry")}
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,133,1);
-
-    local kills = player:getVar("EVERYONES_GRUDGE_KILLS");
-
-    if (kills < 480) then
-        player:setVar("EVERYONES_GRUDGE_KILLS",kills + 1);
-    end
-end;
-
------------------------------------
--- onMobDeath
------------------------------------
+    dsp.regime.checkRegime(player, mob, 133, 1, dsp.regime.type.FIELDS)
+end
 
 function onMobDespawn(mob)
-    -- Set Bisque-heeled Sunberry's spawnpoint and respawn time (1-2 hours)
-    UpdateNMSpawnPoint(mob:getID());
-    mob:setRespawnTime(math.random(3600,7200));
-end;
+    UpdateNMSpawnPoint(mob:getID())
+    mob:setRespawnTime(math.random(3600, 7200)) -- 1 to 2 hours
+end

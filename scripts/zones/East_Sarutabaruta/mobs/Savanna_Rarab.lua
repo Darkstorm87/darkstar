@@ -1,24 +1,16 @@
 -----------------------------------
 -- Area: East Sarutabaruta
---  MOB: Savanna Rarab
+--  Mob: Savanna Rarab
 -- Note: PH for Sharp Eared Ropipi
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-require("scripts/zones/East_Sarutabaruta/MobIDs");
-
------------------------------------
--- onMobDeath
------------------------------------
+local ID = require("scripts/zones/East_Sarutabaruta/IDs");
+require("scripts/globals/regimes")
+require("scripts/globals/mobs");
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,91,1);
-
+    dsp.regime.checkRegime(player, mob, 91, 1, dsp.regime.type.FIELDS)
 end;
 
------------------------------------
--- onMobDespawn
------------------------------------
-
 function onMobDespawn(mob)
+    dsp.mob.phOnDespawn(mob,ID.mob.SHARP_EARED_ROPIPI_PH,20,300); -- 5 minutes
 end;

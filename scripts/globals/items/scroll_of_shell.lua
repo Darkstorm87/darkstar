@@ -4,18 +4,10 @@
 -- Teaches the white magic Shell
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(48);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(48)
+end
 
 function onItemUse(target)
-    target:addSpell(48);
-end;
+    target:addSpell(48)
+end

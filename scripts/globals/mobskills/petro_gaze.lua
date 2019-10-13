@@ -1,29 +1,23 @@
 ---------------------------------------------
---  Petro Gaze
---  Description: Petrifies opponents with a gaze attack.
---  Type: Gaze
---  Utsusemi/Blink absorb: Ignores shadows
---  Range: Single gaze
---  Notes: Nightmare Cockatrice extends this to a fan-shaped AOE.
+-- Petro Gaze
+-- Description: Petrifies opponents with a gaze attack.
+-- Type: Gaze
+-- Utsusemi/Blink absorb: Ignores shadows
+-- Range: Single gaze
+-- Known users: Hecteyes in CoP areas, Sobbing Eyes in Under Observation, Shoggoth
 ---------------------------------------------
-require("scripts/globals/zone");
-require("scripts/globals/settings");
-require("scripts/globals/status");
-require("scripts/globals/monstertpmoves");
+require("scripts/globals/monstertpmoves")
+require("scripts/globals/status")
 ---------------------------------------------
 
 function onMobSkillCheck(target,mob,skill)
-    if (target:getCurrentRegion() == REGION_TAVNAZIA) then
-        return 0;
-    end
-
-    return 1;
-end;
+    return 0
+end
 
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = EFFECT_PETRIFICATION;
+    local typeEffect = dsp.effect.PETRIFICATION
 
-    skill:setMsg(MobGazeMove(mob, target, typeEffect, 1, 0, 25));
+    skill:setMsg(MobGazeMove(mob, target, typeEffect, 1, 0, 25))
 
-    return typeEffect;
-end;
+    return typeEffect
+end

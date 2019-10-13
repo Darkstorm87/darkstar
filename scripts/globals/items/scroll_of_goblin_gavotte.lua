@@ -4,18 +4,10 @@
 -- Teaches the song Goblin Gavotte
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(415);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(415)
+end
 
 function onItemUse(target)
-    target:addSpell(415);
-end;
+    target:addSpell(415)
+end

@@ -1,24 +1,9 @@
 -----------------------------------
--- Zone: Lufaise_Meadows
--- Mob:  Sengann
+-- Area: Lufaise Meadows
+--  Mob: Sengann
 -----------------------------------
-
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+mixins = {require("scripts/mixins/fomor_hate")}
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    local kills = player:getVar("FOMOR_HATE");
-    if (kills < 60) then
-        player:setVar("FOMOR_HATE",kills + 2);
-    end
-end;
+end

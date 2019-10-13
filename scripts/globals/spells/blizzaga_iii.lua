@@ -2,22 +2,32 @@
 -- Spell: Blizzaga III
 -- Deals ice damage to enemies within area of effect.
 -----------------------------------------
-
-require("scripts/globals/magic");
-require("scripts/globals/status");
-
------------------------------------------
--- OnSpellCast
+require("scripts/globals/status")
+require("scripts/globals/magic")
 -----------------------------------------
 
 function onMagicCastingCheck(caster, target, spell)
-    return 0;
-end;
+    return 0
+end
 
 function onSpellCast(caster, target, spell)
+    local spellParams = {}
+    spellParams.hasMultipleTargetReduction = true
+    spellParams.resistBonus = 1.0
+    spellParams.V = 642
+    spellParams.V0 = 660
+    spellParams.V50 = 855
+    spellParams.V100 = 1035
+    spellParams.V200 = 1315
+    spellParams.M = 1.5
+    spellParams.M0 = 3.9
+    spellParams.M50 = 3.6
+    spellParams.M100 = 2.8
+    spellParams.M200 = 2
+    spellParams.I = 697
     local spellParams = calculateElementalNukeSpellParams(caster, ELEMENTAL_TIER_3, AOE);
 	spellParams.VMob = 642;
 	spellParams.MMob = 1.5;
 
-    return doElementalNuke(caster, spell, target, spellParams);
-end;
+    return doElementalNuke(caster, spell, target, spellParams)
+end

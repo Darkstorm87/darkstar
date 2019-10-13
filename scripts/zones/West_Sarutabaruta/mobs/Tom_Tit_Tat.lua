@@ -1,18 +1,7 @@
 -----------------------------------
 -- Area: West Sarutabaruta
---  NM:  Tom Tit Tat
------------------------------------
-
------------------------------------
--- onMobDeath
+--   NM: Tom Tit Tat
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
-end;
+end

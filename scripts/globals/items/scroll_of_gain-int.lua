@@ -4,18 +4,10 @@
 -- Teaches the white magic Gain-INT
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(490);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(490)
+end
 
 function onItemUse(target)
-    target:addSpell(490);
-end;
+    target:addSpell(490)
+end

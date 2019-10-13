@@ -4,18 +4,10 @@
 -- Teaches the black magic Absorb-TP
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(275);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(275)
+end
 
 function onItemUse(target)
-    target:addSpell(275);
-end;
+    target:addSpell(275)
+end

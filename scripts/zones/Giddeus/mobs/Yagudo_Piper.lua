@@ -1,36 +1,15 @@
 -----------------------------------
 -- Area: Giddeus (145)
---  MOB: Yagudo_Piper
+--  Mob: Yagudo Piper
+-- Note: PH for Vuu Puqu the Beguiler
 -----------------------------------
-
-require("scripts/zones/Giddeus/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Giddeus/IDs")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+end
 
 function onMobDespawn(mob)
-
-    local mobID = mob:getID();
-    if (Vuu_Puqu_the_Beguiler_PH[mobID] ~= nil) then
-
-        local ToD = GetServerVariable("[POP]Vuu_Puqu_the_Beguiler");
-        if (ToD <= os.time() and GetMobAction(Vuu_Puqu_the_Beguiler) == 0) then
-            if (math.random(1,20) == 5) then
-                UpdateNMSpawnPoint(Vuu_Puqu_the_Beguiler);
-                GetMobByID(Vuu_Puqu_the_Beguiler):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Vuu_Puqu_the_Beguiler", mobID);
-                DisallowRespawn(mobID, true);
-            end
-        end
-    end
-
-end;
-
+    dsp.mob.phOnDespawn(mob,ID.mob.VUU_PUQU_THE_BEGUILER_PH,5,900) -- 15 minutes
+end

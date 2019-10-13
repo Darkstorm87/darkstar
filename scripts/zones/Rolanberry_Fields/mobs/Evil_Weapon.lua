@@ -1,34 +1,15 @@
 -----------------------------------
 -- Area: Rolanberry Fields
---  MOB: Evil Weapon
+--  Mob: Evil Weapon
+-- Note: PH for Eldritch Edge
 -----------------------------------
-
-require("scripts/zones/Rolanberry_Fields/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Rolanberry_Fields/IDs")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+end
 
 function onMobDespawn(mob)
-
-    local mobID = mob:getID();
-    if (Eldritch_Edge_PH[mobID] ~= nil) then
-        local ToD = GetServerVariable("[POP]Eldritch_Edge");
-        if (ToD <= os.time() and GetMobAction(Eldritch_Edge) == 0) then
-            if (math.random(1,5) == 5) then
-                UpdateNMSpawnPoint(Eldritch_Edge);
-                GetMobByID(Eldritch_Edge):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Eldritch_Edge", mobID);
-                DisallowRespawn(mobID, true);
-            end
-        end
-    end
-
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.ELDRITCH_EDGE_PH, 20, math.random(5400, 7200)) -- 90 to 120 minutes
+end

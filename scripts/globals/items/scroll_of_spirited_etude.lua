@@ -4,18 +4,10 @@
 -- Teaches the song Spirited Etude
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(429);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(429)
+end
 
 function onItemUse(target)
-    target:addSpell(429);
-end;
+    target:addSpell(429)
+end

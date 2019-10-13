@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Huton: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(326);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(326)
+end
 
 function onItemUse(target)
-    target:addSpell(326);
-end;
+    target:addSpell(326)
+end

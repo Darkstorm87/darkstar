@@ -4,17 +4,9 @@
 -- Turns the user into a floating yellow lantern
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return 0;
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return 0
+end
 
 function onItemUse(target)
-end;
+end

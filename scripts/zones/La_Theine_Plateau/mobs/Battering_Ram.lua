@@ -1,21 +1,17 @@
 -----------------------------------
 -- Area: La Theine Plateau
---  MOB: Battering Ram
+--  Mob: Battering Ram
 -----------------------------------
-
-require("scripts/zones/La_Theine_Plateau/MobIDs");
-
+local ID = require("scripts/zones/La_Theine_Plateau/IDs");
 -----------------------------------
--- onMobDeath
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+end
 
 function onMobDespawn(mob)
-end;
-
+    if not dsp.mob.phOnDespawn(mob, ID.mob.BLOODTEAR_PH, 10, math.random(75600, 86400)) then -- 21-24 hours
+        dsp.mob.phOnDespawn(mob, ID.mob.LUMBERING_LAMBERT_PH, 10, 1200) -- 20 min
+    end
+end

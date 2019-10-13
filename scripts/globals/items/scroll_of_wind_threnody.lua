@@ -4,18 +4,10 @@
 -- Teaches the song Wind Threnody
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(456);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(456)
+end
 
 function onItemUse(target)
-    target:addSpell(456);
-end;
+    target:addSpell(456)
+end

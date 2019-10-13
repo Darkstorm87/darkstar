@@ -4,18 +4,10 @@
 -- Teaches the black magic Bind
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(258);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(258)
+end
 
 function onItemUse(target)
-    target:addSpell(258);
-end;
+    target:addSpell(258)
+end

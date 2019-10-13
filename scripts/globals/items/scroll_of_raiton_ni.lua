@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Raiton: Ni
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(333);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(333)
+end
 
 function onItemUse(target)
-    target:addSpell(333);
-end;
+    target:addSpell(333)
+end

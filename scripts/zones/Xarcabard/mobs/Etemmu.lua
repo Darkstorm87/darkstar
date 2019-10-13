@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Xarcabard
---  MOB: Etemmu
+--  Mob: Etemmu
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,51,2);
-end;
+    dsp.regime.checkRegime(player, mob, 51, 2, dsp.regime.type.FIELDS)
+end

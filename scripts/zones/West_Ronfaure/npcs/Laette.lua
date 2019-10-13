@@ -1,42 +1,19 @@
 -----------------------------------
---  Area: West Ronfaure
---  NPC:  Cerite
---  Type: Standard NPC
+-- Area: West Ronfaure
+--  NPC: Cerite
+-- Type: Standard NPC
 -- !pos -263.577 -72.999 425.885 100
 -----------------------------------
-package.loaded["scripts/zones/West_Ronfaure/TextIDs"] = nil;
------------------------------------
 
------------------------------------
--- onTrade Action
------------------------------------
+function onTrade(player, npc, trade)
+end
 
-function onTrade(player,npc,trade)
-end;
+function onTrigger(player, npc)
+    -- player:startEvent(136)
+end
 
------------------------------------
--- onTrigger Action
------------------------------------
+function onEventUpdate(player, csid, option)
+end
 
-function onTrigger(player,npc)
-    -- player:startEvent(136);
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
-
-function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
+function onEventFinish(player, csid, option)
+end

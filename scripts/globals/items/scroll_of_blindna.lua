@@ -4,18 +4,10 @@
 -- Teaches the white magic Blindna
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(16);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(16)
+end
 
 function onItemUse(target)
-    target:addSpell(16);
-end;
+    target:addSpell(16)
+end

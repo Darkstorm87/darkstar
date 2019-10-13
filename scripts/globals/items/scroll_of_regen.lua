@@ -4,18 +4,10 @@
 -- Teaches the white magic Regen
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(108);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(108)
+end
 
 function onItemUse(target)
-    target:addSpell(108);
-end;
+    target:addSpell(108)
+end

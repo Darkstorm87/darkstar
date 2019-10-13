@@ -1,32 +1,15 @@
 -----------------------------------
 -- Area: Yuhtunga Jungle
---  MOB: Carthi
+--  Mob: Carthi
 -----------------------------------
+local ID = require("scripts/zones/Yuhtunga_Jungle/IDs");
 
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
+function onMobDisengage(mob)
+    DespawnMob(mob:getID(), 120);
 end;
-
------------------------------------
--- onMobDeath
------------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    if (isKiller) then -- Causes this to only run once per Carthi kill
-        if (GetServerVariable("[ZM4]Fire_Headstone_Active") == 0) then
-            SetServerVariable("[ZM4]Fire_Headstone_Active",1);
-        elseif (GetServerVariable("[ZM4]Fire_Headstone_Active") == 1) then
-            SetServerVariable("[ZM4]Fire_Headstone_Active",os.time()+ 900);
-        end
+    if (isKiller and GetMobByID(ID.mob.TIPHA):isDead()) then
+        GetNPCByID(ID.npc.CERMET_HEADSTONE):setLocalVar("cooldown", os.time() + 900);
     end
-end;
-
------------------------------------
--- onMobDespawn Action
------------------------------------
-
-function onMobDespawn(mob)
 end;

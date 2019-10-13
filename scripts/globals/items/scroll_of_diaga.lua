@@ -4,18 +4,10 @@
 -- Teaches the white magic Diaga
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(33);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(33)
+end
 
 function onItemUse(target)
-    target:addSpell(33);
-end;
+    target:addSpell(33)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Barvirus
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(78);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(78)
+end
 
 function onItemUse(target)
-    target:addSpell(78);
-end;
+    target:addSpell(78)
+end

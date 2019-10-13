@@ -4,18 +4,10 @@
 -- Teaches the black magic Stone
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(159);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(159)
+end
 
 function onItemUse(target)
-    target:addSpell(159);
-end;
+    target:addSpell(159)
+end

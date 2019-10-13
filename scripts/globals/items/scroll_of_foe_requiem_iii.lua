@@ -4,18 +4,10 @@
 -- Teaches the song Foe Requiem III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(370);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(370)
+end
 
 function onItemUse(target)
-    target:addSpell(370);
-end;
+    target:addSpell(370)
+end

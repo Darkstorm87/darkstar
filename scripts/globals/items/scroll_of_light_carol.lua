@@ -4,18 +4,10 @@
 -- Teaches the song Light Carol
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(444);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(444)
+end
 
 function onItemUse(target)
-    target:addSpell(444);
-end;
+    target:addSpell(444)
+end

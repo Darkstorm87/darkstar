@@ -1,80 +1,49 @@
 -----------------------------------
 --
--- Zone: King_Ranperres_Tomb (190)
+-- Zone: King Ranperres Tomb (190)
 --
 -----------------------------------
-package.loaded["scripts/zones/King_Ranperres_Tomb/TextIDs"] = nil;
------------------------------------
-
-require("scripts/globals/settings");
-require("scripts/globals/zone");
-require("scripts/zones/King_Ranperres_Tomb/TextIDs");
-
------------------------------------
--- onInitialize
+local ID = require("scripts/zones/King_Ranperres_Tomb/IDs")
+require("scripts/globals/conquest")
+require("scripts/globals/treasure")
+require("scripts/globals/zone")
 -----------------------------------
 
 function onInitialize(zone)
-    zone:registerRegion(1,-84.302,6.5,-120.997,-77,7.5,-114);  -- Used for stairs teleport -85.1,7,-119.9
+    zone:registerRegion(1, -84.302, 6.5, -120.997, -77, 7.5, -114) -- Used for stairs teleport -85.1, 7, -119.9
 
-    UpdateTreasureSpawnPoint(17555955);
-end;
+    UpdateNMSpawnPoint(ID.mob.VRTRA)
+    GetMobByID(ID.mob.VRTRA):setRespawnTime(math.random(86400, 259200))
 
------------------------------------
--- onZoneIn
------------------------------------
+    UpdateNMSpawnPoint(ID.mob.BARBASTELLE)
+    GetMobByID(ID.mob.BARBASTELLE):setRespawnTime(math.random(1800, 5400))
 
-function onZoneIn(player,prevZone)
-    local cs = -1;
-    if ((player:getXPos() == 0) and (player:getYPos() == 0) and (player:getZPos() == 0)) then
-        player:setPos(242.012,5.305,340.059,121);
+    dsp.treasure.initZone(zone)
+end
+
+function onZoneIn(player, prevZone)
+    local cs = -1
+    if player:getXPos() == 0 and player:getYPos() == 0 and player:getZPos() == 0 then
+        player:setPos(242.012, 5.305, 340.059, 121)
     end
-    return cs;
-end;
-
------------------------------------
--- onConquestUpdate
------------------------------------
+    return cs
+end
 
 function onConquestUpdate(zone, updatetype)
-    local players = zone:getPlayers();
+    dsp.conq.onConquestUpdate(zone, updatetype)
+end
 
-    for name, player in pairs(players) do
-        conquestUpdate(zone, player, updatetype, CONQUEST_BASE);
+function onRegionEnter(player, region)
+    if region:GetRegionID() == 1 then
+        player:startEvent(9)
     end
-end;
+end
 
------------------------------------
--- onRegionEnter
------------------------------------
+function onRegionLeave(player, region)
+end
 
-function onRegionEnter(player,region)
-    if (region:GetRegionID() == 1) then
-        player:startEvent(0x0009);
-    end
-end;
+function onEventUpdate(player, csid, option)
+end
 
------------------------------------
--- onRegionLeave
------------------------------------
-
-function onRegionLeave(player,region)
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    --printf("CSID: %u",csid);
-    --printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
-
-function onEventFinish(player,csid,option)
-    --printf("CSID: %u",csid);
-    --printf("RESULT: %u",option);
-end;
+function onEventFinish(player, csid, option)
+end

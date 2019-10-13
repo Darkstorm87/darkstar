@@ -4,18 +4,10 @@
 -- Teaches the song Earth Carol II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(449);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(449)
+end
 
 function onItemUse(target)
-    target:addSpell(449);
-end;
+    target:addSpell(449)
+end

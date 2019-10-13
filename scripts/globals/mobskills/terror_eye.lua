@@ -1,30 +1,30 @@
 ---------------------------------------------
---  Terror Eye
---  Family: Gargouille
---  Description: Bestows a terrifying glance.
---  Type: Enfeebling
---  Utsusemi/Blink absorb: Ignores shadows 
---  Range: Cone gaze
---  Notes: Only used when standing
+-- Terror Eye
+-- Family: Gargouille
+-- Description: Bestows a terrifying glance.
+-- Type: Enfeebling
+-- Utsusemi/Blink absorb: Ignores shadows
+-- Range: Cone gaze
+-- Notes: Only used when standing
 ---------------------------------------------
-require("scripts/globals/settings");
-require("scripts/globals/status");
-require("scripts/globals/monstertpmoves");
+require("scripts/globals/settings")
+require("scripts/globals/status")
+require("scripts/globals/monstertpmoves")
 ---------------------------------------------
 
 function onMobSkillCheck(target,mob,skill)
     if (mob:AnimationSub() ~=0) then
-        return 1;
+        return 1
     else
-        return 0;
+        return 0
     end
-end;
+end
 
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = EFFECT_TERROR;
-    local duration = 30;
+    local typeEffect = dsp.effect.TERROR
+    local duration = 30
 
-    skill:setMsg(MobGazeMove(mob, target, typeEffect, 1, 0, duration));
+    skill:setMsg(MobGazeMove(mob, target, typeEffect, 1, 0, duration))
 
-    return typeEffect;
-end;
+    return typeEffect
+end

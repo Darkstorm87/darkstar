@@ -4,18 +4,10 @@
 -- Teaches the song Quick Etude
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(427);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(427)
+end
 
 function onItemUse(target)
-    target:addSpell(427);
-end;
+    target:addSpell(427)
+end

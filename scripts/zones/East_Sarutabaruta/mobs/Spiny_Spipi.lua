@@ -1,18 +1,7 @@
 -----------------------------------
 -- Area: East Sarutabaruta
---  NM:  Spiny Spipi
------------------------------------
-
------------------------------------
--- onMobDeath
+--   NM: Spiny Spipi
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
 end;

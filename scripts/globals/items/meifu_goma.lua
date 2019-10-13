@@ -4,17 +4,9 @@
 -- A spinning firework appears on the ground and sprays sparks in a circle
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return 0;
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return 0
+end
 
 function onItemUse(target)
-end;
+end

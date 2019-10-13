@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Valkurm Dunes
---  MOB: Goblin Tinkerer
+--  Mob: Goblin Tinkerer
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,57,2);
+    dsp.regime.checkRegime(player, mob, 57, 2, dsp.regime.type.FIELDS)
 end;

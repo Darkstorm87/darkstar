@@ -1,55 +1,39 @@
 -----------------------------------
---  Area: Western Adoulin
+-- Area: Western Adoulin
 --  NPC: Clemmar
---  Type: Standard NPC and Quest NPC
+-- Type: Standard NPC and Quest NPC
 --  Involved with Quest: 'A Certain Substitute Patrolman'
---  @zone 256
--- !pos -12 0 12
+-- !pos -12 0 12 256
 -----------------------------------
 require("scripts/globals/missions");
 require("scripts/globals/quests");
-
------------------------------------
--- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
 end;
 
------------------------------------
--- onTrigger Action
------------------------------------
-
 function onTrigger(player,npc)
-    local ACSP = player:getQuestStatus(ADOULIN, A_CERTAIN_SUBSTITUTE_PATROLMAN);
+    local ACSP = player:getQuestStatus(ADOULIN, dsp.quest.id.adoulin.A_CERTAIN_SUBSTITUTE_PATROLMAN);
     local SOA_Mission = player:getCurrentMission(SOA);
-    if (SOA_Mission >= LIFE_ON_THE_FRONTIER) then
+    if (SOA_Mission >= dsp.mission.id.soa.LIFE_ON_THE_FRONTIER) then
         if ((ACSP == QUEST_ACCEPTED) and (player:getVar("ACSP_NPCs_Visited") == 2)) then
             -- Progresses Quest: 'A Certain Substitute Patrolman'
-            player:startEvent(0x09FA);
+            player:startEvent(2554);
         else
             -- Standard dialogue
-            player:startEvent(0x023A);
+            player:startEvent(570);
         end
     else
         -- Dialogue prior to joining colonization effort
-        player:startEvent(0x0207);
+        player:startEvent(519);
     end
 end;
-
------------------------------------
--- onEventUpdate
------------------------------------
 
 function onEventUpdate(player,csid,option)
 end;
 
------------------------------------
--- onEventFinish
------------------------------------
-
 function onEventFinish(player,csid,option)
-    if (csid == 0x09FA) then
+    if (csid == 2554) then
         -- Progresses Quest: 'A Certain Substitute Patrolman'
         player:setVar("ACSP_NPCs_Visited", 3);
     end

@@ -1,21 +1,15 @@
-----------------------------------
+-----------------------------------
 -- Area: South Gustaberg
---  MOB: Ornery Sheep
--- Note: Place holder Carnero
+--  Mob: Ornery Sheep
+-- Note: PH for Carnero
 -----------------------------------
-
-require("scripts/zones/South_Gustaberg/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/South_Gustaberg/IDs")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+end
 
 function onMobDespawn(mob)
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.CARNERO_PH, 5, math.random(300, 3600)) -- 5-60 minutes
+end

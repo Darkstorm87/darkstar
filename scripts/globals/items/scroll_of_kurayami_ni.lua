@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Kurayami: Ni
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(348);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(348)
+end
 
 function onItemUse(target)
-    target:addSpell(348);
-end;
+    target:addSpell(348)
+end

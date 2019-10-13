@@ -4,18 +4,10 @@
 -- Teaches the white magic Holy
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(21);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(21)
+end
 
 function onItemUse(target)
-    target:addSpell(21);
-end;
+    target:addSpell(21)
+end

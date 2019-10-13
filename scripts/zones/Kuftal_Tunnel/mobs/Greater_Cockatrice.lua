@@ -1,39 +1,17 @@
 -----------------------------------
 -- Area: Kuftal Tunnel
---  MOB: Greater Cockatrice
+--  Mob: Greater Cockatrice
 -- Note: Place Holder for Pelican
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-require("scripts/zones/Kuftal_Tunnel/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Kuftal_Tunnel/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    checkGoVregime(player,mob,741,2);
-
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+    dsp.regime.checkRegime(player, mob, 741, 2, dsp.regime.type.GROUNDS)
+end
 
 function onMobDespawn(mob)
-    local mobID = mob:getID();
-
-    if (Pelican_PH[mobID] ~= nil) then
-        local ToD = GetServerVariable("[POP]Pelican");
-        if (ToD <= os.time() and GetMobAction(Pelican) == 0) then
-            if (math.random(1,20) == 5) then
-                UpdateNMSpawnPoint(Pelican);
-                GetMobByID(Pelican):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Pelican", mobID);
-                DisallowRespawn(mobID, true);
-            end
-        end
-    end
-
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.PELICAN_PH, 5, math.random(10800, 43200)) -- 4 to 12 hours
+end

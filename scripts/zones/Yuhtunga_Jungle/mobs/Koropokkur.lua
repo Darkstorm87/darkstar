@@ -1,25 +1,10 @@
 -----------------------------------
 -- Area: Yuhtunga Jungle
---  MOB: Koropokkur
------------------------------------
-
------------------------------------
--- onMobSpawn
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+--  Mob: Koropokkur
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
 end;
-
------------------------------------
--- onMobDespawn
------------------------------------
 
 function onMobDespawn(mob)
     UpdateNMSpawnPoint(mob:getID());

@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Eastern Altepa Desert
---  MOB: Desert Dhalmel
+--  Mob: Desert Dhalmel
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,111,3);
+    dsp.regime.checkRegime(player, mob, 111, 3, dsp.regime.type.FIELDS)
 end;

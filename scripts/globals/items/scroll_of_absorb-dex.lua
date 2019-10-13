@@ -4,18 +4,10 @@
 -- Teaches the black magic Absorb-DEX
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(267);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(267)
+end
 
 function onItemUse(target)
-    target:addSpell(267);
-end;
+    target:addSpell(267)
+end

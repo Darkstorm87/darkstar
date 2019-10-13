@@ -4,18 +4,10 @@
 -- Teaches the white magic Silena
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(17);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(17)
+end
 
 function onItemUse(target)
-    target:addSpell(17);
-end;
+    target:addSpell(17)
+end

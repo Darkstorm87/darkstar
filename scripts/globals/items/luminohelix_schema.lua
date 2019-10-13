@@ -4,18 +4,10 @@
 -- Teaches the black magic Luminohelix
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(285);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(285)
+end
 
 function onItemUse(target)
-    target:addSpell(285);
-end;
+    target:addSpell(285)
+end

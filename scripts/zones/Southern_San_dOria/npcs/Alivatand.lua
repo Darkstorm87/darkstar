@@ -1,35 +1,32 @@
 -----------------------------------
---  Area: South San d'Oria
+-- Area: South San d'Oria
 --  NPC: Alivatand
---  Type: Guildworker's Union Representative
---  @zone 230
--- !pos -179.458 -1 15.857
+-- Type: Guildworker's Union Representative
+-- !pos -179.458 -1 15.857 230
 -----------------------------------
-package.loaded["scripts/zones/Southern_San_dOria/TextIDs"] = nil;
------------------------------------
-require("scripts/zones/Southern_San_dOria/TextIDs");
+local ID = require("scripts/zones/Southern_San_dOria/IDs");
 require("scripts/globals/keyitems");
 require("scripts/globals/crafting");
 require("scripts/globals/quests");
 
 local keyitems = {
     [0] = {
-        id = LEATHER_PURIFICATION,
+        id = dsp.ki.LEATHER_PURIFICATION,
         rank = 3,
         cost = 40000
     },
     [1] = {
-        id = LEATHER_ENSORCELLMENT,
+        id = dsp.ki.LEATHER_ENSORCELLMENT,
         rank = 3,
         cost = 40000
     },
     [2] = {
-        id = TANNING,
+        id = dsp.ki.TANNING,
         rank = 3,
         cost = 10000
     },
     [3] = {
-        id = WAY_OF_THE_TANNER,
+        id = dsp.ki.WAY_OF_THE_TANNER,
         rank = 9,
         cost = 20000
     }
@@ -78,54 +75,34 @@ local items = {
     }
 };
 
------------------------------------
--- onTrade Action
------------------------------------
-
 function onTrade(player,npc,trade)
     -- "Flyers for Regine" conditional script
-    local FlyerForRegine = player:getQuestStatus(SANDORIA,FLYERS_FOR_REGINE);
+    local FlyerForRegine = player:getQuestStatus(SANDORIA,dsp.quest.id.sandoria.FLYERS_FOR_REGINE);
     if (FlyerForRegine == 1) then
         local count = trade:getItemCount();
         local MagicFlyer = trade:hasItemQty(532,1);
         if (MagicFlyer == true and count == 1) then
-            player:messageSpecial(FLYER_REFUSED);
+            player:messageSpecial(ID.text.FLYER_REFUSED);
         end
     else
-        unionRepresentativeTrade(player, npc, trade, 0x02b3, 5);
+        unionRepresentativeTrade(player, npc, trade, 691, 5);
     end
 end;
-
------------------------------------
--- onTrigger Action
------------------------------------
 
 function onTrigger(player,npc)
-    unionRepresentativeTrigger(player, 5, 0x02b2, "guild_leathercraft", keyitems);
+    unionRepresentativeTrigger(player, 5, 690, "guild_leathercraft", keyitems);
 end;
 
------------------------------------
--- onEventUpdate
------------------------------------
-
 function onEventUpdate(player,csid,option,target)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-    if (csid == 0x02b2) then
+    if (csid == 690) then
         unionRepresentativeTriggerFinish(player, option, target, 5, "guild_leathercraft", keyitems, items);
     end
 end;
 
------------------------------------
--- onEventFinish
------------------------------------
-
 function onEventFinish(player,csid,option,target)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-    if (csid == 0x02b2) then
+    if (csid == 690) then
         unionRepresentativeTriggerFinish(player, option, target, 5, "guild_leathercraft", keyitems, items);
-    elseif (csid == 0x02b3) then
-        player:messageSpecial(GP_OBTAINED, option);
+    elseif (csid == 691) then
+        player:messageSpecial(ID.text.GP_OBTAINED, option);
     end
 end;

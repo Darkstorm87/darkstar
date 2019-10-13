@@ -4,18 +4,10 @@
 -- Teaches the black magic Aero V
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(158);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(158)
+end
 
 function onItemUse(target)
-    target:addSpell(158);
-end;
+    target:addSpell(158)
+end

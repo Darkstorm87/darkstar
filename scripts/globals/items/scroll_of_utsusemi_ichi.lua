@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Utsusemi: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(338);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(338)
+end
 
 function onItemUse(target)
-    target:addSpell(338);
-end;
+    target:addSpell(338)
+end

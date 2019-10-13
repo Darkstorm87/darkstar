@@ -1,19 +1,16 @@
 -----------------------------------
 -- Area: Waughroon Shrine
---  MOB: Platoon Scorpion
+--  Mob: Platoon Scorpion
+-- BCNM: Operation Desert Swarm
 -----------------------------------
-
-
------------------------------------
--- onMobSpawn Action
+require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath Action
------------------------------------
+    local mobId = mob:getID()
+    local offset = (mobId - ID.mob.PLATOON_SCORPION_OFFSET) % 7
+    mob:setMobMod(dsp.mobMod.SUPERLINK, GetMobByID(mobId - offset):getShortID())
+end
 
 function onMobDeath(mob, player, isKiller)
-end;
+end

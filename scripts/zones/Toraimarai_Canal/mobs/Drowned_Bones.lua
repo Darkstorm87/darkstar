@@ -1,14 +1,10 @@
 -----------------------------------
--- Area: Toraimorai Canal
---  MOB: Drowned Bones
+-- Area: Toraimarai Canal
+--  Mob: Drowned Bones
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,624,2);
-end;
+    dsp.regime.checkRegime(player, mob, 624, 2, dsp.regime.type.GROUNDS)
+end

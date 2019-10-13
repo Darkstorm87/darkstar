@@ -38,7 +38,7 @@ namespace puppetutils
 
 void LoadAutomaton(CCharEntity* PChar)
 {
-	const int8* Query =
+	const char* Query =
         "SELECT unlocked_attachments, name, equipped_attachments FROM "
             "char_pet LEFT JOIN pet_name ON automatonid = id "
             "WHERE charid = %u;";
@@ -50,7 +50,7 @@ void LoadAutomaton(CCharEntity* PChar)
         Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
 		size_t length = 0;
-		int8* attachments = nullptr;
+		char* attachments = nullptr;
 		Sql_GetData(SqlHandle,0,&attachments,&length);
 		memcpy(&PChar->m_unlockedAttachments, attachments, (length > sizeof(PChar->m_unlockedAttachments) ? sizeof(PChar->m_unlockedAttachments) : length));
 
@@ -69,7 +69,7 @@ void LoadAutomaton(CCharEntity* PChar)
         if (PChar->GetMJob() == JOB_PUP || PChar->GetSJob() == JOB_PUP)
         {
             PChar->PAutomaton = new CAutomatonEntity();
-            PChar->PAutomaton->name.insert(0,Sql_GetData(SqlHandle, 1));
+            PChar->PAutomaton->name.insert(0, (const char*)Sql_GetData(SqlHandle, 1));
             automaton_equip_t tempEquip;
             attachments = nullptr;
             Sql_GetData(SqlHandle,2,&attachments,&length);
@@ -95,8 +95,16 @@ void LoadAutomaton(CCharEntity* PChar)
             setHead(PChar,tempEquip.Head);
             setFrame(PChar, tempEquip.Frame);
             LoadAutomatonStats(PChar);
+
+            // Always load Optic Fiber and Optic Fiber II first
             for (int i = 0; i < 12; i++)
-                setAttachment(PChar, i, tempEquip.Attachments[i]);
+                if (tempEquip.Attachments[i] == 198 || tempEquip.Attachments[i] == 206)
+                    setAttachment(PChar, i, tempEquip.Attachments[i]);
+
+            for (int i = 0; i < 12; i++)
+                if (tempEquip.Attachments[i] != 198 && tempEquip.Attachments[i] != 206)
+                    setAttachment(PChar, i, tempEquip.Attachments[i]);
+
             PChar->PAutomaton->UpdateHealth();
             PChar->PAutomaton->health.hp = PChar->PAutomaton->GetMaxHP();
             PChar->PAutomaton->health.mp = PChar->PAutomaton->GetMaxMP();
@@ -108,19 +116,19 @@ void SaveAutomaton(CCharEntity* PChar)
 {
     if (PChar->PAutomaton)
     {
-        const int8* Query =
+        const char* Query =
             "UPDATE char_pet SET "
             "unlocked_attachments = '%s', "
             "equipped_attachments = '%s' "
             "WHERE charid = %u;";
 
-        int8 unlockedAttachmentsEscaped[sizeof(PChar->m_unlockedAttachments) * 2 + 1];
-        int8 unlockedAttachments[sizeof(PChar->m_unlockedAttachments)];
+        char unlockedAttachmentsEscaped[sizeof(PChar->m_unlockedAttachments) * 2 + 1];
+        char unlockedAttachments[sizeof(PChar->m_unlockedAttachments)];
         memcpy(unlockedAttachments, &PChar->m_unlockedAttachments, sizeof(unlockedAttachments));
         Sql_EscapeStringLen(SqlHandle, unlockedAttachmentsEscaped, unlockedAttachments, sizeof(unlockedAttachments));
 
-        int8 equippedAttachmentsEscaped[sizeof(PChar->PAutomaton->m_Equip) * 2 + 1];
-        int8 equippedAttachments[sizeof(PChar->PAutomaton->m_Equip)];
+        char equippedAttachmentsEscaped[sizeof(PChar->PAutomaton->m_Equip) * 2 + 1];
+        char equippedAttachments[sizeof(PChar->PAutomaton->m_Equip)];
         memcpy(equippedAttachments, &PChar->PAutomaton->m_Equip, sizeof(equippedAttachments));
         Sql_EscapeStringLen(SqlHandle, equippedAttachmentsEscaped, equippedAttachments, sizeof(equippedAttachments));
 
@@ -131,13 +139,13 @@ void SaveAutomaton(CCharEntity* PChar)
     }
     else
     {
-        const int8* Query =
+        const char* Query =
             "UPDATE char_pet SET "
             "unlocked_attachments = '%s' "
             "WHERE charid = %u;";
 
-        int8 unlockedAttachmentsEscaped[sizeof(PChar->m_unlockedAttachments) * 2 + 1];
-        int8 unlockedAttachments[sizeof(PChar->m_unlockedAttachments)];
+        char unlockedAttachmentsEscaped[sizeof(PChar->m_unlockedAttachments) * 2 + 1];
+        char unlockedAttachments[sizeof(PChar->m_unlockedAttachments)];
         memcpy(unlockedAttachments, &PChar->m_unlockedAttachments, sizeof(unlockedAttachments));
         Sql_EscapeStringLen(SqlHandle, unlockedAttachmentsEscaped, unlockedAttachments, sizeof(unlockedAttachments));
 
@@ -279,7 +287,7 @@ void setAttachment(CCharEntity* PChar, uint8 slotId, uint8 attachment)
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    PChar->PAutomaton->addElementCapacity(i, -((PAttachment->getElementSlots() >> (i * 4)) & 0xF));
+                    PChar->PAutomaton->addElementCapacity(i, -(int8)((PAttachment->getElementSlots() >> (i * 4)) & 0xF));
                 }
                 luautils::OnAttachmentUnequip(PChar->PAutomaton, PAttachment);
                 PChar->PAutomaton->setAttachment(slotId, 0);
@@ -404,7 +412,7 @@ void setHead(CCharEntity* PChar, uint8 head)
 uint16 getSkillCap(CCharEntity* PChar, SKILLTYPE skill, uint8 level)
 {
     int8 rank = 0;
-    if (skill < SKILL_AME || skill > SKILL_AMA)
+    if (skill < SKILL_AUTOMATON_MELEE || skill > SKILL_AUTOMATON_MAGIC)
         return 0;
     switch (PChar->PAutomaton->getFrame())
     {
@@ -412,19 +420,19 @@ uint16 getSkillCap(CCharEntity* PChar, SKILLTYPE skill, uint8 level)
             rank = 5;
             break;
         case FRAME_VALOREDGE:
-            if (skill == SKILL_AME)
+            if (skill == SKILL_AUTOMATON_MELEE)
                 rank = 2;
             break;
         case FRAME_SHARPSHOT:
-            if (skill == SKILL_AME)
+            if (skill == SKILL_AUTOMATON_MELEE)
                 rank = 6;
-            else if (skill == SKILL_ARA)
+            else if (skill == SKILL_AUTOMATON_RANGED)
                 rank = 3;
             break;
         case FRAME_STORMWAKER:
-            if (skill == SKILL_AME)
+            if (skill == SKILL_AUTOMATON_MELEE)
                 rank = 7;
-            else if (skill == SKILL_AMA)
+            else if (skill == SKILL_AUTOMATON_MAGIC)
                 rank = 3;
             break;
     }
@@ -432,21 +440,23 @@ uint16 getSkillCap(CCharEntity* PChar, SKILLTYPE skill, uint8 level)
     switch (PChar->PAutomaton->getHead())
     {
         case HEAD_VALOREDGE:
-            if (skill == SKILL_AME)
+            if (skill == SKILL_AUTOMATON_MELEE)
                 rank -= 1;
             break;
         case HEAD_SHARPSHOT:
-            if (skill == SKILL_ARA)
+            if (skill == SKILL_AUTOMATON_RANGED)
                 rank -= 1;
             break;
         case HEAD_STORMWAKER:
-            if (skill == SKILL_AME || skill == SKILL_AMA)
+            if (skill == SKILL_AUTOMATON_MELEE || skill == SKILL_AUTOMATON_MAGIC)
                 rank -= 1;
             break;
         case HEAD_SOULSOOTHER:
         case HEAD_SPIRITREAVER:
-            if (skill == SKILL_AMA)
+            if (skill == SKILL_AUTOMATON_MAGIC)
                 rank -= 2;
+            break;
+        default:
             break;
     }
 
@@ -492,7 +502,7 @@ void TrySkillUP(CAutomatonEntity* PAutomaton, SKILLTYPE SkillID, uint8 lvl)
     if (getSkillCap(PChar, SkillID) != 0 && !(PAutomaton->WorkingSkills.skill[SkillID] & 0x8000))
     {
         uint16 CurSkill = PChar->RealSkills.skill[SkillID];
-        uint16 MaxSkill = getSkillCap(PChar, SkillID, dsp_min(PAutomaton->GetMLevel(), lvl));
+        uint16 MaxSkill = getSkillCap(PChar, SkillID, std::min(PAutomaton->GetMLevel(), lvl));
 
         int16  Diff = MaxSkill - CurSkill / 10;
         double SkillUpChance = Diff / 5.0 + map_config.skillup_chance_multiplier * (2.0 - log10(1.0 + CurSkill / 100));
@@ -510,7 +520,7 @@ void TrySkillUP(CAutomatonEntity* PAutomaton, SKILLTYPE SkillID, uint8 lvl)
         {
             double chance = 0;
             uint8  SkillAmount = 1;
-            uint8  tier = dsp_min(1 + (Diff / 5), 5);
+            uint8  tier = std::min(1 + (Diff / 5), 5);
 
             for (uint8 i = 0; i < 4; ++i) // 1 + 4 возможных дополнительных (максимум 5)
             {
@@ -536,7 +546,7 @@ void TrySkillUP(CAutomatonEntity* PAutomaton, SKILLTYPE SkillID, uint8 lvl)
             // Do skill amount multiplier (Will only be applied if default setting is changed)
             if (map_config.skillup_amount_multiplier > 1)
             {
-                SkillAmount += SkillAmount * map_config.skillup_amount_multiplier;
+                SkillAmount += (uint8)(SkillAmount * map_config.skillup_amount_multiplier);
                 if (SkillAmount > 9)
                 {
                     SkillAmount = 9;
@@ -556,9 +566,9 @@ void TrySkillUP(CAutomatonEntity* PAutomaton, SKILLTYPE SkillID, uint8 lvl)
             {
                 PChar->WorkingSkills.skill[SkillID] += 1;
                 PAutomaton->WorkingSkills.skill[SkillID] += 1;
-                if (SkillID == SKILL_AMA)
+                if (SkillID == SKILL_AUTOMATON_MAGIC)
                 {
-                    uint16 amaSkill = PAutomaton->WorkingSkills.skill[SKILL_AMA];
+                    uint16 amaSkill = PAutomaton->WorkingSkills.skill[SKILL_AUTOMATON_MAGIC];
                     PAutomaton->WorkingSkills.automaton_magic = amaSkill;
                     PAutomaton->WorkingSkills.healing = amaSkill;
                     PAutomaton->WorkingSkills.enhancing = amaSkill;
@@ -593,6 +603,36 @@ void CheckAttachmentsForManeuver(CCharEntity* PChar, EFFECT maneuver, bool gain)
                         luautils::OnManeuverGain(PAutomaton, PAttachment, PChar->StatusEffectContainer->GetEffectsCount(maneuver));
                     else
                         luautils::OnManeuverLose(PAutomaton, PAttachment, PChar->StatusEffectContainer->GetEffectsCount(maneuver));
+                }
+            }
+        }
+    }
+}
+
+void UpdateAttachments(CCharEntity* PChar)
+{
+    CAutomatonEntity* PAutomaton = PChar->PAutomaton;
+
+    if (PAutomaton)
+    {
+        for (uint8 i = 0; i < 12; i++)
+        {
+            if (PAutomaton->getAttachment(i) != 0)
+            {
+                CItemPuppet* PAttachment = (CItemPuppet*)itemutils::GetItemPointer(0x2100 + PAutomaton->getAttachment(i));
+
+                if (PAttachment)
+                {
+                    int32 maneuver = EFFECT_FIRE_MANEUVER;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (PAttachment->getElementSlots() >> (i * 4) & 0xF)
+                        {
+                            maneuver += i;
+                            break;
+                        }
+                    }
+                    luautils::OnUpdateAttachment(PAutomaton, PAttachment, PChar->StatusEffectContainer->GetEffectsCount((EFFECT)maneuver));
                 }
             }
         }

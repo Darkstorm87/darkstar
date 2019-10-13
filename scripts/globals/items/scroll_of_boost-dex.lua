@@ -4,18 +4,10 @@
 -- Teaches the white magic Boost-DEX
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(480);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(480)
+end
 
 function onItemUse(target)
-    target:addSpell(480);
-end;
+    target:addSpell(480)
+end

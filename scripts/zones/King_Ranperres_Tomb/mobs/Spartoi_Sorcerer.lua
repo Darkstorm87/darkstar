@@ -1,21 +1,10 @@
 -----------------------------------
 -- Area: King Ranperres Tomb
---  MOB: Spartoi Sorcerer
+--  Mob: Spartoi Sorcerer
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobInitialize
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,638,1);
-end;
+    dsp.regime.checkRegime(player, mob, 638, 1, dsp.regime.type.GROUNDS)
+end

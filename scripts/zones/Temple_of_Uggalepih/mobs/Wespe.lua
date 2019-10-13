@@ -1,14 +1,10 @@
 -----------------------------------
--- Area: Temple Of Uggalepih
---  MOB: Wespe
+-- Area: Temple of Uggalepih
+--  Mob: Wespe
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,790,2);
-end;
+    dsp.regime.checkRegime(player, mob, 790, 2, dsp.regime.type.GROUNDS)
+end

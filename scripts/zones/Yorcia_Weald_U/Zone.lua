@@ -1,52 +1,25 @@
 -----------------------------------
--- 
+--
 -- Zone: Yorcia Weald U
--- 
+--
 -----------------------------------
-
-require("scripts/globals/settings");
-package.loaded["scripts/zones/Yorcia_Weald_U/TextIDs"] = nil;
-require("scripts/zones/Yorcia_Weald_U/TextIDs");
-
------------------------------------
---  onInitialize
+local ID = require("scripts/zones/Yorcia_Weald_U/IDs")
 -----------------------------------
 
 function onInitialize(zone)
-end;
+end
 
------------------------------------
--- onZoneIn
------------------------------------
+function onZoneIn(player, prevZone)
+    local cs = -1
 
-function onZoneIn(player,prevZone)
-    local cs = -1;
+    return cs
+end
 
-    return cs;
-end;
+function onRegionEnter(player, region)
+end
 
------------------------------------
--- onRegionEnter          
------------------------------------
+function onEventUpdate(player, csid, option)
+end
 
-function onRegionEnter(player,region)
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
-
-function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
+function onEventFinish(player, csid, option)
+end

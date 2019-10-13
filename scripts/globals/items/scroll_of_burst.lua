@@ -4,18 +4,10 @@
 -- Teaches the black magic Burst
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(212);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(212)
+end
 
 function onItemUse(target)
-    target:addSpell(212);
-end;
+    target:addSpell(212)
+end

@@ -1,72 +1,45 @@
 -----------------------------------
---  Area: Sauromugue Champaign
+-- Area: Sauromugue Champaign
 --  NPC: qm5 (???) (Tower 5)
---  Involved in Quest: THF AF "As Thick As Thieves"
+-- Involved in Quest: THF AF "As Thick As Thieves"
 -- !pos -117.713 15.237 45.929 120
 -----------------------------------
-package.loaded["scripts/zones/Sauromugue_Champaign/TextIDs"] = nil;
+local ID = require("scripts/zones/Sauromugue_Champaign/IDs")
+require("scripts/globals/npc_util")
+require("scripts/globals/quests")
 -----------------------------------
 
-require("scripts/globals/settings");
-require("scripts/globals/quests");
-require("scripts/globals/keyitems");
-require("scripts/zones/Sauromugue_Champaign/TextIDs");
+function onTrade(player, npc, trade)
+    local grapplingCS = player:getVar("thickAsThievesGrapplingCS")
 
------------------------------------
--- onTrade Action
------------------------------------
-
-function onTrade(player,npc,trade)
-
-    local thickAsThievesGrapplingCS = player:getVar("thickAsThievesGrapplingCS");
-
-    if (thickAsThievesGrapplingCS >= 2 and thickAsThievesGrapplingCS <= 7) then
-        if (trade:hasItemQty(17474,1) and trade:getItemCount() == 1) then -- Trade grapel
-            player:messageSpecial(THF_AF_WALL_OFFSET+3,0,17474); -- You cannot get a decent grip on the wall using the [Grapnel].
-        end
+    if grapplingCS >= 2 and grapplingCS <= 7 and npcUtil.tradeHas(trade, 17474) then
+        player:messageSpecial(ID.text.THF_AF_WALL_OFFSET + 3, 0, 17474) -- You cannot get a decent grip on the wall using the [Grapnel].
     end
-end;
+end
 
------------------------------------
--- onTrigger Action
------------------------------------
+function onTrigger(player, npc)
+    local thickAsThieves = player:getQuestStatus(WINDURST, dsp.quest.id.windurst.AS_THICK_AS_THIEVES)
+    local grapplingCS = player:getVar("thickAsThievesGrapplingCS")
 
-function onTrigger(player,npc)
+    if thickAsThieves == QUEST_ACCEPTED then
+        if grapplingCS == 5 then
+            local gob = GetMobByID(ID.mob.CLIMBPIX_HIGHRISE)
 
-    local thickAsThieves = player:getQuestStatus(WINDURST,AS_THICK_AS_THIEVES);
-    local thickAsThievesGrapplingCS = player:getVar("thickAsThievesGrapplingCS");
-
-    if (thickAsThieves == QUEST_ACCEPTED) then
-        if (thickAsThievesGrapplingCS == 5) then
-            player:messageSpecial(THF_AF_MOB);
-            GetMobByID(17269107):setSpawn(-114,16,51);
-            SpawnMob(17269107):updateClaim(player); -- Climbpix Highrise
-        elseif (thickAsThievesGrapplingCS == 0 or thickAsThievesGrapplingCS == 1 or
-            thickAsThievesGrapplingCS == 2 or thickAsThievesGrapplingCS == 3 or
-            thickAsThievesGrapplingCS == 4 or thickAsThievesGrapplingCS == 6 or
-            thickAsThievesGrapplingCS == 7) then
-            player:messageSpecial(THF_AF_WALL_OFFSET);
+            if not gob:isSpawned() then
+                player:messageSpecial(ID.text.THF_AF_MOB)
+                gob:setSpawn(-114, 16, 51)
+                SpawnMob(ID.mob.CLIMBPIX_HIGHRISE):updateClaim(player)
+            end
+        elseif grapplingCS >= 0 or grapplingCS <= 7 then
+            player:messageSpecial(ID.text.THF_AF_WALL_OFFSET)
         end
     else
-        player:messageSpecial(NOTHING_OUT_OF_ORDINARY);
+        player:messageSpecial(ID.text.NOTHING_OUT_OF_ORDINARY)
     end
+end
 
-end;
+function onEventUpdate(player, csid, option)
+end
 
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
-
-function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
+function onEventFinish(player, csid, option)
+end

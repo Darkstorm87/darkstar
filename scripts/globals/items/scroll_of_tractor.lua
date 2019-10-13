@@ -4,18 +4,10 @@
 -- Teaches the black magic Tractor
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(264);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(264)
+end
 
 function onItemUse(target)
-    target:addSpell(264);
-end;
+    target:addSpell(264)
+end

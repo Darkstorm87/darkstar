@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Gustav Tunnel
---  MOB: Boulder Eater
+--  Mob: Boulder Eater
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,770,1);
+    dsp.regime.checkRegime(player, mob, 770, 1, dsp.regime.type.GROUNDS)
 end;

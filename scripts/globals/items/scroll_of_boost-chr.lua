@@ -4,18 +4,10 @@
 -- Teaches the white magic Boost-CHR
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(485);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(485)
+end
 
 function onItemUse(target)
-    target:addSpell(485);
-end;
+    target:addSpell(485)
+end

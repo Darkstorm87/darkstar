@@ -1,14 +1,10 @@
 -----------------------------------
--- Area: Outer Horutoto
---  MOB: Four of Coins
+-- Area: Outer Horutoto Ruins
+--  Mob: Four of Coins
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,663,4);
-end;
+    dsp.regime.checkRegime(player, mob, 663, 4, dsp.regime.type.GROUNDS)
+end

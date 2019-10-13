@@ -4,18 +4,10 @@
 -- Teaches the song Enchanting Etude
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(430);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(430)
+end
 
 function onItemUse(target)
-    target:addSpell(430);
-end;
+    target:addSpell(430)
+end

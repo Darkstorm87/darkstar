@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Eastern Altepa Desert
---  MOB: Antican Speculator
+--  Mob: Antican Speculator
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,112,3);
+    dsp.regime.checkRegime(player, mob, 112, 3, dsp.regime.type.FIELDS)
 end;

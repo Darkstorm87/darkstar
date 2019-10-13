@@ -1,21 +1,13 @@
-----------------------------------
+-----------------------------------
 -- Area: Labyrinth of Onzozo
 --   NM: Soulstealer Skullnix
 -----------------------------------
-
------------------------------------
--- onMobDeath
+mixins = {require("scripts/mixins/job_special")}
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,771,2);
-    checkGoVregime(player,mob,772,2);
-    checkGoVregime(player,mob,774,2);
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
-end;
+    dsp.regime.checkRegime(player, mob, 771, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 772, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 774, 2, dsp.regime.type.GROUNDS)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Barvira
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(92);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(92)
+end
 
 function onItemUse(target)
-    target:addSpell(92);
-end;
+    target:addSpell(92)
+end

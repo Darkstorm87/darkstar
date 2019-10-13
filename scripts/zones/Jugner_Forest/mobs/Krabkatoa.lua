@@ -2,20 +2,9 @@
 -- Area: Jugner Forest
 --  VNM: Krabkatoa
 -----------------------------------
-
 require("scripts/globals/titles");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    player:addTitle(KRABKATOA_STEAMER);
+    player:addTitle(dsp.title.KRABKATOA_STEAMER);
 end;

@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Maze of Shakhrami
---  MOB: Bleeder Leech
+--  Mob: Bleeder Leech
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,701,2);
-end;
+    dsp.regime.checkRegime(player, mob, 701, 2, dsp.regime.type.GROUNDS)
+end

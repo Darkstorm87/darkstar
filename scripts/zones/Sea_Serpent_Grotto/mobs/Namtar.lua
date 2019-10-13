@@ -1,14 +1,10 @@
 -----------------------------------
--- Area: Seas Serpent Grotto
---   NM: Ghast
+-- Area: Sea Serpent Grotto
+--   NM: Namtar
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,805,2);
-end;
+    dsp.regime.checkRegime(player, mob, 805, 2, dsp.regime.type.GROUNDS)
+end

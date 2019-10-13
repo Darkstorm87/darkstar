@@ -4,18 +4,10 @@
 -- Teaches the white magic Cura
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(93);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(93)
+end
 
 function onItemUse(target)
-    target:addSpell(93);
-end;
+    target:addSpell(93)
+end

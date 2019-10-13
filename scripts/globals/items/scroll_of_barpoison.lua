@@ -4,18 +4,10 @@
 -- Teaches the white magic Barpoison
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(73);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(73)
+end
 
 function onItemUse(target)
-    target:addSpell(73);
-end;
+    target:addSpell(73)
+end

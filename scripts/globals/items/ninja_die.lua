@@ -4,18 +4,10 @@
 -- Teaches the job ability Ninja Roll
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnAbility(94);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnAbility(94)
+end
 
 function onItemUse(target)
-    target:addLearnedAbility(94);
-end;
+    target:addLearnedAbility(94)
+end

@@ -4,6 +4,7 @@
 -- A) The given zone
 -- B) another player
 ---------------------------------------------------------------------------------------------------
+require("scripts/globals/zone");
 
 cmdprops =
 {
@@ -285,7 +286,7 @@ end;
 function getBytePos(s,needle)
     local i;
     local b;
-    for i=1,string.len(s),1 do 
+    for i=1,string.len(s),1 do
         if (string.byte(s, i) == needle) then
             return i;
         end
@@ -326,7 +327,7 @@ function onTrigger(player, bytes)
             return;
         end
     end
-    
+
     -- validate destination
     if (atpos ~= nil) then
         -- destination is an auto-translate phrase
@@ -351,7 +352,7 @@ function onTrigger(player, bytes)
         if (tonumber(dest) ~= nil) then
             -- destination is a zone ID.
             zone = tonumber(dest);
-            if (zone < 0 or zone > 288) then
+            if (zone < 0 or zone >= dsp.zone.MAX_ZONE) then
                 error(player, "Invalid zone ID.");
                 return;
             end
@@ -380,7 +381,7 @@ function onTrigger(player, bytes)
             zone = dest:getZoneID();
         end
     end
-    
+
     -- send target to destination
     targ:setPos(x, y, z, rot, zone);
     if (targ:getID() ~= player:getID()) then

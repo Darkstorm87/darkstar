@@ -4,18 +4,10 @@
 -- Teaches the job ability Fighter's Roll
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnAbility(82);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnAbility(82)
+end
 
 function onItemUse(target)
-    target:addLearnedAbility(82);
-end;
+    target:addLearnedAbility(82)
+end

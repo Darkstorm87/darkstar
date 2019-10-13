@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Dangruf Wadi
---  MOB: Goblin Brigand
+--  Mob: Goblin Brigand
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,640,1);
-    checkGoVregime(player,mob,642,2);
+    dsp.regime.checkRegime(player, mob, 640, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 642, 2, dsp.regime.type.GROUNDS)
 end;

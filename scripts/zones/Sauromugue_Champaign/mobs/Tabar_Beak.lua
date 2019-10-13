@@ -1,24 +1,17 @@
 -----------------------------------
 -- Area: Sauromugue Champaign
---  MOB: Tabar Beak
+--  Mob: Tabar Beak
+-- Note: PH for Deadly Dodo
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-require("scripts/zones/Sauromugue_Champaign/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Sauromugue_Champaign/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    checkRegime(player,mob,100,1);
-
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+    dsp.regime.checkRegime(player, mob, 100, 1, dsp.regime.type.FIELDS)
+end
 
 function onMobDespawn(mob)
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.DEADLY_DODO_PH, 33, 3600) -- 1 hour
+end

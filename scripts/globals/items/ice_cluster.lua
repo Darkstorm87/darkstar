@@ -3,23 +3,17 @@
 -- Ice Cluster
 -- Turn into a stack of ice crystals
 -----------------------------------------
-
------------------------------------------
--- OnItemCheck
+require("scripts/globals/msg")
 -----------------------------------------
 
 function onItemCheck(target)
-    local result = 0;
-    if (target:getFreeSlotsCount() == 0) then
-        result = 308;
+    local result = 0
+    if target:getFreeSlotsCount() == 0 then
+        result = dsp.msg.basic.ITEM_NO_USE_INVENTORY
     end
-    return result;
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return result
+end
 
 function onItemUse(target)
-    target:addItem(4097,12);
-end;
+    target:addItem(4097,12)
+end

@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Garlaige Citadel
---  MOB: Funnel Bats
+--  Mob: Funnel Bats
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,706,1);
+    dsp.regime.checkRegime(player, mob, 706, 1, dsp.regime.type.GROUNDS)
 end;

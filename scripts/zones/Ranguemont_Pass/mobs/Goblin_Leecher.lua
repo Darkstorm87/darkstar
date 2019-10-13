@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Ranguemont Pass
---  MOB: Goblin Leecher
+--  Mob: Goblin Leecher
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,605,1);
+    dsp.regime.checkRegime(player, mob, 605, 1, dsp.regime.type.GROUNDS)
 end;

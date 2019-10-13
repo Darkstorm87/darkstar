@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Gustav Tunnel
---  MOB: Goblin Alchemist
+--  Mob: Goblin Alchemist
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,764,3);
-    checkGoVregime(player,mob,765,3);
+    dsp.regime.checkRegime(player, mob, 764, 3, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 765, 3, dsp.regime.type.GROUNDS)
 end;

@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Inner Horutoto Ruins
---  MOB: Deathwatch Beetle
+--  Mob: Deathwatch Beetle
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,652,1);
+    dsp.regime.checkRegime(player, mob, 652, 1, dsp.regime.type.GROUNDS)
 end;

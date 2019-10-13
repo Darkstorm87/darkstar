@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Inner Horutoto Ruins
---  MOB: Will-o-the-Wisp
+--  Mob: Will-o-the-Wisp
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,650,2);
+    dsp.regime.checkRegime(player, mob, 650, 2, dsp.regime.type.GROUNDS)
 end;

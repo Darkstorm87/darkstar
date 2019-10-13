@@ -4,18 +4,10 @@
 -- Teaches the white magic Paralyna
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(15);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(15)
+end
 
 function onItemUse(target)
-    target:addSpell(15);
-end;
+    target:addSpell(15)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Cure VI
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(6);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(6)
+end
 
 function onItemUse(target)
-    target:addSpell(6);
-end;
+    target:addSpell(6)
+end

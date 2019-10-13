@@ -1,25 +1,17 @@
 -----------------------------------
 -- Area: Bostaunieux Oubliette (167)
 --  Mob: Garm
+-- Note: PH for Shii
 -----------------------------------
-
-require("scripts/zones/Bostaunieux_Oubliette/MobIDs");
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Bostaunieux_Oubliette/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    checkGoVregime(player,mob,612,1);
-
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+    dsp.regime.checkRegime(player, mob, 612, 1, dsp.regime.type.GROUNDS)
+end
 
 function onMobDespawn(mob)
-end;
-
+    dsp.mob.phOnDespawn(mob, ID.mob.SHII_PH, 5, 3600) -- 1 hour
+end

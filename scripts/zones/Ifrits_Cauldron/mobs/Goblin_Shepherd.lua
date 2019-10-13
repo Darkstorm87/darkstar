@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Ifrit's Cauldron
---  MOB: Goblin Shepherd
+--  Mob: Goblin Shepherd
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,757,1);
+    dsp.regime.checkRegime(player, mob, 757, 1, dsp.regime.type.GROUNDS)
 end;

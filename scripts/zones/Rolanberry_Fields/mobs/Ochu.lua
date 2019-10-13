@@ -1,25 +1,17 @@
 -----------------------------------
 -- Area: Rolanberry Fields
---  MOB: Ochu
+--  Mob: Ochu
 -- Note: PH for Drooling Daisy
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-require("scripts/zones/Rolanberry_Fields/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Rolanberry_Fields/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    checkRegime(player,mob,88,1);
-
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+    dsp.regime.checkRegime(player, mob, 88, 1, dsp.regime.type.FIELDS)
+end
 
 function onMobDespawn(mob)
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.DROOLING_DAISY_PH, 10, 3600) -- 1 hour
+end

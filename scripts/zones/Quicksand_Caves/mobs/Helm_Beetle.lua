@@ -1,14 +1,17 @@
 -----------------------------------
 -- Area: Quicksand Caves
---  MOB: Helm Beetle
+--  Mob: Helm Beetle
+-- Note: PH for Diamond Daig
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Quicksand_Caves/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,813,1);
-end;
+    dsp.regime.checkRegime(player, mob, 813, 1, dsp.regime.type.GROUNDS)
+end
+
+function onMobDespawn(mob)
+    dsp.mob.phOnDespawn(mob, ID.mob.DIAMOND_DAIG_PH, 10, 3600) -- 1 hour
+end

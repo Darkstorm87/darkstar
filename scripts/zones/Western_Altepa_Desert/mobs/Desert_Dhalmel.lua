@@ -1,39 +1,17 @@
 -----------------------------------
 -- Area: Western Altepa Desert
---  MOB: Desert Dhalmel
+--  Mob: Desert Dhalmel
 -- Note: Place holder for Celphie
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-require("scripts/zones/Western_Altepa_Desert/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Western_Altepa_Desert/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    checkRegime(player,mob,135,1);
-
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+    dsp.regime.checkRegime(player, mob, 135, 1, dsp.regime.type.FIELDS)
+end
 
 function onMobDespawn(mob)
-    local mobID = mob:getID();
-
-    if (Celphie_PH[mobID] ~= nil) then
-        local ToD = GetServerVariable("[POP]Celphie");
-        if (ToD <= os.time() and GetMobAction(Celphie) == 0) then
-            if (math.random(1,20) == 5) then
-                UpdateNMSpawnPoint(Celphie);
-                GetMobByID(Celphie):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Celphie", mobID);
-                DisallowRespawn(mobID, true);
-            end
-        end
-    end
-
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.CELPHIE_PH, 5, math.random(7200,28800)) -- 2 to 8 hours
+end

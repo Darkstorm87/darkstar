@@ -1,21 +1,10 @@
 -----------------------------------
--- Area:
---  MOB: Lord Ruthven
+-- Area: Beaucedine Glacier [S]
+--  VNM: Lord Ruthven
 -----------------------------------
-
-require("scripts/globals/titles");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/titles")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    player:addTitle(RUTHVEN_ENTOMBER);
-end;
+    player:addTitle(dsp.title.RUTHVEN_ENTOMBER)
+end

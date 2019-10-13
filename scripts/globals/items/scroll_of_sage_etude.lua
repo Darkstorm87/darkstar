@@ -4,18 +4,10 @@
 -- Teaches the song Sage Etude
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(435);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(435)
+end
 
 function onItemUse(target)
-    target:addSpell(435);
-end;
+    target:addSpell(435)
+end

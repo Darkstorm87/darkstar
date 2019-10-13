@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Inner Horutoto Ruins
---  MOB: Battue Bats
+--  Mob: Battue Bats
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,647,1);
+    dsp.regime.checkRegime(player, mob, 647, 1, dsp.regime.type.GROUNDS)
 end;

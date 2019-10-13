@@ -1,20 +1,7 @@
 -----------------------------------
 -- Area: East Ronfaure
---  NM:  Swamfisk
------------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+--   NM: Swamfisk
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
 end;

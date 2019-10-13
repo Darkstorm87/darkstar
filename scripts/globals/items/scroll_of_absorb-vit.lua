@@ -4,18 +4,10 @@
 -- Teaches the black magic Absorb-VIT
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(268);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(268)
+end
 
 function onItemUse(target)
-    target:addSpell(268);
-end;
+    target:addSpell(268)
+end

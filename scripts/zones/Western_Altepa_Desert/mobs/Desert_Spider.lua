@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Western Altepa Desert
---  MOB: Desert Spider
+--  Mob: Desert Spider
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,134,1);
-end;
+    dsp.regime.checkRegime(player, mob, 134, 1, dsp.regime.type.FIELDS)
+end

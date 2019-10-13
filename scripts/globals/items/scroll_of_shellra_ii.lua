@@ -4,18 +4,10 @@
 -- Teaches the white magic Shellra II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(131);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(131)
+end
 
 function onItemUse(target)
-    target:addSpell(131);
-end;
+    target:addSpell(131)
+end

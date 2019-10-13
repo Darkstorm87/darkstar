@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Inner Horutoto Ruins
---  MOB: Goblin Flesher
+--  Mob: Goblin Flesher
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,652,2);
+    dsp.regime.checkRegime(player, mob, 652, 2, dsp.regime.type.GROUNDS)
 end;

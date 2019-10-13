@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Ordelle's Caves
---  MOB: Thread Leech
+--  Mob: Thread Leech
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,655,2);
-end;
+    dsp.regime.checkRegime(player, mob, 655, 2, dsp.regime.type.GROUNDS)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Enthunder
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(104);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(104)
+end
 
 function onItemUse(target)
-    target:addSpell(104);
-end;
+    target:addSpell(104)
+end

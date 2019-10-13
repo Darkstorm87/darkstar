@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Yuhtunga Jungle
---  MOB: Goblin Digger
+--  Mob: Goblin Digger
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,125,2);
+    dsp.regime.checkRegime(player, mob, 125, 2, dsp.regime.type.FIELDS)
 end;

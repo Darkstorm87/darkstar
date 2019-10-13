@@ -4,18 +4,10 @@
 -- Teaches the black magic Sleep
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(253);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(253)
+end
 
 function onItemUse(target)
-    target:addSpell(253);
-end;
+    target:addSpell(253)
+end

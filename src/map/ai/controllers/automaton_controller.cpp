@@ -147,8 +147,9 @@ bool CAutomatonController::isRanged()
     case HEAD_SOULSOOTHER:
     case HEAD_SPIRITREAVER:
         return true;
+    default:
+        return false;
     }
-    return false;
 }
 
 CurrentManeuvers CAutomatonController::GetCurrentManeuvers() const
@@ -173,7 +174,6 @@ void CAutomatonController::DoCombatTick(time_point tick)
         return;
     }
 
-    auto PPrevTarget = PTarget;
     PTarget = static_cast<CBattleEntity*>(PAutomaton->GetEntity(PAutomaton->GetBattleTargetID()));
 
     if (TryDeaggro())
@@ -217,7 +217,7 @@ void CAutomatonController::DoCombatTick(time_point tick)
 void CAutomatonController::Move()
 {
     float currentDistance = distanceSquared(PAutomaton->loc.p, PTarget->loc.p);
-    if (isRanged() && (currentDistance > 225) || (PAutomaton->health.mp < 8 && PAutomaton->health.maxmp > 8))
+    if ((isRanged() && (currentDistance > 225)) || (PAutomaton->health.mp < 8 && PAutomaton->health.maxmp > 8))
     {
         PAutomaton->m_Behaviour &= ~BEHAVIOUR_STANDBACK;
     }
@@ -425,7 +425,7 @@ bool CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers)
         break;
     }
 
-    threshold = dsp_cap(threshold + PAutomaton->getMod(Mod::AUTO_HEALING_THRESHOLD), 30, 90);
+    threshold = std::clamp<float>(threshold + PAutomaton->getMod(Mod::AUTO_HEALING_THRESHOLD), 30.f, 90.f);
     CBattleEntity* PCastTarget = nullptr;
 
     bool haveHate = false;
@@ -449,7 +449,7 @@ bool CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers)
             haveHate = selfEnmity > masterEnmity ? true : false;
         }
     }
-    
+
     // Prioritize hate
     if (haveHate)
     {
@@ -506,7 +506,7 @@ bool CAutomatonController::TryHeal(const CurrentManeuvers& maneuvers)
     // This might be wrong
     if (PCastTarget)
     {
-        float missinghp = PCastTarget->GetMaxHP() - PCastTarget->health.hp;
+        auto missinghp = PCastTarget->GetMaxHP() - PCastTarget->health.hp;
         if (missinghp > 850 && Cast(PCastTarget->targid, SpellID::Cure_VI ))
             return true;
         else if (missinghp > 600 && Cast(PCastTarget->targid, SpellID::Cure_V))
@@ -1127,7 +1127,7 @@ bool CAutomatonController::TryEnhance()
     if (!PHasteTarget && !haste)
         PHasteTarget = PAutomaton;
 
-    uint8 members = 0;
+    size_t members = 0;
 
     // Unknown whether it only applies buffs to other members if they have hate or if the Soulsoother head is needed
     if (PAutomaton->PMaster->PParty)
@@ -1253,10 +1253,10 @@ bool CAutomatonController::TryTPMove()
         std::vector<CMobSkill*> validSkills;
 
         //load the skills that the automaton has access to with it's skill
-        SKILLTYPE skilltype = SKILL_AME;
+        SKILLTYPE skilltype = SKILL_AUTOMATON_MELEE;
 
         if (PAutomaton->getFrame() == FRAME_SHARPSHOT)
-            skilltype = SKILL_ARA;
+            skilltype = SKILL_AUTOMATON_RANGED;
 
         for (auto skillid : FamilySkills)
         {
@@ -1277,31 +1277,17 @@ bool CAutomatonController::TryTPMove()
         if (attemptChain)
         {
             CStatusEffect* PSCEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_SKILLCHAIN, 0);
-            if (PSCEffect)
+            if (PSCEffect && PSCEffect->GetStartTime() + 3s < server_clock::now())
             {
                 std::list<SKILLCHAIN_ELEMENT> resonanceProperties;
-                if (PSCEffect->GetTier() == 0)
+                if (PSCEffect->GetStartTime() + 3s < m_Tick)
                 {
-                    if (PSCEffect->GetStartTime() + 3s < m_Tick)
+                    if (uint16 power = PSCEffect->GetPower())
                     {
-                        if (PSCEffect->GetPower())
-                        {
-                            CWeaponSkill* PWeaponSkill = battleutils::GetWeaponSkill(PSCEffect->GetPower());
-                            resonanceProperties.push_back((SKILLCHAIN_ELEMENT)PWeaponSkill->getPrimarySkillchain());
-                            resonanceProperties.push_back((SKILLCHAIN_ELEMENT)PWeaponSkill->getSecondarySkillchain());
-                            resonanceProperties.push_back((SKILLCHAIN_ELEMENT)PWeaponSkill->getTertiarySkillchain());
-                        }
-                        else
-                        {
-                            CBlueSpell* oldSpell = (CBlueSpell*)spell::GetSpell(static_cast<SpellID>(PSCEffect->GetSubPower()));
-                            resonanceProperties.push_back((SKILLCHAIN_ELEMENT)oldSpell->getPrimarySkillchain());
-                            resonanceProperties.push_back((SKILLCHAIN_ELEMENT)oldSpell->getSecondarySkillchain());
-                        }
+                        resonanceProperties.push_back((SKILLCHAIN_ELEMENT)(power & 0xF));
+                        resonanceProperties.push_back((SKILLCHAIN_ELEMENT)(power >> 4 & 0xF));
+                        resonanceProperties.push_back((SKILLCHAIN_ELEMENT)(power >> 8));
                     }
-                }
-                else
-                {
-                    resonanceProperties.push_back((SKILLCHAIN_ELEMENT)PSCEffect->GetPower());
                 }
 
                 for (auto PSkill : validSkills)
@@ -1374,7 +1360,7 @@ bool CAutomatonController::CanCastSpells()
 
 bool CAutomatonController::Cast(uint16 targid, SpellID spellid)
 {
-    if (!autoSpell::CanUseSpell(PAutomaton, spellid) || PAutomaton->PRecastContainer->Has(RECAST_MAGIC, static_cast<uint16>(spellid)))
+    if (!autoSpell::CanUseSpell(PAutomaton, spellid) || PAutomaton->PRecastContainer->HasRecast(RECAST_MAGIC, static_cast<uint16>(spellid), 0))
         return false;
 
     return CPetController::Cast(targid, spellid);
@@ -1382,7 +1368,7 @@ bool CAutomatonController::Cast(uint16 targid, SpellID spellid)
 
 bool CAutomatonController::MobSkill(uint16 targid, uint16 wsid)
 {
-    if(PAutomaton->PRecastContainer->Has(RECAST_ABILITY, wsid))
+    if(PAutomaton->PRecastContainer->HasRecast(RECAST_ABILITY, wsid, 0))
         return false;
     return CPetController::MobSkill(targid, wsid);
 }
@@ -1404,7 +1390,7 @@ namespace autoSpell
 
     void LoadAutomatonSpellList()
     {
-        const int8* Query = "SELECT spellid, skilllevel, heads, enfeeble, immunity, removes FROM automaton_spells;";
+        const char* Query = "SELECT spellid, skilllevel, heads, enfeeble, immunity, removes FROM automaton_spells;";
 
         int32 ret = Sql_Query(SqlHandle, Query);
 
@@ -1414,8 +1400,8 @@ namespace autoSpell
             {
                 SpellID id = (SpellID)Sql_GetUIntData(SqlHandle, 0);
                 AutomatonSpell PSpell {
-                    Sql_GetUIntData(SqlHandle, 1),
-                    Sql_GetUIntData(SqlHandle, 2),
+                    (uint16)Sql_GetUIntData(SqlHandle, 1),
+                    (uint8)Sql_GetUIntData(SqlHandle, 2),
                     (EFFECT)Sql_GetUIntData(SqlHandle, 3),
                     (IMMUNITY)Sql_GetUIntData(SqlHandle, 4)
                 };
@@ -1440,7 +1426,7 @@ namespace autoSpell
     bool CanUseSpell(CAutomatonEntity* PCaster, SpellID spellid)
     {
         const AutomatonSpell& PSpell = autoSpellList[spellid];
-        return ((PCaster->GetSkill(SKILL_AMA) >= PSpell.skilllevel) && (PSpell.heads & (1 << ((uint8)PCaster->getHead() - 1))));
+        return ((PCaster->GetSkill(SKILL_AUTOMATON_MAGIC) >= PSpell.skilllevel) && (PSpell.heads & (1 << ((uint8)PCaster->getHead() - 1))));
     }
 
     bool CanUseEnfeeble(CBattleEntity* PTarget, SpellID spell)

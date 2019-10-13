@@ -4,55 +4,23 @@
 -- Involved in Quests: RNG AF3 quest - Unbridled Passion
 -- !pos -295.065 -25.054 151.250 112
 -----------------------------------
-package.loaded["scripts/zones/Xarcabard/TextIDs"] = nil;
+local ID = require("scripts/zones/Xarcabard/IDs")
 -----------------------------------
 
-require("scripts/globals/settings");
-require("scripts/globals/quests");
-require("scripts/zones/Xarcabard/TextIDs");
+function onTrade(player, npc, trade)
+end
 
------------------------------------
--- onTrade Action
------------------------------------
-
-function onTrade(player,npc,trade)
-end;
-
------------------------------------
--- onTrigger Action
------------------------------------
-local koenigsTiger = 17236205;
-
-function onTrigger(player,npc)
-
-    local UnbridledPassionCS = player:getVar("unbridledPassion");
-    local tigerAction = GetMobAction(koenigsTiger);
-
-    if (UnbridledPassionCS == 4 and tigerAction == 0) then -- prevent repeated playback while the tiger is already up and fighting
-        player:startEvent(0x0008);
+function onTrigger(player, npc)
+    if player:getVar("unbridledPassion") == 4 and not GetMobByID(ID.mob.KOENIGSTIGER):isSpawned() then
+        player:startEvent(8)
     end
+end
 
-end;
+function onEventUpdate(player, csid, option)
+end
 
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
-
-function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-
-    if (csid == 0x0008) then
-        SpawnMob(koenigsTiger):updateClaim(player);
+function onEventFinish(player, csid, option)
+    if csid == 8 then
+        SpawnMob(ID.mob.KOENIGSTIGER):updateClaim(player)
     end
-
-end;
+end

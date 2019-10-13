@@ -4,18 +4,10 @@
 -- Teaches the summoning magic Thunder Spirit
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(292);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(292)
+end
 
 function onItemUse(target)
-    target:addSpell(292);
-end;
+    target:addSpell(292)
+end

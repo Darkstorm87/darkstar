@@ -4,18 +4,10 @@
 -- Teaches the black magic Absorb-ACC
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(242);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(242)
+end
 
 function onItemUse(target)
-    target:addSpell(242);
-end;
+    target:addSpell(242)
+end

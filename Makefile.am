@@ -41,19 +41,23 @@ if DARKSTAR_ARCH_WIN32
 CPPFLAGS_ALL            += -DFD_SETSIZE=4096 -DCYGWIN
 endif
 
+if DARKSTAR_ARCH_OSX
+LDFLAGS_ALL             += -pagezero_size 10000 -image_base 100000000
+endif
+
 ## Targets
 bin_PROGRAMS          = dsgame dsconnect dssearch
 
 dsgame_SOURCES        = $(SRC_ALL) $(SRC_MAP)
 dsgame_CXXFLAGS       = $(CFLAGS_ALL) $(CXXFLAGS_ALL)
-dsgame_CPPFLAGS       = $(CPPFLAGS_ALL) -DdsUDPSERV
+dsgame_CPPFLAGS       = $(CPPFLAGS_ALL)
 dsgame_CFLAGS         = $(CFLAGS_ALL)
 dsgame_LDFLAGS        = $(LDFLAGS_ALL)
 dsgame_LDADD          = $(LIBS_ALL)
 
 dsconnect_SOURCES     = $(SRC_ALL) $(SRC_LOGIN)
 dsconnect_CXXFLAGS    = $(CFLAGS_ALL) $(CXXFLAGS_ALL)
-dsconnect_CPPFLAGS    = $(CPPFLAGS_ALL) -DdsTCPSERV
+dsconnect_CPPFLAGS    = $(CPPFLAGS_ALL)
 dsconnect_CFLAGS      = $(CFLAGS_ALL)
 dsconnect_LDFLAGS     = $(LDFLAGS_ALL)
 dsconnect_LDADD       = $(LIBS_ALL)

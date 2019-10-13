@@ -4,18 +4,10 @@
 -- Teaches the white magic Banishga
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(38);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(38)
+end
 
 function onItemUse(target)
-    target:addSpell(38);
-end;
+    target:addSpell(38)
+end

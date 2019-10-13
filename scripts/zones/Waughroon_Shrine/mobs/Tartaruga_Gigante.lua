@@ -1,18 +1,6 @@
 -----------------------------------
 -- Area: Waughroon Shrine
---  MOB: Tartaruga Gigante
------------------------------------
-
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath Action
+--  Mob: Tartaruga Gigante
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)

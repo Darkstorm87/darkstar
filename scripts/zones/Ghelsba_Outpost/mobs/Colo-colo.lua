@@ -1,30 +1,14 @@
 -----------------------------------
--- Area: Ghelsba outpost
---  MOB: Colo-colo
--- BCNM20
+-- Area: Ghelsba Outpost
+--  Mob: Colo-colo
+-- BCNM: Wings of Fury
+-----------------------------------
+require("scripts/globals/status")
 -----------------------------------
 
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
-
------------------------------------
--- onMobEngaged
------------------------------------
-
-function onMobEngaged(mob,target)
-    GetMobByID(17350930):updateEnmity(target);
-    GetMobByID(17350931):updateEnmity(target);
-end;
-
-
------------------------------------
--- onMobDeath Action
------------------------------------
+function onMobSpawn (mob)
+    mob:setMobMod(dsp.mobMod.SUPERLINK, mob:getShortID())
+end
 
 function onMobDeath(mob, player, isKiller)
-end;
+end

@@ -1,1 +1,0 @@
-git rev-parse HEAD > GIT_VER

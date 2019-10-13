@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Fei'Yin
---  MOB: Wekufe
+--  Mob: Wekufe
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,717,2);
+    dsp.regime.checkRegime(player, mob, 717, 2, dsp.regime.type.GROUNDS)
 end;
