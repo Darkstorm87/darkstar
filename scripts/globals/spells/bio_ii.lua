@@ -58,8 +58,8 @@ function onSpellCast(caster,target,spell)
     --if DIA_OVERWRITE == 1 and dia ~= nil then
     --    if dia:getPower() <= 2 then
     --        target:delStatusEffect(dsp.effect.DIA)
+    --    end
     --end
-    end
 
     return final
 end
