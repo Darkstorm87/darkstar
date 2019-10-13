@@ -1,19 +1,9 @@
 -----------------------------------
 -- Area: Chamber of Oracles
---  MOB: Triarius V-VIII
+--  Mob: Triarius V-VIII
 -- Zilart 6 Fight
 -----------------------------------
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath Action
------------------------------------
+mixins = {require("scripts/mixins/job_special")};
 
 function onMobDeath(mob, player, isKiller)
 end;

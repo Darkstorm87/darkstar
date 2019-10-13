@@ -4,18 +4,10 @@
 -- Teaches the white magic Teleport-Holla
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(122);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(122)
+end
 
 function onItemUse(target)
-    target:addSpell(122);
-end;
+    target:addSpell(122)
+end

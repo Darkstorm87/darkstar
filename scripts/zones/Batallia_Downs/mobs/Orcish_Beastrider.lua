@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Batallia Downs
---  MOB: Orcish Beastrider
+--  Mob: Orcish Beastrider
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,74,3);
+    dsp.regime.checkRegime(player, mob, 74, 3, dsp.regime.type.FIELDS)
 end;

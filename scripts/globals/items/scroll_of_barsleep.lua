@@ -4,18 +4,10 @@
 -- Teaches the white magic Barsleep
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(72);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(72)
+end
 
 function onItemUse(target)
-    target:addSpell(72);
-end;
+    target:addSpell(72)
+end

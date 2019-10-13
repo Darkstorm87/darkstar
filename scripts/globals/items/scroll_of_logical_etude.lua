@@ -4,18 +4,10 @@
 -- Teaches the song Logical Etude
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(436);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(436)
+end
 
 function onItemUse(target)
-    target:addSpell(436);
-end;
+    target:addSpell(436)
+end

@@ -4,18 +4,10 @@
 -- Teaches the magic Addle
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(286);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(286)
+end
 
 function onItemUse(target)
-    target:addSpell(286);
-end;
+    target:addSpell(286)
+end

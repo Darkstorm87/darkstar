@@ -4,18 +4,10 @@
 -- Teaches the white magic Barblind
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(75);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(75)
+end
 
 function onItemUse(target)
-    target:addSpell(75);
-end;
+    target:addSpell(75)
+end

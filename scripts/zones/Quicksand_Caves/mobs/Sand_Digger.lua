@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Quicksand Caves
---  MOB: Sand Digger
+--  Mob: Sand Digger
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,814,1);
+    dsp.regime.checkRegime(player, mob, 814, 1, dsp.regime.type.GROUNDS)
 end;

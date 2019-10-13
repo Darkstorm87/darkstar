@@ -1,21 +1,10 @@
 -----------------------------------
--- Area:
+-- Area: Sauromugue Champaign [S]
 --  VNM: Yilbegan
 -----------------------------------
-
-require("scripts/globals/titles");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/titles")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    player:addTitle(YILBEGAN_HIDEFLAYER);
-end;
+    player:addTitle(dsp.title.YILBEGAN_HIDEFLAYER)
+end

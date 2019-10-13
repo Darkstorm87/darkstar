@@ -4,18 +4,10 @@
 -- Teaches the song Vital Etude
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(433);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(433)
+end
 
 function onItemUse(target)
-    target:addSpell(433);
-end;
+    target:addSpell(433)
+end

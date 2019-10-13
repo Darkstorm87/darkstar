@@ -4,18 +4,10 @@
 -- Teaches the white magic Poisona
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(14);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(14)
+end
 
 function onItemUse(target)
-    target:addSpell(14);
-end;
+    target:addSpell(14)
+end

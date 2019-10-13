@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Kakka: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(509);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(509)
+end
 
 function onItemUse(target)
-    target:addSpell(509);
-end;
+    target:addSpell(509)
+end

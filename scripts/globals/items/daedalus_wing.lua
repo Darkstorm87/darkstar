@@ -4,18 +4,10 @@
 -- Increases TP of the user by 100
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return 0;
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return 0
+end
 
 function onItemUse(target)
-    target:addTP(1000);
-end;
+    target:addTP(1000)
+end

@@ -1,29 +1,14 @@
 -----------------------------------
--- Area: Ghelsba outpost
---  MOB: Kalamainu
--- BCNM30
+-- Area: Ghelsba Outpost
+--  Mob: Kalamainu
+-- BCNM: Petrifying Pair
+-----------------------------------
+require("scripts/globals/status")
 -----------------------------------
 
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
-
------------------------------------
--- onMobEngaged
------------------------------------
-
-function onMobEngaged(mob,target)
-    GetMobByID(17350934):updateEnmity(target);
-end;
-
-
------------------------------------
--- onMobDeath Action
------------------------------------
+function onMobSpawn (mob)
+    mob:setMobMod(dsp.mobMod.SUPERLINK, mob:getShortID())
+end
 
 function onMobDeath(mob, player, isKiller)
-end;
+end

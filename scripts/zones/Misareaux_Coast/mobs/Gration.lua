@@ -1,47 +1,15 @@
 -----------------------------------
 -- Area: Misareaux Coast
---  MOB: Gration
+--   NM: Gration
 -----------------------------------
-
-require("scripts/globals/status");
-
------------------------------------
--- OnMobInitialize Action
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobSpawn Action
+mixins = {require("scripts/mixins/fomor_hate")}
+require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:addStatusEffect(EFFECT_KILLER_INSTINCT,40,0,0);
-end;
-
------------------------------------
--- onMobFight Action
------------------------------------
-
-function onMobFight(mob,target)
-end;
-
------------------------------------
--- onMobDeath
------------------------------------
+    mob:addStatusEffect(dsp.effect.KILLER_INSTINCT, 40, 0, 0)
+    mob:setLocalVar("fomorHateAdj", -2)
+end
 
 function onMobDeath(mob, player, isKiller)
-    local kills = player:getVar("FOMOR_HATE");
-    if (kills > 1) then
-        player:setVar("FOMOR_HATE",kills -2);
-    end
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
-    GetNPCByID(16879918):updateNPCHideTime(FORCE_SPAWN_QM_RESET_TIME);
-end;
+end

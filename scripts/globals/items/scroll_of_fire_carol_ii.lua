@@ -4,18 +4,10 @@
 -- Teaches the song Fire Carol II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(446);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(446)
+end
 
 function onItemUse(target)
-    target:addSpell(446);
-end;
+    target:addSpell(446)
+end

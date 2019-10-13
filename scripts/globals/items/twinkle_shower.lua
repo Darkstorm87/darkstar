@@ -4,17 +4,9 @@
 -- Sparkle effects surround the user
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return 0;
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return 0
+end
 
 function onItemUse(target)
-end;
+end

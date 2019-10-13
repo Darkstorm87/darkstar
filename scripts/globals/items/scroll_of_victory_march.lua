@@ -4,18 +4,10 @@
 -- Teaches the song Victory March
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(420);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(420)
+end
 
 function onItemUse(target)
-    target:addSpell(420);
-end;
+    target:addSpell(420)
+end

@@ -1,69 +1,35 @@
 -----------------------------------
 -- Area: Yuhtunga Jungle
--- MOB:  Rose Garden
+--  Mob: Rose Garden
 -----------------------------------
-
-
------------------------------------
--- onMobSpawn
------------------------------------
+local ID = require("scripts/zones/Yuhtunga_Jungle/IDs")
 
 function onMobSpawn(mob)
+    mob:setLocalVar("timeToGrow", os.time() + math.random(36000,37800)) -- 10:00:00 to 10:30:00
+end
 
-    local Voluptuous_Vilma = 17281358;
-    GetMobByID(Voluptuous_Vilma):setLocalVar("1",os.time() + math.random((36000), (37800)));
-
-end;
-
------------------------------------
--- onMobRoam
------------------------------------
+function onMobDisengage(mob)
+    mob:setLocalVar("timeToGrow", os.time() + math.random(36000,37800)) -- 10:00:00 to 10:30:00
+end
 
 function onMobRoam(mob)
-
-    local Voluptuous_Vilma = 17281358;
-    local Voluptuous_Vilma_PH = 0;
-    local Voluptuous_Vilma_PH_Table =
-    {
-        17281357
-    };
-    local Voluptuous_Vilma_ToD = GetMobByID(Voluptuous_Vilma):getLocalVar("1");
-
-    if (Voluptuous_Vilma_ToD <= os.time()) then
-        Voluptuous_Vilma_PH = math.random((0), (#Voluptuous_Vilma_PH_Table));
-        if (Voluptuous_Vilma_PH_Table[Voluptuous_Vilma_PH] ~= nil) then
-            if (GetMobAction(Voluptuous_Vilma) == 0) then
-                SetServerVariable("Voluptuous_Vilma_PH", Voluptuous_Vilma_PH_Table[Voluptuous_Vilma_PH]);
-                DisallowRespawn(Voluptuous_Vilma_PH_Table[Voluptuous_Vilma_PH], true);
-                DisallowRespawn(Voluptuous_Vilma, false);
-                DespawnMob(Voluptuous_Vilma_PH_Table[Voluptuous_Vilma_PH]);
-                SpawnMob(Voluptuous_Vilma, "", 0);
-            end
-        end
+    -- Rose Garden has been left alone for 10.25 hours
+    if os.time() >= mob:getLocalVar("timeToGrow") then
+        DisallowRespawn(ID.mob.ROSE_GARDEN, true)
+        DespawnMob(ID.mob.ROSE_GARDEN)
+        DisallowRespawn(ID.mob.VOLUPTUOUS_VILMA, false)
+        pos = mob:getPos()
+        SpawnMob(ID.mob.VOLUPTUOUS_VILMA):setPos(pos.x, pos.y, pos.z, pos.rot)
     end
-
-end;
-
------------------------------------
--- onMobDeath
------------------------------------
+end
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+end
 
 function onMobDespawn(mob)
-
-    local Rose_Garden = 17281357;
-    local Rose_Garden_PH = GetServerVariable("Rose_Garden_PH");
-
-    GetMobByID(Rose_Garden):setLocalVar("1",os.time() + math.random(36000,37800));
-    SetServerVariable("Rose_Garden_PH", 0);
-    DisallowRespawn(Rose_Garden, true);
-    DisallowRespawn(Rose_Garden_PH, false);
-    SpawnMob(Rose_Garden_PH, "", GetMobRespawnTime(Rose_Garden_PH));
-
-end;
+    if os.time() < mob:getLocalVar("timeToGrow") then
+        DisallowRespawn(ID.mob.ROSE_GARDEN, true)
+        DisallowRespawn(ID.mob.ROSE_GARDEN_PH, false)
+        GetMobByID(ID.mob.ROSE_GARDEN_PH):setRespawnTime(GetMobRespawnTime(ID.mob.ROSE_GARDEN_PH))
+    end
+end

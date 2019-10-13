@@ -4,18 +4,10 @@
 -- Teaches the black magic Hydrohelix
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(279);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(279)
+end
 
 function onItemUse(target)
-    target:addSpell(279);
-end;
+    target:addSpell(279)
+end

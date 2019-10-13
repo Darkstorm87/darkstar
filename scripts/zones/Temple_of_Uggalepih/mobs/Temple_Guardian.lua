@@ -1,19 +1,10 @@
 -----------------------------------
 -- Area: Temple of Uggalepih
---  MOB: Temple Guardian
+--  Mob: Temple Guardian
 -----------------------------------
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Temple_of_Uggalepih/IDs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    GetNPCByID(17428978):openDoor(300); -- 5min
-end;
+    GetNPCByID(ID.npc.TEMPLE_GUARDIAN_DOOR):openDoor(300) -- 5min
+end

@@ -4,18 +4,10 @@
 -- Teaches the black magic Firaga III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(176);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(176)
+end
 
 function onItemUse(target)
-    target:addSpell(176);
-end;
+    target:addSpell(176)
+end

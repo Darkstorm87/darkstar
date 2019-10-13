@@ -1,16 +1,14 @@
 -----------------------------------
 -- Area: Upper Jeuno
--- NPC:  Ajithaam
+--  NPC: Ajithaam
 -- !pos -82 0.1 160 244
------------------------------------
-package.loaded["scripts/zones/Upper_Jeuno/TextIDs"] = nil;
 -----------------------------------
 require("scripts/globals/settings");
 require("scripts/globals/quests");
 require("scripts/globals/missions");
 require("scripts/globals/teleports");
 require("scripts/globals/keyitems");
-require("scripts/zones/Upper_Jeuno/TextIDs");
+local ID = require("scripts/zones/Upper_Jeuno/IDs");
 
 --[[
 Bitmask Designations:
@@ -43,23 +41,15 @@ Port Jeuno (West to East)
 80000    (I-8) Sagheera (west of the Windurst Airship Agency)
 ]]--
 
------------------------------------
--- onTrade Action
------------------------------------
-
 function onTrade(player,npc,trade)
-    if (trade:getGil() == 300 and trade:getItemCount() == 1 and player:getQuestStatus(JEUNO,LURE_OF_THE_WILDCAT_JEUNO) == QUEST_COMPLETED and player:getCurrentMission(TOAU) > IMMORTAL_SENTRIES) then
+    if (trade:getGil() == 300 and trade:getItemCount() == 1 and player:getQuestStatus(JEUNO,dsp.quest.id.jeuno.LURE_OF_THE_WILDCAT) == QUEST_COMPLETED and player:getCurrentMission(TOAU) > dsp.mission.id.toau.IMMORTAL_SENTRIES) then
         -- Needs a check for at least traded an invitation card to Naja Salaheem
         player:startEvent(10177);
     end
 end;
 
------------------------------------
--- onTrigger Action
------------------------------------
-
 function onTrigger(player,npc)
-    local LureJeuno = player:getQuestStatus(JEUNO,LURE_OF_THE_WILDCAT_JEUNO);
+    local LureJeuno = player:getQuestStatus(JEUNO,dsp.quest.id.jeuno.LURE_OF_THE_WILDCAT);
     local WildcatJeuno = player:getVar("WildcatJeuno");
     if (LureJeuno ~= 2 and ENABLE_TOAU == 1) then
         if (LureJeuno == 0) then
@@ -73,44 +63,32 @@ function onTrigger(player,npc)
                 player:startEvent(10090);
             end
         end
-    elseif (player:getCurrentMission(TOAU) >= 2) then
+    elseif (player:getCurrentMission(TOAU) >= dsp.mission.id.toau.PRESIDENT_SALAHEEM) then
         player:startEvent(10176);
     else
         player:startEvent(10092);
     end
 end;
 
------------------------------------
--- onEventUpdate
------------------------------------
-
 function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;
 
------------------------------------
--- onEventFinish
------------------------------------
-
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
     if (csid == 10088) then
-        player:addQuest(JEUNO,LURE_OF_THE_WILDCAT_JEUNO);
+        player:addQuest(JEUNO,dsp.quest.id.jeuno.LURE_OF_THE_WILDCAT);
         player:setVar("WildcatJeuno",0);
-        player:addKeyItem(WHITE_SENTINEL_BADGE);
-        player:messageSpecial(KEYITEM_OBTAINED,WHITE_SENTINEL_BADGE);
+        player:addKeyItem(dsp.ki.WHITE_SENTINEL_BADGE);
+        player:messageSpecial(ID.text.KEYITEM_OBTAINED,dsp.ki.WHITE_SENTINEL_BADGE);
     elseif (csid == 10091) then
-        player:completeQuest(JEUNO,LURE_OF_THE_WILDCAT_JEUNO);
+        player:completeQuest(JEUNO,dsp.quest.id.jeuno.LURE_OF_THE_WILDCAT);
         player:addFame(JEUNO, 150);
         player:setVar("WildcatJeuno",0);
-        player:delKeyItem(WHITE_SENTINEL_BADGE);
-        player:addKeyItem(WHITE_INVITATION_CARD);
-        player:messageSpecial(KEYITEM_LOST,WHITE_SENTINEL_BADGE);
-        player:messageSpecial(KEYITEM_OBTAINED,WHITE_INVITATION_CARD);
+        player:delKeyItem(dsp.ki.WHITE_SENTINEL_BADGE);
+        player:addKeyItem(dsp.ki.WHITE_INVITATION_CARD);
+        player:messageSpecial(ID.text.KEYITEM_LOST,dsp.ki.WHITE_SENTINEL_BADGE);
+        player:messageSpecial(ID.text.KEYITEM_OBTAINED,dsp.ki.WHITE_INVITATION_CARD);
     elseif (csid == 10177) then
         player:tradeComplete();
-        toAhtUrhganWhitegate(player);
+        dsp.teleport.to(player, dsp.teleport.id.WHITEGATE);
     end
 end;

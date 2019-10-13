@@ -4,18 +4,10 @@
 -- Teaches the summoning magic ice Spirit
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(289);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(289)
+end
 
 function onItemUse(target)
-    target:addSpell(289);
-end;
+    target:addSpell(289)
+end

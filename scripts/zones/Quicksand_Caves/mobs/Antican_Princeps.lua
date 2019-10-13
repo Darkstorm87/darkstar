@@ -1,43 +1,25 @@
 -----------------------------------
 -- Area: Quicksand Caves
---  MOB: Antican Princeps
+--  Mob: Antican Princeps
+-- Note: PH for Sagittarius X-XIII and Antican Praefectus
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-require("scripts/zones/Quicksand_Caves/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Quicksand_Caves/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,812,2);
-    checkGoVregime(player,mob,813,2);
-    checkGoVregime(player,mob,814,2);
-    checkGoVregime(player,mob,815,1);
-    checkGoVregime(player,mob,816,2);
-    checkGoVregime(player,mob,817,2);
-    checkGoVregime(player,mob,818,2);
-    checkGoVregime(player,mob,819,2);
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+    dsp.regime.checkRegime(player, mob, 812, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 813, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 814, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 815, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 816, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 817, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 818, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 819, 2, dsp.regime.type.GROUNDS)
+end
 
 function onMobDespawn(mob)
-    -- if this mob is a PH for NM and we're past the NM's cooldown
-    -- then give a 10% chance to spawn NM in place of PH.
-    local mobID = mob:getID();
-    if (Sagittarius_X_XIII_PH[mobID] ~= nil) then
-        local windowOpen = GetServerVariable("[POP]Sagittarius_X_XIII");
-        if (windowOpen <= os.time() and GetMobAction(Sagittarius_X_XIII) == 0) then
-            if (math.random(1,10) == 1) then
-                UpdateNMSpawnPoint(Sagittarius_X_XIII);
-                GetMobByID(Sagittarius_X_XIII):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Sagittarius_X_XIII", mobID);
-                DisallowRespawn(mobID, true);
-            end
-        end
-    end
-end;
+    dsp.mob.phOnDespawn(mob,ID.mob.SAGITTARIUS_X_XIII_PH,10,14400) -- 4 hours
+    dsp.mob.phOnDespawn(mob,ID.mob.ANTICAN_PRAEFECTUS_PH,10,3600) -- 1 hour
+end

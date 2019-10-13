@@ -1,21 +1,10 @@
 -----------------------------------
 -- Area: King Ranperres Tomb
---  MOB: Mouse Bat
+--  Mob: Mouse Bat
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobInitialize
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,631,1);
-end;
+    dsp.regime.checkRegime(player, mob, 631, 1, dsp.regime.type.GROUNDS)
+end

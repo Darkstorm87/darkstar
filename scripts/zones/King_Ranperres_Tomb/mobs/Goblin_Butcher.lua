@@ -1,22 +1,11 @@
 -----------------------------------
 -- Area: King Ranperres Tomb
---  MOB: Goblin Butcher
+--  Mob: Goblin Butcher
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobInitialize
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,631,2);
-    checkGoVregime(player,mob,633,3);
-end;
+    dsp.regime.checkRegime(player, mob, 631, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 633, 3, dsp.regime.type.GROUNDS)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Aquaveil
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(55);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(55)
+end
 
 function onItemUse(target)
-    target:addSpell(55);
-end;
+    target:addSpell(55)
+end

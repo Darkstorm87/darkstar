@@ -4,18 +4,10 @@
 -- Teaches the black magic Water III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(171);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(171)
+end
 
 function onItemUse(target)
-    target:addSpell(171);
-end;
+    target:addSpell(171)
+end

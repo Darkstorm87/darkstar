@@ -4,18 +4,10 @@
 -- Teaches the white magic Boost-VIT
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(481);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(481)
+end
 
 function onItemUse(target)
-    target:addSpell(481);
-end;
+    target:addSpell(481)
+end

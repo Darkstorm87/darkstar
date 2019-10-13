@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Myoshu: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(507);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(507)
+end
 
 function onItemUse(target)
-    target:addSpell(507);
-end;
+    target:addSpell(507)
+end

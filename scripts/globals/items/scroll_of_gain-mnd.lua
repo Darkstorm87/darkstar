@@ -4,18 +4,10 @@
 -- Teaches the white magic Gain-MND
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(491);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(491)
+end
 
 function onItemUse(target)
-    target:addSpell(491);
-end;
+    target:addSpell(491)
+end

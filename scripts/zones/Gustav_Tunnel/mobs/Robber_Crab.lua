@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Gustav Tunnel
---  MOB: Robber Crab
+--  Mob: Robber Crab
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,765,1);
+    dsp.regime.checkRegime(player, mob, 765, 1, dsp.regime.type.GROUNDS)
 end;

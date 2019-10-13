@@ -4,18 +4,10 @@
 -- Teaches the white magic Barsleepra
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(86);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(86)
+end
 
 function onItemUse(target)
-    target:addSpell(86);
-end;
+    target:addSpell(86)
+end

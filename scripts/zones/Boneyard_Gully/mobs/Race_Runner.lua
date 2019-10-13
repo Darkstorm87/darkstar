@@ -1,13 +1,15 @@
 -----------------------------------
--- Area: Boneyard_Gully
--- Name: Race Runner
+-- Area: Boneyard Gully
+--  Mob: Race Runner
+--  ENM: Like the Wind
+-----------------------------------
+require("scripts/globals/pathfind")
+require("scripts/globals/status")
+require("scripts/globals/titles")
 -----------------------------------
 
-require("scripts/globals/titles");
-require("scripts/globals/status");
-require("scripts/globals/pathfind");
-
-local path = {
+local path =
+{
     -539, 0, -481,
     -556, 0, -478,
     -581, 0, -475,
@@ -15,61 +17,21 @@ local path = {
     -572, 2, -433,
     -545, 1, -440,
     -532, 0, -466
-};
-
------------------------------------
--- onMobInitialize Action
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobSpawn Action
------------------------------------
+}
 
 function onMobSpawn(mob)
-    onMobRoam(mob);
-end;
-
------------------------------------
--- onMobRoamAction Action
------------------------------------
+    onMobRoam(mob)
+end
 
 function onMobRoamAction(mob)
-
-    pathfind.patrol(mob, path, PATHFLAG_REVERSE);
-
-end;
-
------------------------------------
--- onMobRoam Action
------------------------------------
+    dsp.path.patrol(mob, path, dsp.path.flag.REVERSE)
+end
 
 function onMobRoam(mob)
-    -- move to start position if not moving
-    if (mob:isFollowingPath() == false) then
-        mob:pathThrough(pathfind.first(path));
+    if not mob:isFollowingPath() then
+        mob:pathThrough(dsp.path.first(path))
     end
-end;
-
------------------------------------
--- onMobEngaged Action
------------------------------------
-
-function onMobEngaged(mob,target)
-end;
-
------------------------------------
--- onMobFight Action
------------------------------------
-
-function onMobFight(mob,target)
-end;
-
------------------------------------
--- onMobDeath
------------------------------------
+end
 
 function onMobDeath(mob, player, isKiller)
-end;
+end

@@ -4,18 +4,10 @@
 -- Teaches the black magic Blizzard
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(149);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(149)
+end
 
 function onItemUse(target)
-    target:addSpell(149);
-end;
+    target:addSpell(149)
+end

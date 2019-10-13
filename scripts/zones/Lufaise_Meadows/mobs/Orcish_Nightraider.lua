@@ -1,24 +1,13 @@
 -----------------------------------
--- mob : Orcish Nightraider
--- zone : Lufaise_Meadows
+-- Area: Lufaise Meadows
+--  Mob: Orcish Nightraider
 -----------------------------------
-
-
------------------------------------
--- onMobSpawn Action
+mixins = {require("scripts/mixins/fomor_hate")}
 -----------------------------------
 
 function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
------------------------------------
+    mob:setLocalVar("fomorHateAdj", -1)
+end
 
 function onMobDeath(mob, player, isKiller)
-    local kills = player:getVar("FOMOR_HATE");
-
-    if (kills > 0) then
-        player:setVar("FOMOR_HATE",kills -1);
-    end
-end;
+end

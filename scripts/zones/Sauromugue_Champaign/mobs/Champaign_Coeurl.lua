@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Sauromugue Champaign
---  MOB: Champaign Coeurl
+--  Mob: Champaign Coeurl
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,98,1);
-end;
+    dsp.regime.checkRegime(player, mob, 98, 1, dsp.regime.type.FIELDS)
+end

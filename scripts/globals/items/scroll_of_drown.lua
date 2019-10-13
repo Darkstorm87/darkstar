@@ -4,18 +4,10 @@
 -- Teaches the black magic Drown
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(240);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(240)
+end
 
 function onItemUse(target)
-    target:addSpell(240);
-end;
+    target:addSpell(240)
+end

@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Eastern Altepa Desert
---  MOB: Goblin Robber
+--  Mob: Goblin Robber
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,113,2);
+    dsp.regime.checkRegime(player, mob, 113, 2, dsp.regime.type.FIELDS)
 end;

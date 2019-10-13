@@ -31,7 +31,7 @@
 
 class CBattleEntity;
 
-class CStateInitException : std::exception
+class CStateInitException : public std::exception
 {
 public:
     explicit CStateInitException(std::unique_ptr<CBasicPacket> _msg) : std::exception(),
@@ -80,7 +80,7 @@ protected:
     std::unique_ptr<CBasicPacket> m_errorMsg;
 
     CBaseEntity* const m_PEntity;
-    uint16 m_targid;
+    uint16 m_targid {0};
 private:
     CBaseEntity* m_PTarget {nullptr};
     bool m_completed {false};

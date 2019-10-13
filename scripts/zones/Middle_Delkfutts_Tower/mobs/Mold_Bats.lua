@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Middle Delkfutt's Tower
---  MOB: Mold Bats
+--  Mob: Mold Bats
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,782,2);
-    checkGoVregime(player,mob,783,2);
-end;
+    dsp.regime.checkRegime(player, mob, 782, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 783, 2, dsp.regime.type.GROUNDS)
+end

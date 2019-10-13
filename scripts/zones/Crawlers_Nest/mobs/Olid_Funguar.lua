@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Crawlers' Nest
---  MOB: Olid Funguar
+--  Mob: Olid Funguar
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,694,2);
+    dsp.regime.checkRegime(player, mob, 694, 2, dsp.regime.type.GROUNDS)
 end;

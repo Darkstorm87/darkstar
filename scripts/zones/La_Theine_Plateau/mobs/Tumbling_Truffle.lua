@@ -1,23 +1,9 @@
 -----------------------------------
 -- Area: La Theine Plateau
---  MOB: Tumbling Truffle
+--  Mob: Tumbling Truffle
 -----------------------------------
-
-require("scripts/zones/La_Theine_Plateau/MobIDs");
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
------------------------------------
+require("scripts/globals/regimes")
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,71,2);
+    dsp.regime.checkRegime(player, mob, 71, 2, dsp.regime.type.FIELDS)
 end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
-end;
-

@@ -4,18 +4,10 @@
 -- Teaches the job ability Corsair's Roll
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnAbility(98);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnAbility(98)
+end
 
 function onItemUse(target)
-    target:addLearnedAbility(98);
-end;
+    target:addLearnedAbility(98)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Auspice
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(96);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(96)
+end
 
 function onItemUse(target)
-    target:addSpell(96);
-end;
+    target:addSpell(96)
+end

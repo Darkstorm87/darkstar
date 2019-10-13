@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: North Gustaberg
---  MOB: Rock Lizard
+--  Mob: Rock Lizard
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,19,2);
-end;
+    dsp.regime.checkRegime(player, mob, 19, 2, dsp.regime.type.FIELDS)
+end

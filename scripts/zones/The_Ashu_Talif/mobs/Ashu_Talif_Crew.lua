@@ -1,20 +1,9 @@
 -----------------------------------
 -- Area: The Ashu Talif (The Black Coffin)
---  MOB: Ashu Talif Crew
+--  Mob: Ashu Talif Crew
 -----------------------------------
-
 require("scripts/globals/status");
-local TheAshuTalif = require("scripts/zones/The_Ashu_Talif/IDs");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobEngaged Action
+local ID = require("scripts/zones/The_Ashu_Talif/IDs")
 -----------------------------------
 
 function onMobEngaged(mob,target)
@@ -33,18 +22,10 @@ function onMobEngaged(mob,target)
     end
 end;
 
------------------------------------
--- onMobDeath
------------------------------------
-
 function onMobDeath(mob, player, isKiller)
-    local instance = mob:getInstance();
-    instance:setProgress(instance:getProgress() + 1);
 end;
 
------------------------------------
--- onMobDespawn
------------------------------------
-
 function onMobDespawn(mob)
+    local instance = mob:getInstance();
+    instance:setProgress(instance:getProgress() + 1);
 end;

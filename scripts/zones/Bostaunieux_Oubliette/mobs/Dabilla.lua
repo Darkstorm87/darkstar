@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Bostaunieux Oubliette
---  MOB: Dabilla
+--  Mob: Dabilla
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,612,1);
-    checkGoVregime(player,mob,614,1);
-end;
+    dsp.regime.checkRegime(player, mob, 612, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 614, 1, dsp.regime.type.GROUNDS)
+end

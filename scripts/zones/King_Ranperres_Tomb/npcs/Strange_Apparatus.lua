@@ -1,44 +1,19 @@
 -----------------------------------
 -- Area: King_Ranperre's Tomb
--- NPC:  Strange Apparatus
+--  NPC: Strange Apparatus
 -- !pos -260 7 -142 190
 -----------------------------------
 
-package.loaded["scripts/zones/King_Ranperres_Tomb/TextIDs"] = nil;
+function onTrade(player, npc, trade)
+    player:startEvent(13, 0, 0, 1474, 0, 0, 0, 0, player:getZoneID())
+end
 
-require("scripts/zones/King_Ranperres_Tomb/TextIDs");
-require("scripts/globals/strangeapparatus");
+function onTrigger(player, npc)
+    player:startEvent(11, 0, 0, 1474, 0, 0, 0, 0, player:getZoneID())
+end
 
------------------------------------
--- onTrade Action
------------------------------------
+function onEventUpdate(player, csid, option)
+end
 
-function onTrade(player,npc,trade)
-    player:startEvent(0x000D, 0, 0, INFINITY_CORE, 0, 0, 0, 0, player:getZoneID());
-end;
-
------------------------------------
--- onTrigger Action
------------------------------------
-
-function onTrigger(player,npc)
-    player:startEvent(0x000B, 0, 0, INFINITY_CORE, 0, 0, 0, 0, player:getZoneID());
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
-
-function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
+function onEventFinish(player, csid, option)
+end

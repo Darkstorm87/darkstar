@@ -1,14 +1,10 @@
 -----------------------------------
--- Area: Outer Horutoto
---  MOB: Seven of Batons
+-- Area: Outer Horutoto Ruins
+--  Mob: Seven of Batons
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,666,2);
-end;
+    dsp.regime.checkRegime(player, mob, 666, 2, dsp.regime.type.GROUNDS)
+end

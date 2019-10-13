@@ -30,6 +30,8 @@
 #include "../common/utils.h"
 #include "../common/dsprand.h"
 
+const int8 CNavMesh::ERROR_NEARESTPOLY;
+
 void CNavMesh::ToFFXIPos(const position_t* pos, float* out) {
     float y = pos->y;
     float z = pos->z;
@@ -252,7 +254,6 @@ std::vector<position_t> CNavMesh::findPath(const position_t& start, const positi
     float straightPath[MAX_NAV_POLYS * 3];
     unsigned char straightPathFlags[MAX_NAV_POLYS];
     dtPolyRef straightPathPolys[MAX_NAV_POLYS];
-    int nstraightPath = 0;
 
     // not sure what this is for?
     int32 pathCount = 0;
@@ -289,7 +290,7 @@ std::vector<position_t> CNavMesh::findPath(const position_t& start, const positi
 
             CNavMesh::ToFFXIPos(pathPos);
 
-            ret.push_back({0, pathPos[0], pathPos[1], pathPos[2], 0});
+            ret.push_back({pathPos[0], pathPos[1], pathPos[2], 0, 0});
         }
     }
 
@@ -344,7 +345,7 @@ std::pair<int16, position_t> CNavMesh::findRandomPosition(const position_t& star
 
     CNavMesh::ToFFXIPos(randomPt);
 
-    return std::make_pair(0, position_t{0, randomPt[0], randomPt[1], randomPt[2], 0});
+    return std::make_pair(0, position_t{randomPt[0], randomPt[1], randomPt[2], 0, 0});
 }
 
 bool CNavMesh::inWater(const position_t& point)

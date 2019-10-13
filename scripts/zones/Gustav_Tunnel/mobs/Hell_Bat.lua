@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Gustav Tunnel
---  MOB: Hell Bat
+--  Mob: Hell Bat
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,763,3);
+    dsp.regime.checkRegime(player, mob, 763, 3, dsp.regime.type.GROUNDS)
 end;

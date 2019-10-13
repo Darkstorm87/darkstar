@@ -4,18 +4,10 @@
 -- Teaches the white magic Thunderstorm
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(117);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(117)
+end
 
 function onItemUse(target)
-    target:addSpell(117);
-end;
+    target:addSpell(117)
+end

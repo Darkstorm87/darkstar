@@ -4,18 +4,10 @@
 -- Teaches the song Valor Minuet IV
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(397);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(397)
+end
 
 function onItemUse(target)
-    target:addSpell(397);
-end;
+    target:addSpell(397)
+end

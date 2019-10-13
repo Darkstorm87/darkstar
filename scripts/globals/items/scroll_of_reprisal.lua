@@ -4,18 +4,10 @@
 -- Teaches the white magic Reprisal
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(97);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(97)
+end
 
 function onItemUse(target)
-    target:addSpell(97);
-end;
+    target:addSpell(97)
+end

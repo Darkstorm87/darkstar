@@ -1,17 +1,6 @@
 -----------------------------------
 -- Area: Mamook
---  MOB: Darting Kachaal Ja
------------------------------------
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+--  Mob: Darting Kachaal Ja
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)

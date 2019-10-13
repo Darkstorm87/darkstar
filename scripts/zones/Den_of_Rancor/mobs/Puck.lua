@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Den of Rancor
---  MOB: Puck
+--  Mob: Puck
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,802,2);
+    dsp.regime.checkRegime(player, mob, 802, 2, dsp.regime.type.GROUNDS)
 end;

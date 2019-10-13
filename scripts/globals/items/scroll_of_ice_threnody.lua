@@ -4,18 +4,10 @@
 -- Teaches the song Ice Threnody
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(455);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(455)
+end
 
 function onItemUse(target)
-    target:addSpell(455);
-end;
+    target:addSpell(455)
+end

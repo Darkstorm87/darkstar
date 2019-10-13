@@ -1,43 +1,19 @@
 -----------------------------------
---  Area: Eastern Adoulin
+-- Area: Eastern Adoulin
 --   NPC: Chat Manual
---  Type: Tutorial NPC
--- @zone: 257
---  !pos Unknown (needs retail capture?)
------------------------------------
-package.loaded["scripts/zones/Eastern_Adoulin/TextIDs"] = nil;
------------------------------------
-
------------------------------------
--- onTrade Action
+-- Type: Tutorial NPC
+-- !zone: 257
 -----------------------------------
 
 function onTrade(player,npc,trade)
 end;
 
------------------------------------
--- onTrigger Action
------------------------------------
-
 function onTrigger(player,npc)
-    player:startEvent(0x17da);
+    player:startEvent(6106);
 end;
-
------------------------------------
--- onEventUpdate
------------------------------------
 
 function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;
-
------------------------------------
--- onEventFinish
------------------------------------
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;
-

@@ -1,61 +1,34 @@
 -----------------------------------
--- Area: Davoi
--- NPC:  ??? (qm3)
+-- Area: Yhoator Jungle
+--  NPC: ??? (qm3)
 -- Involved in Quest: True will
 -- !pos 203 0.1 82 124
 -----------------------------------
-package.loaded["scripts/zones/Yhoator_Jungle/TextIDs"] = nil;
------------------------------------
-
-require("scripts/globals/keyitems");
-require("scripts/globals/quests");
-require("scripts/zones/Yhoator_Jungle/TextIDs");
-
------------------------------------
--- onTrade Action
+local ID = require("scripts/zones/Yhoator_Jungle/IDs")
+require("scripts/globals/keyitems")
+require("scripts/globals/npc_util")
+require("scripts/globals/quests")
 -----------------------------------
 
 function onTrade(player,npc,trade)
-end;
-
------------------------------------
--- onTrigger Action
------------------------------------
+end
 
 function onTrigger(player,npc)
-
-    if (player:getQuestStatus(OUTLANDS,TRUE_WILL) == QUEST_ACCEPTED and player:hasKeyItem(OLD_TRICK_BOX) == false) then
-        if (player:getVar("trueWillKilledNM") >= 1) then
-            if (GetMobAction(17285544) == 0 and GetMobAction(17285545) == 0 and GetMobAction(17285546) == 0) then
-                player:addKeyItem(OLD_TRICK_BOX);
-                player:messageSpecial(KEYITEM_OBTAINED,OLD_TRICK_BOX);
-                player:setVar("trueWillKilledNM",0);
-            end
+    if player:getQuestStatus(OUTLANDS,dsp.quest.id.outlands.TRUE_WILL) == QUEST_ACCEPTED and not player:hasKeyItem(dsp.ki.OLD_TRICK_BOX) then
+        if player:getVar("trueWillKilledNM") > 0 then
+            player:addKeyItem(dsp.ki.OLD_TRICK_BOX)
+            player:messageSpecial(ID.text.KEYITEM_OBTAINED,dsp.ki.OLD_TRICK_BOX)
+            player:setVar("trueWillKilledNM", 0)
         else
-            SpawnMob(17285544):updateClaim(player); -- Kappa Akuso
-            SpawnMob(17285545):updateClaim(player); -- Kappa Bonze
-            SpawnMob(17285546):updateClaim(player); -- Kappa Biwa
+            npcUtil.popFromQM(player, npc, {ID.mob.KAPPA_AKUSO, ID.mob.KAPPA_BONZE, ID.mob.KAPPA_BIWA})
         end
     else
-        player:messageSpecial(NOTHING_OUT_OF_ORDINARY);
+        player:messageSpecial(ID.text.NOTHING_OUT_OF_ORDINARY)
     end
-
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
+end
 
 function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
+end
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
+end

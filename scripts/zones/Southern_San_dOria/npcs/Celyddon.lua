@@ -1,64 +1,42 @@
 -----------------------------------
 -- Area: Southern San d'Oria
--- NPC: Celyddon
+--  NPC: Celyddon
 --  General Info NPC
--- @zone 230
--- !pos -129 -6 90
+-- !pos -129 -6 90 230
 -------------------------------------
-package.loaded["scripts/zones/Southern_San_dOria/TextIDs"] = nil;
------------------------------------
-require("scripts/zones/Southern_San_dOria/TextIDs");
+local ID = require("scripts/zones/Southern_San_dOria/IDs");
 require("scripts/globals/settings");
 require("scripts/globals/quests");
-
------------------------------------
--- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
     -- "Flyers for Regine" conditional script
-    local FlyerForRegine = player:getQuestStatus(SANDORIA,FLYERS_FOR_REGINE);
+    local FlyerForRegine = player:getQuestStatus(SANDORIA,dsp.quest.id.sandoria.FLYERS_FOR_REGINE);
 
     if (FlyerForRegine == 1) then
         local count = trade:getItemCount();
         local MagicFlyer = trade:hasItemQty(532,1);
         if (MagicFlyer == true and count == 1) then
-            player:messageSpecial(FLYER_REFUSED);
+            player:messageSpecial(ID.text.FLYER_REFUSED);
         end
     end
 end;
 
------------------------------------
--- onTrigger Action
------------------------------------
-
 function onTrigger(player,npc)
 
-    ASquiresTest = player:getQuestStatus(SANDORIA,A_SQUIRE_S_TEST)
+    ASquiresTest = player:getQuestStatus(SANDORIA,dsp.quest.id.sandoria.A_SQUIRE_S_TEST)
 
     if ASquiresTest == (QUEST_AVAILABLE) then
-        player:startEvent(0x26A); -- im looking for the examiner
+        player:startEvent(618); -- im looking for the examiner
     elseif ASquiresTest == (QUEST_ACCEPTED) then
-        player:startEvent(0x026b) -- i found the examiner but said i had to use sword
+        player:startEvent(619) -- i found the examiner but said i had to use sword
     else
-        player:startEvent(0x026c) -- says i needs a revival tree ***REMOVED***
+        player:startEvent(620) -- says i needs a revival tree ***REMOVED***
     end
 end;
 
------------------------------------
--- onEventUpdate
------------------------------------
-
 function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;
 
------------------------------------
--- onEventFinish
------------------------------------
-
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;

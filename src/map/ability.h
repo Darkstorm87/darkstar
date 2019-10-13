@@ -415,6 +415,10 @@ enum ABILITY
     ABILITY_CHOCOBO_JIG_II     = 365,
     ABILITY_RELINQUISH         = 366,
     ABILITY_APOGEE             = 369,
+    ABILITY_CONSUME_MANA       = 373,
+    ABILITY_NATURALISTS_ROLL   = 374,
+    ABILITY_RUNEISTS_ROLL      = 375,
+
     ABILITY_HEALING_RUBY       = 496,
     ABILITY_POISON_NAILS       = 497,
     ABILITY_SHINING_RUBY       = 498,
@@ -707,7 +711,7 @@ private:
     uint16      m_animationID;
     duration    m_animationTime;
     duration    m_castTime;
-    uint8       m_range;
+    float       m_range;
     uint8       m_aoe;
     uint16      m_validTarget;
     uint16      m_addType;

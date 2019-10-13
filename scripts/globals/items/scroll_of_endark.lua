@@ -4,18 +4,10 @@
 -- Teaches the white magic Endark
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(311);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(311)
+end
 
 function onItemUse(target)
-    target:addSpell(311);
-end;
+    target:addSpell(311)
+end

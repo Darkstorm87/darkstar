@@ -1,19 +1,22 @@
 -----------------------------------
 -- Area: Waughroon Shrine
---  MOB: Titanis_Jax
+--  Mob: Titanis Jax
+-- KSNM: Prehistoric Pigeons
 -----------------------------------
-
-
------------------------------------
--- onMobSpawn Action
+mixins = {require("scripts/mixins/job_special")}
+require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-end;
+    mob:setMobMod(dsp.mobMod.SUPERLINK, GetMobByID(mob:getID() - 1):getShortID())
 
------------------------------------
--- onMobDeath Action
------------------------------------
+    dsp.mix.jobSpecial.config(mob, {
+        specials =
+        {
+            {id = dsp.jsa.SOUL_VOICE, cooldown = 200, hpp = 95},
+        },
+    })
+end
 
 function onMobDeath(mob, player, isKiller)
-end;
+end

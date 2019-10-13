@@ -1,21 +1,10 @@
 -----------------------------------
 -- Area: King Ranperres Tomb
---  MOB: Stone Eater
+--  Mob: Stone Eater
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobInitialize
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,632,1);
-end;
+    dsp.regime.checkRegime(player, mob, 632, 1, dsp.regime.type.GROUNDS)
+end

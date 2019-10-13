@@ -4,18 +4,10 @@
 -- Teaches the black magic Aeroga
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(184);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(184)
+end
 
 function onItemUse(target)
-    target:addSpell(184);
-end;
+    target:addSpell(184)
+end

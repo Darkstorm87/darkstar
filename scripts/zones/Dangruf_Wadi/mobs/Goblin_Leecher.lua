@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Dangruf Wadi
---  MOB: Goblin Leecher
+--  Mob: Goblin Leecher
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,640,1);
+    dsp.regime.checkRegime(player, mob, 640, 1, dsp.regime.type.GROUNDS)
 end;

@@ -4,18 +4,10 @@
 -- Teaches the white magic Enfire
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(100);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(100)
+end
 
 function onItemUse(target)
-    target:addSpell(100);
-end;
+    target:addSpell(100)
+end

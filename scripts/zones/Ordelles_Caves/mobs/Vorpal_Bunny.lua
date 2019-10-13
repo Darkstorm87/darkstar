@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Ordelle's Caves
---  MOB: Vorpal Bunny
+--  Mob: Vorpal Bunny
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,658,2);
-end;
+    dsp.regime.checkRegime(player, mob, 658, 2, dsp.regime.type.GROUNDS)
+end

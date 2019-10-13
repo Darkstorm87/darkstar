@@ -1,27 +1,14 @@
 -----------------------------------
 -- Area: Fort Karugo-Narugo [S]
---  MOB: War Lynx
+--  Mob: War Lynx
 -- The Tigress Strikes Fight
 -----------------------------------
-
-require("scripts/globals/missions");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath Action
+local ID = require("scripts/zones/Fort_Karugo-Narugo_[S]/IDs");
+require("scripts/globals/quests");
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    if (player:getQuestStatus(CRYSTAL_WAR, THE_TIGRESS_STRIKES) == QUEST_ACCEPTED) then
-        player:needToZone(true);
+    if (mob:getID() == ID.mob.TIGRESS_STRIKES_WAR_LYNX and player:getQuestStatus(CRYSTAL_WAR, dsp.quest.id.crystalWar.THE_TIGRESS_STRIKES) == QUEST_ACCEPTED) then
         player:setVar("WarLynxKilled",1);
     end
-
 end;

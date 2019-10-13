@@ -4,18 +4,10 @@
 -- Teaches the black magic Thundaga III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(196);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(196)
+end
 
 function onItemUse(target)
-    target:addSpell(196);
-end;
+    target:addSpell(196)
+end

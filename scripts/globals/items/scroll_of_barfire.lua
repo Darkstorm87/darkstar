@@ -4,18 +4,10 @@
 -- Teaches the white magic Barfire
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(60);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(60)
+end
 
 function onItemUse(target)
-    target:addSpell(60);
-end;
+    target:addSpell(60)
+end

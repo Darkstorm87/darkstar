@@ -1,32 +1,16 @@
 -----------------------------------
 -- Area: Temple of Uggalepih
---  MOB: Tonberry Stabber
+--  Mob: Tonberry Stabber
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+mixins = {require("scripts/mixins/families/tonberry")}
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-
-    checkGoVregime(player,mob,790,1);
-    checkGoVregime(player,mob,791,1);
-    checkGoVregime(player,mob,792,1);
-    checkGoVregime(player,mob,793,1);
-    checkGoVregime(player,mob,794,1);
-    checkGoVregime(player,mob,795,1);
-
-    local kills = player:getVar("EVERYONES_GRUDGE_KILLS");
-    if (kills < 480) then
-        player:setVar("EVERYONES_GRUDGE_KILLS",kills + 1);
-    end
-end;
+    dsp.regime.checkRegime(player, mob, 790, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 791, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 792, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 793, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 794, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 795, 1, dsp.regime.type.GROUNDS)
+end

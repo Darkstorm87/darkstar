@@ -4,18 +4,10 @@
 -- Teaches the white magic Banish III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(30);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(30)
+end
 
 function onItemUse(target)
-    target:addSpell(30);
-end;
+    target:addSpell(30)
+end

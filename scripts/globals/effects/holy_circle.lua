@@ -1,32 +1,20 @@
 -----------------------------------
 --
---     EFFECT_HOLY_CIRCLE
+--     dsp.effect.HOLY_CIRCLE
 --
 -----------------------------------
-
-require("scripts/globals/status");
-
------------------------------------
--- onEffectGain Action
+require("scripts/globals/status")
 -----------------------------------
 
 function onEffectGain(target,effect)
-   target:addMod(MOD_UNDEAD_KILLER,effect:getPower());
+   target:addMod(dsp.mod.UNDEAD_KILLER, effect:getPower())
    target:addMod(MOD_ENMITY,-effect:getSubPower());
-end;
-
------------------------------------
--- onEffectTick Action
------------------------------------
+end
 
 function onEffectTick(target,effect)
-end;
-
------------------------------------
--- onEffectLose Action
------------------------------------
+end
 
 function onEffectLose(target,effect)
-   target:delMod(MOD_UNDEAD_KILLER,effect:getPower());
+   target:delMod(dsp.mod.UNDEAD_KILLER, effect:getPower())
    target:delMod(MOD_ENMITY,-effect:getSubPower());
-end;
+end

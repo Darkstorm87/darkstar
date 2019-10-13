@@ -3,25 +3,15 @@
 -- Zone: Grauberg_[S] (89)
 --
 -----------------------------------
-package.loaded["scripts/zones/Grauberg_[S]/TextIDs"] = nil;
------------------------------------
-
-require("scripts/zones/Grauberg_[S]/TextIDs");
-require("scripts/globals/settings");
-require("scripts/globals/zone");
+local ID = require("scripts/zones/Grauberg_[S]/IDs");
 require("scripts/globals/weather");
 require("scripts/globals/status");
-
------------------------------------
--- onInitialize
+require("scripts/globals/helm")
 -----------------------------------
 
 function onInitialize(zone)
+    dsp.helm.initZone(zone, dsp.helm.type.HARVESTING)
 end;
-
------------------------------------
--- onZoneIn
------------------------------------
 
 function onZoneIn(player,prevZone)
     local cs = -1;
@@ -31,43 +21,20 @@ function onZoneIn(player,prevZone)
     return cs;
 end;
 
------------------------------------
--- onRegionEnter
------------------------------------
-
 function onRegionEnter(player,region)
 end;
 
------------------------------------
--- onZoneWeatherChange
------------------------------------
-
 function onZoneWeatherChange(weather)
-
-    local npc = GetNPCByID(17142586); -- Indescript Markings
-    if (npc ~= nil) then
-        if (weather == WEATHER_WIND or weather == WEATHER_GALES) then
-            npc:setStatus(STATUS_NORMAL);
-        else
-            npc:setStatus(STATUS_DISAPPEAR);
-        end
+    local npc = GetNPCByID(ID.npc.INDESCRIPT_MARKINGS);
+    if (weather == dsp.weather.WIND or weather == dsp.weather.GALES) then
+        npc:setStatus(dsp.status.NORMAL);
+    else
+        npc:setStatus(dsp.status.DISAPPEAR);
     end
-end
-
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;
 
------------------------------------
--- onEventFinish
------------------------------------
+function onEventUpdate(player,csid,option)
+end;
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
 end;

@@ -4,18 +4,10 @@
 -- Teaches the white magic Barblizzara
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(67);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(67)
+end
 
 function onItemUse(target)
-    target:addSpell(67);
-end;
+    target:addSpell(67)
+end

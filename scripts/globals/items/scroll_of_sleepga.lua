@@ -4,19 +4,11 @@
 -- Teaches the black magic Sleepga
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(273);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(273)
+end
 
 function onItemUse(target)
-    target:delSpell(363);
-    target:addSpell(273);
-end;
+    target:delSpell(363)
+    target:addSpell(273)
+end

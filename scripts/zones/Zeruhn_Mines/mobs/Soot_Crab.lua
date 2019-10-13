@@ -1,21 +1,10 @@
 -----------------------------------
---  Area: Zeruhn Mines (172)
---   Mob: Soot Crab
+-- Area: Zeruhn Mines (172)
+--  Mob: Soot Crab
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobInitialize
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,628,2);
-end;
+    dsp.regime.checkRegime(player, mob, 628, 2, dsp.regime.type.GROUNDS)
+end

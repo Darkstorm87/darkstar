@@ -1,31 +1,18 @@
 -----------------------------------
 -- Area: The Shrine of Ru'Avitau
---  MOB: Olla Media
+--  Mob: Olla Media
 -----------------------------------
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
------------------------------------
+local ID = require("scripts/zones/The_Shrine_of_RuAvitau/IDs");
+require("scripts/globals/settings");
 
 function onMobDeath(mob, player, isKiller)
-    if (isKiller == true) then
+    if (isKiller) then
         SpawnMob(mob:getID() + 1):updateClaim(player);
     end
 end;
 
------------------------------------
--- onMobDespawn
------------------------------------
-
 function onMobDespawn(mob)
-    if (GetMobAction(mob:getID() + 1) == 0) then -- if this Media despawns and Grande is not alive, it would be because it despawned outside of being killed.
-        GetNPCByID(17506692):updateNPCHideTime(FORCE_SPAWN_QM_RESET_TIME);
+    if (not GetMobByID(mob:getID() + 1):isSpawned()) then -- if this Media despawns and Grande is not alive, it would be because it despawned outside of being killed.
+        GetNPCByID(ID.npc.OLLAS_QM):updateNPCHideTime(FORCE_SPAWN_QM_RESET_TIME);
     end
 end;

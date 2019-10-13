@@ -4,18 +4,10 @@
 -- Teaches the song Goddess's Hymnus
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(464);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(464)
+end
 
 function onItemUse(target)
-    target:addSpell(464);
-end;
+    target:addSpell(464)
+end

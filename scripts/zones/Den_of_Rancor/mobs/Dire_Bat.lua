@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Den of Rancor
---  MOB: Dire Bat
+--  Mob: Dire Bat
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,796,1);
-    checkGoVregime(player,mob,797,1);
+    dsp.regime.checkRegime(player, mob, 796, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 797, 1, dsp.regime.type.GROUNDS)
 end;

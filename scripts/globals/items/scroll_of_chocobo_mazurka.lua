@@ -4,18 +4,10 @@
 -- Teaches the song Chocobo Mazurka
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(465);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(465)
+end
 
 function onItemUse(target)
-    target:addSpell(465);
-end;
+    target:addSpell(465)
+end

@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Ifrit's Cauldron
---  MOB: Volcano Wasp
+--  Mob: Volcano Wasp
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,755,1);
+    dsp.regime.checkRegime(player, mob, 755, 1, dsp.regime.type.GROUNDS)
 end;

@@ -1,32 +1,15 @@
 -----------------------------------
--- Area: Beadeaux (S)
---  MOB: Gold Quadav
+-- Area: Beadeaux [S]
+--  Mob: Gold Quadav
 -- Note: PH for Da'Dha Hundredmask
 -----------------------------------
-require("scripts/zones/Beadeaux_[S]/MobIDs");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Beadeaux_[S]/IDs")
+require("scripts/globals/mobs");
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
 end;
 
------------------------------------
--- onMobDespawn
------------------------------------
-
 function onMobDespawn(mob)
-    local mobID = mob:getID();
-    if (Da_Dha_Hundredmask_PH[mobID] ~= nil) then
-        local ToD = GetServerVariable("[POP]Da_Dha_Hundredmask");
-        if (ToD <= os.time() and GetMobAction(Da_Dha_Hundredmask) == 0) then
-            if (math.random(1,8) == 4) then
-                UpdateNMSpawnPoint(Da_Dha_Hundredmask);
-                GetMobByID(Da_Dha_Hundredmask):setRespawnTime(GetMobRespawnTime(mobID));
-                SetServerVariable("[PH]Da_Dha_Hundredmask", mobID);
-                DisallowRespawn(mobID, true);
-            end
-        end
-    end
+    dsp.mob.phOnDespawn(mob,ID.mob.DA_DHA_HUNDREDMASK_PH,12,7200); -- 2 hours
 end;

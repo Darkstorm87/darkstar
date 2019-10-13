@@ -1,18 +1,7 @@
 -----------------------------------
 -- Area: Outer Horutoto Ruins (194)
---   NM: Doppelganger_Dio
------------------------------------
-
------------------------------------
--- onMobDeath
+--   NM: Doppelganger Dio
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
-end;
+end

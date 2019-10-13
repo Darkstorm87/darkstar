@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Crawlers' Nest
---  MOB: Rumble Crawler
+--  Mob: Rumble Crawler
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,691,1);
+    dsp.regime.checkRegime(player, mob, 691, 1, dsp.regime.type.GROUNDS)
 end;

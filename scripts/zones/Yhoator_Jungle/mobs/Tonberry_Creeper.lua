@@ -1,18 +1,18 @@
 -----------------------------------
 -- Area: Yhoator Jungle
---  MOB: Tonberry Creeper
+--  Mob: Tonberry Creeper
+-- Note: PH for Hoar-knuckled Rimberry
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Yhoator_Jungle/IDs")
+mixins = {require("scripts/mixins/families/tonberry")}
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,133,1);
-    local kills = player:getVar("EVERYONES_GRUDGE_KILLS");
-    if (kills < 480) then
-        player:setVar("EVERYONES_GRUDGE_KILLS",kills + 1);
-    end
-end;
+    dsp.regime.checkRegime(player, mob, 133, 1, dsp.regime.type.FIELDS)
+end
+
+function onMobDespawn(mob)
+    dsp.mob.phOnDespawn(mob, ID.mob.HOAR_KNUCKLED_RIMBERRY_PH, 10, math.random(5400, 7200)) -- 90 to 120 minutes
+end

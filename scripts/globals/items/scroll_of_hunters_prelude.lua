@@ -4,18 +4,10 @@
 -- Teaches the song Hunters Prelude
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(401);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(401)
+end
 
 function onItemUse(target)
-    target:addSpell(401);
-end;
+    target:addSpell(401)
+end

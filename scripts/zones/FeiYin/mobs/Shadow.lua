@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Fei'Yin
---  MOB: Shadow
+--  Mob: Shadow
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,712,1);
+    dsp.regime.checkRegime(player, mob, 712, 1, dsp.regime.type.GROUNDS)
 end;

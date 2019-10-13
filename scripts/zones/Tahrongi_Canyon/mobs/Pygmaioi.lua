@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Tahrongi Canyon
---  MOB: Pygmaioi
+--  Mob: Pygmaioi
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,94,2);
-    checkRegime(player,mob,95,1);
-end;
+    dsp.regime.checkRegime(player, mob, 94, 2, dsp.regime.type.FIELDS)
+    dsp.regime.checkRegime(player, mob, 95, 1, dsp.regime.type.FIELDS)
+end

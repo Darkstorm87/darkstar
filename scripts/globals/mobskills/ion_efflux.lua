@@ -1,29 +1,27 @@
----------------------------------------------------
---  Ion_Efflux
+---------------------------------------------
+-- Ion_Efflux
 --
---  Description: 10'(?) cone  Paralysis, ignores Utsusemi
---  Type: Magical
---  
---  Range: 10 yalms
----------------------------------------------------
-
-require("scripts/globals/settings");
-require("scripts/globals/status");
-require("scripts/globals/monstertpmoves");
-
----------------------------------------------------
+-- Description: 10'(?) cone  Paralysis, ignores Utsusemi
+-- Type: Magical
+--
+-- Range: 10 yalms
+---------------------------------------------
+require("scripts/globals/monstertpmoves")
+require("scripts/globals/settings")
+require("scripts/globals/status")
+---------------------------------------------
 
 function onMobSkillCheck(target,mob,skill)
     if (mob:AnimationSub() <= 1) then
-        return 0;
+        return 0
     end
-    return 1;
-end;
+    return 1
+end
 
 function onMobWeaponSkill(target, mob, skill)
-    local typeEffect = EFFECT_PARALYSIS;
+    local typeEffect = dsp.effect.PARALYSIS
 
-    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 20, 0, 60));
+    skill:setMsg(MobStatusEffectMove(mob, target, typeEffect, 20, 0, 60))
 
-    return typeEffect;
+    return typeEffect
 end

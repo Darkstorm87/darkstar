@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Jugner Forest
---  MOB: Screamer
+--  Mob: Screamer
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,58,2);
+    dsp.regime.checkRegime(player, mob, 58, 2, dsp.regime.type.FIELDS)
 end;

@@ -4,18 +4,10 @@
 -- Teaches the song Dark Carol
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(445);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(445)
+end
 
 function onItemUse(target)
-    target:addSpell(445);
-end;
+    target:addSpell(445)
+end

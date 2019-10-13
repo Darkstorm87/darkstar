@@ -1,31 +1,14 @@
 -----------------------------------
 -- Area: Arrapago Reef
---  MOB: Medusa
+--  Mob: Lamia No.19
 -----------------------------------
-
-require("scripts/globals/titles");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobEngaged Action
------------------------------------
+mixins = {require("scripts/mixins/weapon_break")}
 
 function onMobEngaged(mob,target)
-
-    SpawnMob(16998869):updateEnmity(target);
-    SpawnMob(16998870):updateEnmity(target);
-
+    local mobId = mob:getID();
+    SpawnMob(mobId+1):updateEnmity(target);
+    SpawnMob(mobId+2):updateEnmity(target);
 end;
-
------------------------------------
--- onMobDeath
------------------------------------
 
 function onMobDeath(mob, player, isKiller)
 end;

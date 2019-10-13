@@ -4,18 +4,10 @@
 -- Teaches the black magic Poison
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(220);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(220)
+end
 
 function onItemUse(target)
-    target:addSpell(220);
-end;
+    target:addSpell(220)
+end

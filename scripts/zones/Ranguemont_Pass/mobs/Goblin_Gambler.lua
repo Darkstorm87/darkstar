@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Ranguemont Pass
---  MOB: Goblin Gambler
+--  Mob: Goblin Gambler
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,604,2);
-    checkGoVregime(player,mob,605,2);
+    dsp.regime.checkRegime(player, mob, 604, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 605, 2, dsp.regime.type.GROUNDS)
 end;

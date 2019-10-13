@@ -1,68 +1,35 @@
 -----------------------------------
---  Area: Jugner Forest (S)
---  NPC:  Glowing Pebbles
---  Type: Involved in Quest
--- !pos
---  player:startEvent(0x006a); Left over Cutscene
+-- Area: Jugner Forest (S)
+--  NPC: Glowing Pebbles
 -----------------------------------
-package.loaded["scripts/zones/Jugner_Forest_[S]/TextIDs"] = nil;
+require("scripts/globals/keyitems")
+require("scripts/globals/npc_util")
 -----------------------------------
 
-require("scripts/zones/Jugner_Forest_[S]/TextIDs");
-require("scripts/globals/keyitems");
+function onTrade(player, npc, trade)
+    if npcUtil.tradeHas(trade, 2558) and player:getVar("roadToDivadomCS") == 3 then
+        player:startEvent(107)
+    end
+end
 
------------------------------------
--- onTrade Action
------------------------------------
+function onTrigger(player, npc)
+    if player:getVar("Lakeside_Minuet_Progress") == 3 and not player:hasKeyItem(dsp.ki.STARDUST_PEBBLE) then
+        player:startEvent(100)
+    elseif player:getVar("roadToDivadomCS") == 2 then
+        player:startEvent(106)
+    end
+end
 
-function onTrade(player,npc,trade)
+function onEventUpdate(player, csid, option)
+end
 
-    local yagudoGlue = 2558;
-
-    if (trade:hasItemQty(yagudoGlue,1)) then
-
-        local nextRoadToDivadomCS = 0x006B; -- CSID 107
-
-        if (player:getVar("roadToDivadomCS") == 3) then
-            player:tradeComplete();
-            player:startEvent(nextRoadToDivadomCS);
-            player:setVar("roadToDivadomCS",4);
-        end;
-    end;
-end;
-
------------------------------------
--- onTrigger Action
------------------------------------
-
-function onTrigger(player,npc)
-
-    if (player:getVar("Lakeside_Minuet_Progress") == 3 and player:hasKeyItem(STARDUST_PEBBLE) == false) then
-        player:startEvent(0x0064);
-        player:addKeyItem(STARDUST_PEBBLE);
-        player:messageSpecial(KEYITEM_OBTAINED,STARDUST_PEBBLE);
-    elseif (player:getVar("roadToDivadomCS") == 2) then
-        local nextRoadToDivadomCS = 0x006A; -- CSID 106
-        player:startEvent(nextRoadToDivadomCS);
-        player:setVar("roadToDivadomCS", 3);
-    end;
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
-
-function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
+function onEventFinish(player, csid, option)
+    if csid == 100 then
+        npcUtil.giveKeyItem(player, dsp.ki.STARDUST_PEBBLE)
+    elseif csid == 106 then
+        player:setVar("roadToDivadomCS", 3)
+    elseif csid == 107 then
+        player:confirmTrade()
+        player:setVar("roadToDivadomCS", 4)
+    end
+end

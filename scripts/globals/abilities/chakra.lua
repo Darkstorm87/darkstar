@@ -5,22 +5,23 @@
 -- Recast Time: 5:00
 -- Duration: Instant
 -----------------------------------
-
-require("scripts/globals/status");
-
------------------------------------
--- onAbilityCheck
+require("scripts/globals/status")
 -----------------------------------
 
-function onAbilityCheck(player,target,ability)
-    return 0,0;
-end;
+local ChakraStatusEffects =
+{
+    POISON       = 0, -- Removed by default
+    BLINDNESS    = 0, -- Removed by default
+    PARALYSIS    = 1,
+    DISEASE      = 2,
+    PLAGUE       = 4
+}
 
------------------------------------
--- onUseAbility
------------------------------------
+function onAbilityCheck(player, target, ability)
+    return 0, 0
+end
 
-function onUseAbility(player,target,ability)
+function onUseAbility(player, target, ability)
 	if (target:getMainJob() ~= JOBS.MNK) then
 		local effect = EFFECT_SUBTLE_BLOW_PLUS;
 		target:addStatusEffect(effect,20,0,120);
@@ -30,58 +31,24 @@ function onUseAbility(player,target,ability)
 		ability:setMsg(0);
 		return;
 	end
-	
-	local hp = player:getHP();
-	local vit = player:getStat(MOD_VIT);
-	local multi = 3;
-	local merits = player:getMerit(MERIT_INVIGORATE);
-	local body = player:getEquipID(SLOT_BODY);
-	local hand = player:getEquipID(SLOT_HANDS);
 
-	if (player:hasStatusEffect(EFFECT_POISON)) then
-		player:delStatusEffect(EFFECT_POISON);
-	end
+    local chakraRemoval = player:getMod(dsp.mod.CHAKRA_REMOVAL)
+    for k, v in pairs(ChakraStatusEffects) do
+        if bit.band(chakraRemoval, v) == v then
+            player:delStatusEffect(dsp.effect[k])
+        end
+    end
 
-	if (player:hasStatusEffect(EFFECT_BLINDNESS)) then
-		player:delStatusEffect(EFFECT_BLINDNESS);
-	end
-	
-	if (player:hasStatusEffect(EFFECT_PARALYSIS)) then
-		player:delStatusEffect(EFFECT_PARALYSIS);
-	end
+    local recover = player:getStat(dsp.mod.VIT) * (2 + player:getMod(dsp.mod.CHAKRA_MULT) / 10) -- TODO: Figure out "function of level" addition (August 2017 update)
+    player:setHP(player:getHP() + recover)
 
-	if ((body == 12639) or (body == 14474)) then -- Temple Cyclas (+1) equipped
-		if (player:hasStatusEffect(EFFECT_SLOW)) then
-			player:delStatusEffect(EFFECT_SLOW);
-		end
-		
-		if (player:hasStatusEffect(EFFECT_ATTACK_DOWN)) then
-			player:delStatusEffect(EFFECT_ATTACK_DOWN);
-		end
-		
-		if (player:hasStatusEffect(EFFECT_ACCURACY_DOWN)) then
-			player:delStatusEffect(EFFECT_ACCURACY_DOWN);
-		end
-		
-		multi = multi + 1;
-	end
+    local merits = player:getMerit(dsp.merit.INVIGORATE)
+    if merits > 0 then
+        if player:hasStatusEffect(dsp.effect.REGEN) then
+            player:delStatusEffect(dsp.effect.REGEN)
+        end
+        player:addStatusEffect(dsp.effect.REGEN, 10, 0, merits, 0, 0, 1)
+    end
 
-	if ((hand == 15103) or (hand == 14910)) then -- Melee Gloves (+1) equipped
-		if (player:hasStatusEffect(EFFECT_DISEASE)) then
-			player:delStatusEffect(EFFECT_DISEASE);
-		end
-		multi = multi + 0.6;
-	end
-
-	local recover = (multi * vit);
-	player:setHP((hp + recover));
-
-	if (merits >= 1) then
-		if (player:hasStatusEffect(EFFECT_REGEN)) then
-			player:delStatusEffect(EFFECT_REGEN);
-		end
-		player:addStatusEffect(EFFECT_REGEN,10,0,merits,0,0,1);
-	end
-
-	return recover;
-end;
+    return recover
+end

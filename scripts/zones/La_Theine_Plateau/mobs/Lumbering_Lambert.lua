@@ -1,27 +1,15 @@
 -----------------------------------
 -- Area: La Theine Plateau
---  MOB: Lumbering Lambert
+--  Mob: Lumbering Lambert
 -----------------------------------
-
-require("scripts/zones/La_Theine_Plateau/MobIDs");
-
+local ID = require("scripts/zones/La_Theine_Plateau/IDs");
 -----------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+end
 
 function onMobDespawn(mob)
-end;
+    dsp.mob.phOnDespawn(mob, ID.mob.BLOODTEAR_PH, 10, math.random(75600, 86400)) -- 21-24 hours
+end

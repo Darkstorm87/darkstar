@@ -1,19 +1,7 @@
 -----------------------------------
 -- Area: West Ronfaure (100)
---  NM:  Fungus_Beetle
------------------------------------
-
------------------------------------
--- onMobDeath
+--   NM: Fungus Beetle
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
-end;
-
+end

@@ -4,18 +4,10 @@
 -- Teaches the song Water Threnody
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(459);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(459)
+end
 
 function onItemUse(target)
-    target:addSpell(459);
-end;
+    target:addSpell(459)
+end

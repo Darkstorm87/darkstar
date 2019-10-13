@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Hyoton: Ni
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(324);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(324)
+end
 
 function onItemUse(target)
-    target:addSpell(324);
-end;
+    target:addSpell(324)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Barwatera
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(71);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(71)
+end
 
 function onItemUse(target)
-    target:addSpell(71);
-end;
+    target:addSpell(71)
+end

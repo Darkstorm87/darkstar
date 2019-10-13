@@ -4,18 +4,10 @@
 -- Teaches the black magic Shock Spikes
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(251);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(251)
+end
 
 function onItemUse(target)
-    target:addSpell(251);
-end;
+    target:addSpell(251)
+end

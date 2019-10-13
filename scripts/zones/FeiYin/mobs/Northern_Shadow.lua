@@ -1,18 +1,7 @@
-----------------------------------
+-----------------------------------
 -- Area: Fei'Yin
---  NM:  Northern Shadow
------------------------------------
-
------------------------------------
--- onMobDeath
+--   NM: Northern Shadow
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
-
-function onMobDespawn(mob)
-end;
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Recall-Meriph
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(83);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(83)
+end
 
 function onItemUse(target)
-    target:addSpell(83);
-end;
+    target:addSpell(83)
+end

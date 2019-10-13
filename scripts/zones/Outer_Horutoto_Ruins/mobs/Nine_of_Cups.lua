@@ -1,14 +1,10 @@
 -----------------------------------
--- Area: Outer Horutoto
---  MOB: Nine of Cups
+-- Area: Outer Horutoto Ruins
+--  Mob: Nine of Cups
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,668,1);
-end;
+    dsp.regime.checkRegime(player, mob, 668, 1, dsp.regime.type.GROUNDS)
+end

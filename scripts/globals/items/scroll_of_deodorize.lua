@@ -4,18 +4,10 @@
 -- Teaches the white magic Deodorize
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(138);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(138)
+end
 
 function onItemUse(target)
-    target:addSpell(138);
-end;
+    target:addSpell(138)
+end

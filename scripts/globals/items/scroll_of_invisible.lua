@@ -4,18 +4,10 @@
 -- Teaches the white magic Invisible
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(136);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(136)
+end
 
 function onItemUse(target)
-    target:addSpell(136);
-end;
+    target:addSpell(136)
+end

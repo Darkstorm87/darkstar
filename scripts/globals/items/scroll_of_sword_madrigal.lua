@@ -4,18 +4,10 @@
 -- Teaches the song Sword Madrigal
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(399);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(399)
+end
 
 function onItemUse(target)
-    target:addSpell(399);
-end;
+    target:addSpell(399)
+end

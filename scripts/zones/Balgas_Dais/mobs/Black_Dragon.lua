@@ -1,22 +1,16 @@
 -----------------------------------
 -- Area: Balga's Dais
---  MOB: Black Dragon
+--  Mob: Black Dragon
 -- Mission 2-3 BCNM Fight
 -----------------------------------
-
-require("scripts/globals/titles");
-
------------------------------------
--- onMobSpawn Action
+require("scripts/globals/status")
+require("scripts/globals/titles")
 -----------------------------------
 
-function onMobSpawn(mob)
+function onMobInitialize(mob)
+    mob:setMobMod(dsp.mobMod.DRAW_IN, 1);
 end;
 
------------------------------------
--- onMobDeath Action
------------------------------------
-
 function onMobDeath(mob, player, isKiller)
-    player:addTitle(BLACK_DRAGON_SLAYER);
+    player:addTitle(dsp.title.BLACK_DRAGON_SLAYER);
 end;

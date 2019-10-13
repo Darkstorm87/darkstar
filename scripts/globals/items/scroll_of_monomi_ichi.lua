@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Monomi: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(318);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(318)
+end
 
 function onItemUse(target)
-    target:addSpell(318);
-end;
+    target:addSpell(318)
+end

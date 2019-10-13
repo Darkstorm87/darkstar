@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Gusgen Mines
---  MOB: Gallinipper
+--  Mob: Gallinipper
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,684,2);
+    dsp.regime.checkRegime(player, mob, 684, 2, dsp.regime.type.GROUNDS)
 end;

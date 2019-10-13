@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Valkurm Dunes
---  MOB: Thread Leech
+--  Mob: Thread Leech
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,57,1);
+    dsp.regime.checkRegime(player, mob, 57, 1, dsp.regime.type.FIELDS)
 end;

@@ -4,18 +4,10 @@
 -- Teaches the song Warding Round
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(414);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(414)
+end
 
 function onItemUse(target)
-    target:addSpell(414);
-end;
+    target:addSpell(414)
+end

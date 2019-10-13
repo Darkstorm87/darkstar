@@ -1,16 +1,12 @@
 -----------------------------------
 -- Area: Fei'Yin
---  MOB: Underworld Bats
+--  Mob: Underworld Bats
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,713,1);
-    checkGoVregime(player,mob,714,1);
-    checkGoVregime(player,mob,715,1);
+    dsp.regime.checkRegime(player, mob, 713, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 714, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 715, 1, dsp.regime.type.GROUNDS)
 end;

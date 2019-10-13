@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Garlaige Citadel
---  MOB: Droma
+--  Mob: Droma
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,707,1);
+    dsp.regime.checkRegime(player, mob, 707, 1, dsp.regime.type.GROUNDS)
 end;

@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Doton: ni
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(330);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(330)
+end
 
 function onItemUse(target)
-    target:addSpell(330);
-end;
+    target:addSpell(330)
+end

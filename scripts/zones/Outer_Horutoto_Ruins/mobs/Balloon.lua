@@ -1,22 +1,14 @@
 -----------------------------------
 -- Area: Outer Horutoto Ruins (194)
--- MOB:  Balloon
--- Note: Place holder Bomb King, Doppelganger Dio, Doppelganger Gog
+--  Mob: Balloon
+-- Note: PH for Bomb King, Doppelganger Dio, and Doppelganger Gog
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-require("scripts/zones/Outer_Horutoto_Ruins/MobIDs");
-
------------------------------------
--- onMobDeath
+local func = require("scripts/zones/Outer_Horutoto_Ruins/globals")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
-
------------------------------------
--- onMobDespawn
------------------------------------
+end
 
 function onMobDespawn(mob)
-end;
+    func.balloonOnDespawn(mob)
+end

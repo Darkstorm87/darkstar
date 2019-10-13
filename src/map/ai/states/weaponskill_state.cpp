@@ -91,8 +91,18 @@ void CWeaponSkillState::SpendCost()
     else
     {
         tp = m_PEntity->health.tp;
-        m_PEntity->health.tp = 0;
+
+        if (m_PEntity->getMod(Mod::WS_NO_DEPLETE) <= dsprand::GetRandomNumber(100))
+        {
+            m_PEntity->health.tp = 0;
+        }
     }
+
+    if (dsprand::GetRandomNumber(100) < m_PEntity->getMod(Mod::CONSERVE_TP))
+    {
+        m_PEntity->addTP(dsprand::GetRandomNumber(10, 200));
+    }
+
     m_spent = tp;
 }
 
@@ -105,8 +115,8 @@ bool CWeaponSkillState::Update(time_point tick)
         m_PEntity->OnWeaponSkillFinished(*this, action);
         m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
         auto PTarget {GetTarget()};
-        m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", m_PEntity, PTarget, m_PSkill->getID());
-        PTarget->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTarget, m_PEntity, m_PSkill->getID());
+        m_PEntity->PAI->EventHandler.triggerListener("WEAPONSKILL_USE", m_PEntity, PTarget, m_PSkill->getID(), m_spent, &action);
+        PTarget->PAI->EventHandler.triggerListener("WEAPONSKILL_TAKE", PTarget, m_PEntity, m_PSkill->getID(), m_spent, &action);
         auto delay = m_PSkill->getAnimationTime();
         m_finishTime = tick + delay;
         Complete();

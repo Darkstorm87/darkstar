@@ -1,21 +1,10 @@
 -----------------------------------
 -- Area: King Ranperres Tomb
---  MOB: Ogre Bat
+--  Mob: Ogre Bat
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobInitialize
------------------------------------
-
-function onMobInitialize(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,638,2);
-end;
+    dsp.regime.checkRegime(player, mob, 638, 2, dsp.regime.type.GROUNDS)
+end

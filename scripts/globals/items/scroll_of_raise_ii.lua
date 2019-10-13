@@ -4,18 +4,10 @@
 -- Teaches the white magic Raise II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(13);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(13)
+end
 
 function onItemUse(target)
-    target:addSpell(13);
-end;
+    target:addSpell(13)
+end

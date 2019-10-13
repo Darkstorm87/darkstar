@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Konschtat Highlands
---  MOB: Rock Eater
+--  Mob: Rock Eater
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,20,1);
-end;
+    dsp.regime.checkRegime(player, mob, 20, 1, dsp.regime.type.FIELDS)
+end

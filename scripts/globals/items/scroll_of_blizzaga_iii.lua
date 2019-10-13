@@ -4,18 +4,10 @@
 -- Teaches the black magic Blizzaga III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(181);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(181)
+end
 
 function onItemUse(target)
-    target:addSpell(181);
-end;
+    target:addSpell(181)
+end

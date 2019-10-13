@@ -4,18 +4,10 @@
 -- Teaches the song Armys Paeton IV
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(381);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(381)
+end
 
 function onItemUse(target)
-    target:addSpell(381);
-end;
+    target:addSpell(381)
+end

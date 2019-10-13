@@ -4,18 +4,10 @@
 -- Teaches the song Foe Requiem II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(369);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(369)
+end
 
 function onItemUse(target)
-    target:addSpell(369);
-end;
+    target:addSpell(369)
+end

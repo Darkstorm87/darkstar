@@ -4,18 +4,10 @@
 -- Teaches the white magic Enstone
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(103);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(103)
+end
 
 function onItemUse(target)
-    target:addSpell(103);
-end;
+    target:addSpell(103)
+end

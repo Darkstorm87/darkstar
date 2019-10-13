@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: Ve'Lugannon Palace
---  MOB: Caretaker
+--  Mob: Caretaker
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,743,1);
-    checkGoVregime(player,mob,746,1);
+    dsp.regime.checkRegime(player, mob, 743, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 746, 1, dsp.regime.type.GROUNDS)
 end;

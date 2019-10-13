@@ -4,18 +4,10 @@
 -- Teaches the white magic Flash
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(112);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(112)
+end
 
 function onItemUse(target)
-    target:addSpell(112);
-end;
+    target:addSpell(112)
+end

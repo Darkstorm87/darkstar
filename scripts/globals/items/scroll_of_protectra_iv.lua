@@ -4,18 +4,10 @@
 -- Teaches the white magic Protectra IV
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(128);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(128)
+end
 
 function onItemUse(target)
-    target:addSpell(128);
-end;
+    target:addSpell(128)
+end

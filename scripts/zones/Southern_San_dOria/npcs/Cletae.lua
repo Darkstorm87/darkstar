@@ -1,59 +1,35 @@
 -----------------------------------
 -- Area: Southern San d'Oria
--- NPC: Cletae
+--  NPC: Cletae
 -- Guild Merchant NPC: Leathercrafting Guild
 -- !pos -189.142 -8.800 14.449 230
 -----------------------------------
-package.loaded["scripts/zones/Southern_San_dOria/TextIDs"] = nil;
------------------------------------
-
-require("scripts/globals/settings");
-require("scripts/globals/shop");
-require("scripts/globals/conquest");
-require("scripts/zones/Southern_San_dOria/TextIDs");
-
------------------------------------
--- onTrade Action
+local ID = require("scripts/zones/Southern_San_dOria/IDs")
+require("scripts/globals/shop")
+require("scripts/globals/crafting")
+require("scripts/globals/settings")
+require("scripts/globals/status")
 -----------------------------------
 
 function onTrade(player,npc,trade)
     if (FlyerForRegine == 1) then
-        count = trade:getItemCount();
-        MagicFlyer = trade:hasItemQty(532,1);
+        count = trade:getItemCount()
+        MagicFlyer = trade:hasItemQty(532,1)
         if (MagicFlyer == true and count == 1) then
-            player:messageSpecial(FLYER_REFUSED);
+            player:messageSpecial(ID.text.FLYER_REFUSED)
         end
     end
-
-
-end;
-
------------------------------------
--- onTrigger Action
------------------------------------
+end
 
 function onTrigger(player,npc)
-    if (player:sendGuild(5292,3,18,4)) then
-        player:showText(npc,CLETAE_DIALOG);
-    end
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
+    local guildRank = player:getSkillRank(dsp.skill.LEATHERCRAFT)
+    local stock = dsp.shop.generalGuildStock[guild.leathercraft]
+    dsp.shop.generalGuild(player, stock, guildRank)
+    player:showText(npc,ID.text.CLETAE_DIALOG)
+end
 
 function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
+end
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
-
+end

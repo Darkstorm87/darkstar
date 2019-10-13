@@ -4,18 +4,10 @@
 -- Teaches the white magic Reraise III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(142);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(142)
+end
 
 function onItemUse(target)
-    target:addSpell(142);
-end;
+    target:addSpell(142)
+end

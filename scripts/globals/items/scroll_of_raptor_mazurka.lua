@@ -4,18 +4,10 @@
 -- Teaches the song Raptor Mazurka
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(467);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(467)
+end
 
 function onItemUse(target)
-    target:addSpell(467);
-end;
+    target:addSpell(467)
+end

@@ -4,18 +4,10 @@
 -- Teaches the white magic Barstone
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(63);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(63)
+end
 
 function onItemUse(target)
-    target:addSpell(63);
-end;
+    target:addSpell(63)
+end

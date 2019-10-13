@@ -4,18 +4,10 @@
 -- Teaches the black magic Fire III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(146);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(146)
+end
 
 function onItemUse(target)
-    target:addSpell(146);
-end;
+    target:addSpell(146)
+end

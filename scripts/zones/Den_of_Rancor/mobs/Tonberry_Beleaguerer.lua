@@ -1,29 +1,20 @@
 -----------------------------------
 -- Area: Den of Rancor
---  MOB: Tonberry Beleaguerer
+--  Mob: Tonberry Beleaguerer
+-- Note: PH for Bistre-hearted Malberry
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+mixins = {require("scripts/mixins/families/tonberry")}
+local ID = require("scripts/zones/Den_of_Rancor/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
+    dsp.regime.checkRegime(player, mob, 798, 1, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 799, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 800, 2, dsp.regime.type.GROUNDS)
+end
 
-    checkGoVregime(player,mob,798,1);
-    checkGoVregime(player,mob,799,2);
-    checkGoVregime(player,mob,800,2);
-
-    local kills = player:getVar("EVERYONES_GRUDGE_KILLS");
-    if (kills < 480) then
-        player:setVar("EVERYONES_GRUDGE_KILLS",kills + 1);
-    end
-end;
+function onMobDespawn(mob)
+    dsp.mob.phOnDespawn(mob, ID.mob.BISTRE_HEARTED_MALBERRY_PH, 10, 3600) -- 1 hour
+end

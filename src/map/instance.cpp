@@ -39,6 +39,7 @@ CInstance::CInstance(CZone* zone, uint8 instanceid) : CZoneEntities(zone),
     LoadInstance();
 
     m_startTime = server_clock::now();
+    m_wipeTimer = m_startTime;
 }
 
 CInstance::~CInstance()
@@ -80,7 +81,7 @@ uint32 CInstance::GetStage()
 
 void CInstance::LoadInstance()
 {
-    static const int8* Query =
+    static const char* Query =
         "SELECT "
         "instance_name, "
         "time_limit, "
@@ -101,7 +102,7 @@ void CInstance::LoadInstance()
         Sql_NumRows(SqlHandle) != 0 &&
         Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
-        m_instanceName.insert(0, Sql_GetData(SqlHandle, 0));
+        m_instanceName.insert(0, (const char*)Sql_GetData(SqlHandle, 0));
 
         m_timeLimit = std::chrono::minutes(Sql_GetUIntData(SqlHandle, 1));
         m_entrance = Sql_GetUIntData(SqlHandle, 2);
@@ -143,7 +144,7 @@ uint8 CInstance::GetLevelCap()
 
 const int8* CInstance::GetName()
 {
-    return m_instanceName.c_str();
+    return (const int8*)m_instanceName.c_str();
 }
 
 position_t CInstance::GetEntryLoc()
@@ -161,9 +162,9 @@ duration CInstance::GetLastTimeUpdate()
     return m_lastTimeUpdate;
 }
 
-time_point CInstance::GetWipeTime()
+duration CInstance::GetWipeTime()
 {
-    return m_wipeTimer;
+    return m_wipeTimer - m_startTime;
 }
 
 duration CInstance::GetElapsedTime(time_point tick)
@@ -181,7 +182,7 @@ void CInstance::SetEntryLoc(float x, float y, float z, float rot)
     m_entryloc.x = x;
     m_entryloc.y = y;
     m_entryloc.z = z;
-    m_entryloc.rotation = rot;
+    m_entryloc.rotation = (uint8)rot;
 }
 
 void CInstance::SetLastTimeUpdate(duration lastTime)
@@ -200,9 +201,9 @@ void CInstance::SetStage(uint32 stage)
     m_stage = stage;
 }
 
-void CInstance::SetWipeTime(time_point time)
+void CInstance::SetWipeTime(duration time)
 {
-    m_wipeTimer = time;
+    m_wipeTimer = time + m_startTime;
 }
 
 /************************************************************************
@@ -215,7 +216,7 @@ void CInstance::CheckTime(time_point tick)
 {
     if (m_lastTimeCheck + 1s <= tick && !Failed())
     {
-        luautils::OnInstanceTimeUpdate(GetZone(), this, std::chrono::duration_cast<std::chrono::milliseconds>(GetElapsedTime(tick)).count());
+        luautils::OnInstanceTimeUpdate(GetZone(), this, (uint32)std::chrono::duration_cast<std::chrono::milliseconds>(GetElapsedTime(tick)).count());
         m_lastTimeCheck = tick;
     }
 }

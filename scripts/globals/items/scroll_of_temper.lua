@@ -4,18 +4,10 @@
 -- Teaches the white magic Temper
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(493);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(493)
+end
 
 function onItemUse(target)
-    target:addSpell(493);
-end;
+    target:addSpell(493)
+end

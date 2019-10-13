@@ -4,18 +4,10 @@
 -- Teaches the black magic Warp II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(262);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(262)
+end
 
 function onItemUse(target)
-    target:addSpell(262);
-end;
+    target:addSpell(262)
+end

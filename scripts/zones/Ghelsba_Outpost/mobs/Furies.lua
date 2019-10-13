@@ -1,33 +1,18 @@
 -----------------------------------
--- Area: Ghelsba outpost
---  MOB: Furies
--- BCNM20
+-- Area: Ghelsba Outpost
+--  Mob: Furies
+-- BCNM: Wings of Fury
 -----------------------------------
-
-
------------------------------------
--- onMobSpawn Action
+local ID = require("scripts/zones/Ghelsba_Outpost/IDs")
+require("scripts/globals/status")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:setMobMod(MOBMOD_CHARMABLE, 1);
-end;
-
-
------------------------------------
--- onMobEngaged
------------------------------------
-
-function onMobEngaged(mob,target)
-    GetMobByID(17350929):updateEnmity(target);
-    GetMobByID(17350930):updateEnmity(target);
-    GetMobByID(17350931):updateEnmity(target);
-end;
-
-
------------------------------------
--- onMobDeath Action
------------------------------------
+    local mobId = mob:getID()
+    local offset = mobId - ID.mob.COLO_COLO_OFFSET
+    mob:setMobMod(dsp.mobMod.SUPERLINK, GetMobByID(mobId - offset):getShortID())
+    mob:setMobMod(dsp.mobMod.CHARMABLE, 1)
+end
 
 function onMobDeath(mob, player, isKiller)
-end;
+end

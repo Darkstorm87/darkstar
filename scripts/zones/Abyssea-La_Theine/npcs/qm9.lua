@@ -2,47 +2,21 @@
 -- Zone: Abyssea-LaTheine
 --  NPC: qm9 (???)
 -- Spawns Nguruvilu
--- !pos ? ? ? 132
+-- !pos 311 23 -524 132
 -----------------------------------
-require("scripts/globals/status");
-
------------------------------------
--- onTrade Action
+require("scripts/globals/abyssea")
 -----------------------------------
 
 function onTrade(player,npc,trade)
---[[
-    if (trade:hasItemQty(2899,1) and trade:getItemCount() == 1) then -- Player has all the required items.
-        if (GetMobAction(17318442) == ACTION_NONE) then -- mob not already spawned from this
-            SpawnMob(17318442):updateClaim(player); -- Spawn NM, Despawn after inactive for 5 minutes (pt has to reclaim within 5 of a wipe)
-            player:tradeComplete();
-        end
-    end
-]]
-end;
-
------------------------------------
--- onTrigger Action
------------------------------------
+    abysseaOnTrade(player,npc,trade)
+end
 
 function onTrigger(player,npc)
-    player:startEvent(1010, 2899); -- Inform payer what items they need.
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
+    abysseaOnTrigger(player,npc)
+end
 
 function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
+end
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
+end

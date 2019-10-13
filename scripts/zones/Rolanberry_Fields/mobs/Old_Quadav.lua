@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Rolanberry Fields
---  MOB: Old Quadav
+--  Mob: Old Quadav
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,87,2);
-end;
+    dsp.regime.checkRegime(player, mob, 87, 2, dsp.regime.type.FIELDS)
+end

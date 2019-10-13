@@ -1,15 +1,11 @@
 -----------------------------------
 -- Area: The Eldieme Necropolis
---  MOB: Nekros Hound
+--  Mob: Nekros Hound
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,677,2);
-    checkGoVregime(player,mob,678,2);
+    dsp.regime.checkRegime(player, mob, 677, 2, dsp.regime.type.GROUNDS)
+    dsp.regime.checkRegime(player, mob, 678, 2, dsp.regime.type.GROUNDS)
 end;

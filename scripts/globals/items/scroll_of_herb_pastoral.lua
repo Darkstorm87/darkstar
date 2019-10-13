@@ -4,18 +4,10 @@
 -- Teaches the song Herb Pastoral
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(406);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(406)
+end
 
 function onItemUse(target)
-    target:addSpell(406);
-end;
+    target:addSpell(406)
+end

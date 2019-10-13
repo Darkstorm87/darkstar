@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Suiton: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(335);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(335)
+end
 
 function onItemUse(target)
-    target:addSpell(335);
-end;
+    target:addSpell(335)
+end

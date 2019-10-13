@@ -4,18 +4,10 @@
 -- Teaches the white magic Enblizzard II
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(313);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(313)
+end
 
 function onItemUse(target)
-    target:addSpell(313);
-end;
+    target:addSpell(313)
+end

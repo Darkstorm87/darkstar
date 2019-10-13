@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Dokumori: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(350);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(350)
+end
 
 function onItemUse(target)
-    target:addSpell(350);
-end;
+    target:addSpell(350)
+end

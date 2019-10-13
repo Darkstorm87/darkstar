@@ -26,10 +26,10 @@
 
 #include "../../common/cbasetypes.h"
 
-#include "item_armor.h"
+#include "item_equipment.h"
 
 
-class CItemWeapon : public CItemArmor
+class CItemWeapon : public CItemEquipment
 {
 public:
 
@@ -54,7 +54,9 @@ public:
 
     bool    isRanged();
     bool    isThrowing();
+    bool    isShuriken();
     bool    isTwoHanded();
+    bool    isHandToHand();
 	bool    isUnlockable();
     bool    isUnlocked();
 
@@ -91,5 +93,4 @@ private:
     bool    m_ranged;
     bool    m_twoHanded;
 };
-
 #endif

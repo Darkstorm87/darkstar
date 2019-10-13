@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Sauromugue Champaign
---  MOB: Yagudo Priest
+--  Mob: Yagudo Priest
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,99,2);
-end;
+    dsp.regime.checkRegime(player, mob, 99, 2, dsp.regime.type.FIELDS)
+end

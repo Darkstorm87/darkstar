@@ -4,18 +4,10 @@
 -- Teaches the song Dragonfoe Mambo
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(404);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(404)
+end
 
 function onItemUse(target)
-    target:addSpell(404);
-end;
+    target:addSpell(404)
+end

@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Migawari: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(510);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(510)
+end
 
 function onItemUse(target)
-    target:addSpell(510);
-end;
+    target:addSpell(510)
+end

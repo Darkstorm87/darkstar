@@ -1,40 +1,14 @@
 -----------------------------------
--- Area: Dynamis-Qufim
--- NPC:  Serjeant_Tombstone
-
+-- Area: Dynamis - Qufim
+--  Mob: Serjeant Tombstone
 -----------------------------------
-package.loaded["scripts/zones/Dynamis-Qufim/TextIDs"] = nil;
------------------------------------
-
-require("scripts/globals/dynamis");
-require("scripts/zones/Dynamis-Qufim/TextIDs");
-
------------------------------------
--- onMobSpawn Action
+require("scripts/globals/dynamis")
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:setMobMod(MOBMOD_SUPERLINK, mob:getShortID());
-end;
-
------------------------------------
--- onMobEngaged
------------------------------------
-
-function onMobEngaged(mob,target)
-    dynamis.spawnGroup(mob, QufimOrcishList);
-end;
-
-
-                     
-                    
-
-
-
------------------------------------
--- onMobDeath
------------------------------------
+    dynamis.refillStatueOnSpawn(mob)
+end
 
 function onMobDeath(mob, player, isKiller)
-    --local mobID = mob:getID();
-end;
+    dynamis.refillStatueOnDeath(mob, player, isKiller)
+end

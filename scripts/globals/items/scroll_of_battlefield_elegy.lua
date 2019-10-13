@@ -4,18 +4,10 @@
 -- Teaches the song Battlefield Elegy
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(421);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(421)
+end
 
 function onItemUse(target)
-    target:addSpell(421);
-end;
+    target:addSpell(421)
+end

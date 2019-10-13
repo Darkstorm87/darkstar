@@ -4,18 +4,10 @@
 -- Teaches the white magic Teleport-Altep
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(121);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(121)
+end
 
 function onItemUse(target)
-    target:addSpell(121);
-end;
+    target:addSpell(121)
+end

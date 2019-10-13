@@ -4,18 +4,10 @@
 -- Teaches the black magic Retrace
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(241);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(241)
+end
 
 function onItemUse(target)
-    target:addSpell(241);
-end;
+    target:addSpell(241)
+end

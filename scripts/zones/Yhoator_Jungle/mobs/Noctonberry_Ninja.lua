@@ -1,14 +1,15 @@
 -----------------------------------
 -- Area: Yhoator Jungle
---  MOB: Noctonberry Ninja
+--  Mob: Noctonberry Ninja
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+mixins =
+{
+    require("scripts/mixins/families/tonberry"),
+    require("scripts/mixins/job_special")
+}
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,133,1);
-end;
+    dsp.regime.checkRegime(player, mob, 133, 1, dsp.regime.type.FIELDS)
+end

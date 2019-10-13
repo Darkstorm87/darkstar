@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Yhoator Jungle
---  MOB: Goblin Pathfinder
+--  Mob: Goblin Pathfinder
 -----------------------------------
-
-require("scripts/globals/fieldsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkRegime(player,mob,129,2);
-end;
+    dsp.regime.checkRegime(player, mob, 129, 2, dsp.regime.type.FIELDS)
+end

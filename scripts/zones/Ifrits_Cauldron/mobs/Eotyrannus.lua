@@ -1,14 +1,17 @@
 -----------------------------------
 -- Area: Ifrit's Cauldron
---  MOB: Eotyrannus
+--  Mob: Eotyrannus
+-- Note: PH for Lindwurm
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+local ID = require("scripts/zones/Ifrits_Cauldron/IDs")
+require("scripts/globals/regimes")
+require("scripts/globals/mobs")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,758,1);
-end;
+    dsp.regime.checkRegime(player, mob, 758, 1, dsp.regime.type.GROUNDS)
+end
+
+function onMobDespawn(mob)
+    dsp.mob.phOnDespawn(mob, ID.mob.LINDWURM_PH, 5, 3600) -- 1 hour
+end

@@ -1,44 +1,21 @@
 -----------------------------------
---  Area: Bostaunieux Oubliette
---  NPC:  Chumia
---  Type: Standard NPC
+-- Area: Bostaunieux Oubliette
+--  NPC: Chumia
+-- Type: Standard NPC
 -- !pos 102.420 -25.001 70.457 167
 -----------------------------------
-package.loaded["scripts/zones/Bostaunieux_Oubliette/TextIDs"] = nil;
+local ID = require("scripts/zones/Bostaunieux_Oubliette/IDs")
 -----------------------------------
 
-require("scripts/zones/Bostaunieux_Oubliette/TextIDs");
+function onTrade(player, npc, trade)
+end
 
------------------------------------
--- onTrade Action
------------------------------------
+function onTrigger(player, npc)
+    player:showText(npc, ID.text.CHUMIA_DIALOG)
+end
 
-function onTrade(player,npc,trade)
-end;
+function onEventUpdate(player, csid, option)
+end
 
------------------------------------
--- onTrigger Action
------------------------------------
-
-function onTrigger(player,npc)
-    player:showText(npc, CHUMIA_DIALOG);
-end;
-
------------------------------------
--- onEventUpdate
------------------------------------
-
-function onEventUpdate(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
------------------------------------
--- onEventFinish
------------------------------------
-
-function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
-end;
-
+function onEventFinish(player, csid, option)
+end

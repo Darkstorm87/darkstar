@@ -4,18 +4,10 @@
 -- Teaches the summoning magic Dark Spirit
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(295);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(295)
+end
 
 function onItemUse(target)
-    target:addSpell(295);
-end;
+    target:addSpell(295)
+end

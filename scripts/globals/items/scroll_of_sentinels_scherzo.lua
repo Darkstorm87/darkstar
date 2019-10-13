@@ -4,18 +4,10 @@
 -- Teaches the song Sentinel's Scherzo
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(470);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(470)
+end
 
 function onItemUse(target)
-    target:addSpell(470);
-end;
+    target:addSpell(470)
+end

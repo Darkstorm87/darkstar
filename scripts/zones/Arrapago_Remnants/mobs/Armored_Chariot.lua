@@ -1,21 +1,10 @@
 -----------------------------------
--- Area:
---  MOB: Armored_Chariot
+-- Area: Arrapago Remnants
+--   NM: Armored Chariot
 -----------------------------------
-
-require("scripts/globals/titles");
-
------------------------------------
--- onMobSpawn Action
------------------------------------
-
-function onMobSpawn(mob)
-end;
-
------------------------------------
--- onMobDeath
+require("scripts/globals/titles")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    player:addTitle(SUN_CHARIOTEER);
-end;
+    player:addTitle(dsp.title.SUN_CHARIOTEER)
+end

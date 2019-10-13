@@ -1,14 +1,10 @@
 -----------------------------------
 -- Area: Upper Delkfutt's Tower
---  MOB: Gigas Spirekeeper
+--  Mob: Gigas Spirekeeper
 -----------------------------------
-
-require("scripts/globals/groundsofvalor");
-
------------------------------------
--- onMobDeath
+require("scripts/globals/regimes")
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-    checkGoVregime(player,mob,785,1);
-end;
+    dsp.regime.checkRegime(player, mob, 785, 1, dsp.regime.type.GROUNDS)
+end

@@ -4,18 +4,10 @@
 -- Teaches the black magic Waterga III
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(201);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(201)
+end
 
 function onItemUse(target)
-    target:addSpell(201);
-end;
+    target:addSpell(201)
+end

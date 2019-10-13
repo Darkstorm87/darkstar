@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Tonko: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(353);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(353)
+end
 
 function onItemUse(target)
-    target:addSpell(353);
-end;
+    target:addSpell(353)
+end

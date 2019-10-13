@@ -1,21 +1,14 @@
 -----------------------------------
 -- Area: Carpenters' Landing
---  MOB: Birdtrap
+--  Mob: Birdtrap
 -- Note: Placeholder Orctrap
 -----------------------------------
-
-require("scripts/zones/Carpenters_Landing/MobIDs");
-
------------------------------------
--- onMobDeath
------------------------------------
+local ID = require("scripts/zones/Carpenters_Landing/IDs");
+require("scripts/globals/mobs");
 
 function onMobDeath(mob, player, isKiller)
 end;
 
------------------------------------
--- onMobDespawn
------------------------------------
-
 function onMobDespawn(mob)
+    dsp.mob.phOnDespawn(mob,ID.mob.ORCTRAP_PH,5,math.random(3600,25200)); -- 1 to 7 hours
 end;

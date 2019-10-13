@@ -4,18 +4,11 @@
 --  Enchantment: "Enwater"
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return 0;
-end;
------------------------------------------
--- OnItemUse
------------------------------------------
+    return 0
+end
 
 function onItemUse(target)
-    local effect = EFFECT_ENWATER;
-    doEnspell(target,target,nil,effect);
-end;
+    local effect = dsp.effect.ENWATER
+    doEnspell(target,target,nil,effect)
+end

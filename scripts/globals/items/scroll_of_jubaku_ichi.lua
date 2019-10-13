@@ -4,18 +4,10 @@
 -- Teaches the ninjutsu Jubaku: Ichi
 -----------------------------------------
 
------------------------------------------
--- OnItemCheck
------------------------------------------
-
 function onItemCheck(target)
-    return target:canLearnSpell(341);
-end;
-
------------------------------------------
--- OnItemUse
------------------------------------------
+    return target:canLearnSpell(341)
+end
 
 function onItemUse(target)
-    target:addSpell(341);
-end;
+    target:addSpell(341)
+end
