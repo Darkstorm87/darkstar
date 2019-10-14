@@ -18,8 +18,8 @@ function onUseAbility(player,target,ability)
 	if (target:getMainJob() ~= JOBS.DRK) then
 		local subPower = 5;
 	
-		if (player:getMainLvl() > 50 and player:getMainLvl() % 5 == 0) then
-			subPower = subPower + (player:getMainLvl() - 50) / 5;
+		if (player:getMainLvl() > 50) then
+			subPower = subPower + (player:getMainLvl() - 50) // 5;
 		end
 		
 		target:addStatusEffect(dsp.effect.ARCANE_CIRCLE,15,0,duration,0,subPower)

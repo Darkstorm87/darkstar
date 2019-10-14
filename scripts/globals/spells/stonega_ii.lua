@@ -25,9 +25,10 @@ function onSpellCast(caster, target, spell)
     spellParams.M100 = 2
     spellParams.M200 = 1
     spellParams.I = 232
-    local spellParams = calculateElementalNukeSpellParams(caster, ELEMENTAL_TIER_2, AOE);
-	spellParams.VMob = 201;
-	spellParams.MMob = 1.0;
+
+	if (caster:isPC()) then
+		spellParams = calculateElementalNukeSpellParams(caster, ELEMENTAL_TIER_2, AOE);
+	end
 
     return doElementalNuke(caster, spell, target, spellParams)
 end

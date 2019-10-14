@@ -28,41 +28,41 @@ REM ======                                                              ========
 REM =============================================================================
 REM =============================================================================
 
-REM ECHO Creating Database dspdb
-REM "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqladmin" -h localhost -u ***REMOVED*** -p***REMOVED*** DROP dspdb
+ECHO Creating Database dspdb
+"C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqladmin" -h localhost -u ***REMOVED*** -p***REMOVED*** DROP dspdb
 
-REM ECHO Creating Database dspdb
-REM "c:\program files\mysql\mysql server 5.7\bin\mysqladmin" -h localhost -u ***REMOVED*** -p***REMOVED*** CREATE dspdb
+ECHO Creating Database dspdb
+"c:\program files\mysql\mysql server 5.7\bin\mysqladmin" -h localhost -u ***REMOVED*** -p***REMOVED*** CREATE dspdb
 
 ECHO Loading dspdb tables into the database
-B:
-cd B:\FFIvalice\Source\Repos\Ivalice\sql
+REM B:
+REM cd B:\FFIvalice\Source\Repos\Ivalice\sql
 
-del auction_house.sql
-del chars.sql
-del accounts.sql
-del accounts_banned.sql
-del char_effects.sql
-del char_equip.sql
-del char_exp.sql
-del char_inventory.sql
-del char_jobs.sql
-del char_look.sql
-del char_pet.sql
-del char_pet_name.sql
-del char_points.sql
-del char_profile.sql
-del char_skills.sql
-del char_spells.sql
-del char_stats.sql
-del char_storage.sql
-del char_vars.sql
-del char_weapon_skill_points.sql
-del conquest_system.sql
-del delivery_box.sql
-del linkshells.sql
-del FFIvalice_ZoneIPs.sql
-del char_merits.sql
+REM del auction_house.sql
+REM del chars.sql
+REM del accounts.sql
+REM del accounts_banned.sql
+REM del char_effects.sql
+REM del char_equip.sql
+REM del char_exp.sql
+REM del char_inventory.sql
+REM del char_jobs.sql
+REM del char_look.sql
+REM del char_pet.sql
+REM del char_pet_name.sql
+REM del char_points.sql
+REM del char_profile.sql
+REM del char_skills.sql
+REM del char_spells.sql
+REM del char_stats.sql
+REM del char_storage.sql
+REM del char_vars.sql
+REM del char_weapon_skill_points.sql
+REM del conquest_system.sql
+REM del delivery_box.sql
+REM del linkshells.sql
+REM del FFIvalice_ZoneIPs.sql
+REM del char_merits.sql
 
 FOR %%X IN (*.sql) DO ECHO Importing %%X & "c:\program files\mysql\mysql server 5.7\bin\mysql" dspdb -h localhost -u ***REMOVED*** -p***REMOVED*** < %%X
 

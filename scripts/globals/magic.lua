@@ -1428,12 +1428,14 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 			spellParams.M100 = 2.75;
 			spellParams.M200 = 2;
 		elseif (nukeTier == 4) then
+			-- MOB ONLY TIER SO I DON'T HAVE SETTINGS
+		if (nukeTier == 5) then
 			spellParams.hasMultipleTargetReduction = true;
 			spellParams.resistBonus = 1.0;
 			spellParams.V0 = math.min(math.max(2.61 * skillLevel - 50, 800), 1000);
 			spellParams.V50 = math.min(math.max(1.56 * skillLevel + 572, 1100), 1200);
-			spellParams.V100 = math.min(math.max(0.91 * skillLevel + 1021, 1350), 1385);
-			spellParams.V200 = math.min(math.max(0.65 * skillLevel + 1501, 1750), 1760);
+			spellParams.V100 = math.min(math.max(0.92 * skillLevel + 1021, 1350), 1387);
+			spellParams.V200 = math.min(math.max(0.66 * skillLevel + 1501, 1750), 1762);
 			spellParams.M0 = 4;
 			spellParams.M50 = 3.75;
 			spellParams.M100 = 3.75;
@@ -1479,7 +1481,7 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 			spellParams.V0 = math.min(math.max(5.72 * skillLevel - 977, 400), 600);
 			spellParams.V50 = math.min(math.max(3.72 * skillLevel - 245, 650), 780);
 			spellParams.V100 = math.min(math.max(3 * skillLevel + 127, 850), 955);
-			spellParams.V200 = math.min(math.max(2.15 * skillLevel + 633, 1150), 1225);
+			spellParams.V200 = math.min(math.max(2.23 * skillLevel + 617, 1150), 1230);
 			spellParams.M0 = 3.6;
 			spellParams.M50 = 3.5;
 			spellParams.M100 = 2.75;
@@ -1489,8 +1491,8 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 			spellParams.resistBonus = 1.0;
 			spellParams.V0 = math.min(math.max(2.81 * skillLevel - 153, 650), 900);
 			spellParams.V50 = math.min(math.max(1.69 * skillLevel + 468, 950), 1100);
-			spellParams.V100 = math.min(math.max(0.98 * skillLevel + 920, 1200), 1285);
-			spellParams.V200 = math.min(math.max(0.7 * skillLevel + 1400, 1600), 1660);
+			spellParams.V100 = math.min(math.max(0.99 * skillLevel + 920, 1200), 1287);
+			spellParams.V200 = math.min(math.max(0.71 * skillLevel + 1400, 1600), 1662);
 			spellParams.M0 = 4;
 			spellParams.M50 = 3.74;
 			spellParams.M100 = 3.75;
@@ -1500,5 +1502,13 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 	
 	return spellParams;
 end;
+
+AOE = 1;
+NOT_AOE = 0;
+ELEMENTAL_TIER_1 = 1;
+ELEMENTAL_TIER_2 = 2;
+ELEMENTAL_TIER_3 = 3;
+ELEMENTAL_TIER_4 = 4;
+ELEMENTAL_TIER_5 = 5;
 
 dsp.mag = dsp.magic;
