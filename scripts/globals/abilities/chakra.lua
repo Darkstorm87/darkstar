@@ -23,7 +23,7 @@ end
 
 function onUseAbility(player, target, ability)
 	if (target:getMainJob() ~= JOBS.MNK) then
-		local effect = EFFECT_SUBTLE_BLOW_PLUS;
+		local effect = dsp.effect.SUBTLE_BLOW_PLUS;
 		target:addStatusEffect(effect,20,0,120);
 		ability:setMsg(0);
 		return;

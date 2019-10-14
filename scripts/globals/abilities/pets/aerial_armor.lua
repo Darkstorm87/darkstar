@@ -13,7 +13,7 @@ end
 
 function onPetAbility(target, pet, skill)
     target:delStatusEffect(dsp.effect.BLINK)
-    target:addStatusEffect(dsp.effect.BLINK,3,0,900)
+    target:addStatusEffect(dsp.effect.BLINK,6,0,900)
     skill:setMsg(dsp.msg.basic.SKILL_GAIN_EFFECT)
     return dsp.effect.BLINK
 end
