@@ -59,6 +59,9 @@ end
 dsp.mob.phOnDespawn = function(ph, phList, chance, cooldown, immediate)
     if type(immediate) ~= "boolean" then immediate = false end
 
+    chance = utils.clamp(chance,50); -- minimum 50% chance to spawn
+    cooldown = math.min(cooldown,900); -- maximum 15 min respawn
+
     local phId = ph:getID()
     local nmId = phList[phId]
 
