@@ -15,7 +15,7 @@ end;
 
 function onInitialize(zone)
     UpdateNMSpawnPoint(ID.mob.HARVESTMAN);
-    GetMobByID(ID.mob.HARVESTMAN):setRespawnTime(math.random(900, 10800));
+    GetMobByID(ID.mob.HARVESTMAN):setRespawnTime(900);
 
     dsp.helm.initZone(zone, dsp.helm.type.HARVESTING)
 end;

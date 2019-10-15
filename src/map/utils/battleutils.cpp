@@ -4117,7 +4117,7 @@ namespace battleutils
         resist = 1.0f + ( floor( 256.0f * ( PDefender->getMod(Mod::DMGBREATH) / 100.0f ) ) / 256.0f )
                       + ( floor( 256.0f * ( PDefender->getMod(Mod::DMG)       / 100.0f ) ) / 256.0f );
         resist = std::clamp(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
-		resist = resist + (floor(256.0f * (PDefender->getMod(Mod::MOD_DMG_II) / 100.0f)) / 256.0f);
+		resist = resist + (floor(256.0f * (PDefender->getMod(Mod::DMG_II) / 100.0f)) / 256.0f);
 		resist = dsp_cap(resist, 0.1f, 1.5f); //allows for DT II to take reduction to 90%
 
         damage = (int32)(damage * resist);
@@ -4149,7 +4149,7 @@ namespace battleutils
         resist += PDefender->getMod(Mod::DMGMAGIC_II) / 100.f;
         resist = std::max(resist, 0.125f); // Total cap with MDT-% II included is 87.5%
 
-		resist += PDefender->getMod(Mod::MOD_DMG_II) / 100.f;
+		resist += PDefender->getMod(Mod::DMG_II) / 100.f;
 		resist = std::max(resist, 0.1f); // Total cap with DT II included is 90%
 
         damage = (int32)(damage * resist);
@@ -4186,7 +4186,7 @@ namespace battleutils
         resist = std::max(resist, 0.5f); // PDT caps at -50%
         resist += PDefender->getMod(Mod::DMGPHYS_II) / 100.f; // Add Burtgang reduction after 50% cap. Extends cap to -68%
 
-		resist += PDefender->getMod(Mod::MOD_DMG_II) / 100.f;
+		resist += PDefender->getMod(Mod::DMG_II) / 100.f;
 		resist = std::max(resist, 0.1f); // DT II caps at -90%
 
         damage = (int32)(damage * resist);
@@ -4223,7 +4223,7 @@ namespace battleutils
         resist = 1.0f + PDefender->getMod(Mod::DMGRANGE) / 100.f + PDefender->getMod(Mod::DMG) / 100.f;
         resist = std::max(resist, 0.5f);
 
-		resist = 1.0f + PDefender->getMod(Mod::MOD_DMG_II) / 100.f;
+		resist = 1.0f + PDefender->getMod(Mod::DMG_II) / 100.f;
 		resist = std::max(resist, 0.1f); // DT II caps at 90%
 
         damage = (int32)(damage * resist);

@@ -11,7 +11,7 @@ require("scripts/globals/helm")
 
 function onInitialize(zone)
     UpdateNMSpawnPoint(ID.mob.ASH_DRAGON);
-    GetMobByID(ID.mob.ASH_DRAGON):setRespawnTime(math.random(900, 10800));
+    GetMobByID(ID.mob.ASH_DRAGON):setRespawnTime(900);
 
     dsp.treasure.initZone(zone)
     dsp.helm.initZone(zone, dsp.helm.type.MINING)
