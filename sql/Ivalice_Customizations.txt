@@ -642,3 +642,6 @@ UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 174;
 UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 191;
 UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 203;
 UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 221;
+
+-- STATUS_EFFECTS
+UPDATE status_effects SET flags = flags + 0x0002 WHERE id = 16; -- Amnesia eraseable

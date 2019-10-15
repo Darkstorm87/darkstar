@@ -24,7 +24,7 @@ function onSpellCast(caster,target,spell)
         power = 60
     end
 
-	power = math.max(target:getMod(MOD_ACC) * 0.15, power);
+	power = math.max(target:getAcc() * 0.15, power);
 
     local iBoost = caster:getMod(dsp.mod.MADRIGAL_EFFECT) + caster:getMod(dsp.mod.ALL_SONGS_EFFECT)
     if (iBoost > 0) then
