@@ -20,7 +20,7 @@ function onSpellCast(caster,target,spell)
         power = 32
     end
 
-	power = math.max(target:getStat(MOD_ATT) * 0.05, power);
+	power = math.max(target:getStat(dsp.mod.ATT) * 0.05, power);
 
     local iBoost = caster:getMod(dsp.mod.MINUET_EFFECT) + caster:getMod(dsp.mod.ALL_SONGS_EFFECT)
     if (iBoost > 0) then
