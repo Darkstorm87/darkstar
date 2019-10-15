@@ -463,7 +463,7 @@ void CAttack::ProcessDamage()
             m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE) ||
             m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT)))
     {
-        m_trickAttackDamage += m_attacker->DEX() * (1 + m_attacker->getMod(Mod::SNEAK_ATK_DEX) / 100);
+        m_trickAttackDamage += m_attacker->DEX() * (1 + m_attacker->getMod(Mod::SNEAK_ATK_DEX) / 100) * 1.25;
     }
 
     // Trick attack.
@@ -471,7 +471,7 @@ void CAttack::ProcessDamage()
         m_isFirstSwing &&
         m_attackRound->GetTAEntity() != nullptr)
     {
-        m_trickAttackDamage += m_attacker->AGI() * (1 + m_attacker->getMod(Mod::TRICK_ATK_AGI) / 100);
+        m_trickAttackDamage += m_attacker->AGI() * (1 + m_attacker->getMod(Mod::TRICK_ATK_AGI) / 100) * 1.25;
     }
 
     SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();

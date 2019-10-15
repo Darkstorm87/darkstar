@@ -343,5 +343,5 @@ end;
 
 function onMobDespawn(mob)
     UpdateNMSpawnPoint(mob:getID());
-    mob:setRespawnTime(math.random(172800, 259200)) -- 2 to 3 days
+    mob:setRespawnTime(900) -- 2 to 3 days
 end;

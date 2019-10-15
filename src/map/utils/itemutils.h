@@ -42,7 +42,7 @@
 #define MAX_DROPID  5000
 #define MAX_LOOTID  1300
 #define MAX_DROP_GROUP_ID  255
-#define MAX_EQUIPDROPID  99
+#define MAX_EQUIPDROPID  119
 
 enum DROP_TYPE
 {

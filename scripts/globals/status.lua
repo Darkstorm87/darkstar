@@ -1544,10 +1544,11 @@ dsp.mod =
     -- SPARE = 957, -- stuff
     -- SPARE = 958, -- stuff
     -- SPARE = 959, -- stuff
+
+    ENMITY_CAP                  = 2000,
+    DMG_II                      = 2001
 };
--- 570 - 825 used by WS DMG mods these are not spares.
-MOD_ENMITY_CAP			= 2000
-MOD_DMG_II              = 2001
+
 
 dsp.latent =
 {

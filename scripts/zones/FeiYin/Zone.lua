@@ -14,7 +14,7 @@ require("scripts/globals/zone");
 
 function onInitialize(zone)
     UpdateNMSpawnPoint(ID.mob.CAPRICIOUS_CASSIE);
-    GetMobByID(ID.mob.CAPRICIOUS_CASSIE):setRespawnTime(math.random(900, 10800));
+    GetMobByID(ID.mob.CAPRICIOUS_CASSIE):setRespawnTime(900);
 
     dsp.treasure.initZone(zone)
 end;

@@ -426,6 +426,23 @@ namespace itemutils
                         {
                             ((CItemEquipment*)PItem)->setSubType(ITEM_CHARGED);
                         }
+
+                        if (PItem->getFlag() & (ITEM_FLAG_01 | ITEM_FLAG_EX | ITEM_FLAG_RARE) = 0)
+                        {
+                            uint8 reqLvl = ((CItemArmor*)PItem)->getReqLvl() - 1;
+                            uint8 iLvl = ((CItemArmor*)PItem)->getILvl() - 1;
+                            if (iLvl != 0) { regLvl = iLvl; }
+
+                            if (g_pEquipmentList[reqLvl] == 0)
+                            {
+                                g_pEquipmentList[reqLvl] = new DropEquipList_t;
+                            }
+
+                            DropEquip_t DropEquip;
+                            DropEquip.ItemID = PItem->getID();
+
+                            g_pEquipmentList[reqLvl]->push_back(DropEquip);
+                        }
                     }
                     if (PItem->isType(ITEM_WEAPON))
                     {
