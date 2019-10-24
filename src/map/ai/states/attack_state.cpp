@@ -68,21 +68,6 @@ bool CAttackState::Update(time_point tick)
             action_t action;
             if (m_PEntity->OnAttack(*this, action))
             {
-                //IF PC and has Daken and Ammo is MId 22 which appears to be shuriken
-                if (m_PEntity->objtype == TYPE_PC)
-                {
-                    CCharEntity* PChar = (CCharEntity*)m_PEntity;
-                    CItemWeapon* CItem = (CItemWeapon*)PChar->getEquip(SLOT_AMMO);
-                    if (charutils::hasTrait(PChar, TRAIT_DAKEN) && CItem != nullptr && CItem->getModelId() == 22)
-                    {
-                        auto chance = m_PEntity->getMod(Mod::DAKEN);
-                        if (dsprand::GetRandomNumber(100) < chance || m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_SANGE))
-                        {
-                            PChar->OnDakenAttack(PTarget, action);
-                        }
-                    }
-                }
-
                 m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             }
 

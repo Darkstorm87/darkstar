@@ -359,7 +359,6 @@ public:
     virtual void OnWeaponSkillFinished(CWeaponSkillState&, action_t&) override;
     virtual void OnAbility(CAbilityState&, action_t&) override;
     virtual void OnRangedAttack(CRangeState&, action_t&);
-    virtual void OnDakenAttack(CBattleEntity* PTarget, action_t&);
     virtual void OnDeathTimer() override;
     virtual void OnRaise() override;
     virtual void OnItemFinish(CItemState&, action_t&);

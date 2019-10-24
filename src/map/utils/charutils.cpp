@@ -3352,7 +3352,7 @@ namespace charutils
                             case 3: exp *= 1.3f; break;
                             case 4: exp *= 1.4f; break;
                             case 5: exp *= 1.5f; break;
-                            default: exp *= min(1.5f + PMember->expChain.chainNumber * 0.003f, 2.5f); break;
+                            default: exp *= std::min(1.5f + PMember->expChain.chainNumber * 0.005f, 2.5f); break; // should cap at 2.5f on chain 200
                         }
                     }
                     else

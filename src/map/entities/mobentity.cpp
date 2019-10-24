@@ -822,6 +822,22 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                 }
             }
         }
+
+        DropEquipList_t* equipDrops = itemutils::GetEquipDropList(PChar, this);
+        if (equipDrops->size() > 0)
+        {
+            for (int16 roll = 0; roll < maxRolls; ++roll)
+            {
+                if (dsprand::GetRandomNumber(1000) < map_config.global_equipment_drop_rate + bonus)
+                {
+                    DropEquip_t drop = equipDrops->at(dsprand::GetRandomNumber(equipDrops->size()));
+
+                    if (AddItemToPool(drop.ItemID, ++dropCount))
+                        return;
+                    break;
+                }
+            }
+        }
     }
 
     //check for seal drops

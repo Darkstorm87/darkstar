@@ -82,7 +82,9 @@ struct LootItem_t
 
 struct DropEquip_t
 {
+    DropEquip_t(uint16 ItemID, uint32 Jobs);
 	uint16 ItemID;
+    uint32 Jobs;
 };
 
 
@@ -109,6 +111,6 @@ namespace itemutils
 
 	DropList_t* GetDropList(uint16 DropID);
 	LootList_t* GetLootList(uint16 LootDropID);
-	std::unique_ptr<DropEquipList_t> GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob, uint8 range = 0, bool rare = false);
+    DropEquipList_t* GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob);
 };
 #endif

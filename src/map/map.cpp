@@ -1006,6 +1006,8 @@ int32 map_config_default()
     map_config.msg_server_ip = "127.0.0.1";
     map_config.healing_tick_delay = 10;
     map_config.skillup_bloodpact = true;
+    map_config.global_equipment_drop_rate = 30;
+    map_config.global_equipment_drop_range = 3;
     return 0;
 }
 
@@ -1338,6 +1340,14 @@ int32 map_config_read(const int8* cfgName)
         else if (strcmp(w1, "skillup_bloodpact") == 0)
         {
             map_config.skillup_bloodpact = atoi(w2);
+        }
+        else if (strcmp(w1, "global_equipment_drop_rate") == 0)
+        {
+            map_config.global_equipment_drop_rate = atoi(w2);
+        }
+        else if (strcmp(w1, "global_equipment_drop_range") == 0)
+        {
+            map_config.global_equipment_drop_range = atoi(w2);
         }
         else
         {
