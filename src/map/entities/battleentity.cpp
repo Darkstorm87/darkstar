@@ -625,7 +625,7 @@ uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill)
     uint16 acc = skill_level;
     acc += getMod(Mod::RACC);
     acc += battleutils::GetRangedAccuracyBonuses(this);
-    acc += AGI() * 0.75;
+    acc += (uint16)(AGI() * 0.75);
     return acc + std::min<int16>(((100 + getMod(Mod::FOOD_RACCP) * acc) / 100), getMod(Mod::FOOD_RACC_CAP));
 }
 
@@ -701,7 +701,7 @@ uint16 CBattleEntity::DEF()
 {
     int32 DEF = 8 + m_modStat[Mod::DEF] + VIT() / 2;
     if (this->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE, 0)) {
-	return DEF * 0.85;
+	    return (uint16)DEF * 0.85;
     }
 
     return DEF + (DEF * m_modStat[Mod::DEFP] / 100) +
@@ -710,12 +710,12 @@ uint16 CBattleEntity::DEF()
 
 uint16 CBattleEntity::EVA()
 {
-    int16 evasion = GetSkill(SKILL_EVASION);
+    uint16 evasion = GetSkill(SKILL_EVASION);
 
     //if (evasion > 200) { //evasion skill is 0.9 evasion post-200
     //    evasion = (int16)(200 + (evasion - 200) * 0.9);
     //}
-    return std::max(0, (m_modStat[Mod::EVA] + evasion + AGI() * 0.75));
+    return std::max<uint16>(0, (m_modStat[Mod::EVA] + evasion + AGI() * 0.75));
 }
 
 /************************************************************************

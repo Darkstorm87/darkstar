@@ -1354,7 +1354,7 @@ namespace petutils
                 cost = 15;
         }
 
-        return dsp_min(3,cost);
+        return std::min<uint16>(5,cost);
     }
 
     /*
@@ -1589,11 +1589,11 @@ namespace petutils
 
             //Set B+ weapon skill (assumed capped for level derp)
             //attack is madly high for avatars (roughly x2)
-            PPet->setModifier(Mod::ATT, 2 * battleutils::GetMaxSkill(SKILL_HEA, JOB_WHM, PPet->GetMLevel()));
-            PPet->setModifier(Mod::ACC, battleutils::GetMaxSkill(SKILL_HEA, JOB_WHM, PPet->GetMLevel()));
+            PPet->setModifier(Mod::ATT, 2 * battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
+            PPet->setModifier(Mod::ACC, battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
             //Set E evasion and def
-            PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_HEA, JOB_WHM, PPet->GetMLevel()));
-            PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_HEA, JOB_WHM, PPet->GetMLevel()));
+            PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
+            PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
             // cap all magic skills so they play nice with spell scripts
             for (int i = SKILL_DIVINE_MAGIC; i <= SKILL_BLUE_MAGIC; i++)
             {
@@ -1617,8 +1617,8 @@ namespace petutils
             if (PMaster->objtype == TYPE_PC)
             {
                 CCharEntity* PChar = (CCharEntity*)PMaster;
-                uint16 maxSkill = battleutils::GetMaxSkill(SKILL_SUM, JOB_SMN, PChar->GetMLevel());
-                int16 plusSkill = dsp_max(PChar->GetSkill(SKILL_SUM) - maxSkill, 0); // skill added by gear will get you over the max
+                uint16 maxSkill = battleutils::GetMaxSkill(SKILL_SUMMONING_MAGIC, JOB_SMN, PChar->GetMLevel());
+                int16 plusSkill = std::max<uint16>(PChar->GetSkill(SKILL_SUMMONING_MAGIC) - maxSkill, 0); // skill added by gear will get you over the max
 
                 PPet->addModifier(Mod::HP, plusSkill);
                 PPet->addModifier(Mod::MP, plusSkill);
@@ -1784,8 +1784,8 @@ namespace petutils
         PPet->setModifier(Mod::ATT, battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PPet->GetMLevel()));
         PPet->setModifier(Mod::ACC, battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PPet->GetMLevel()));
         //Set D evasion and def
-        PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_GAX, JOB_WAR, PPet->GetMLevel()));
-        PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_GAX, JOB_WAR, PPet->GetMLevel()));
+        PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PPet->GetMLevel()));
+        PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_GREAT_AXE, JOB_WAR, PPet->GetMLevel()));
 
         if (finalize)
             FinalizePetStatistics(PMaster, PPet);

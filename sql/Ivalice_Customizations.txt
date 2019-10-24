@@ -2,12 +2,7 @@
 UPDATE Abilities SET recastTime = 60 WHERE abilityId = 41;
 UPDATE Abilities SET recastTime = 300 WHERE abilityId = 45;
 
--- AUGMENTS - DO WE NEED THE CORRECT MULTIPLIER???
-UPDATE augments SET multiplier = 10.24, value = 1 WHERE augmentId = 49; -- HASTE+1
-UPDATE augments SET multiplier = 10.24, value = -1 WHERE augmentId = 50; -- SLOW+1
-
 -- ITEM_ARMOR -- THIS GETS DELETED
--- NEED TO IMPLEMENT GLOBAL ITEM DROP
 -- ALSO IDENTIFY ALL OF THE GEAR DIFFERENCES
 
 -- ITEM_BASIC

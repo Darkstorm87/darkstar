@@ -27,6 +27,7 @@
 #include "../entities/battleentity.h"
 #include "../map.h"
 #include "itemutils.h"
+#include "../lua/luautils.cpp"
 
 std::array<CItem*, MAX_ITEMID> g_pItemList;      // global array of pointers to game items
 std::array<DropList_t*, MAX_DROPID> g_pDropList; // global array of monster droplist items
@@ -44,6 +45,11 @@ DropItem_t::DropItem_t(uint8 DropType, uint16 ItemID, uint16 DropRate)
 
 DropGroup_t::DropGroup_t(uint16 GroupRate)
     : GroupRate(GroupRate)
+{ }
+
+DropEquip_t::DropEquip_t(uint16 ItemID, uint32 Jobs)
+    : ItemID(ItemID)
+    , Jobs(Jobs)
 { }
 
 /************************************************************************
@@ -272,14 +278,15 @@ namespace itemutils
 	*                                                                       *
 	************************************************************************/
 
-	std::unique_ptr<DropEquipList_t> GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob, uint8 range, bool rare)
+    DropEquipList_t* GetEquipDropList(CCharEntity* PChar, CMobEntity* CMob)
 	{
-		std::unique_ptr<DropEquipList_t> equipIds(new DropEquipList_t());
-		uint8 maxPCLevel = luautils::GetSettingsVariable("MAX_LEVEL");
-		uint8 targetLevel = CMob->GetMLevel() > maxPCLevel ? maxPCLevel-1 : CMob->GetMLevel()-1;
+        uint8 range = map_config.global_equipment_drop_range;
 
-		uint8 minLevel = targetLevel - range > 0 ? targetLevel - range : 0;
-		uint8 maxLevel = targetLevel + range < maxPCLevel ? targetLevel + range : maxPCLevel-1;
+		uint8 maxPCLevel = luautils::GetSettingsVariable("MAX_LEVEL");
+		uint8 targetLevel = std::clamp<uint8>(CMob->GetMLevel(), 0, maxPCLevel);
+
+		uint8 minLevel = std::max<uint8>(targetLevel - range, 0) - 1; // -1 to offset levels for zero based indexed g_pEquipmentList array
+		uint8 maxLevel = std::min<uint8>(targetLevel + range, maxPCLevel) - 1;
 
 		uint32 allianceJobs = 0;
 		PChar->ForAlliance([&allianceJobs](CBattleEntity* PPartyMember) {
@@ -288,27 +295,24 @@ namespace itemutils
 			allianceJobs = allianceJobs | (1 << (PMember->GetMJob() - 1));
 		});
 
+        DropEquipList_t* items(new DropEquipList_t());
+
 		for (uint8 i = minLevel; i < maxLevel; ++i)
 		{
 			if (g_pEquipmentList[i] != NULL)
 			{
 				for (uint16 j = 0; j < g_pEquipmentList[i]->size(); ++j)
 				{
-					CItemArmor* PItem = (CItemArmor*)GetItem(g_pEquipmentList[i]->at(j).ItemID);
+                    DropEquip_t item = g_pEquipmentList[i]->at(j);
 
-					if ((PItem->getJobs() & allianceJobs) && rare == ((PItem->getFlag() & (ITEM_FLAG_RARE | ITEM_FLAG_EX)) > 0)) {
-						DropEquip_t dropEquip;
-						dropEquip.ItemID = PItem->getID();
-
-						equipIds->push_back(dropEquip);
+					if ((item.Jobs & allianceJobs)) {
+                        items->emplace_back(item);
 					}
-
-					delete PItem;
 				}
 			}
 		}
 
-		return equipIds;
+        return items;
 	}
 
     /************************************************************************
@@ -427,21 +431,19 @@ namespace itemutils
                             ((CItemEquipment*)PItem)->setSubType(ITEM_CHARGED);
                         }
 
-                        if (PItem->getFlag() & (ITEM_FLAG_01 | ITEM_FLAG_EX | ITEM_FLAG_RARE) = 0)
+                        if ((PItem->getFlag() & (ITEM_FLAG_01 | ITEM_FLAG_EX | ITEM_FLAG_RARE)) == 0)
                         {
-                            uint8 reqLvl = ((CItemArmor*)PItem)->getReqLvl() - 1;
-                            uint8 iLvl = ((CItemArmor*)PItem)->getILvl() - 1;
-                            if (iLvl != 0) { regLvl = iLvl; }
+                            uint8 reqLvl = ((CItemEquipment*)PItem)->getReqLvl();
+                            uint8 iLvl = ((CItemEquipment*)PItem)->getILvl();
+                            if (iLvl != 0) { reqLvl = iLvl; }
+                            reqLvl--;
 
                             if (g_pEquipmentList[reqLvl] == 0)
                             {
                                 g_pEquipmentList[reqLvl] = new DropEquipList_t;
                             }
 
-                            DropEquip_t DropEquip;
-                            DropEquip.ItemID = PItem->getID();
-
-                            g_pEquipmentList[reqLvl]->push_back(DropEquip);
+                            g_pEquipmentList[reqLvl]->emplace_back(DropEquip_t(PItem->getID(), ((CItemEquipment*)PItem)->getJobs()));
                         }
                     }
                     if (PItem->isType(ITEM_WEAPON))

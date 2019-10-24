@@ -2940,7 +2940,7 @@ namespace battleutils
                 PSCEffect->SetDuration(PSCEffect->GetDuration() - 1000);
                 PSCEffect->SetTier(GetSkillchainTier((SKILLCHAIN_ELEMENT)skillchain));
                 PSCEffect->SetPower(skillchain);
-                PSCEffect->SetSubPower(std::min(PSCEffect->GetSubPower() + 1, 5)); // Linked, limited to 5
+                PSCEffect->SetSubPower(std::min<uint32>(PSCEffect->GetSubPower() + 1, 5)); // Linked, limited to 5
 
                 return (SUBEFFECT)GetSkillchainSubeffect((SKILLCHAIN_ELEMENT)skillchain);
             }
@@ -4118,7 +4118,7 @@ namespace battleutils
                       + ( floor( 256.0f * ( PDefender->getMod(Mod::DMG)       / 100.0f ) ) / 256.0f );
         resist = std::clamp(resist, 0.5f, 1.5f); //assuming if its floored at .5f its capped at 1.5f but who's stacking +dmgtaken equip anyway???
 		resist = resist + (floor(256.0f * (PDefender->getMod(Mod::DMG_II) / 100.0f)) / 256.0f);
-		resist = dsp_cap(resist, 0.1f, 1.5f); //allows for DT II to take reduction to 90%
+		resist = std::clamp(resist, 0.1f, 1.5f); //allows for DT II to take reduction to 90%
 
         damage = (int32)(damage * resist);
 
