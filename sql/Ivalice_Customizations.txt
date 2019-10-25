@@ -49,8 +49,40 @@ UPDATE skill_ranks SET brd = 1 WHERE skillid = 40 -- singing
 UPDATE skill_ranks SET brd = 1 WHERE skillid = 41 -- string
 UPDATE skill_ranks SET brd = 1 WHERE skillid = 42 -- wind
 
--- ITEM_ARMOR -- THIS GETS DELETED
--- ALSO IDENTIFY ALL OF THE GEAR DIFFERENCES
+-- ITEM_EQUIPMENT
+
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12430;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12555;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12556;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12557;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12558;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12686;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12814;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12942;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 13735;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 13793;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14029;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14030;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14137;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14138;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14371;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14444;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14445;
+
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 14524;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 14528;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 14932;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 14938;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 15603;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 15607;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 15687;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 15693;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 16061;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 16067;
+
+UPDATE item_equipment SET jobs = 3553 WHERE itemid = 16555;
+
+UPDATE item_equipment SET jobs = 2111715 WHERE itemid = 18139;
 
 -- ITEM_BASIC
 -- NEED TO ADJUST SELLING PRICE

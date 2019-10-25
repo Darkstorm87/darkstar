@@ -1429,7 +1429,7 @@ function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 			spellParams.M200 = 2;
 		elseif (nukeTier == 4) then
 			-- MOB ONLY TIER SO I DON'T HAVE SETTINGS
-		if (nukeTier == 5) then
+		elseif (nukeTier == 5) then
 			spellParams.hasMultipleTargetReduction = true;
 			spellParams.resistBonus = 1.0;
 			spellParams.V0 = math.min(math.max(2.61 * skillLevel - 50, 800), 1000);

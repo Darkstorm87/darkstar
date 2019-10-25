@@ -3,8 +3,7 @@
 -- NPC: Disjoined One
 -- Made into a Custom Augment NPC
 -----------------------------------
-package.loaded["scripts/zones/Bastok_Mines/TextIDs"] = nil;
-require("scripts/zones/Bastok_Mines/TextIDs");
+local ID = require("scripts/zones/Bastok_Mines/IDs");
 require("scripts/globals/status");
 -----------------------------------
 -- onTrade Action
@@ -158,7 +157,7 @@ function onTrade(player,npc,trade)
 	local augmentType = npcToAugmentType[npc:getID()];
 	if (trade:getSlotCount() == 1) then
 		local item = trade:getItem();
-		if (item:isType(ITEM_ARMOR) and item:getSkillType() ~= SKILL_THR) then
+		if (item:isType(dsp.itemType.ARMOR) and item:getSkillType() ~= dsp.skill.THROWING) then
 			local itemAugments = {}
 			local augId, augVal;
             for i = 0, 4 do
@@ -207,7 +206,7 @@ function onTrade(player,npc,trade)
 				local itemId = trade:getItemId(i);
 				if (itemId > 0) then
 					local item = trade:getItem(i);
-					if (item:isType(ITEM_ARMOR) and item:getSkillType() ~= SKILL_THR and gearItem == nil) then
+					if (item:isType(dsp.itemType.ARMOR) and item:getSkillType() ~= dsp.skill.THROWING and gearItem == nil) then
 						gearItem  = item;
 					elseif(itemMap[itemId] ~= nil)  then
 						augItemId = itemId;
