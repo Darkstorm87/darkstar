@@ -27,7 +27,7 @@
 #include "../entities/battleentity.h"
 #include "../map.h"
 #include "itemutils.h"
-#include "../lua/luautils.cpp"
+#include "../lua/luautils.h"
 
 std::array<CItem*, MAX_ITEMID> g_pItemList;      // global array of pointers to game items
 std::array<DropList_t*, MAX_DROPID> g_pDropList; // global array of monster droplist items
@@ -317,7 +317,7 @@ namespace itemutils
 
     /************************************************************************
     *                                                                       *
-    *  Загружаем базу предметов                                             *
+    *  Load the items                                                       *
     *                                                                       *
     ************************************************************************/
 

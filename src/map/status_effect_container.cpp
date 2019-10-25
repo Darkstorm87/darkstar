@@ -526,19 +526,6 @@ bool CStatusEffectContainer::DelStatusEffect(EFFECT StatusID)
     return false;
 }
 
-bool CStatusEffectContainer::DelStatusEffectNoSilent(EFFECT StatusID)
-{
-	for (uint16 i = 0; i < m_StatusEffectList.size(); ++i)
-	{
-		if (m_StatusEffectList.at(i)->GetStatusID() == StatusID)
-		{
-			RemoveStatusEffect(i, false);
-			return true;
-		}
-	}
-	return false;
-}
-
 bool CStatusEffectContainer::DelStatusEffectSilent(EFFECT StatusID)
 {
     for (uint16 i = 0; i < m_StatusEffectList.size(); ++i)

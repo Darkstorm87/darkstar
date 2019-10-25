@@ -3,7 +3,9 @@
 -- Enmity + 30
 -----------------------------------------
 
-require("scripts/globals/status");
+require("scripts/globals/magic")
+require("scripts/globals/msg")
+require("scripts/globals/status")
 
 -----------------------------------------
 -- OnSpellCast
@@ -17,11 +19,11 @@ function onSpellCast(caster,target,spell)
 	local power = 30;
     local duration = 300;
 
-    local typeEffect = EFFECT_ENMITY_BOOST;
-    if (target:addStatusEffect(typeEffect, power, 0, duration)) then
-        spell:setMsg(230);
+    local typeEffect = dsp.effect.ENMITY_BOOST;
+    if target:addStatusEffect(typeEffect, power, 0, duration) then
+        spell:setMsg(dsp.msg.basic.MAGIC_GAIN_EFFECT);
     else
-        spell:setMsg(75); -- no effect
+        spell:setMsg(dsp.msg.basic.MAGIC_NO_EFFECT); -- no effect
     end
 
     return typeEffect;

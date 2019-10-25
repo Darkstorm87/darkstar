@@ -710,12 +710,12 @@ uint16 CBattleEntity::DEF()
 
 uint16 CBattleEntity::EVA()
 {
-    uint16 evasion = GetSkill(SKILL_EVASION);
+    int16 evasion = GetSkill(SKILL_EVASION);
 
     //if (evasion > 200) { //evasion skill is 0.9 evasion post-200
     //    evasion = (int16)(200 + (evasion - 200) * 0.9);
     //}
-    return std::max<uint16>(0, (m_modStat[Mod::EVA] + evasion + AGI() * 0.75));
+    return std::max<int16>(0, (m_modStat[Mod::EVA] + evasion + AGI() * 0.75));
 }
 
 /************************************************************************

@@ -8,4 +8,5 @@ function onMobDeath(mob, player, isKiller)
 end;
 
 function onMobDespawn(mob)
+	mob:setRespawnTime(900); -- respawn 3-6 hrs
 end;

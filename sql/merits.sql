@@ -1,16 +1,13 @@
-/*
-MySQL Data Transfer
-Source Host: localhost
-Source Database: dspdb
-Target Host: localhost
-Target Database: dspdb
-Date: 2/16/2013 9:54:02 PM
-*/
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+--
+-- Host: localhost    Database: dspdb
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.0.20-MariaDB
 
-SET FOREIGN_KEY_CHECKS=0;
--- ----------------------------
--- Table structure for merits
--- ----------------------------
+--
+-- Table structure for table `merits`
+--
+
 DROP TABLE IF EXISTS `merits`;
 CREATE TABLE `merits` (
   `meritid` smallint(5) unsigned NOT NULL,
@@ -23,9 +20,11 @@ CREATE TABLE `merits` (
   PRIMARY KEY (`meritid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records 
--- ----------------------------
+--
+-- Dumping data for table `merits`
+--
+-- ORDER BY:  `meritid`
+
 INSERT INTO `merits` VALUES (64,'max_hp',15,10,1048575,0,0);
 INSERT INTO `merits` VALUES (66,'max_mp',15,10,1048575,0,0);
 INSERT INTO `merits` VALUES (68,'max_merits',15,1,1048575,9,0);
@@ -86,7 +85,7 @@ INSERT INTO `merits` VALUES (454,'counter_rate',5,1,2,6,6);
 INSERT INTO `merits` VALUES (456,'kick_attack_rate',5,1,2,6,6);
 INSERT INTO `merits` VALUES (512,'divine_seal_recast',5,20,4,6,7);
 INSERT INTO `merits` VALUES (514,'cure_cast_time',5,4,4,6,7);
-INSERT INTO `merits` VALUES (516,'bar_spell_effect',5,4,4,6,7);
+INSERT INTO `merits` VALUES (516,'bar_spell_effect',5,2,4,6,7);
 INSERT INTO `merits` VALUES (518,'banish_effect',5,2,4,6,7);
 INSERT INTO `merits` VALUES (520,'regen_effect',5,1,4,6,7);
 INSERT INTO `merits` VALUES (576,'elemental_seal_recast',5,20,8,6,8);
@@ -108,7 +107,7 @@ INSERT INTO `merits` VALUES (706,'hide_recast',5,10,32,6,10);
 INSERT INTO `merits` VALUES (708,'sneak_attack_recast',5,2,32,6,10);
 INSERT INTO `merits` VALUES (710,'trick_attack_recast',5,2,32,6,10);
 INSERT INTO `merits` VALUES (712,'triple_attack_rate',5,1,32,6,10);
-INSERT INTO `merits` VALUES (768,'shield_bash_recast',5,1,64,6,11);
+INSERT INTO `merits` VALUES (768,'shield_bash_recast',5,6,64,6,11);
 INSERT INTO `merits` VALUES (770,'holy_circle_recast',5,10,64,6,11);
 INSERT INTO `merits` VALUES (772,'sentinel_recast',5,10,64,6,11);
 INSERT INTO `merits` VALUES (774,'cover_effect_length',5,4,64,6,11);
@@ -284,3 +283,5 @@ INSERT INTO `merits` VALUES (3268,'tranquility',5,10,524288,7,50);
 INSERT INTO `merits` VALUES (3270,'enquanimity',5,10,524288,7,50);
 INSERT INTO `merits` VALUES (3272,'enlightenment',5,5,524288,7,50);
 INSERT INTO `merits` VALUES (3274,'stormsurge',5,1,524288,7,50);
+
+-- Dump completed on 2017-01-31 10:58:26

@@ -1,6 +1,53 @@
 -- ABILITIES
-UPDATE Abilities SET recastTime = 60 WHERE abilityId = 41;
-UPDATE Abilities SET recastTime = 300 WHERE abilityId = 45;
+UPDATE Abilities SET CE = 100, VE = 10000 WHERE abilityId = 6; -- invincible
+UPDATE Abilities SET recastTime = 90 WHERE abilityId = 16; -- warcry
+UPDATE Abilities SET CE = 200 WHERE abilityId = 19; -- provoke
+UPDATE Abilities SET recastTime = 120, isAOE = 1 WHERE abilityId = 22; -- chakra
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 25; -- steal
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 27; -- hide
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 29; -- mug
+UPDATE Abilities SET recastTime = 30, CE = 200, VE = 800 WHERE abilityId = 30; -- shield bash
+UPDATE Abilities SET recastTime = 300, CE = 100, VE = 80 WHERE abilityId = 31; -- holy circle
+UPDATE Abilities SET CE = 100, VE = 1860 WHERE abilityId = 32; -- sentinel
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 41; -- shadowbind
+UPDATE Abilities SET recastTime = 300 WHERE abilityId = 45; -- call wyvern
+UPDATE Abilities SET recastTime = 150 WHERE abilityId = 47; -- meditate
+UPDATE Abilities SET recastTime = 90 WHERE abilityId = 51; -- high jump
+UPDATE Abilities SET recastTime = 120 WHERE abilityId = 52; -- super jump
+UPDATE Abilities SET CE = 100, VE = 95 WHERE abilityId = 63; -- cover
+UPDATE Abilities SET recastTime = 120 WHERE abilityId = 66; -- chi blast
+UPDATE Abilities SET recastTime = 180 WHERE abilityId = 68; -- accomplice
+UPDATE Abilities SET recastTime = 45 WHERE abilityId = 75; -- blood pact rage
+UPDATE Abilities SET CE = 100, VE = 360 WHERE abilityId = 76; -- rampart
+UPDATE Abilities SET recastTime = 1200 WHERE abilityId = 119; -- overdrive
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 151; -- shikikoyo
+UPDATE Abilities SET recastTime = 45 WHERE abilityId = 156; -- blood pact ward
+UPDATE Abilities SET recastTime = 1200 WHERE abilityId = 165; -- trance
+UPDATE Abilities SET recastTime = 1200 WHERE abilityId = 194; -- tabula rasa
+UPDATE Abilities SET recastTime = 150 WHERE abilityId = 214; -- sekkanoki
+UPDATE Abilities SET recastTime = 45 WHERE abilityId IN (640,641,642,643,644,645,646); -- camisado, somnolence, nightmare, ultimate terror, noctoshield, dream shroud, nether blast
+
+-- MERITS
+UPDATE merits SET Value = 4 WHERE meritid = 516 -- barspell effect
+UPDATE merits SET Value = 1 WHERE meritid = 768 -- shield base recast
+
+-- NPC LIST
+UPDATE npc_list SET pos_rot = 48, pos_x = 7, pos_z = -71, namevis = 0 WHERE npcid = 17736005;
+UPDATE npc_list SET pos_rot = 68, pos_x = 11, pos_z = -71, namevis = 0 WHERE npcid = 17736007;
+UPDATE npc_list SET pos_rot = 60, pos_x = 9, pos_z = -71, namevis = 0 WHERE npcid = 17736012;
+
+-- SKILL RANKS
+UPDATE skill_ranks SET war = 3, rdm = 1, rng = 3 WHERE skillid = 2 -- dagger
+UPDATE skill_ranks SET war = 3, rdm = 1 WHERE skillid = 3 -- sword
+UPDATE skill_ranks SET rng = 3 WHERE skillid = 5 -- axe
+UPDATE skill_ranks SET war = 3 WHERE skillid = 8 -- polearm
+UPDATE skill_ranks SET war = 3 WHERE skillid = 11 -- club
+UPDATE skill_ranks SET war = 3 WHERE skillid = 12 -- staff
+UPDATE skill_ranks SET rng = 1, sam = 3 WHERE skillid = 25 -- archery
+UPDATE skill_ranks SET rng = 1 WHERE skillid = 26 -- marksmanship
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 40 -- singing
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 41 -- string
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 42 -- wind
 
 -- ITEM_ARMOR -- THIS GETS DELETED
 -- ALSO IDENTIFY ALL OF THE GEAR DIFFERENCES
