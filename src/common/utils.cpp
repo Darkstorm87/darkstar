@@ -173,7 +173,9 @@ uint8 radianToRotation(float radian)
 
 uint8 getangle(const position_t& A, const position_t& B)
 {
-    return (uint8)(atan2f(B.z - A.z, B.x - A.x) * -(128.0f / M_PI));
+    uint8 angle = (uint8)(atanf((B.z - A.z) / (B.x - A.x)) * -(128.0f / M_PI));
+
+    return (A.x > B.x ? angle + 128 : angle);
 }
 
 /************************************************************************
@@ -184,7 +186,7 @@ uint8 getangle(const position_t& A, const position_t& B)
 
 bool isFaceing(const position_t& A, const position_t& B, uint8 coneAngle)
 {
-	int32 angle = getangle(A,B);
+	int32 angle = getangle(A, B);
     return abs(int8(angle - A.rotation)) < (coneAngle >> 1);
 }
 

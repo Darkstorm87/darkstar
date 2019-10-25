@@ -839,7 +839,7 @@ namespace petutils
 
         uint8 mlvl = PPet->GetMLevel();
         JOBTYPE mjob = PPet->GetMJob();
-        uint8 race = 0;					//Tarutaru
+        uint8 race = 3;					//Tarutaru
 
         // Расчет прироста HP от main job
         int32 mainLevelOver30 = std::clamp(mlvl - 30, 0, 30);			// Расчет условия +1HP каждый лвл после 30 уровня
@@ -915,7 +915,6 @@ namespace petutils
         PPet->health.mp = PPet->health.maxmp;
         //add in evasion from skill
         PPet->setModifier(Mod::EVA, PPet->GetSkill(SKILL_EVASION));
-
 
         //Начало расчета характеристик
         uint8 counter = 0;

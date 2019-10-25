@@ -658,13 +658,10 @@ CBattleEntity* CParty::GetQuaterMaster()
 
 uint16 CParty::GetMemberFlags(CBattleEntity* PEntity)
 {
-    uint16 Flags = 0;
     DSP_DEBUG_BREAK_IF(PEntity == nullptr);
-
-    if (PEntity->PParty != this)
-        return Flags;
-
     DSP_DEBUG_BREAK_IF(PEntity->PParty != this);
+
+    uint16 Flags = 0;
 
     if (PEntity->PParty->m_PAlliance != nullptr)
     {
@@ -718,7 +715,7 @@ void CParty::ReloadParty()
                     auto PPartyMember = zoneutils::GetChar(memberinfo.id);
                     if (PPartyMember)
                     {
-                        PChar->pushPacket(new CPartyMemberUpdatePacket(PPartyMember, j, memberinfo.flags | GetMemberFlags(PPartyMember), PChar->getZone()));
+                        PChar->pushPacket(new CPartyMemberUpdatePacket(PPartyMember, j, memberinfo.flags, PChar->getZone()));
                         //if (memberinfo.partyid == party->GetPartyID() && PPartyMember != PChar)
                         //    effects->AddMemberEffects(PChar);
                     }
@@ -755,7 +752,7 @@ void CParty::ReloadParty()
                 auto PPartyMember = zoneutils::GetChar(memberinfo.id);
                 if (PPartyMember)
                 {
-                    PChar->pushPacket(new CPartyMemberUpdatePacket(PPartyMember, j, memberinfo.flags | GetMemberFlags(PPartyMember), PChar->getZone()));
+                    PChar->pushPacket(new CPartyMemberUpdatePacket(PPartyMember, j, memberinfo.flags, PChar->getZone()));
                     //if (PPartyMember != PChar)
                     //    effects->AddMemberEffects(PChar);
 

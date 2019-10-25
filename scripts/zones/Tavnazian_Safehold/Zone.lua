@@ -6,7 +6,6 @@
 local ID = require("scripts/zones/Tavnazian_Safehold/IDs");
 require("scripts/globals/conquest");
 require("scripts/globals/settings");
-require("scripts/globals/zone");
 require("scripts/globals/missions");
 -----------------------------------
 

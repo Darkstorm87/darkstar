@@ -44,7 +44,7 @@ CChatMessagePacket::CChatMessagePacket(CCharEntity* PChar, CHAT_MESSAGE_TYPE Mes
 
     ref<uint8>(0x04) = MessageType;
 
-    if (PChar->objtype == TYPE_PC && PChar->nameflags.flags & FLAG_GM && sender.empty())
+    if (PChar->nameflags.flags & FLAG_GM && sender.empty())
         ref<uint8>(0x05) = 0x01;
 
     ref<uint16>(0x06) = PChar->getZone();

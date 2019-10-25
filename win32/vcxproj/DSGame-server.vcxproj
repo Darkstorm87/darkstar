@@ -127,6 +127,7 @@
       </PrecompiledHeader>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MinimalRebuild>false</MinimalRebuild>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libmariadb64.lib;lua51_64.lib;libzmq-d_64.lib;WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>

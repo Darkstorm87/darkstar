@@ -11,7 +11,7 @@
 DROP TABLE IF EXISTS `augments`;
 CREATE TABLE `augments` (
   `augmentId` smallint(5) unsigned NOT NULL,
-  `multiplier` DECIMAL(5,2) NOT NULL DEFAULT '0',
+  `multiplier` smallint(2) NOT NULL DEFAULT '0',
   `modId` smallint(5) unsigned NOT NULL DEFAULT '0',
   `value` smallint(5) NOT NULL DEFAULT '0',
   `isPet` tinyint(1) NOT NULL DEFAULT '0',

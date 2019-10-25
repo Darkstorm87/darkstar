@@ -24,12 +24,10 @@ This file is part of DarkStar-server source code.
 #include "attack_state.h"
 
 #include "../../entities/battleentity.h"
-#include "../../status_effect_container.h"
 
 #include "../../utils/battleutils.h"
 #include "../../packets/action.h"
 #include "../ai_container.h"
-#include "../../items/item_weapon.h"
 
 CAttackState::CAttackState(CBattleEntity* PEntity, uint16 targid) :
     CState(PEntity, targid),
@@ -70,7 +68,6 @@ bool CAttackState::Update(time_point tick)
             {
                 m_PEntity->loc.zone->PushPacket(m_PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
             }
-
         }
         else if (m_PEntity->OnAttackError(*this))
         {
