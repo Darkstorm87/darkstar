@@ -17,26 +17,32 @@ local augCost = {
 				  [4] = 800000,
 				  [5] = 1600000,
 				  [6] = 3200000,
-				  [7] = 6400000
+				  [7] = 6400000,
+				  [8] = 12800000,
+				  [9] = 25600000,
 				};
 				
 local nmDropItem = {
-					[0] = 3266,
-					[1] = 2910,
-					[2] = 2947,
-					[3] = 3262,
-					[4] = 3261,
-					[5] = 3231,
-					[6] = 3247,
-					[7] = 3294,
-					[3266] = "Darkflame Arm",
-					[2910] = "Armored Dragonhorn",
-					[2947] = "Exorcised Skull",
-					[3262] = "Jaculus Wing",
-					[3261] = "Minaruja Skull",
-					[3231] = "Sharabha Hide",
-					[3247] = "Sisyphus Fragment",
-					[3294] = "Colorless Soul"
+					[0] = 4064,
+					[1] = 4065,
+					[2] = 4066,
+					[3] = 4067,
+					[4] = 4068,
+					[5] = 4069,
+					[6] = 4070,
+					[7] = 4071,
+					[8] = 4072,
+					[9] = 4073,
+					[4064] = "Rem's Tale Ch.1",
+					[4065] = "Rem's Tale Ch.2",
+					[4066] = "Rem's Tale Ch.3",
+					[4067] = "Rem's Tale Ch.4",
+					[4068] = "Rem's Tale Ch.5",
+					[4069] = "Rem's Tale Ch.6",
+					[4070] = "Rem's Tale Ch.7",
+					[4071] = "Rem's Tale Ch.8",
+					[4072] = "Rem's Tale Ch.9",
+					[4073] = "Rem's Tale Ch.10"
 				};
 
 local itemMap = {[1488] = "A Egg",
@@ -157,7 +163,7 @@ function onTrade(player,npc,trade)
 	local augmentType = npcToAugmentType[npc:getID()];
 	if (trade:getSlotCount() == 1) then
 		local item = trade:getItem();
-		if (item:isType(dsp.itemType.ARMOR) and item:getSkillType() ~= dsp.skill.THROWING) then
+		if (item:isType(dsp.itemType.ARMOR)) then
 			local itemAugments = {}
 			local augId, augVal;
             for i = 0, 4 do
@@ -186,7 +192,7 @@ function onTrade(player,npc,trade)
 					augVal = math.floor(augVal / augments[augId].Multiplier);
 				end
 			
-				if (augVal < 8) then
+				if (augVal < 10) then
 					player:PrintToPlayer(string.format("Bring me %s Gil, a %s, and a rare %s to enhance your augment.", augCost[augVal], itemMap[augments[augId].AugItem1], nmDropItem[nmDropItem[augVal]]), 0, npc:getName());
 				else
 					player:PrintToPlayer("I cannot enhance this further.  You may begin again with another augment if you'd like.", 0, npc:getName());
@@ -206,7 +212,7 @@ function onTrade(player,npc,trade)
 				local itemId = trade:getItemId(i);
 				if (itemId > 0) then
 					local item = trade:getItem(i);
-					if (item:isType(dsp.itemType.ARMOR) and item:getSkillType() ~= dsp.skill.THROWING and gearItem == nil) then
+					if (item:isType(dsp.itemType.ARMOR) and gearItem == nil) then
 						gearItem  = item;
 					elseif(itemMap[itemId] ~= nil)  then
 						augItemId = itemId;
@@ -241,7 +247,7 @@ function onTrade(player,npc,trade)
 				local augId, augVal = getAugmentId(augItemId, augmentType, itemAugments, nmItemId);
 				--player:PrintToPlayer(string.format("augid: %s, augval: %s", augId, augVal), 0, npc:getName());
 				if (augId ~= nil and itemAugments[augmentType] ~= nil and (itemAugments[augmentType].AugId == augId or augments[itemAugments[augmentType].AugId].NextAugId == augId)) then	
-					if (augVal < 8) then
+					if (augVal < 10) then
 						if (augCost[augVal] == tradeGil and nmDropItem[augVal] == nmItemId and augments[augId].AugItem1 == augItemId) then
 							augVal = augVal+1;
 							if (augments[augId].Multiplier ~= nil) then

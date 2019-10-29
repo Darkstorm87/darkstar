@@ -1,0 +1,372 @@
+-- ABILITIES
+UPDATE Abilities SET CE = 100, VE = 10000 WHERE abilityId = 6; -- invincible
+UPDATE Abilities SET recastTime = 90 WHERE abilityId = 16; -- warcry
+UPDATE Abilities SET CE = 200 WHERE abilityId = 19; -- provoke
+UPDATE Abilities SET recastTime = 120, isAOE = 1 WHERE abilityId = 22; -- chakra
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 25; -- steal
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 27; -- hide
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 29; -- mug
+UPDATE Abilities SET recastTime = 30, CE = 200, VE = 800 WHERE abilityId = 30; -- shield bash
+UPDATE Abilities SET recastTime = 300, CE = 100, VE = 80 WHERE abilityId = 31; -- holy circle
+UPDATE Abilities SET CE = 100, VE = 1860 WHERE abilityId = 32; -- sentinel
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 41; -- shadowbind
+UPDATE Abilities SET recastTime = 300 WHERE abilityId = 45; -- call wyvern
+UPDATE Abilities SET recastTime = 150 WHERE abilityId = 47; -- meditate
+UPDATE Abilities SET recastTime = 90 WHERE abilityId = 51; -- high jump
+UPDATE Abilities SET recastTime = 120 WHERE abilityId = 52; -- super jump
+UPDATE Abilities SET CE = 100, VE = 95 WHERE abilityId = 63; -- cover
+UPDATE Abilities SET recastTime = 120 WHERE abilityId = 66; -- chi blast
+UPDATE Abilities SET recastTime = 180 WHERE abilityId = 68; -- accomplice
+UPDATE Abilities SET recastTime = 45 WHERE abilityId = 75; -- blood pact rage
+UPDATE Abilities SET CE = 100, VE = 360 WHERE abilityId = 76; -- rampart
+UPDATE Abilities SET recastTime = 1200 WHERE abilityId = 119; -- overdrive
+UPDATE Abilities SET recastTime = 60 WHERE abilityId = 151; -- shikikoyo
+UPDATE Abilities SET recastTime = 45 WHERE abilityId = 156; -- blood pact ward
+UPDATE Abilities SET recastTime = 1200 WHERE abilityId = 165; -- trance
+UPDATE Abilities SET recastTime = 1200 WHERE abilityId = 194; -- tabula rasa
+UPDATE Abilities SET recastTime = 150 WHERE abilityId = 214; -- sekkanoki
+UPDATE Abilities SET recastTime = 45 WHERE abilityId IN (640,641,642,643,644,645,646); -- camisado, somnolence, nightmare, ultimate terror, noctoshield, dream shroud, nether blast
+
+-- MERITS
+UPDATE merits SET Value = 4 WHERE meritid = 516 -- barspell effect
+UPDATE merits SET Value = 1 WHERE meritid = 768 -- shield base recast
+
+-- NPC LIST
+UPDATE npc_list SET pos_rot = 48, pos_x = 7, pos_z = -71, namevis = 0 WHERE npcid = 17736005;
+UPDATE npc_list SET pos_rot = 68, pos_x = 11, pos_z = -71, namevis = 0 WHERE npcid = 17736007;
+UPDATE npc_list SET pos_rot = 60, pos_x = 9, pos_z = -71, namevis = 0 WHERE npcid = 17736012;
+
+-- SKILL RANKS
+UPDATE skill_ranks SET war = 3, rdm = 1, rng = 3 WHERE skillid = 2 -- dagger
+UPDATE skill_ranks SET war = 3, rdm = 1 WHERE skillid = 3 -- sword
+UPDATE skill_ranks SET rng = 3 WHERE skillid = 5 -- axe
+UPDATE skill_ranks SET war = 3 WHERE skillid = 8 -- polearm
+UPDATE skill_ranks SET war = 3 WHERE skillid = 11 -- club
+UPDATE skill_ranks SET war = 3 WHERE skillid = 12 -- staff
+UPDATE skill_ranks SET rng = 1, sam = 3 WHERE skillid = 25 -- archery
+UPDATE skill_ranks SET rng = 1 WHERE skillid = 26 -- marksmanship
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 40 -- singing
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 41 -- string
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 42 -- wind
+
+-- ITEM_EQUIPMENT
+
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12430;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12555;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12556;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12557;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12558;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12686;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12814;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12942;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 13735;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 13793;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14029;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14030;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14137;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14138;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14371;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14444;
+UPDATE item_equipment SET jobs = 14785 WHERE itemid = 14445;
+
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 14524;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 14528;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 14932;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 14938;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 15603;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 15607;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 15687;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 15693;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 16061;
+UPDATE item_equipment SET jobs = 10689 WHERE itemid = 16067;
+
+UPDATE item_equipment SET jobs = 3553 WHERE itemid = 16555;
+
+UPDATE item_equipment SET jobs = 2111715 WHERE itemid = 18139;
+
+-- mob_droplist
+INSERT INTO mob_droplist
+SELECT DISTINCT md.dropId, 0, 0, 1000,
+	CASE itemId
+		WHEN 18852 THEN 17440 -- Kraken Club
+        WHEN 15351 THEN 13014 -- Leaping Boots
+        WHEN 15224 THEN 12486 -- Emperor Hairpin
+        WHEN 15515 THEN 13056 -- Peacock Charm
+        WHEN 15551 THEN 13514 -- Archer's Ring
+        WHEN 15899 THEN 13189 -- Speed Belt
+        WHEN 18587 THEN 17108 -- Dryad Staff
+        WHEN 15736 THEN 14080 -- Strider Boots
+        WHEN 14986 THEN 13952 -- Ochiudo's Kote
+        WHEN 15737 THEN 13054 -- Fuma Kyahan
+    END AS itemId
+    , itemRate
+FROM mob_groups mg
+INNER JOIN mob_droplist md
+	ON mg.dropid = md.dropId
+WHERE md.itemId IN (18852,15351,15224,15515,15551,15899,18587,15736,14986, 15737)
+ORDER BY mg.dropId;
+
+INSERT INTO mob_droplist
+SELECT DISTINCT mg.dropid, 0 AS dropType, 0 AS groupId, 1000 as groupRate,
+	CASE mg.minlevel DIV 10
+		WHEN 0 THEN 4064
+        WHEN 1 THEN 4065
+        WHEN 2 THEN 4066
+        WHEN 3 THEN 4067
+        WHEN 4 THEN 4068
+        WHEN 5 THEN 4069
+        WHEN 6 THEN 4070
+        WHEN 7 THEN 4071
+        WHEN 8 THEN 4072
+        WHEN 9 THEN 4073
+        WHEN 9 THEN 4073
+        ELSE 4064
+    END AS itemId,
+    250 AS itemRate
+FROM mob_spawn_points msp
+INNER JOIN mob_groups mg
+	ON msp.groupid = mg.groupid
+	AND mg.zoneid = ((msp.mobid >> 12) & 0xFFF)
+INNER JOIN mob_pools mp
+	ON mg.poolid = mp.poolid
+INNER JOIN zone_settings zs
+	ON mg.zoneid = zs.zoneid
+WHERE mp.mobType & 0x02
+AND NOT mp.mobType & (0x10 | 0x20)
+AND zs.zonetype NOT IN (4,5,6)
+AND mg.dropid > 0
+AND mg.minlevel DIV 10 < 10
+ORDER BY mg.minlevel DIV 10;
+
+INSERT INTO mob_droplist
+SELECT DISTINCT mg.dropid, 2 AS dropType, 0 AS groupId, 1000 as groupRate,
+	CASE mg.minlevel DIV 10
+		WHEN 0 THEN 4064
+        WHEN 1 THEN 4065
+        WHEN 2 THEN 4066
+        WHEN 3 THEN 4067
+        WHEN 4 THEN 4068
+        WHEN 5 THEN 4069
+        WHEN 6 THEN 4070
+        WHEN 7 THEN 4071
+        WHEN 8 THEN 4072
+        WHEN 9 THEN 4073
+        WHEN 9 THEN 4073
+        ELSE 4064
+    END AS itemId,
+    0 AS itemRate
+FROM mob_spawn_points msp
+INNER JOIN mob_groups mg
+	ON msp.groupid = mg.groupid
+	AND mg.zoneid = ((msp.mobid >> 12) & 0xFFF)
+INNER JOIN mob_pools mp
+	ON mg.poolid = mp.poolid
+INNER JOIN zone_settings zs
+	ON mg.zoneid = zs.zoneid
+WHERE mp.mobType & 0x02
+AND NOT mp.mobType & (0x10 | 0x20)
+AND zs.zonetype NOT IN (4,5,6)
+AND mg.dropid > 0
+AND mg.minlevel DIV 10 < 10
+ORDER BY mg.minlevel DIV 10;
+
+-- chapter 1 4064
+-- 2 4065
+-- 3 4066
+-- 4 4067
+-- 5 4068
+-- 6 4069
+-- 7 4070
+-- 8 4071
+-- 9 4072
+-- 10 4073
+
+-- SPELL LIST
+UPDATE spell_list SET mpCost = 20, castTime = 2000, recastTime = 10000 WHERE spellid = 57; -- haste
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 100; -- enfire
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 101; -- enblizzard
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 102; -- enaero
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 103; -- enstone
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 104; -- enthunder
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 105; -- enwater
+UPDATE spell_list SET mpCost = 20, recastTime = 9000 WHERE spellid = 109; -- refresh
+UPDATE spell_list SET mpCost = 15, castTime = 1500 WHERE spellid = 143; -- erase
+UPDATE spell_list SET mpCost = 4 WHERE spellid = 144; -- fire
+UPDATE spell_list SET mpCost = 16 WHERE spellid = 145; -- fire 2
+UPDATE spell_list SET mpCost = 40 WHERE spellid = 146; -- fire 3
+UPDATE spell_list SET mpCost = 88 WHERE spellid = 147; -- fire 4
+UPDATE spell_list SET mpCost = 156 WHERE spellid = 148; -- fire 5
+UPDATE spell_list SET mpCost = 4 WHERE spellid = 149; -- blizzard
+UPDATE spell_list SET mpCost = 16 WHERE spellid = 150; -- blizzard 2
+UPDATE spell_list SET mpCost = 40 WHERE spellid = 151; -- blizzard 3
+UPDATE spell_list SET mpCost = 88 WHERE spellid = 152; -- blizzard 4
+UPDATE spell_list SET mpCost = 156 WHERE spellid = 153; -- blizzard 5
+UPDATE spell_list SET mpCost = 4 WHERE spellid = 154; -- aero
+UPDATE spell_list SET mpCost = 16 WHERE spellid = 155; -- aero 2
+UPDATE spell_list SET mpCost = 40 WHERE spellid = 156; -- aero 3
+UPDATE spell_list SET mpCost = 88 WHERE spellid = 157; -- aero 4
+UPDATE spell_list SET mpCost = 156 WHERE spellid = 158; -- aero 5
+UPDATE spell_list SET mpCost = 4 WHERE spellid = 159; -- stone
+UPDATE spell_list SET mpCost = 16 WHERE spellid = 160; -- stone 2
+UPDATE spell_list SET mpCost = 40 WHERE spellid = 161; -- stone 3
+UPDATE spell_list SET mpCost = 88 WHERE spellid = 162; -- stone 4
+UPDATE spell_list SET mpCost = 156 WHERE spellid = 163; -- stone 5
+UPDATE spell_list SET mpCost = 4 WHERE spellid = 164; -- thunder
+UPDATE spell_list SET mpCost = 16 WHERE spellid = 165; -- thunder 2
+UPDATE spell_list SET mpCost = 40 WHERE spellid = 166; -- thunder 3
+UPDATE spell_list SET mpCost = 88 WHERE spellid = 167; -- thunder 4
+UPDATE spell_list SET mpCost = 156 WHERE spellid = 168; -- thunder 5
+UPDATE spell_list SET mpCost = 4 WHERE spellid = 169; -- water
+UPDATE spell_list SET mpCost = 16 WHERE spellid = 170; -- water 2
+UPDATE spell_list SET mpCost = 40 WHERE spellid = 171; -- water 3
+UPDATE spell_list SET mpCost = 88 WHERE spellid = 172; -- water 4
+UPDATE spell_list SET mpCost = 156 WHERE spellid = 173; -- water 5
+UPDATE spell_list SET mpCost = 24 WHERE spellid = 174; -- firaga
+UPDATE spell_list SET mpCost = 93 WHERE spellid = 175; -- firaga 2
+UPDATE spell_list SET mpCost = 175 WHERE spellid = 176; -- firaga 3
+UPDATE spell_list SET mpCost = 345 WHERE spellid = 177; -- firaga 4
+UPDATE spell_list SET mpCost = 512 WHERE spellid = 178; -- firaga 5
+UPDATE spell_list SET mpCost = 24 WHERE spellid = 179; -- blizzaga
+UPDATE spell_list SET mpCost = 93 WHERE spellid = 180; -- blizzaga 2
+UPDATE spell_list SET mpCost = 175 WHERE spellid = 181; -- blizzaga 3
+UPDATE spell_list SET mpCost = 345 WHERE spellid = 182; -- blizzaga 4
+UPDATE spell_list SET mpCost = 512 WHERE spellid = 183; -- blizzaga 5
+UPDATE spell_list SET mpCost = 24 WHERE spellid = 184; -- aeroga
+UPDATE spell_list SET mpCost = 93 WHERE spellid = 185; -- aeroga 2
+UPDATE spell_list SET mpCost = 175 WHERE spellid = 186; -- aeroga 3
+UPDATE spell_list SET mpCost = 345 WHERE spellid = 187; -- aeroga 4
+UPDATE spell_list SET mpCost = 512 WHERE spellid = 188; -- aeroga 5
+UPDATE spell_list SET mpCost = 24 WHERE spellid = 189; -- stonega
+UPDATE spell_list SET mpCost = 93 WHERE spellid = 190; -- stonega 2
+UPDATE spell_list SET mpCost = 175 WHERE spellid = 191; -- stonega 3
+UPDATE spell_list SET mpCost = 345 WHERE spellid = 192; -- stonega 4
+UPDATE spell_list SET mpCost = 512 WHERE spellid = 193; -- stonega 5
+UPDATE spell_list SET mpCost = 24 WHERE spellid = 194; -- thundaga
+UPDATE spell_list SET mpCost = 93 WHERE spellid = 195; -- thundaga 2
+UPDATE spell_list SET mpCost = 175 WHERE spellid = 196; -- thundaga 3
+UPDATE spell_list SET mpCost = 345 WHERE spellid = 197; -- thundaga 4
+UPDATE spell_list SET mpCost = 512 WHERE spellid = 198; -- thundaga 5
+UPDATE spell_list SET mpCost = 24 WHERE spellid = 199; -- waterga
+UPDATE spell_list SET mpCost = 93 WHERE spellid = 200; -- waterga 2
+UPDATE spell_list SET mpCost = 175 WHERE spellid = 201; -- waterga 3
+UPDATE spell_list SET mpCost = 345 WHERE spellid = 202; -- waterga 4
+UPDATE spell_list SET mpCost = 512 WHERE spellid = 203; -- waterga 5
+UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 242; -- absorb-acc
+UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 266; -- absorb-str
+UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 267; -- absorb-dex
+UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 268; -- absorb-vit
+UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 269; -- absorb-agi
+UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 270; -- absorb-int
+UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 271; -- absorb-mnd
+UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 272; -- absorb-chr
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 312; -- enfire 2
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 313; -- enblizzard 2
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 314; -- enaero 2
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 315; -- enstone 2
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 316; -- enthunder 2
+UPDATE spell_list SET validTargets = 3 WHERE spellid = 317; -- enwater 2
+UPDATE spell_list SET jobs = 0x000000004B0000000000000000000000000000000000, mpCost = 30, recastTime = 13500 WHERE spellid = 473; -- refresh 2
+UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 479; -- boost-str
+UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 480; -- boost-dex
+UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 481; -- boost-vit
+UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 482; -- boost-agi
+UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 483; -- boost-int
+UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 484; -- boost-mnd
+UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 485; -- boost-chr
+UPDATE spell_list SET mpCost = 298 WHERE spellid = 496; -- firaja
+UPDATE spell_list SET mpCost = 298 WHERE spellid = 497; -- blizzaja
+UPDATE spell_list SET mpCost = 298 WHERE spellid = 498; -- aeroja
+UPDATE spell_list SET mpCost = 298 WHERE spellid = 499; -- stoneja
+UPDATE spell_list SET mpCost = 298 WHERE spellid = 500; -- thundaja
+UPDATE spell_list SET mpCost = 298 WHERE spellid = 501; -- waterja
+UPDATE spell_list SET mpCost = 50, recastTime = 10000 WHERE spellid = 511; -- haste 2
+
+--TRAITS --
+--MOD_CRIT_DMG_INCREASE
+INSERT INTO `traits` VALUES ('150','crit dmg bonus','6','1','1','421','10',null,0); 
+INSERT INTO `traits` VALUES ('150','crit dmg bonus','13','1','1','421','10',null,0);
+
+-- Adjust the enmity cap
+INSERT INTO `traits` VALUES ('151','enmity cap','7','25','1','2000','100',null,0);
+INSERT INTO `traits` VALUES ('151','enmity cap','7','50','2','2000','500',null,0);
+INSERT INTO `traits` VALUES ('151','enmity cap','7','75','3','2000','2000',null,0);
+INSERT INTO `traits` VALUES ('151','enmity cap','7','99','4','2000','3000',null,0);
+
+INSERT INTO `traits` VALUES ('151','enmity cap','13','25','1','2000','100',null,0);
+INSERT INTO `traits` VALUES ('151','enmity cap','13','50','2','2000','500',null,0);
+INSERT INTO `traits` VALUES ('151','enmity cap','13','75','3','2000','1000',null,0);
+INSERT INTO `traits` VALUES ('151','enmity cap','13','99','4','2000','1500',null,0);
+
+-- -DT% II
+INSERT INTO `traits` VALUES ('153','damage taken II','7','10','1','2001','2',null,0);
+INSERT INTO `traits` VALUES ('153','damage taken II','7','30','2','2001','4',null,0);
+INSERT INTO `traits` VALUES ('153','damage taken II','7','50','3','2001','6',null,0);
+INSERT INTO `traits` VALUES ('153','damage taken II','7','70','4','2001','8',null,0);
+INSERT INTO `traits` VALUES ('153','damage taken II','7','75','5','2001','10',null,0);
+INSERT INTO `traits` VALUES ('153','damage taken II','7','99','6','2001','12',null,0);
+
+UPDATE traits SET value = 20 WHERE traitid = 1 AND job = 14 AND level = 30 AND modifier = 25;
+UPDATE traits SET value = 20 WHERE traitid = 1 AND job = 14 AND level = 30 AND modifier = 26;
+UPDATE traits SET value = 50 WHERE traitid = 1 AND job = 14 AND level = 50 AND modifier = 25;
+UPDATE traits SET value = 50 WHERE traitid = 1 AND job = 14 AND level = 50 AND modifier = 26;
+UPDATE traits SET value = 60 WHERE traitid = 1 AND job = 14 AND level = 78 AND modifier = 25;
+UPDATE traits SET value = 60 WHERE traitid = 1 AND job = 14 AND level = 78 AND modifier = 26;
+
+UPDATE traits SET value = 15 WHERE traitid = 14 AND job = 12 AND level = 10 AND modifier = 73;
+UPDATE traits SET value = 20 WHERE traitid = 14 AND job = 12 AND level = 30 AND modifier = 73;
+UPDATE traits SET value = 25 WHERE traitid = 14 AND job = 12 AND level = 50 AND modifier = 73;
+UPDATE traits SET value = 30 WHERE traitid = 14 AND job = 12 AND level = 70 AND modifier = 73;
+UPDATE traits SET value = 35 WHERE traitid = 14 AND job = 12 AND level = 90 AND modifier = 73;
+
+UPDATE traits SET value = 35 WHERE traitid = 67 AND job = 2 AND level = 5 AND modifier = 289;
+UPDATE traits SET value = 40 WHERE traitid = 67 AND job = 2 AND level = 25 AND modifier = 289;
+UPDATE traits SET value = 45 WHERE traitid = 67 AND job = 2 AND level = 45 AND modifier = 289;
+UPDATE traits SET value = 50 WHERE traitid = 67 AND job = 2 AND level = 65 AND modifier = 289;
+UPDATE traits SET value = 55 WHERE traitid = 67 AND job = 2 AND level = 91 AND modifier = 289;
+
+UPDATE traits SET level = 30 WHERE traitid = 68 AND job = 6 AND level = 60;
+
+UPDATE traits SET value = 30 WHERE traitid = 84 AND job = 11 AND level = 20 AND modifier = 305;
+INSERT INTO `traits` VALUES (84,'recycle',11,40,2,305,40,'SOA',0);
+INSERT INTO `traits` VALUES (84,'recycle',11,50,3,305,50,'SOA',0);
+
+UPDATE traits SET level = 25 WHERE traitid = 106 AND job = 12 AND level = 78 AND rank = 1 AND modifier = 174;
+UPDATE traits SET level = 50 WHERE traitid = 106 AND job = 12 AND level = 88 AND rank = 2 AND modifier = 174;
+UPDATE traits SET level = 75 WHERE traitid = 106 AND job = 12 AND level = 98 AND rank = 3 AND modifier = 174;
+
+-- TRIGGERS
+DROP TRIGGER IF EXISTS char_insert_custom $$
+CREATE TRIGGER char_insert_custom
+	BEFORE INSERT ON chars
+	FOR EACH ROW
+BEGIN
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 48, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 49, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 50, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 51, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 52, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 53, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 54, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 55, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 56, 2000, 15);
+	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 57, 2000, 15);
+END $$
+
+-- WEAPONSKILLS
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 15;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 224;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 226;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 60;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 77;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 93;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 109;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 125;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 141;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 157;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 174;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 191;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 203;
+UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 221;
+
+-- STATUS_EFFECTS
+UPDATE status_effects SET flags = flags + 0x0002 WHERE id = 16; -- Amnesia eraseable
