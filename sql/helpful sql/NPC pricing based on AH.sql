@@ -1,4 +1,81 @@
-UPDATE item_basic ib
+DROP TABLE item_pricing;
+create table item_pricing (
+	item_id int,
+    price int
+);
+
+select * from single where itemid = 4509
+select * from vendor_prices where item_id = 4509
+select * from item_pricing where item_id = 640;
+select * from item_basic where name like '%bronze%';
+select * from synth_recipes WHERE Result = 12448;
+select * from synth_recipes WHERE Result = 649;
+select * from synth_recipes WHERE Result = 660;
+select * from item_basic where itemid in (1362);
+SELECT ID, Ingredient1, Ingredient2, Ingredient3, Ingredient4, Ingredient5, Ingredient6, Ingredient7, Ingredient8, Result, ResultHQ1, ResultHQ2, ResultHQ3, ResultQty, ResultHQ1Qty, ResultHQ2Qty, ResultHQ3Qty 
+								FROM synth_recipes WHERE 12448 IN (Result,ResultHQ1,ResultHQ2,ResultHQ3);
+                                
+select * from item_basic a
+INNER JOIN item_pricing b
+	ON a.itemid = b.item_id;
+    
+-- select a.item_id, if(b.item_id IS NULL OR a.price * 1.4 < b.price, a.price * 1.4, b.price)   FROM item_pricing a
+
+select a.item_id, FLOOR(if(b.item_id IS NULL OR a.price * 1.4 < b.price, a.price * 1.4, b.price))   FROM item_pricing a
+LEFT OUTER JOIN vendor_prices b
+	ON a.item_id = b.item_id
+INNER JOIN item_equipment c
+	ON a.item_id = c.itemid
+INNER JOIN item_basic d
+	ON c.itemid = d.itemid
+WHERE aH NOT IN (15, 36, 49)
+
+select * from auction_house where itemid = 572
+    
+select * from item_pricing WHERE item_id = 1445
+select * from vendor_prices where item_id = 1445
+select * from auction_house where itemid = 1445;
+select * from synth_recipes where 1445 IN (Result,ResultHQ1,ResultHQ2,ResultHQ3); 
+
+DROP TABLE single;
+CREATE TABLE single
+SELECT itemid, MIN(price) as AHPrice FROM auction_house WHERE seller_name = 'IVALICE' AND stack = 0 GROUP BY itemid;
+
+DROP TABLE stack;
+CREATE TABLE stack
+SELECT ib.itemid, MIN(price/stackSize) as AHPrice 
+FROM auction_house ah
+INNER JOIN item_basic ib
+	ON ah.itemid = ib.itemid
+WHERE seller_name = 'IVALICE' AND stack = 1
+GROUP BY ib.itemid;
+
+SELECT *
+FROM synth_recipes sr
+INNER JOIN item_basic nq ON sr.Result = nq.itemid
+INNER JOIN item_equipment ia ON nq.itemid = ia.itemId
+LEFT OUTER JOIN item_basic hq ON sr.ResultHQ1 = hq.itemid
+LEFT OUTER JOIN item_basic hq2 ON sr.ResultHQ2 = hq2.itemid
+LEFT OUTER JOIN item_basic hq3 ON sr.ResultHQ3 = hq3.itemid
+LEFT OUTER JOIN single s1 ON s1.itemid = sr.Ingredient1
+LEFT OUTER JOIN single s2 ON s2.itemid = sr.Ingredient2
+LEFT OUTER JOIN single s3 ON s3.itemid = sr.Ingredient3
+LEFT OUTER JOIN single s4 ON s4.itemid = sr.Ingredient4
+LEFT OUTER JOIN single s5 ON s5.itemid = sr.Ingredient5
+LEFT OUTER JOIN single s6 ON s6.itemid = sr.Ingredient6
+LEFT OUTER JOIN single s7 ON s7.itemid = sr.Ingredient7
+LEFT OUTER JOIN single s8 ON s8.itemid = sr.Ingredient8
+WHERE (s1.itemid IS NOT NULL OR sr.Ingredient1 = 0)
+AND (s2.itemid IS NOT NULL OR sr.Ingredient2 = 0)
+AND (s3.itemid IS NOT NULL OR sr.Ingredient3 = 0)
+AND (s4.itemid IS NOT NULL OR sr.Ingredient4 = 0)
+AND (s5.itemid IS NOT NULL OR sr.Ingredient5 = 0)
+AND (s6.itemid IS NOT NULL OR sr.Ingredient6 = 0)
+AND (s7.itemid IS NOT NULL OR sr.Ingredient7 = 0)
+AND (s8.itemid IS NOT NULL OR sr.Ingredient8 = 0)
+
+
+-- UPDATE item_basic ib
 INNER JOIN (
 		select a.id
 				, nq.itemid, nq.name as nqName, nq.BaseSell * a.ResultQty as nqNPC
