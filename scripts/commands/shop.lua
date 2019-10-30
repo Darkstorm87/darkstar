@@ -13,5 +13,5 @@ function onTrigger(player,npc)
     stock = {
          0x1055,10000
     } 
-    showShop(player, STATIC, stock);
+	dsp.shop.general(player, stock)
 end;

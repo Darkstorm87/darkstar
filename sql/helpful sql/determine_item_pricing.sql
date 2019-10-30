@@ -203,7 +203,7 @@ INNER JOIN item_pricing ip
 LEFT OUTER JOIN vendor_prices vp
 	ON ib.itemid = vp.item_id
 SET ib.BaseSell = FLOOR(IF(vp.item_id IS NULL OR ip.price * 1.4 < vp.price, ip.price * 1.4, vp.price))
-WHERE aH NOT IN (15, 36, 49);
+WHERE aH NOT IN (15, 35, 36, 49);
 
 DROP TABLE item_pricing;
 DROP TABLE single;
