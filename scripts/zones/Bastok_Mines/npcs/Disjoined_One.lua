@@ -84,24 +84,33 @@ local itemMap = {[1488] = "A Egg",
 local augmentTypes = { [1] = "Stats", [2] = "Defensive", [3] = "Skills" };	
 				
 local augments = {
-					[9] = { Type = 1, StartTier = true, EndTier = 3, NextAugId = 10, Description = "MP+10", AugItem1 = 1496, Multiplier = 10},
-					[10] = { Type = 1, StartTier = false, EndTier = 6, NextAugId = 11, Description = "MP+10", AugItem1 = 1496, Multiplier = 10, BaseValue = 33},
-					[11] = { Type = 1, StartTier = false, Description = "MP+10", AugItem1 = 1496, Multiplier = 10, BaseValue = 65},
-					[1] = { Type = 1, StartTier = true, EndTier = 3, NextAugId = 2, Description = "HP+10", AugItem1 = 1495, Multiplier = 10},
-					[2] = { Type = 1, StartTier = false, EndTier = 6, NextAugId = 3, Description = "HP+10", AugItem1 = 1495, Multiplier = 10, BaseValue = 33},
-					[3] = { Type = 1, StartTier = false, Description = "HP+10", AugItem1 = 1495, Multiplier = 10, BaseValue = 65},
-					[31] = { Type = 2, Description = "Evasion+2" , AugItem1 = 1489, Multiplier = 2 },
-					[33] = { Type = 2, Description = "DEF+4" , AugItem1 = 1488, Multiplier = 4},
-					[35] = { Type = 1, Description = "Mag.Acc+1" , AugItem1 = 1497},
-					[37] = { Type = 2, Description = "Mag.Evasion+1" , AugItem1 = 1490},
-					[39] = { Type = 2, Description = "Enmity+1" , AugItem1 = 1500},
-					[40] = { Type = 2, Description = "Enmity-1" , AugItem1 = 1501},
-					[42] = { Type = 3, Description = "Crit.hit rate+1" , AugItem1 = 1508},
-					[42] = { Type = 2, Description = "Enemy crit. hit rate -1%" , AugItem1 = 1491},
-					[49] = { Type = 3, Description = "Haste+1" , AugItem1 = 1490},
-					[54] = { Type = 2, Description = "Phys. dmg. taken -1%" , AugItem1 = 1492},
-					[55] = { Type = 2, Description = "Magic dmg. taken -1%" , AugItem1 = 1493},
-					[56] = { Type = 2, Description = "Breath dmg. taken -1%" , AugItem1 = 1494},
+					[1] =   { Type = 1, StartTier = true, EndTier = 3, NextAugId = 2, Description = "HP+10", AugItem1 = 1495, Multiplier = 10},
+					[2] =   { Type = 1, StartTier = false, EndTier = 6, NextAugId = 3, Description = "HP+10", AugItem1 = 1495, Multiplier = 10, BaseValue = 33},
+					[3] =   { Type = 1, StartTier = false, EndTier = 9, NextAugId = 4, Description = "HP+10", AugItem1 = 1495, Multiplier = 10, BaseValue = 65},
+					[4] =   { Type = 1, StartTier = false, Description = "HP+10", AugItem1 = 1495, Multiplier = 10, BaseValue = 97},
+					[9] =   { Type = 1, StartTier = true, EndTier = 3, NextAugId = 10, Description = "MP+10", AugItem1 = 1496, Multiplier = 10},
+					[10] =  { Type = 1, StartTier = false, EndTier = 6, NextAugId = 11, Description = "MP+10", AugItem1 = 1496, Multiplier = 10, BaseValue = 33},
+					[11] =  { Type = 1, StartTier = false, EndTier = 9, NextAugId = 12, Description = "MP+10", AugItem1 = 1496, Multiplier = 10, BaseValue = 65},
+					[12] =  { Type = 1, StartTier = false, Description = "MP+10", AugItem1 = 1496, Multiplier = 10, BaseValue = 97},
+
+					[1153] =  { Type = 2, Description = "Evasion+3" , AugItem1 = 1489 },
+					
+					[1152] =  { Type = 2, Description = "DEF+10" , AugItem1 = 1488},
+					
+					[35] =  { Type = 1, Description = "Mag.Acc+1" , AugItem1 = 1497},
+					
+					[1154] =  { Type = 2, Description = "Mag.Evasion+3" , AugItem1 = 1490},
+					
+					[45] =  { Type = 1, Description = "DMG+1" , AugItem1 = XXX},
+					
+					[39] =  { Type = 2, Description = "Enmity+1" , AugItem1 = 1500},
+					[40] =  { Type = 2, Description = "Enmity-1" , AugItem1 = 1501},
+					[42] =  { Type = 3, Description = "Crit.hit rate+1" , AugItem1 = 1508},
+					[42] =  { Type = 2, Description = "Enemy crit. hit rate -1%" , AugItem1 = 1491},
+					[49] =  { Type = 3, Description = "Haste+1" , AugItem1 = 1490},
+					[54] =  { Type = 2, Description = "Phys. dmg. taken -1%" , AugItem1 = 1492},
+					[55] =  { Type = 2, Description = "Magic dmg. taken -1%" , AugItem1 = 1493},
+					[56] =  { Type = 2, Description = "Breath dmg. taken -1%" , AugItem1 = 1494},
 					[129] = { Type = 1, Description = "Accuracy+1 Rng.Acc.+1" , AugItem1 = 1498},
 					[130] = { Type = 1, Description = "Attack+1 Rng.Atk.+1" , AugItem1 = 1499},
 					[134] = { Type = 2, Description = "Mag.Def.Bns.+1" , AugItem1 = 1495},
@@ -393,3 +402,4 @@ function sayAugmentOptions(augmentType, player, npc)
 		end
 	end
 end;
+
