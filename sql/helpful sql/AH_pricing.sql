@@ -1,8 +1,14 @@
-SELECT itemid, name, 1 AS sell01, 0 AS buy01, IF(bd.Price<vp.price,bd.Price,vp.price) as price01, 40 AS stock01, if(stackSize > 1, 1, 0) as sell12, 0 AS buy12, FLOOR(IF(bd.Price<vp.price,bd.Price,vp.price) * stackSize * 0.9) as price12, 40 as stock12, vp.price
+SELECT itemid, name, 1 AS sell01, 0 AS buy01,
+		IF(!ISNULL(vp.price) AND vp.price<bd.Price, vp.price, bd.Price) as price01,
+        40 AS stock01,
+        if(stackSize > 1, 1, 0) as sell12,
+        0 AS buy12,
+        FLOOR(IF(!ISNULL(vp.price) AND vp.price<bd.Price, vp.price, bd.Price) * stackSize * 0.9) as price12,
+        40 as stock12
 FROM (
 	SELECT *, 1000 DIV stackSize AS Price
 	FROM item_basic ib
-	WHERE aH IN (15, 36, 49)
+	WHERE aH IN (15, 35, 36, 49)
 	AND NoSale = 0
 	AND NOT flags & (0x4000 | 0x8000)
 	UNION
@@ -18,6 +24,5 @@ FROM (
 	AND NOT flags & (0x4000 | 0x8000)
 	AND NOT EXISTS(SELECT 1 FROM synth_recipes WHERE a.itemid IN (Result, ResultHQ1, ResultHQ2, ResultHQ3))
 ) bd
-INNER JOIN vendor_prices vp
+LEFT OUTER JOIN vendor_prices vp
 	ON bd.itemid = vp.item_id
-WHERE bd.price > vp.price

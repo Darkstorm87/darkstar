@@ -193,16 +193,16 @@ function onTrade(player,npc,trade)
 				end
 			
 				if (augVal < 10) then
-					player:PrintToPlayer(string.format("Bring me %s Gil, a %s, and a rare %s to enhance your augment.", augCost[augVal], itemMap[augments[augId].AugItem1], nmDropItem[nmDropItem[augVal]]), 0, npc:getName());
+					player:PrintToPlayer(string.format("Bring me %s Gil, a %s, and a rare %s to enhance your augment.", augCost[augVal], itemMap[augments[augId].AugItem1], nmDropItem[nmDropItem[augVal]]), 0, npc:getName():gsub("_"," "));
 				else
-					player:PrintToPlayer("I cannot enhance this further.  You may begin again with another augment if you'd like.", 0, npc:getName());
+					player:PrintToPlayer("I cannot enhance this further.  You may begin again with another augment if you'd like.", 0, npc:getName():gsub("_"," "));
 				end
 			else
-				player:PrintToPlayer(string.format("Here's what I can do for you. Bring me %s Gil and a rare %s, and one of the following items to choose your augment.", augCost[0], nmDropItem[nmDropItem[0]] ), 0, npc:getName());
+				player:PrintToPlayer(string.format("Here's what I can do for you. Bring me %s Gil and a rare %s, and one of the following items to choose your augment.", augCost[0], nmDropItem[nmDropItem[0]] ), 0, npc:getName():gsub("_"," "));
 				sayAugmentOptions(augmentType, player, npc);
 			end
 		else
-			player:PrintToPlayer("I cannot do anything with this.", 0, npc:getName());
+			player:PrintToPlayer("I cannot do anything with this.", 0, npc:getName():gsub("_"," "));
 		end
 	elseif (trade:getSlotCount() == 4) then
 		local tradeGil = trade:getGil();
@@ -245,7 +245,7 @@ function onTrade(player,npc,trade)
 				end
 												
 				local augId, augVal = getAugmentId(augItemId, augmentType, itemAugments, nmItemId);
-				--player:PrintToPlayer(string.format("augid: %s, augval: %s", augId, augVal), 0, npc:getName());
+				--player:PrintToPlayer(string.format("augid: %s, augval: %s", augId, augVal), 0, npc:getName():gsub("_"," "));
 				if (augId ~= nil and itemAugments[augmentType] ~= nil and (itemAugments[augmentType].AugId == augId or augments[itemAugments[augmentType].AugId].NextAugId == augId)) then	
 					if (augVal < 10) then
 						if (augCost[augVal] == tradeGil and nmDropItem[augVal] == nmItemId and augments[augId].AugItem1 == augItemId) then
@@ -256,11 +256,11 @@ function onTrade(player,npc,trade)
 							itemAugments[augmentType].AugId = augId;
 							itemAugments[augmentType].Value = augVal;
 						else
-							player:PrintToPlayer("These are not what I asked for.  I can do nothing with these.", 0, npc:getName());
+							player:PrintToPlayer("These are not what I asked for.  I can do nothing with these.", 0, npc:getName():gsub("_"," "));
 							return;
 						end
 					else
-						player:PrintToPlayer("I cannot enhance this further.  You may begin again with another augment if you'd like.", 0, npc:getName());
+						player:PrintToPlayer("I cannot enhance this further.  You may begin again with another augment if you'd like.", 0, npc:getName():gsub("_"," "));
 						return;
 					end
 				elseif (nmDropItem[0] == nmItemId and tradeGil == augCost[0] and augId ~= nil) then
@@ -275,13 +275,13 @@ function onTrade(player,npc,trade)
 						itemAugments[augmentType] = {AugId = augId, Value = augVal, AugSlot = augCount}; -- this is a new augment of this type
 					end
 				else
-					player:PrintToPlayer("These are not what I asked for.  I can do nothing with these.", 0, npc:getName());
+					player:PrintToPlayer("These are not what I asked for.  I can do nothing with these.", 0, npc:getName():gsub("_"," "));
 					return;
 				end
 				
 				local aug0, aug0val, aug1, aug1val, aug2, aug2val, aug3, aug3val;
 				for k, v in pairs(itemAugments) do
-					--player:PrintToPlayer(string.format("augid: %s, augslot: %s, augval: %s", v.AugId, v.AugSlot, v.Value), 0, npc:getName());
+					--player:PrintToPlayer(string.format("augid: %s, augslot: %s, augval: %s", v.AugId, v.AugSlot, v.Value), 0, npc:getName():gsub("_"," "));
 					
 					if (augments[v.AugId].BaseValue ~= nil and augments[v.AugId].BaseValue <= v.Value) then
 						v.Value = v.Value - augments[v.AugId].BaseValue;
@@ -305,10 +305,10 @@ function onTrade(player,npc,trade)
 				
 				player:tradeComplete();
 				player:addItem(gearItemId, 1, aug0, aug0val, aug1, aug1val, aug2, aug2val, aug3, aug3val);
-				player:PrintToPlayer("Pleasure doing buisiness with you.", 0, npc:getName());
+				player:PrintToPlayer("Pleasure doing buisiness with you.", 0, npc:getName():gsub("_"," "));
 				player:messageSpecial(ITEM_OBTAINED, gearItemId);
 			else
-				player:PrintToPlayer("These are not what I asked for.  I can do nothing with these.", 0, npc:getName());
+				player:PrintToPlayer("These are not what I asked for.  I can do nothing with these.", 0, npc:getName():gsub("_"," "));
 			end
 		end
 	end
@@ -331,14 +331,14 @@ function onTrigger(player,npc)
 	end
 
     if (message ~= "") then
-        player:PrintToPlayer(message, 0, npc:getName());
+        player:PrintToPlayer(message, 0, npc:getName():gsub("_"," "));
     end
 	
 	message = "For a price, a simple rare trinket, and a silly rabbit's Egg or colored Chip we can enhance your equipment."
-	player:PrintToPlayer(message, 0, npc:getName());
+	player:PrintToPlayer(message, 0, npc:getName():gsub("_"," "));
 	
 	message = "Let me have a closer look at a piece of your equipment and we can discuss what I can do for you."
-	player:PrintToPlayer(message, 0, npc:getName());
+	player:PrintToPlayer(message, 0, npc:getName():gsub("_"," "));
 end; 
 
 -----------------------------------
@@ -389,7 +389,7 @@ end;
 function sayAugmentOptions(augmentType, player, npc)
 	for k, v in pairs(augments) do
 		if(v.Type == augmentType and v.EndTier == nil) then
-			player:PrintToPlayer(string.format("     %s: %s",itemMap[v.AugItem1], v.Description), 0, npc:getName());
+			player:PrintToPlayer(string.format("     %s: %s",itemMap[v.AugItem1], v.Description), 0, npc:getName():gsub("_"," "));
 		end
 	end
 end;

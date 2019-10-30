@@ -84,6 +84,18 @@ UPDATE item_equipment SET jobs = 3553 WHERE itemid = 16555;
 
 UPDATE item_equipment SET jobs = 2111715 WHERE itemid = 18139;
 
+-- mob_groups
+UPDATE mob_groups mg
+INNER JOIN mob_pools mp
+	ON mg.poolid = mp.poolid
+INNER JOIN mob_family_system mfs
+	ON mp.familyid = mfs.familyid
+SET respawntime = 180
+WHERE mp.mobType = 0x00
+AND mg.respawntime > 1
+AND mfs.systemid NOT IN (19)
+AND mg.groupid = mg.groupid;
+
 -- mob_droplist
 INSERT INTO mob_droplist
 SELECT DISTINCT md.dropId, 0, 0, 1000,
