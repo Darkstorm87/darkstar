@@ -1,0 +1,1 @@
+update zone_settings set zoneip = '97.119.240.142';
