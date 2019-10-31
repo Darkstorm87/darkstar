@@ -25,6 +25,7 @@
 #define _CTREASUREPOOL_H
 
 #include "../common/cbasetypes.h"
+#include "utils/itemutils.h"
 
 #include <vector>
 
@@ -90,6 +91,9 @@ public:
 
     bool CanAddSeal();
 
+    void AddGlobalDrop(uint8 level, DropEquipList_t* dropList);
+    DropEquipList_t* GetGlobalDrop(uint8 level);
+
 private:
 
     time_point m_Tick;
@@ -102,6 +106,7 @@ private:
     TreasurePoolItem m_PoolItems[TREASUREPOOL_SIZE];
 
     std::vector<CCharEntity*> members;
+    std::map<uint8, DropEquipList_t*> globalDropMap;
 };
 
 #endif

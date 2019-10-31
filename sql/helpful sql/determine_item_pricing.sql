@@ -11,7 +11,7 @@ INSERT INTO item_pricing
 SELECT itemid, AHPrice FROM single;
 
 delimiter //
-DROP PROCEDURE determine_item_pricing;
+-- DROP PROCEDURE determine_item_pricing;
 CREATE PROCEDURE determine_item_pricing(IN pItemId INT, OUT pPrice INT)
 start_label: BEGIN
 	DECLARE totalPrice INT DEFAULT 0;
@@ -168,7 +168,7 @@ start_label: BEGIN
     END IF;
 END//
 
-DROP PROCEDURE determine_equipment_pricing;
+-- DROP PROCEDURE determine_equipment_pricing;
 CREATE PROCEDURE determine_equipment_pricing()
 BEGIN
   DECLARE done INT DEFAULT FALSE;
@@ -190,7 +190,7 @@ BEGIN
   END LOOP read_loop;
 
   CLOSE cur1;
-END;
+END//
 delimiter ;
 
 call determine_equipment_pricing();

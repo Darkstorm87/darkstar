@@ -28,8 +28,8 @@ UPDATE Abilities SET recastTime = 150 WHERE abilityId = 214; -- sekkanoki
 UPDATE Abilities SET recastTime = 45 WHERE abilityId IN (640,641,642,643,644,645,646); -- camisado, somnolence, nightmare, ultimate terror, noctoshield, dream shroud, nether blast
 
 -- MERITS
-UPDATE merits SET Value = 4 WHERE meritid = 516 -- barspell effect
-UPDATE merits SET Value = 1 WHERE meritid = 768 -- shield base recast
+UPDATE merits SET Value = 4 WHERE meritid = 516; -- barspell effect
+UPDATE merits SET Value = 1 WHERE meritid = 768; -- shield base recast
 
 -- NPC LIST
 UPDATE npc_list SET pos_rot = 48, pos_x = 7, pos_z = -71, namevis = 0 WHERE npcid = 17736005;
@@ -37,17 +37,17 @@ UPDATE npc_list SET pos_rot = 68, pos_x = 11, pos_z = -71, namevis = 0 WHERE npc
 UPDATE npc_list SET pos_rot = 60, pos_x = 9, pos_z = -71, namevis = 0 WHERE npcid = 17736012;
 
 -- SKILL RANKS
-UPDATE skill_ranks SET war = 3, rdm = 1, rng = 3 WHERE skillid = 2 -- dagger
-UPDATE skill_ranks SET war = 3, rdm = 1 WHERE skillid = 3 -- sword
-UPDATE skill_ranks SET rng = 3 WHERE skillid = 5 -- axe
-UPDATE skill_ranks SET war = 3 WHERE skillid = 8 -- polearm
-UPDATE skill_ranks SET war = 3 WHERE skillid = 11 -- club
-UPDATE skill_ranks SET war = 3 WHERE skillid = 12 -- staff
-UPDATE skill_ranks SET rng = 1, sam = 3 WHERE skillid = 25 -- archery
-UPDATE skill_ranks SET rng = 1 WHERE skillid = 26 -- marksmanship
-UPDATE skill_ranks SET brd = 1 WHERE skillid = 40 -- singing
-UPDATE skill_ranks SET brd = 1 WHERE skillid = 41 -- string
-UPDATE skill_ranks SET brd = 1 WHERE skillid = 42 -- wind
+UPDATE skill_ranks SET war = 3, rdm = 1, rng = 3 WHERE skillid = 2; -- dagger
+UPDATE skill_ranks SET war = 3, rdm = 1 WHERE skillid = 3; -- sword
+UPDATE skill_ranks SET rng = 3 WHERE skillid = 5; -- axe
+UPDATE skill_ranks SET war = 3 WHERE skillid = 8; -- polearm
+UPDATE skill_ranks SET war = 3 WHERE skillid = 11; -- club
+UPDATE skill_ranks SET war = 3 WHERE skillid = 12; -- staff
+UPDATE skill_ranks SET rng = 1, sam = 3 WHERE skillid = 25; -- archery
+UPDATE skill_ranks SET rng = 1 WHERE skillid = 26; -- marksmanship
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 40; -- singing
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 41; -- string
+UPDATE skill_ranks SET brd = 1 WHERE skillid = 42; -- wind
 
 -- ITEM_EQUIPMENT
 
@@ -293,8 +293,8 @@ UPDATE spell_list SET mpCost = 298 WHERE spellid = 500; -- thundaja
 UPDATE spell_list SET mpCost = 298 WHERE spellid = 501; -- waterja
 UPDATE spell_list SET mpCost = 50, recastTime = 10000 WHERE spellid = 511; -- haste 2
 
---TRAITS --
---MOD_CRIT_DMG_INCREASE
+-- TRAITS --
+-- MOD_CRIT_DMG_INCREASE
 INSERT INTO `traits` VALUES ('150','crit dmg bonus','6','1','1','421','10',null,0); 
 INSERT INTO `traits` VALUES ('150','crit dmg bonus','13','1','1','421','10',null,0);
 
@@ -346,6 +346,7 @@ UPDATE traits SET level = 25 WHERE traitid = 106 AND job = 12 AND level = 78 AND
 UPDATE traits SET level = 50 WHERE traitid = 106 AND job = 12 AND level = 88 AND rank = 2 AND modifier = 174;
 UPDATE traits SET level = 75 WHERE traitid = 106 AND job = 12 AND level = 98 AND rank = 3 AND modifier = 174;
 
+DELIMITER $$
 -- TRIGGERS
 DROP TRIGGER IF EXISTS char_insert_custom $$
 CREATE TRIGGER char_insert_custom
@@ -363,6 +364,7 @@ BEGIN
 	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 56, 2000, 15);
 	INSERT INTO `char_skills` 	 VALUES (NEW.charid, 57, 2000, 15);
 END $$
+DELIMITER ;
 
 -- WEAPONSKILLS
 UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 15;

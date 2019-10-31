@@ -823,7 +823,11 @@ void CMobEntity::DropItems(CCharEntity* PChar)
             }
         }
 
-        DropEquipList_t* equipDrops = itemutils::GetEquipDropList(PChar, this);
+        DropEquipList_t* equipDrops = PChar->PTreasurePool->GetGlobalDrop(this->GetMLevel());
+        if (equipDrops == nullptr) {
+            equipDrops = itemutils::GetEquipDropList(PChar, this);
+            PChar->PTreasurePool->AddGlobalDrop(this->GetMLevel(), equipDrops);
+        }
         if (equipDrops->size() > 0)
         {
             for (int16 roll = 0; roll < maxRolls; ++roll)
