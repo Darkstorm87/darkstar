@@ -32,9 +32,9 @@ UPDATE merits SET Value = 4 WHERE meritid = 516; -- barspell effect
 UPDATE merits SET Value = 1 WHERE meritid = 768; -- shield base recast
 
 -- NPC LIST
-UPDATE npc_list SET pos_rot = 48, pos_x = 7, pos_z = -71, namevis = 0 WHERE npcid = 17736005;
-UPDATE npc_list SET pos_rot = 68, pos_x = 11, pos_z = -71, namevis = 0 WHERE npcid = 17736007;
-UPDATE npc_list SET pos_rot = 60, pos_x = 9, pos_z = -71, namevis = 0 WHERE npcid = 17736012;
+UPDATE npc_list SET pos_rot = 48, pos_x = 7, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736005;
+UPDATE npc_list SET pos_rot = 68, pos_x = 11, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736007;
+UPDATE npc_list SET pos_rot = 60, pos_x = 9, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736012;
 
 -- SKILL RANKS
 UPDATE skill_ranks SET war = 3, rdm = 1, rng = 3 WHERE skillid = 2; -- dagger
