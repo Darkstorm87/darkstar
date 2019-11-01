@@ -120,10 +120,24 @@ local augmentMap = {
 									 Instrument = { Aug1 = {67, Max=2}, Aug2 = 322 }},
 						 
 	},
-	[dsp.slot.AMMO] = {},
-	[dsp.slot.HEAD] = {},
-	[dsp.slot.BODY] = {},
-	[dsp.slot.HANDS] = {},
+	[dsp.slot.AMMO] = {Aug1 = {512,513,514,515,516,517,518,1792,1793,1794,1795,1796,1797,1798, Max=5}, -- STAT+1
+						Aug2 = {39,40,105, Max=5} -- Enmity+1,-1, Pet: Enmity+1
+	},
+	[dsp.slot.HEAD] = {Aug1 = {143,123,211,140}, -- Dbl.Atk.+1 OR Pet: Dbl.Att.+1 OR Snapshot+1 OR Fast Cast+1
+						Aug2 = {129,96,35,100}, -- Accuracy+1 Rng.Acc.+1 OR Pet: Accuracy+1 Rng.Acc.+1 OR Mag.Acc.+1 OR Pet MAcc+1
+						Aug3 = {195,116,141}, -- Subtle Blow+1 OR Pet: Subtle Blow+1 OR Conserve MP+1
+						Aug4 = {37,117} -- Mag. Evasion+1 OR Pet: Mag. Evasion+1
+	},
+	[dsp.slot.BODY] = {Aug1 = {1152,99}, -- DEF+10 OR Pet: DEF+10
+						Aug2 = {1,9}, -- HP+10 OR MP+10
+						Aug3 = {512,513,514,515,516,517,518,1792,1793,1794,1795,1796,1797,1798}, -- STAT+1 OR Pet: STAT+1
+						Aug4 = {42,102,57} -- Crit.hit rate+1 OR Pet: Crit.hit rate+1 OR Magic crit. hit rate+1
+	},
+	[dsp.slot.HANDS] = {Aug1 = {129,96,35,100},
+						Aug2 = {},
+						Aug3 = {},
+						Aug4 = {}
+	},
 	[dsp.slot.LEGS] = {},
 	[dsp.slot.FEET] = {},
 	[dsp.slot.NECK] = {},
@@ -132,49 +146,42 @@ local augmentMap = {
 	[dsp.slot.RING1] = {},
 	[dsp.slot.BACK] = {},
 }
-				
+			
 --[[
-dsp.slot.AMMO
-STAT+1 OR PET STAT+1 MAX 5
-ENMITY+1 OR ENMITY-1 OR PET ENMITY-1 MAX 5
-
-dsp.slot.HEAD
-Dbl.Atk.+1 OR Pet: Dbl.Att.+1 OR Snapshot+1 OR Fast Cast+1
-Accuracy+1 Rng.Acc.+1 OR Pet: Accuracy+1 Rng.Acc.+1 OR Mag.Acc.+1
-Conserve MP+1 OR Subtle Blow+1 OR Pet: Subtle Blow+1
-Mag. Evasion+1 OR Pet: Mag. Evasion+1
-dsp.slot.BODY
-DEF+10 OR Pet: DEF+10
-HP+10 OR MP+10
-STAT+1 OR Pet: STAT+1
-Crit.hit rate+1 OR Pet: Crit.hit rate+1 OR Magic crit. hit rate+1
 dsp.slot.HANDS
 Accuracy+1 Rng.Acc.+1 OR Pet: Accuracy+1 Rng.Acc.+1 OR Mag.Acc.+1 OR Pet: Mag.Acc.+1
 Attack+1 Rng.Atk.+1 OR Pet: Attack+1 Rng.Atk.+1 OR Mag.Atk.Bns+1 OR Pet: Mag.Atk.Bns.+1
 Dbl.Atk.+1 OR Pet: Dbl.Att.+1 OR Snapshot+1 OR Magic crit. hit rate+1 OR Pet: Magic Damage +1
 STAT+1 OR Pet: STAT+1
+
 dsp.slot.LEGS
 Store TP+1 OR Pet: Store TP+1 OR Conserve MP+1
 Crit.hit rate+1 OR Pet: Crit.hit rate+1 OR Magic crit. hit rate+1
 Evasion+3 OR Pet: Evasion+3
 HP+5 OR MP+5
+
 dsp.slot.FEET
 HASTE+1 OR Pet: Haste+1
 Attack+1 Rng.Atk.+1 OR Pet: Attack+1 Rng.Atk.+1 OR Mag.Atk.Bns+1 OR Pet: Mag.Atk.Bns.+1
 Dual Wield+1 OR Triple Atk.+1 OR Pet: Dbl.Att.+1 OR Mag. crit. hit dmg.+1% OR Rapidshot+1
 Evasion+1 OR Pet: Evasion+1
+
 dsp.slot.NECK
 Enmity+1 OR Enmity-1 OR Pet: Enmity-1 MAX 5
 HP+5 OR MP+5
+
 dsp.slot.WAIST
 HASTE+1 OR Pet: Haste+1 MAX 5
 Attack+1 Rng.Atk.+1 OR Accuracy+1 Rng.Acc.+1 OR Pet: Accuracy+1 Rng.Acc+1 OR Pet: Attack+1 Rng.Atk.+1 MAX 5
+
 dsp.slot.EAR1
 Weapon or Magic Skill +1 OR automaton skill+1 MAX 5
 ENMITY+1 OR Enmity-1 OR Subtle Blow+1 MAX 2
+
 dsp.slot.RING1
 STAT+1 OR Pet: STAT+1 MAX 5
 All elemental resists+1 MAX 5
+
 dsp.slot.BACK
 DEF+10 OR Pet: DEF+10 MAX 5
 Enemy crit. hit rate-1 OR Pet: Enemy crit. hit rate -1 MAX 5
@@ -196,9 +203,11 @@ local augments = {
 					
 					[35] =  { Type = 1, Description = "Mag.Acc+1" , AugItem1 = 1497},
 					
-					[1154] =  { Type = 2, Description = "Mag.Evasion+3" , AugItem1 = 1490},
+					[37] =  { Type = 2, Description = "Mag.Evasion+1" , AugItem1 = 1490},
+					[1154] =  { Type = 2, Description = "Mag.Evasion+3" , AugItem1 = XXX},
 					
 					[45] =  { Type = 1, Description = "DMG+1" , AugItem1 = XXX}, -- MELEE
+					[57] =  { Type = 1, Description = "Magic crit. hit rate+1" , AugItem1 = XXX}, -- MELEE
 					[129] =  { Type = 1, Description = "Accuracy+1 Rng.Acc.+1" , AugItem1 = XXX},
 					[130] =  { Type = 1, Description = "Attack+1 Rng.Atk.+1" , AugItem1 = XXX},
 					
@@ -211,19 +220,26 @@ local augments = {
 					[363] = {Description = "Chance of successful block+1", AugItem1 = XXX},
 					
 					[96] = {Description = "Pet: Accuracy+1 Rng.Acc+1", AugItem1 = XXX},
-					
 					[97] = {Description = "Pet: Attack+1 Rng.Atk.+1", AugItem1 = XXX},
+					[99] = {Description = "Pet: DEF+1", Multiplier = 10, AugItem1 = XXX},
 					[100] = {Description = "Pet: Mag.Acc.+1", AugItem1 = XXX},
 					[101] = {Description = "Pet: Mag.Atk.Bns.+1", AugItem1 = XXX},
+					[102] = {Description = "Pet: Crit.hit rate+1", AugItem1 = XXX},
+					[105] = {Description = "Pet: Enmity-1", AugItem1 = XXX},
+					[115] = {Description = "Pet: Store TP+1", AugItem1 = XXX},
+					[116] = {Description = "Pet: Subtle Blow+1", AugItem1 = XXX},
+					[117] = {Description = "Pet: Mag. Evasion+1", AugItem1 = XXX},
+					[123] = {Description = "Pet: Dbl.Att.+1", AugItem1 = XXX},
 					[126] = {Description = "Pet: Magic Damage +1", AugItem1 = XXX},
-					
-					
-					
 					[329] = {Description = "Cure potency+1%", AugItem1 = XXX},
 					
-					[115] = {Description = "Pet: Store TP+1", AugItem1 = XXX},
-					
-					[116] = {Description = "Pet: Subtle Blow+1", AugItem1 = XXX},
+					[1792] = { Type = 1, Description = "Pet: STR+1" , AugItem1 = XXX},
+					[1793] = { Type = 1, Description = "Pet: DEX+1" , AugItem1 = XXX},
+					[1794] = { Type = 1, Description = "Pet: VIT+1" , AugItem1 = XXX},
+					[1795] = { Type = 1, Description = "Pet: AGI+1" , AugItem1 = XXX},
+					[1796] = { Type = 1, Description = "Pet: INT+1" , AugItem1 = XXX},
+					[1797] = { Type = 1, Description = "Pet: MND+1" , AugItem1 = XXX},
+					[1798] = { Type = 1, Description = "Pet: CHR+1" , AugItem1 = XXX},
 					
 					[278] = {Description = "Automaton Melee skill+1", AugItem1 = XXX},
 					[279] = {Description = "Automaton Ranged skill+1", AugItem1 = XXX},
@@ -231,7 +247,6 @@ local augments = {
 					
 					[67] = {Description = "All songs+1", AugItem1 = XXX},
 					[322] = {Description = "Song spellcasting time -1%", AugItem1 = XXX},
-					
 					
 					[39] =  { Type = 2, Description = "Enmity+1" , AugItem1 = 1500},
 					[40] =  { Type = 2, Description = "Enmity-1" , AugItem1 = 1501},
@@ -241,8 +256,6 @@ local augments = {
 					[54] =  { Type = 2, Description = "Phys. dmg. taken -1%" , AugItem1 = 1492},
 					[55] =  { Type = 2, Description = "Magic dmg. taken -1%" , AugItem1 = 1493},
 					[56] =  { Type = 2, Description = "Breath dmg. taken -1%" , AugItem1 = 1494},
-					[129] = { Type = 1, Description = "Accuracy+1 Rng.Acc.+1" , AugItem1 = 1498},
-					[130] = { Type = 1, Description = "Attack+1 Rng.Atk.+1" , AugItem1 = 1499},
 					[134] = { Type = 2, Description = "Mag.Def.Bns.+1" , AugItem1 = 1495},
 					[139] = { Type = 3, Description = "Rapid Shot+1" , AugItem1 = 1489},
 					[140] = { Type = 3, Description = "Fastcast+1" , AugItem1 = 1488},
@@ -251,6 +264,7 @@ local augments = {
 					[143] = { Type = 3, Description = "Dbl.Atk.+1" , AugItem1 = 1491},
 					[146] = { Type = 3, Description = "Dual Wield+1" , AugItem1 = 1492},
 					[195] = { Type = 2, Description = "Subtle Blow+1" , AugItem1 = 1503},
+					[211] = { Type = 2, Description = "Snapshot+1" , AugItem1 = 1503},
 					[257] = { Type = 3, Description = "Hand-to-Hand skill+1" , AugItem1 = 1493},
 					[258] = { Type = 3, Description = "Dagger skill+1" , AugItem1 = 1494},
 					[259] = { Type = 3, Description = "Sword skill+1" , AugItem1 = 1495},
