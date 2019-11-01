@@ -80,8 +80,105 @@ local itemMap = {[1488] = "A Egg",
 				 [480] = "White Chip",
 				 [481] = "Black Chip"
 				};
+				
+local augmentMap = {
+	[dsp.slot.Main] = {Aug1 = { 45,362,97,126,329 }} , --DMG+1 OR Magic Damage+1 OR Pet: Attack+1 Rng.Atk.+1 OR Cure Potency
+						Aug2 = { 288,289,290,291,292,293,294,295,296,297,298,299,96,
+									SubType = {dsp.skill.HAND_TO_HAND = {257}, -- Weapon or magic skills or pet acc
+												dsp.skill.DAGGER = {258},
+												dsp.skill.SWORD = {259},
+												dsp.skill.GREAT_SWORD = {260},
+												dsp.skill.AXE = {261},
+												dsp.skill.GREAT_AXE = {262},
+												dsp.skill.SCYTHE = {263},
+												dsp.skill.POLEARM = {264},
+												dsp.skill.KATANA = {265},
+												dsp.skill.GREAT_KATANA = {266},
+												dsp.skill.CLUB = {267},
+												dsp.skill.STAFF = {268}
+									}
+						},
+						Aug3 = { 142,115,140 }, -- Store tp, pet store tp, fastcast+1
+						Aug4 = { 195,116,141 } -- SUBTLE BLOW+1 OR Pet: Subtle Blow+1 OR Conserve MP+1
+	},
+	[dsp.slot.SUB] = {SubType = { Shield = {Aug1 = { 153,130,362,97,126,329 }, --isShield
+											Aug2 = { 363,129,35,96,100 },
+											Aug3 = { 796,142,115,140 },
+											Aug4 = { 42,195,116,141 }},
+									Grip = {Aug1 = { 130,362,97,126,329 }, -- weapon, sub slot, with no skill type
+											Aug2 = { 129,35,96,100 },
+											Aug3 = { 142,115,140 },
+											Aug4 = { 195,116,141 }}
+								}
+	},
+	[dsp.slot.RANGED] = {Aug1 = { 746 }, --DMG+1
+						 Aug2 = { SubType = {dsp.skill.ARCHERY = 281, -- Weapon Skill
+											 dsp.skill.MARKSMANSHIP = 282}},
+						 Aug3 = { 142,115,140 }, -- Store tp, pet store tp, fastcast+1
+						 Aug4 = { 195,116,141 }, -- SUBTLE BLOW+1 OR Pet: Subtle Blow+1 OR Conserve MP+1
+						 SubType = { Animator = { Aug1 = 278, Aug2 = 279, Aug3 = 280 }
+									 Instrument = { Aug1 = {67, Max=2}, Aug2 = 322 }},
+						 
+	},
+	[dsp.slot.AMMO] = {},
+	[dsp.slot.HEAD] = {},
+	[dsp.slot.BODY] = {},
+	[dsp.slot.HANDS] = {},
+	[dsp.slot.LEGS] = {},
+	[dsp.slot.FEET] = {},
+	[dsp.slot.NECK] = {},
+	[dsp.slot.WAIST] = {},
+	[dsp.slot.EAR1] = {},
+	[dsp.slot.RING1] = {},
+	[dsp.slot.BACK] = {},
+}
+				
+--[[
+dsp.slot.AMMO
+STAT+1 OR PET STAT+1 MAX 5
+ENMITY+1 OR ENMITY-1 OR PET ENMITY-1 MAX 5
 
-local augmentTypes = { [1] = "Stats", [2] = "Defensive", [3] = "Skills" };	
+dsp.slot.HEAD
+Dbl.Atk.+1 OR Pet: Dbl.Att.+1 OR Snapshot+1 OR Fast Cast+1
+Accuracy+1 Rng.Acc.+1 OR Pet: Accuracy+1 Rng.Acc.+1 OR Mag.Acc.+1
+Conserve MP+1 OR Subtle Blow+1 OR Pet: Subtle Blow+1
+Mag. Evasion+1 OR Pet: Mag. Evasion+1
+dsp.slot.BODY
+DEF+10 OR Pet: DEF+10
+HP+10 OR MP+10
+STAT+1 OR Pet: STAT+1
+Crit.hit rate+1 OR Pet: Crit.hit rate+1 OR Magic crit. hit rate+1
+dsp.slot.HANDS
+Accuracy+1 Rng.Acc.+1 OR Pet: Accuracy+1 Rng.Acc.+1 OR Mag.Acc.+1 OR Pet: Mag.Acc.+1
+Attack+1 Rng.Atk.+1 OR Pet: Attack+1 Rng.Atk.+1 OR Mag.Atk.Bns+1 OR Pet: Mag.Atk.Bns.+1
+Dbl.Atk.+1 OR Pet: Dbl.Att.+1 OR Snapshot+1 OR Magic crit. hit rate+1 OR Pet: Magic Damage +1
+STAT+1 OR Pet: STAT+1
+dsp.slot.LEGS
+Store TP+1 OR Pet: Store TP+1 OR Conserve MP+1
+Crit.hit rate+1 OR Pet: Crit.hit rate+1 OR Magic crit. hit rate+1
+Evasion+3 OR Pet: Evasion+3
+HP+5 OR MP+5
+dsp.slot.FEET
+HASTE+1 OR Pet: Haste+1
+Attack+1 Rng.Atk.+1 OR Pet: Attack+1 Rng.Atk.+1 OR Mag.Atk.Bns+1 OR Pet: Mag.Atk.Bns.+1
+Dual Wield+1 OR Triple Atk.+1 OR Pet: Dbl.Att.+1 OR Mag. crit. hit dmg.+1% OR Rapidshot+1
+Evasion+1 OR Pet: Evasion+1
+dsp.slot.NECK
+Enmity+1 OR Enmity-1 OR Pet: Enmity-1 MAX 5
+HP+5 OR MP+5
+dsp.slot.WAIST
+HASTE+1 OR Pet: Haste+1 MAX 5
+Attack+1 Rng.Atk.+1 OR Accuracy+1 Rng.Acc.+1 OR Pet: Accuracy+1 Rng.Acc+1 OR Pet: Attack+1 Rng.Atk.+1 MAX 5
+dsp.slot.EAR1
+Weapon or Magic Skill +1 OR automaton skill+1 MAX 5
+ENMITY+1 OR Enmity-1 OR Subtle Blow+1 MAX 2
+dsp.slot.RING1
+STAT+1 OR Pet: STAT+1 MAX 5
+All elemental resists+1 MAX 5
+dsp.slot.BACK
+DEF+10 OR Pet: DEF+10 MAX 5
+Enemy crit. hit rate-1 OR Pet: Enemy crit. hit rate -1 MAX 5
+]]--
 				
 local augments = {
 					[1] =   { Type = 1, StartTier = true, EndTier = 3, NextAugId = 2, Description = "HP+10", AugItem1 = 1495, Multiplier = 10},
@@ -101,7 +198,40 @@ local augments = {
 					
 					[1154] =  { Type = 2, Description = "Mag.Evasion+3" , AugItem1 = 1490},
 					
-					[45] =  { Type = 1, Description = "DMG+1" , AugItem1 = XXX},
+					[45] =  { Type = 1, Description = "DMG+1" , AugItem1 = XXX}, -- MELEE
+					[129] =  { Type = 1, Description = "Accuracy+1 Rng.Acc.+1" , AugItem1 = XXX},
+					[130] =  { Type = 1, Description = "Attack+1 Rng.Atk.+1" , AugItem1 = XXX},
+					
+					
+					[746] =  { Type = 1, Description = "DMG+1" , AugItem1 = XXX}, -- RANGED
+					
+					[362] = {Description = "Magic Damage+1", AugItem1 = XXX},
+					
+					[153] = {Description = "Shield Mastery+1", AugItem1 = XXX},					
+					[363] = {Description = "Chance of successful block+1", AugItem1 = XXX},
+					
+					[96] = {Description = "Pet: Accuracy+1 Rng.Acc+1", AugItem1 = XXX},
+					
+					[97] = {Description = "Pet: Attack+1 Rng.Atk.+1", AugItem1 = XXX},
+					[100] = {Description = "Pet: Mag.Acc.+1", AugItem1 = XXX},
+					[101] = {Description = "Pet: Mag.Atk.Bns.+1", AugItem1 = XXX},
+					[126] = {Description = "Pet: Magic Damage +1", AugItem1 = XXX},
+					
+					
+					
+					[329] = {Description = "Cure potency+1%", AugItem1 = XXX},
+					
+					[115] = {Description = "Pet: Store TP+1", AugItem1 = XXX},
+					
+					[116] = {Description = "Pet: Subtle Blow+1", AugItem1 = XXX},
+					
+					[278] = {Description = "Automaton Melee skill+1", AugItem1 = XXX},
+					[279] = {Description = "Automaton Ranged skill+1", AugItem1 = XXX},
+					[280] = {Description = "Automaton Magic skill+1", AugItem1 = XXX},
+					
+					[67] = {Description = "All songs+1", AugItem1 = XXX},
+					[322] = {Description = "Song spellcasting time -1%", AugItem1 = XXX},
+					
 					
 					[39] =  { Type = 2, Description = "Enmity+1" , AugItem1 = 1500},
 					[40] =  { Type = 2, Description = "Enmity-1" , AugItem1 = 1501},
@@ -161,57 +291,15 @@ local augments = {
 					[518] = { Type = 1, Description = "CHR+1" , AugItem1 = 1494},
 					[796] = { Type = 2, Description = "All elemental resists+1", AugItem1 = 1496}
 					}
-					
-npcToAugmentType = {
-					[17736005] = 1,
-					[17736012] = 2,
-					[17736007] = 3
-				   }
 
 function onTrade(player,npc,trade)
-	local augmentType = npcToAugmentType[npc:getID()];
 	if (trade:getSlotCount() == 1) then
 		local item = trade:getItem();
 		if (item:isType(dsp.itemType.ARMOR)) then
-			local itemAugments = {}
-			local augId, augVal;
-            for i = 0, 4 do
-                local augmentId, augmentValue = item:getAugment(i);
-				if (augmentId > 0) then
-					if (augments[augmentId].BaseValue ~= nil) then
-						augmentValue = augmentValue + augments[augmentId].BaseValue;
-					end
-					
-					if (itemAugments[augmentId] == nil) then
-						itemAugments[augmentId] = { Value = augmentValue, AugSlot = i };
-					else
-						itemAugments[augmentId].Value = itemAugments[augmentId].Value + augmentValue;
-					end
-					
-					if (augments[augmentId].Type == augmentType) then
-						augId = augmentId;
-						augVal = itemAugments[augmentId].Value;
-					end
-				end
-            end
-
-			if (augId ~= nil) then
-				augVal = augVal + 1;
-				if (augments[augId].Multiplier ~= nil) then
-					augVal = math.floor(augVal / augments[augId].Multiplier);
-				end
+			local slotType = item:getSlotType()
+			local skillType = item:getSkillType()
 			
-				if (augVal < 10) then
-					player:PrintToPlayer(string.format("Bring me %s Gil, a %s, and a rare %s to enhance your augment.", augCost[augVal], itemMap[augments[augId].AugItem1], nmDropItem[nmDropItem[augVal]]), 0, npc:getName():gsub("_"," "));
-				else
-					player:PrintToPlayer("I cannot enhance this further.  You may begin again with another augment if you'd like.", 0, npc:getName():gsub("_"," "));
-				end
-			else
-				player:PrintToPlayer(string.format("Here's what I can do for you. Bring me %s Gil and a rare %s, and one of the following items to choose your augment.", augCost[0], nmDropItem[nmDropItem[0]] ), 0, npc:getName():gsub("_"," "));
-				sayAugmentOptions(augmentType, player, npc);
-			end
-		else
-			player:PrintToPlayer("I cannot do anything with this.", 0, npc:getName():gsub("_"," "));
+			
 		end
 	elseif (trade:getSlotCount() == 4) then
 		local tradeGil = trade:getGil();
@@ -230,8 +318,6 @@ function onTrade(player,npc,trade)
 					end
 				end
 			end
-			
-			if (gearItem ~= nil and augItemId ~= nil and nmItemId ~= nil) then
 				local itemAugments = {};
 				local augCount = 0;
 				for i = 0, 4 do
