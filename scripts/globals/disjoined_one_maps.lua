@@ -428,7 +428,7 @@ local augments = {
 					[42] =   {Description = "Enemy crit. hit rate -1%"},
 					[45] =   {Description = "DMG+1"}, -- MELEE
 					[49] =   {Description = "Haste+1"},
-					[57] =   {Description = "Magic crit. hit rate+1"}, -- MELEE
+					[57] =   {Description = "Magic crit. hit rate+1"},
 					[67] =   {Description = "All songs+1"},
 					[68] =   {Description = "Accuracy+1 Attack+1"},
 					[69] =   {Description = "Rng.Acc.+1 Rng.Atk.+1"},
@@ -622,14 +622,16 @@ function handleOnTrade(player,npc,trade)
 			end
 			
 			if (gearItem) then
+				local slotType = gearItem:getSlotType()
+				local skillType = gearItem:getSkillType()
+				
+				local augmentList, maxTier = getAugmentList(slotType, augmentType, augmentSlot)
 				local augmentId, augmentValue = gearItem:getAugment(augmentIdx);
+				local currentAugTier = 0
+				
 				if (augmentId > 0) then
-					local slotType = gearItem:getSlotType()
-					local skillType = gearItem:getSkillType()
-					
-					local augmentList, maxTier = getAugmentList(slotType, augmentType, augmentSlot)
 					local augment = checkForMatchingAugId(augmentList, augmentId, skillType)
-					if augment ~= nil then
+					if augment then
 						if augment.Max then
 							maxTier = augment.Max
 						end
@@ -638,7 +640,7 @@ function handleOnTrade(player,npc,trade)
 							augmentValue = augmentValue + augments[augmentId].BaseValue;
 						end
 						
-						local currentAugTier = math.floor(augmentValue / augment.Multiplier)-- zero indexed
+						currentAugTier = math.floor(augmentValue / augment.Multiplier)-- zero indexed
 						if (augmentValue % augment.Multiplier ~= 0 or augment.Multiplier == 1) then
 							currentAugTier = currentAugTier + 1
 						end
@@ -657,10 +659,30 @@ function handleOnTrade(player,npc,trade)
 						printCannotDoAnything(player, npc, augmentId)
 					end
 				else
-					if (augItemId and nmItemId ) then
+					if (augItemId and itemMap[augItemId] and nmItemId and nmItemId == nmDropItem[currentAugTier] and tradeGil == augCost[currentAugTier]) then
 						-- NEED TO IMPLEMENT
+						local itemIndex
+						for k, v in pairs(itemMap) do
+							if tonumber(v) and v == augItemId then
+								itemIndex = k+1
+							end
+						end
+						
+						if itemIndex ~= nil then
+							local augment = getAugmentByIndex(augmentList, itemIndex, skillType)
+							
+							if augment then
+								if augment.Max then
+									maxTier = augment.Max
+								end
+								
+								augmentItem(player, npc, gearItem, augmentIdx, augment, currentAugTier) -- AUGMENT THAT SHIT!!!
+							else
+								player:PrintToPlayer("If you want to begin the enhancement process you must provide the items I asked for.", 0, npcName);
+							end
+						end
 					else
-						player:PrintToPlayer("If you want to begin the enhancement process you must provide the items I asked for.", 0, npcName);
+						player:PrintToPlayer("If you want to begin the enhancement process you must provide the items and Gil I asked for.", 0, npcName);
 					end
 				end
 			else
@@ -668,6 +690,24 @@ function handleOnTrade(player,npc,trade)
 			end
 		else
 			player:PrintToPlayer("This is not charity. Come back when you have money...", 0, npcName);
+		end
+	elseif (trade:getSlotCount() == 2) then
+		local tradeGil = trade:getGil();
+		if tradeGil == 12345 then
+			local gearItem;
+			for i = 1, 8 do
+				local itemId = trade:getItemId(i);
+				if (itemId > 0) then
+					local item = trade:getItem(i);
+					if (item:isType(dsp.itemType.ARMOR) and gearItem == nil) then
+						gearItem  = item;
+					end
+				end
+			end
+			
+			if (gearItem) then
+				
+			end
 		end
 	end
 end
@@ -782,6 +822,56 @@ function getAugmentList(slotType, augmentType, augmentSlot)
 	return returnList, maxTier
 end
 
+function loopAugments(list, skill, success)
+	local found
+	local tmpList = deepcopy(list)
+	if (not isTable(tmpList)) then
+		tmpList = {tmpList}
+	end
+	
+	local multiplier = 1
+	if (tmpList["Multiplier"]) then
+		multiplier = tmpList["Multiplier"]
+	end
+	
+	local maxTier
+	if (tmpList["Max"]) then
+		maxTier = tmpList["Max"]
+	end
+	
+	if(skill and tmpList[skill]) then
+		table.insert(tmpList, tonumber(tmpList[skill]))
+	end
+	
+	for k, v in sorted_iter(tmpList) do
+		if isTable(v) then
+			local tmp = loopAugments(v)
+			if (tmp) then
+				found = tmp; break;
+			end
+		elseif success(k, v) then
+			found = {AugId = tonumber(v), Multiplier = multiplier, Max = maxTier}; break;
+		end
+	end
+	
+	return found
+end
+
+function getAugmentByIndex(augmentList, itemIndex, skillType)
+	local skill = skillMap[skillType]
+	local tmpIndex = 0
+	
+	local success = function(k, v)
+		if tonumber(k) and tonumber(v) then
+			tmpIndex = tmpIndex + 1
+			return itemIndex == tmpIndex
+		end
+		return false
+	end
+		
+	return loopAugments(augmentList, skill, success)
+end
+
 function checkForMatchingAugId(augmentList, augmentId, skillType)
 	local skill = skillMap[skillType]
 	
@@ -789,44 +879,12 @@ function checkForMatchingAugId(augmentList, augmentId, skillType)
 	if (tierIds[augmentId]) then
 		tmpAugId = tierIds[augmentId]
 	end
-
-	local loopAugments
-	loopAugments = function(list)
-		local tmpList = deepcopy(list)
-		if (not isTable(tmpList)) then
-			tmpList = {tmpList}
-		end
 	
-		local found = nil
-		local multiplier = 1
-		local maxTier = nil
-		if (tmpList["Multiplier"]) then
-			multiplier = tmpList["Multiplier"]
-		end
-		
-		if (tmpList["Max"]) then
-			maxTier = tmpList["Max"]
-		end
-		
-		if(skill and tmpList[skill]) then
-			table.insert(tmpList, tonumber(tmpList[skill]))
-		end
-	
-		for k, v in pairs(tmpList) do
-			if isTable(v) then
-				local tmp = loopAugments(v)
-				if (tmp) then
-					found = tmp; break;
-				end
-			elseif (tonumber(k) and tonumber(v) == tmpAugId) then
-				found = {AugId = augmentId, Multiplier = multiplier, Max = maxTier}; break;
-			end
-		end
-		
-		return found
+	local success = function(k, v)
+		return tonumber(k) and tonumber(v) == tmpAugId
 	end
 	
-	return loopAugments(augmentList)
+	return loopAugments(augmentList, skill, success)
 end
 
 function sayAugmentOptions(augmentList, player, npc, skillType)
@@ -851,7 +909,7 @@ function sayAugmentOptions(augmentList, player, npc, skillType)
 			table.insert(tmpList, tonumber(tmpList[skill]))
 		end
 	
-		for k, v in pairs(tmpList) do
+		for k, v in sorted_iter(tmpList) do
 			if isTable(v) then
 				loopAugments(v)
 			elseif (tonumber(k)) then
@@ -911,15 +969,17 @@ end
 function sorted_iter(t)
   local i = {}
   for k in next, t do
-	if tonumber(k) then
-		table.insert(i, k)
-	end
+    table.insert(i, tostring(k))
   end
   table.sort(i)
   return function()
-    local k = table.remove(i)
+    local k = table.remove(i,1)
     if k ~= nil then
-      return k, t[k]
+      if tonumber(k) and t[tonumber(k)] then
+        return k, t[tonumber(k)]
+      else
+        return k, t[k]
+      end
     end
   end
 end
