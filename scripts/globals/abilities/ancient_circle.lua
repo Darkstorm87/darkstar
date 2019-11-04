@@ -17,7 +17,7 @@ function onUseAbility(player,target,ability)
     local duration = 180 + player:getMod(dsp.mod.ANCIENT_CIRCLE_DURATION)
     target:addStatusEffect(dsp.effect.ANCIENT_CIRCLE,15,0,duration)
 
-	if (target:getMainJob() ~= JOBS.DRG) then
+	if (target:getMainJob() ~= dsp.job.DRG) then
 		local accBonusValue = player:getTraitValue(TRAIT_ACCURACY_BONUS);
 		target:addStatusEffect(dsp.effect.ANCIENT_CIRCLE,15,0,duration,0,accBonusValue/2);
 	else

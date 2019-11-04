@@ -32,9 +32,25 @@ UPDATE merits SET Value = 4 WHERE meritid = 516; -- barspell effect
 UPDATE merits SET Value = 1 WHERE meritid = 768; -- shield base recast
 
 -- NPC LIST
-UPDATE npc_list SET pos_rot = 48, pos_x = 7, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736005;
-UPDATE npc_list SET pos_rot = 68, pos_x = 11, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736007;
-UPDATE npc_list SET pos_rot = 60, pos_x = 9, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736012;
+UPDATE npc_list SET pos_rot = 66, pos_x = 1, pos_y = -3, pos_z = -29, namevis = 0, status = 0 WHERE npcid = 17719919;
+UPDATE npc_list SET pos_rot = 64, pos_x = -1, pos_y = -3, pos_z = -29, namevis = 0, status = 0 WHERE npcid = 17719920;
+UPDATE npc_list SET pos_rot = 52, pos_x = -3, pos_y = -3, pos_z = -29, namevis = 0, status = 0 WHERE npcid = 17719917;
+UPDATE npc_list SET pos_rot = 72, pos_x = 3, pos_y = -3, pos_z = -29, namevis = 0, status = 0 WHERE npcid = 17719918;
+
+UPDATE npc_list SET pos_rot = 235, pos_x = -38, pos_y = -8, pos_z = -155, namevis = 0, status = 0 WHERE npcid = 17727673;
+UPDATE npc_list SET pos_rot = 237, pos_x = -38, pos_y = -8, pos_z = -153, namevis = 0, status = 0 WHERE npcid = 17727674;
+UPDATE npc_list SET pos_rot = 237, pos_x = -37, pos_y = -8, pos_z = -156, namevis = 0, status = 0 WHERE npcid = 17727677;
+UPDATE npc_list SET pos_rot = 237, pos_x = -36, pos_y = -8, pos_z = -158, namevis = 0, status = 0 WHERE npcid = 17727678;
+
+UPDATE npc_list SET pos_rot = 48, pos_x = 6, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736005;
+UPDATE npc_list SET pos_rot = 68, pos_x = 10, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736007;
+UPDATE npc_list SET pos_rot = 70, pos_x = 12, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736009;
+UPDATE npc_list SET pos_rot = 60, pos_x = 8, pos_z = -71, namevis = 0, status = 0 WHERE npcid = 17736012;
+
+UPDATE npc_list SET pos_rot = 60, pos_x = 54, pos_y = -7, pos_z = -45, namevis = 0, status = 0 WHERE npcid = 17756444;
+UPDATE npc_list SET pos_rot = 60, pos_x = 52, pos_y = -7, pos_z = -45, namevis = 0, status = 0 WHERE npcid = 17756445;
+UPDATE npc_list SET pos_rot = 60, pos_x = 50, pos_y = -7, pos_z = -45, namevis = 0, status = 0 WHERE npcid = 17756446;
+UPDATE npc_list SET pos_rot = 60, pos_x = 48, pos_y = -7, pos_z = -45, namevis = 0, status = 0 WHERE npcid = 17756447;
 
 -- SKILL RANKS
 UPDATE skill_ranks SET war = 3, rdm = 1, rng = 3 WHERE skillid = 2; -- dagger

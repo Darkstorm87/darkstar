@@ -16,7 +16,7 @@ end
 function onUseAbility(player,target,ability)
     local duration = 180 + player:getMod(dsp.mod.HOLY_CIRCLE_DURATION)
 
-	if (target:getMainJob() ~= JOBS.PLD) then
+	if (target:getMainJob() ~= dsp.job.PLD) then
 		local subPower = 5;
 	
 		if (player:getMainLvl() > 50) then
