@@ -3,7 +3,7 @@
 -- NPC: Disjoined One
 -- Made into a Custom Augment NPC
 -----------------------------------
-local ID = require("scripts/zones/Bastok_Mines/IDs");
+local ID = require("scripts/zones/Southern_San_dOria/IDs");
 require("scripts/globals/status");
 require("scripts/globals/disjoined_one_maps");
 -----------------------------------

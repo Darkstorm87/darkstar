@@ -15,7 +15,7 @@ end
 function onUseAbility(player,target,ability)
     local duration = 180 + player:getMod(dsp.mod.ARCANE_CIRCLE_DURATION)
     
-	if (target:getMainJob() ~= JOBS.DRK) then
+	if (target:getMainJob() ~= dsp.job.DRK) then
 		local subPower = 5;
 	
 		if (player:getMainLvl() > 50) then
