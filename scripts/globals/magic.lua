@@ -1390,7 +1390,7 @@ end;
 
 function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
 	local spellParams = {};
-	local skillLevel = caster:getSkillLevel(ELEMENTAL_MAGIC_SKILL) + caster:getMod(79 + ELEMENTAL_MAGIC_SKILL);
+	local skillLevel = caster:getSkillLevel(dsp.skill.ELEMENTAL_MAGIC) + caster:getMod(79 + dsp.skill.ELEMENTAL_MAGIC);
 	
 	--Attempt to scale V with elemental magic skill, starting with Stone potency and scaling up to Thunder potency
 	if (AOE == 1) then

@@ -70,6 +70,7 @@ public:
     //int32 setAugment(lua_State*);           // set the augment id and power in slot
 
     int32 getSkillType(lua_State*);         // get skill type
+    int32 getSubSkillType(lua_State*);      // get subskill type
     int32 getWeaponskillPoints(lua_State*); // get current ws points
 
     int32 isTwoHanded(lua_State*);          // is a two handed weapon
