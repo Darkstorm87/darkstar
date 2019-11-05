@@ -128,21 +128,16 @@ local skillMap = {
 	
 
 local augmentMap = {
-	[dsp.slot.MAIN] = {
+	[dsp.slot.MAIN] = { -- 2h weapons and h2h
 		Melee = {
 			Aug1 = 45, -- DMG+1
 			Aug2 = {
 				HAND_TO_HAND = 257, -- Weapon skills
-				DAGGER = 258,
-				SWORD = 259,
 				GREAT_SWORD = 260,
-				AXE = 261,
 				GREAT_AXE = 262,
 				SCYTHE = 263,
 				POLEARM = 264,
-				KATANA = 265,
 				GREAT_KATANA = 266,
-				CLUB = 267,
 				STAFF = 268
 			},
 			Aug3 = 142, -- Store tp+1
@@ -161,8 +156,18 @@ local augmentMap = {
 			Aug4 = 116 -- Pet Subtle Blow+1
 		}
 	},
-	[dsp.slot.SUB] = {
+	[dsp.slot.SUB] = { -- 1h weapons, shields, and grips
 		Melee = {
+			Aug1 = 45, -- DMG+1
+			Aug2 = {
+				DAGGER = 258,
+				SWORD = 259,
+				AXE = 261,
+				KATANA = 265,
+				CLUB = 267,
+			},
+			Aug3 = 142, -- Store tp+1
+			Aug4 = 195, -- Subtle blow+1
 			Shield = {
 				Aug1 = {153,130},
 				Aug2 = {363,129},
@@ -177,6 +182,10 @@ local augmentMap = {
 			}
 		},
 		Magic = {
+			Aug1 = {362,329}, -- Magic Damage+1, Cure Pot+1%
+	 		Aug2 = {288,289,290,291,292,293,294,295,296,299}, -- magic skills
+			Aug3 = 140, -- fastcast+1
+			Aug4 = 141, -- Conserve MP+1
 			Shield = {
 				Aug1 = {153,362,329},
 				Aug2 = {363,35},
@@ -189,6 +198,14 @@ local augmentMap = {
 				Aug3 = 140,
 				Aug4 = 141
 			}
+		},
+		Pet = {
+			Aug1 = {97,126}, -- Pet Att/RAtt+1, Pet MDmg+1
+			Aug2 = 96, -- Pett Acc/RAcc+1
+			Aug3 = 115, -- Pet StoreTP+1
+			Aug4 = 116, -- Pet Subtle Blow+1
+			Shield = {},
+			Grip = {}
 		}
 	},
 	[dsp.slot.RANGED] = {
@@ -200,17 +217,19 @@ local augmentMap = {
 			},
 			Aug3 = 142,
 			Aug4 = 195,
-			Animator = {
-				Aug1 = 278,
-				Aug2 = 279,
-				Aug3 = 280,
-				Aug4 = 99
-			},
 			Instrument = {
 				Aug1 = {67, Max=2}, -- all songs+1
 				Aug2 = 322, -- spell casting time
 				Aug3 = {296, Max=5}, -- singing skill
 				Aug4 = {297,298,Max=5}
+			}
+		},
+		Pet = {
+			Animator = {
+				Aug1 = 278,
+				Aug2 = 279,
+				Aug3 = 280,
+				Aug4 = {99,Multiplier=2}
 			}
 		}
 	},
@@ -425,14 +444,14 @@ local augments = {
 					[39] =   {Description = "Enmity+1"},
 					[40] =   {Description = "Enmity-1"},
 					[41] =   {Description = "Crit.hit rate+1"},
-					[42] =   {Description = "Enemy crit. hit rate -1%"},
+					[42] =   {Description = "Enemy crit. hit rate -1%%"},
 					[45] =   {Description = "DMG+1"}, -- MELEE
 					[49] =   {Description = "Haste+1"},
 					[57] =   {Description = "Magic crit. hit rate+1"},
 					[67] =   {Description = "All songs+1"},
 					[68] =   {Description = "Accuracy+1 Attack+1"},
 					[69] =   {Description = "Rng.Acc.+1 Rng.Atk.+1"},
-					[71] =   {Description = "Damage Taken -1%"},
+					[71] =   {Description = "Damage Taken -1%%"},
 					[96] =   {Description = "Pet: Accuracy+1 Rng.Acc+1"},
 					[97] =   {Description = "Pet: Attack+1 Rng.Atk.+1"},
 					[98] =   {Description = "Pet: Evasion+1"},
@@ -443,7 +462,7 @@ local augments = {
 					[103] =  {Description = "Pet: Enemy crit. hit rate -1"},
 					[105] =  {Description = "Pet: Enmity-1"},
 					[111] =  {Description = "Pet: Haste+1"},
-					[112] =  {Description = "Pet: Damage taken -1%"},
+					[112] =  {Description = "Pet: Damage taken -1%%"},
 					[115] =  {Description = "Pet: Store TP+1"},
 					[116] =  {Description = "Pet: Subtle Blow+1"},
 					[117] =  {Description = "Pet: Mag. Evasion+1"},
@@ -497,10 +516,10 @@ local augments = {
 					[298] =  {Description = "Wind instrument skill+1"},
 					[299] =  {Description = "Blue Magic skill+1"},
 					[300] =  {Description = "Geomancy Skill+1"},
-					[322] =  {Description = "Song spellcasting time -1%"},
-					[328] =  {Description = "Crit. hit damage+1%"},
-					[329] =  {Description = "Cure Potency+1%"},
-					[335] =  {Description = "Mag. crit. hit dmg.+1%"},
+					[322] =  {Description = "Song spellcasting time -1%%"},
+					[328] =  {Description = "Crit. hit damage+1%%"},
+					[329] =  {Description = "Cure Potency+1%%"},
+					[335] =  {Description = "Mag. crit. hit dmg.+1%%"},
 					[362] =  {Description = "Magic Damage+1"},
 					[363] =  {Description = "Chance of successful block+1"},
 					[512] =  {Description = "STR+1"},
@@ -563,13 +582,10 @@ function handleOnTrade(player,npc,trade)
 		if (item:isType(dsp.itemType.ARMOR)) then
 			local augmentId, augmentValue = item:getAugment(augmentIdx);
 			
-			player:PrintToPlayer(augmentId)
-			player:PrintToPlayer(augmentValue)
-			
 			local slotType = item:getSlotType()
 			local skillType = item:getSkillType()
-		
-			local augmentList, maxTier = getAugmentList(slotType, augmentType, augmentSlot)
+			
+			local augmentList, maxTier = getAugmentList(slotType, augmentType, augmentSlot, item)
 			if (augmentList) then
 				if (augmentId > 0) then
 					local augment = checkForMatchingAugId(augmentList, augmentId, skillType)
@@ -625,7 +641,7 @@ function handleOnTrade(player,npc,trade)
 				local slotType = gearItem:getSlotType()
 				local skillType = gearItem:getSkillType()
 				
-				local augmentList, maxTier = getAugmentList(slotType, augmentType, augmentSlot)
+				local augmentList, maxTier = getAugmentList(slotType, augmentType, augmentSlot, gearItem)
 				local augmentId, augmentValue = gearItem:getAugment(augmentIdx);
 				local currentAugTier = 0
 				
@@ -647,7 +663,14 @@ function handleOnTrade(player,npc,trade)
 						
 						if (currentAugTier < maxTier) then
 							if (nmItemId and nmItemId == nmDropItem[currentAugTier] and tradeGil == augCost[currentAugTier]) then
-								augmentItem(player, npc, gearItem, augmentIdx, augment, currentAugTier) -- AUGMENT THAT SHIT!!!
+								trade:confirmSlot(0,tradeGil)
+								trade:confirmItem(nmItemId,1)
+								
+								local gearId = gearItem:getID()
+								local quantity = trade:getItemQty(gearId)
+								trade:confirmItem(gearId,quantity)
+								
+								augmentItem(player, npc, gearItem, quantity, augmentIdx, augment, currentAugTier) -- AUGMENT THAT SHIT!!!
 							else
 								player:PrintToPlayer("If you want to further enhance this item, you must provide the item and Gil I asked for.", 0, npcName);
 							end
@@ -676,7 +699,16 @@ function handleOnTrade(player,npc,trade)
 									maxTier = augment.Max
 								end
 								
-								augmentItem(player, npc, gearItem, augmentIdx, augment, currentAugTier) -- AUGMENT THAT SHIT!!!
+								trade:confirmSlot(0,tradeGil)
+								
+								trade:confirmItem(augItemId,1)
+								trade:confirmItem(nmItemId,1)
+								
+								local gearId = gearItem:getID()
+								local quantity = trade:getItemQty(gearId)
+								trade:confirmItem(gearId,quantity)
+								
+								augmentItem(player, npc, gearItem, quantity, augmentIdx, augment, currentAugTier) -- AUGMENT THAT SHIT!!!
 							else
 								player:PrintToPlayer("If you want to begin the enhancement process you must provide the items I asked for.", 0, npcName);
 							end
@@ -706,7 +738,12 @@ function handleOnTrade(player,npc,trade)
 			end
 			
 			if (gearItem) then
+				trade:confirmSlot(0,tradeGil)
+				local gearId = gearItem:getID()
+				local quantity = trade:getItemQty(gearId)
+				trade:confirmItem(gearId,quantity)
 				
+				removeAugment(player, npc, gearItem, quantity, augmentIdx)
 			end
 		end
 	end
@@ -739,10 +776,26 @@ function handleOnTrigger(player,npc)
 	player:PrintToPlayer(message, 0, npcName);
 end
 
-function augmentItem(player, npc, gearItem, augmentIdx, augment, newAugTier)
+function removeAugment(player, npc, gearItem, quantity, augmentIdx)
+	local gearId = gearItem:getID()
+	local augTable = {}
+	
+	for i = 0, 3 do
+		local augId, augVal = gearItem:getAugment(i);
+		augTable[i] = {Id = augId, Val = augVal}
+	end
+
+	augTable[augmentIdx] = {Id = 0, Val = 0}
+	
+	player:confirmTrade();
+	player:addItem(gearId, quantity, augTable[0].Id, augTable[0].Val, augTable[1].Id, augTable[1].Val, augTable[2].Id, augTable[2].Val, augTable[3].Id, augTable[3].Val);
+	player:PrintToPlayer("Pleasure doing buisiness with you.", 0, npcName);
+	player:messageSpecial(zones[player:getZoneID()].text.ITEM_OBTAINED, gearId);
+end
+
+function augmentItem(player, npc, gearItem, quantity, augmentIdx, augment, newAugTier)
 	local npcName = npc:getName():gsub("_"," ")
 	local gearId = gearItem:getID()
-	local gearQuantity = gearItem:getQuantity()
 	
 	local augTable = {}
 	
@@ -771,13 +824,13 @@ function augmentItem(player, npc, gearItem, augmentIdx, augment, newAugTier)
 	local augmentValue = (newAugTier+1) * multiplier - baseValue
 	augTable[augmentIdx] = {Id = augmentId, Val = augmentValue}
 	
-	player:tradeComplete();
-	player:addItem(gearId, gearQuantity, augTable[0].Id, augTable[0].Val, augTable[1].Id, augTable[1].Val, augTable[2].Id, augTable[2].Val, augTable[3].Id, augTable[3].Val);
+	player:confirmTrade();
+	player:addItem(gearId, quantity, augTable[0].Id, augTable[0].Val, augTable[1].Id, augTable[1].Val, augTable[2].Id, augTable[2].Val, augTable[3].Id, augTable[3].Val);
 	player:PrintToPlayer("Pleasure doing buisiness with you.", 0, npcName);
 	player:messageSpecial(zones[player:getZoneID()].text.ITEM_OBTAINED, gearId);
 end
 
-function getAugmentList(slotType, augmentType, augmentSlot)
+function getAugmentList(slotType, augmentType, augmentSlot, item)
 	local returnList;
 	local maxTier = 10;
 	
@@ -792,16 +845,19 @@ function getAugmentList(slotType, augmentType, augmentSlot)
 			maxTier = augmentList["Max"]
 		end
 		
+		local skill = item:getSkillType()
+		local subSkill = item:getSubSkillType()
+		
 		if (slotType == dsp.slot.SUB) then
-			if (augmentList["Shield"]) then
+			if (item:isShield() and augmentList["Shield"]) then
 				augmentList = augmentList["Shield"]
-			elseif (augmentList["Grip"]) then
+			elseif (skill == 0 and augmentList["Grip"]) then
 				augmentList = augmentList["Grip"]
 			end
 		elseif (slotType == dsp.slot.RANGED) then
-			if (augmentList["Animator"]) then
+			if (subSkill == 10 and augmentList["Animator"]) then
 				augmentList = augmentList["Animator"]
-			elseif (augmentList["Instrument"]) then
+			elseif (skill >= 40 and skill <= 42 and augmentList["Instrument"]) then
 				augmentList = augmentList["Instrument"]
 			end
 		end
@@ -969,17 +1025,20 @@ end
 function sorted_iter(t)
   local i = {}
   for k in next, t do
-    table.insert(i, tostring(k))
+	table.insert(i, k)
   end
-  table.sort(i)
+  table.sort(i, 
+    function(a,b)
+      if tonumber(a) and tonumber(b) then
+        return a<b
+      else
+        return tostring(a)<tostring(b)
+      end
+    end)
   return function()
     local k = table.remove(i,1)
     if k ~= nil then
-      if tonumber(k) and t[tonumber(k)] then
-        return k, t[tonumber(k)]
-      else
         return k, t[k]
-      end
     end
   end
 end
