@@ -107,8 +107,8 @@ local function CharCreate(player)
         player:changeContainerSize(dsp.inv.MOGSATCHEL, START_INVENTORY)
 		player:changeContainerSize(dsp.inv.MOGLOCKER, START_INVENTORY)
 	   
-		player:setVar("mog-locker-access-type", 1);
-		player:setVar("mog-locker-expiry-timestamp", 1767139200);
+		player:setCharVar("mog-locker-access-type", 1);
+		player:setCharVar("mog-locker-expiry-timestamp", 1767139200);
     end
 
     if UNLOCK_OUTPOST_WARPS >= 1 then
