@@ -192,12 +192,12 @@ void CLinkshell::ChangeMemberRank(int8* MemberName, uint8 toSack)
                     if (lsID == 1)
                     {
                         Sql_Query(SqlHandle, "UPDATE accounts_sessions SET linkshellid1 = %u , linkshellrank1 = %u WHERE charid = %u",
-                            m_id, PItemLinkshell->GetLSType(), PMember->id);
+                            m_id, (uint16)PItemLinkshell->GetLSType(), PMember->id);
                     }
                     else if (lsID == 2)
                     {
                         Sql_Query(SqlHandle, "UPDATE accounts_sessions SET linkshellid2 = %u , linkshellrank2 = %u WHERE charid = %u",
-                            m_id, PItemLinkshell->GetLSType(), PMember->id);
+                            m_id, (uint16)PItemLinkshell->GetLSType(), PMember->id);
                     }
 
                     PMember->pushPacket(new CInventoryAssignPacket(PItemLinkshell, INV_NORMAL));

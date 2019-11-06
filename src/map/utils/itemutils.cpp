@@ -285,8 +285,8 @@ namespace itemutils
 		uint8 maxPCLevel = luautils::GetSettingsVariable("MAX_LEVEL");
 		uint8 targetLevel = std::clamp<uint8>(CMob->GetMLevel(), 0, maxPCLevel);
 
-		uint8 minLevel = std::max<uint8>(targetLevel - range, 0) - 1; // -1 to offset levels for zero based indexed g_pEquipmentList array
-		uint8 maxLevel = std::min<uint8>(targetLevel + range, maxPCLevel) - 1;
+		uint8 minLevel = std::max(targetLevel - range, 1) - 1; // -1 to offset levels for zero based indexed g_pEquipmentList array
+		uint8 maxLevel = std::min<int16>(targetLevel + range, maxPCLevel) - 1;
 
 		uint32 allianceJobs = 0;
 		PChar->ForAlliance([&allianceJobs](CBattleEntity* PPartyMember) {
