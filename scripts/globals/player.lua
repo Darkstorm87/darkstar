@@ -103,9 +103,9 @@ local function CharCreate(player)
 
     -- increase starting inventory
     if START_INVENTORY > 30 then
-        player:changeContainerSize(dsp.inv.INVENTORY, START_INVENTORY - 30)
-        player:changeContainerSize(dsp.inv.MOGSATCHEL, START_INVENTORY - 30)
-		player:changeContainerSize(dsp.inv.MOGLOCKER, START_INVENTORY - 30)
+        player:changeContainerSize(dsp.inv.INVENTORY, START_INVENTORY)
+        player:changeContainerSize(dsp.inv.MOGSATCHEL, START_INVENTORY)
+		player:changeContainerSize(dsp.inv.MOGLOCKER, START_INVENTORY)
 	   
 		player:setVar("mog-locker-access-type", 1);
 		player:setVar("mog-locker-expiry-timestamp", 1767139200);
