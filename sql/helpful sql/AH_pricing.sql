@@ -15,14 +15,19 @@ FROM (
 	SELECT *, if(BaseSell = 0, 1000 DIV stackSize, BaseSell) * 9 AS Price
 	FROM item_basic a
 	WHERE itemid NOT BETWEEN 0x0200 AND 0x0206
-	AND (itemid BETWEEN 0x01D8 AND 0x0DFF
-	OR itemid BETWEEN 0x7000 AND 0x7FFF)
+	-- AND (itemid BETWEEN 0x01D8 AND 0x0DFF
+	-- OR itemid BETWEEN 0x7000 AND 0x7FFF)
 	AND NoSale = 0
 	AND aH NOT IN (0, 36, 49, 61)
 	AND itemid NOT IN (836, 860, 865, 867, 874, 899, 901, 908, 909, 1110, 1272, 1273, 1274, 1275, 1276, 1277, 1279, 1280, 1281, 1282, 1283, 1293, 1295, 1296, 1311, 1312, 1313, 2168, 2169, 2172, 2371, 2372, 2373)
 	AND itemid NOT BETWEEN 3444 AND 3492
+    and itemid NOT BETWEEN 6147 AND 6179
+    and itemid NOT BETWEEN 6457 AND 8798
+    and itemid NOT BETWEEN 8930 AND 9878
 	AND NOT flags & (0x4000 | 0x8000)
 	AND NOT EXISTS(SELECT 1 FROM synth_recipes WHERE a.itemid IN (Result, ResultHQ1, ResultHQ2, ResultHQ3))
+    AND NOT EXISTS(SELECT 1 FROM item_equipment ie WHERE a.itemid = ie.itemid)
+    AND aH NOT IN (15, 35, 36, 49)
 ) bd
 LEFT OUTER JOIN vendor_prices vp
 	ON bd.itemid = vp.item_id
