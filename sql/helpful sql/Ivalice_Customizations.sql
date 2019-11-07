@@ -211,12 +211,12 @@ ORDER BY mg.minlevel DIV 10;
 
 -- SPELL LIST
 UPDATE spell_list SET mpCost = 20, castTime = 2000, recastTime = 10000 WHERE spellid = 57; -- haste
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 100; -- enfire
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 101; -- enblizzard
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 102; -- enaero
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 103; -- enstone
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 104; -- enthunder
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 105; -- enwater
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 100; -- enfire
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 101; -- enblizzard
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 102; -- enaero
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 103; -- enstone
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 104; -- enthunder
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 105; -- enwater
 UPDATE spell_list SET mpCost = 20, recastTime = 9000 WHERE spellid = 109; -- refresh
 UPDATE spell_list SET mpCost = 15, castTime = 1500 WHERE spellid = 143; -- erase
 UPDATE spell_list SET mpCost = 4 WHERE spellid = 144; -- fire
@@ -287,12 +287,12 @@ UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 
 UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 270; -- absorb-int
 UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 271; -- absorb-mnd
 UPDATE spell_list SET mpCost = 10, recastTime = 50000, VE = 320 WHERE spellid = 272; -- absorb-chr
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 312; -- enfire 2
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 313; -- enblizzard 2
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 314; -- enaero 2
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 315; -- enstone 2
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 316; -- enthunder 2
-UPDATE spell_list SET validTargets = 3 WHERE spellid = 317; -- enwater 2
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 312; -- enfire 2
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 313; -- enblizzard 2
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 314; -- enaero 2
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 315; -- enstone 2
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 316; -- enthunder 2
+UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 317; -- enwater 2
 UPDATE spell_list SET jobs = 0x000000004B0000000000000000000000000000000000, mpCost = 30, recastTime = 13500 WHERE spellid = 473; -- refresh 2
 UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 479; -- boost-str
 UPDATE spell_list SET jobs = 0x00003200000000000000000000000000000000000000 WHERE spellid = 480; -- boost-dex
