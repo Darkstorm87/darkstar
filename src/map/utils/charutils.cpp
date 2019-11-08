@@ -786,6 +786,24 @@ namespace charutils
             PChar->menuConfigFlags.flags = (uint32)Sql_GetUIntData(SqlHandle, 2);
         }
 
+        fmtQuery = "SELECT modid, value "
+            "FROM char_mods "
+            "WHERE charid = %u;";
+
+        ret = Sql_Query(SqlHandle, fmtQuery, PChar->id);
+
+        if (ret != SQL_ERROR && Sql_NumRows(SqlHandle) != 0)
+        {
+            while (Sql_NextRow(SqlHandle) == SQL_SUCCESS)
+            {
+                Mod ModID = (Mod)Sql_GetUIntData(SqlHandle, 0);
+                int16 ModValue = (int16)Sql_GetUIntData(SqlHandle, 1);
+
+                PChar->addModifier(ModID, ModValue);
+                PChar->setCharMod(ModID, ModValue);
+            }
+        }
+
         charutils::LoadInventory(PChar);
 
         CalculateStats(PChar);
@@ -4991,4 +5009,11 @@ namespace charutils
         return 0;
     }
 
+    void AddCharMod(CCharEntity* PChar, Mod type, int value)
+    {
+        PChar->addModifier(type, value);
+        PChar->addCharMod(type, value);
+
+        Sql_Query(SqlHandle, "INSERT INTO char_mods (charid, modid, value) VALUES(%u, %u, %u) ON DUPLICATE KEY UPDATE value = %u", PChar->id, (int)type, PChar->getCharMod(type), PChar->getCharMod(type));
+    }
 }; // namespace charutils

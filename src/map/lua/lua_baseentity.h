@@ -682,6 +682,9 @@ public:
     int32 getDespoilDebuff(lua_State*);     // gets the status effect id to apply to the mob on successful despoil
     int32 itemStolen(lua_State*);           // sets mob's ItemStolen var = true
     int32 getTHlevel(lua_State*);           // Returns the Monster's current Treasure Hunter Tier
+
+    int32 addCharMod(lua_State*);           // Adds permanent mod to character
+    int32 getCharMod(lua_State*);           // Adds permanent mod to character
 };
 
 #endif

@@ -186,6 +186,8 @@ namespace charutils
     bool    AddWeaponSkillPoints(CCharEntity*, SLOTTYPE, int);
 
     int32   GetCharVar(CCharEntity* PChar, const char* var);
+
+    void    AddCharMod(CCharEntity* PChar, Mod type, int value);
 };
 
 #endif
