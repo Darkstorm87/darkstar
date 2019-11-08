@@ -577,6 +577,21 @@ void CCharEntity::delTrait(CTrait* PTrait)
     charutils::delTrait(this, PTrait->getID());
 }
 
+void CCharEntity::setCharMod(uint16 type, int16 value)
+{
+    m_charModStat[type] = value;
+}
+
+int16 CCharEntity::getCharMod(uint16 type)
+{
+    return m_charModStat[type];
+}
+
+void CCharEntity::addCharMod(Mod type, int16 value)
+{
+    m_charModStat[type] += value;
+}
+
 bool CCharEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
 {
     if (StatusEffectContainer->GetConfrontationEffect() != PInitiator->StatusEffectContainer->GetConfrontationEffect())
