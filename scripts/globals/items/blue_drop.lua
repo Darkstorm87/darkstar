@@ -16,4 +16,8 @@ end
 function onItemUse(target)
     target:addStatusEffect(dsp.effect.MND_BOOST,5,0,900)
     target:addStatusEffect(dsp.effect.MEDICINE,0,0,3600)
+	
+	if (target:getCharMod(dsp.mod.MND) < 20) then
+		target:addCharMod(dsp.mod.MND,1)
+    end
 end

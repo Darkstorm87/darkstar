@@ -13754,13 +13754,14 @@ inline int32 CLuaBaseEntity::addCharMod(lua_State* L)
     DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
-    ((CCharEntity*)m_PBaseEntity)->addCharMod(
+    charutils::AddCharMod(((CCharEntity*)m_PBaseEntity), static_cast<Mod>(lua_tointeger(L, 1)), (int16)lua_tointeger(L, 2));
+
+    /*((CCharEntity*)m_PBaseEntity)->addCharMod(
         static_cast<Mod>(lua_tointeger(L, 1)),
-        (int16)lua_tointeger(L, 2));
+        (int16)lua_tointeger(L, 2));*/
     return 0;
 }
 
@@ -13769,7 +13770,6 @@ inline int32 CLuaBaseEntity::getCharMod(lua_State* L)
     DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
     DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
-    CCharEntity* PChar = (CCharEntity*)m_PBaseEntity;
     DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     lua_pushinteger(L, ((CCharEntity*)m_PBaseEntity)->getCharMod(static_cast<Mod>(lua_tointeger(L, 1))));

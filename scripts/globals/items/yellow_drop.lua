@@ -9,11 +9,15 @@ require("scripts/globals/msg")
 function onItemCheck(target)
     if (target:hasStatusEffect(dsp.effect.MEDICINE)) then
         return dsp.msg.basic.ITEM_NO_USE_MEDICATED
-    end
+	end
     return 0
 end
 
 function onItemUse(target)
     target:addStatusEffect(dsp.effect.VIT_BOOST,5,0,900)
     target:addStatusEffect(dsp.effect.MEDICINE,0,0,3600)
+	
+	if (target:getCharMod(dsp.mod.VIT) < 20) then
+		target:addCharMod(dsp.mod.VIT,1)
+    end
 end
