@@ -16,4 +16,8 @@ end
 function onItemUse(target)
     target:addStatusEffect(dsp.effect.AGI_BOOST,5,0,900)
     target:addStatusEffect(dsp.effect.MEDICINE,0,0,3600)
+	
+	if (target:getCharMod(dsp.mod.AGI) < 20) then
+		target:addCharMod(dsp.mod.AGI,1)
+    end
 end
