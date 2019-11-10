@@ -13777,6 +13777,37 @@ inline int32 CLuaBaseEntity::getCharMod(lua_State* L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::getBountyMob(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    CCharEntity* PChar = ((CCharEntity*)m_PBaseEntity);
+    uint8 bountyType = lua_isnumber(L, 1);
+
+    int mobId = 0;
+    int itemId = 0;
+
+    BountyMob_t* bountyMob = zoneutils::GetBountyMob(PChar->GetMLevel(), bountyType);
+    if (bountyMob)
+    {
+        CItem* dropItem = bountyMob->Items->at(dsprand::GetRandomNumber(bountyMob->Items->size()));
+
+        if (dropItem)
+        {
+            mobId = bountyMob->Mob->id;
+            itemId = dropItem->getID();
+        }
+    }
+    
+    lua_pushinteger(L, mobId);
+    lua_pushinteger(L, itemId);
+
+    return 2;
+}
+
 //=======================================================//
 
 const char CLuaBaseEntity::className[] = "CBaseEntity";
@@ -14424,6 +14455,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateToEntireZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity, addCharMod),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity, getCharMod),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity, getBountyMob),
 
     {nullptr,nullptr}
 };

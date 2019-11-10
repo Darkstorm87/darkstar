@@ -135,36 +135,38 @@ WHERE md.itemId IN (18852,15351,15224,15515,15551,15899,18587,15736,14986, 15737
 ORDER BY mg.dropId;
 
 INSERT INTO mob_droplist
-SELECT DISTINCT mg.dropid, 0 AS dropType, 0 AS groupId, 1000 as groupRate,
-	CASE mg.minlevel DIV 10
-		WHEN 0 THEN 4064
-        WHEN 1 THEN 4065
-        WHEN 2 THEN 4066
-        WHEN 3 THEN 4067
-        WHEN 4 THEN 4068
-        WHEN 5 THEN 4069
-        WHEN 6 THEN 4070
-        WHEN 7 THEN 4071
-        WHEN 8 THEN 4072
-        WHEN 9 THEN 4073
-        WHEN 9 THEN 4073
-        ELSE 4064
-    END AS itemId,
-    250 AS itemRate
-FROM mob_spawn_points msp
-INNER JOIN mob_groups mg
-	ON msp.groupid = mg.groupid
-	AND mg.zoneid = ((msp.mobid >> 12) & 0xFFF)
-INNER JOIN mob_pools mp
-	ON mg.poolid = mp.poolid
-INNER JOIN zone_settings zs
-	ON mg.zoneid = zs.zoneid
-WHERE mp.mobType & 0x02
-AND NOT mp.mobType & (0x10 | 0x20)
-AND zs.zonetype NOT IN (4,5,6)
-AND mg.dropid > 0
-AND mg.minlevel DIV 10 < 10
-ORDER BY mg.minlevel DIV 10;
+SELECT dropid, dropType, groupid, groupRate, itemId, itemRate + 50 * lvlBucket AS itemRate
+FROM (
+	SELECT DISTINCT mg.dropid, 0 AS dropType, 0 AS groupId, 1000 as groupRate, mg.minlevel DIV 10 AS lvlBucket,
+		CASE mg.minlevel DIV 10
+			WHEN 0 THEN 4064
+			WHEN 1 THEN 4065
+			WHEN 2 THEN 4066
+			WHEN 3 THEN 4067
+			WHEN 4 THEN 4068
+			WHEN 5 THEN 4069
+			WHEN 6 THEN 4070
+			WHEN 7 THEN 4071
+			WHEN 8 THEN 4072
+			WHEN 9 THEN 4073
+			ELSE 4064
+		END AS itemId,	
+		300 AS itemRate
+	FROM mob_spawn_points msp
+	INNER JOIN mob_groups mg
+		ON msp.groupid = mg.groupid
+		AND mg.zoneid = ((msp.mobid >> 12) & 0xFFF)
+	INNER JOIN mob_pools mp
+		ON mg.poolid = mp.poolid
+	INNER JOIN zone_settings zs
+		ON mg.zoneid = zs.zoneid
+	WHERE mp.mobType & 0x02
+	AND NOT mp.mobType & (0x10 | 0x20)
+	AND zs.zonetype NOT IN (4,5,6)
+	AND mg.dropid > 0
+	AND mg.minlevel DIV 10 < 10
+) a
+ORDER BY lvlBucket;
 
 INSERT INTO mob_droplist
 SELECT DISTINCT mg.dropid, 2 AS dropType, 0 AS groupId, 1000 as groupRate,

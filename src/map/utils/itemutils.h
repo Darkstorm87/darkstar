@@ -89,7 +89,7 @@ struct DropEquip_t
 
 
 typedef std::vector<LootItem_t> LootList_t;
-typedef std::vector<DropEquip_t> DropEquipList_t;
+typedef std::vector<DropEquip_t*> DropEquipList_t;
 
 /************************************************************************
 *                                                                       *

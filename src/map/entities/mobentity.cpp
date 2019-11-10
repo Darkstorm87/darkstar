@@ -834,9 +834,24 @@ void CMobEntity::DropItems(CCharEntity* PChar)
             {
                 if (dsprand::GetRandomNumber(1000) < map_config.global_equipment_drop_rate + bonus)
                 {
-                    DropEquip_t drop = equipDrops->at(dsprand::GetRandomNumber(equipDrops->size()));
+                    DropEquip_t* drop = equipDrops->at(dsprand::GetRandomNumber(equipDrops->size()));
 
-                    if (AddItemToPool(drop.ItemID, ++dropCount))
+                    if (AddItemToPool(drop->ItemID, ++dropCount))
+                        return;
+                    break;
+                }
+            }
+        }
+
+        if (this->GetMLevel() > 85 && this->m_Type & MOBTYPE_NOTORIOUS)
+        {
+            for (int16 roll = 0; roll < maxRolls; ++roll)
+            {
+                if (dsprand::GetRandomNumber(1000) < 250 + bonus)
+                {
+                    uint16 itemId = coloredDrops[dsprand::GetRandomNumber(coloredDrops.size()-1)];
+
+                    if (AddItemToPool(itemId, ++dropCount))
                         return;
                     break;
                 }
