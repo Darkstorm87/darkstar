@@ -303,9 +303,9 @@ namespace itemutils
 			{
 				for (uint16 j = 0; j < g_pEquipmentList[i]->size(); ++j)
 				{
-                    DropEquip_t item = g_pEquipmentList[i]->at(j);
+                    DropEquip_t* item = g_pEquipmentList[i]->at(j);
 
-					if ((item.Jobs & allianceJobs)) {
+					if ((item->Jobs & allianceJobs)) {
                         items->emplace_back(item);
 					}
 				}
@@ -431,7 +431,7 @@ namespace itemutils
                             ((CItemEquipment*)PItem)->setSubType(ITEM_CHARGED);
                         }
 
-                        if ((PItem->getFlag() & (ITEM_FLAG_01 | ITEM_FLAG_EX | ITEM_FLAG_RARE)) == 0)
+                        if ((PItem->getFlag() & (ITEM_FLAG_01 | ITEM_FLAG_EX | ITEM_FLAG_RARE)) == 0 && PItem->getAHCat() != 47)
                         {
                             uint8 reqLvl = ((CItemEquipment*)PItem)->getReqLvl();
                             uint8 iLvl = ((CItemEquipment*)PItem)->getILvl();
@@ -443,7 +443,9 @@ namespace itemutils
                                 g_pEquipmentList[reqLvl] = new DropEquipList_t;
                             }
 
-                            g_pEquipmentList[reqLvl]->emplace_back(DropEquip_t(PItem->getID(), ((CItemEquipment*)PItem)->getJobs()));
+                            DropEquip_t* dropEquip = new DropEquip_t(PItem->getID(), ((CItemEquipment*)PItem)->getJobs());
+
+                            g_pEquipmentList[reqLvl]->emplace_back(dropEquip);
                         }
                     }
                     if (PItem->isType(ITEM_WEAPON))

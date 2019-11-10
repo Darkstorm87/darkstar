@@ -36,6 +36,7 @@
 #include "../entities/npcentity.h"
 #include "zoneutils.h"
 #include "mobutils.h"
+#include "itemutils.h"
 #include "../items/item_weapon.h"
 #include "../mob_spell_list.h"
 #include "../packets/entity_update.h"
@@ -46,6 +47,12 @@
 std::map<uint16, CZone*> g_PZoneList;   // глобальный массив указателей на игровые зоны
 CNpcEntity*  g_PTrigger;    // триггер для запуска событий
 
+std::map<uint8, BountyMobList_t*> bountyDropMap;
+
+BountyMob_t::BountyMob_t(CMobEntity* Mob, std::vector<CItem*> *Items)
+    : Mob(Mob)
+    , Items(Items)
+{ }
 
 namespace zoneutils
 {
@@ -508,6 +515,36 @@ void LoadMOBList()
                 mobutils::InitializeMob(PMob, GetZone(ZoneID));
 
                 GetZone(ZoneID)->InsertMOB(PMob);
+
+                if (GetZone(ZoneID)->GetType() & (ZONETYPE_OUTDOORS | ZONETYPE_DUNGEON) && (PMob->m_Type & MOBTYPE_NOTORIOUS) && !(PMob->m_Type & (MOBTYPE_BATTLEFIELD | MOBTYPE_EVENT)) && PMob->m_DropID > 0)
+                {
+                    DropList_t* dropList = itemutils::GetDropList(PMob->m_DropID);
+                    if (dropList != nullptr)
+                    {
+                        std::vector<CItem*> *items = new std::vector<CItem*>();
+                        for (uint8 i = 0; i < dropList->Items.size(); ++i)
+                        {
+                            DropItem_t& dropItem = dropList->Items.at(i);
+                            if (dropItem.ItemID && dropItem.DropRate > 0)
+                            {
+                                CItem* PItem = itemutils::GetItem(dropItem.ItemID);
+                                if (PItem->getFlag() & (ITEM_FLAG_EX | ITEM_FLAG_RARE)) {
+                                    items->push_back(PItem);
+                                }
+                            }
+                        }
+
+                        if (items->size())
+                        {
+                            if (!bountyDropMap[PMob->GetMLevel()])
+                            {
+                                bountyDropMap[PMob->GetMLevel()] = new BountyMobList_t();
+                            }
+
+                            bountyDropMap[PMob->GetMLevel()]->push_back(new BountyMob_t(PMob, items));
+                        }
+                    }
+                }
             }
         }
     }
@@ -1057,6 +1094,53 @@ uint64 GetZoneIPP(uint16 zoneID)
 bool IsResidentialArea(CCharEntity* PChar)
 {
     return PChar->m_moghouseID != 0;
+}
+
+BountyMob_t* GetBountyMob(uint8 charLevel, uint8 bountyType)
+{
+    uint8 minLevel = 1;
+    uint8 maxLevel = 99;
+
+    switch (bountyType)
+    {
+    case 2:
+        minLevel = charLevel;
+        maxLevel = charLevel + 10;
+        break;
+    case 3:
+        minLevel = charLevel + 10;
+        maxLevel = charLevel + 20;
+        break;
+    default:
+        maxLevel = charLevel;
+    }
+
+    uint16 nmPoolSize = 0;
+    for (uint8 i = minLevel; i < maxLevel; ++i)
+    {
+        if (bountyDropMap[i] != nullptr)
+        {
+            nmPoolSize += bountyDropMap[i]->size();
+        }
+    }
+
+    uint16 randomNum = dsprand::GetRandomNumber(nmPoolSize);
+    for (uint8 i = minLevel; i < maxLevel; ++i)
+    {
+        if (bountyDropMap[i] != nullptr)
+        {
+            if (randomNum > bountyDropMap[i]->size())
+            {
+                randomNum -= bountyDropMap[i]->size();
+            }
+            else
+            {
+                return bountyDropMap[i]->at(randomNum);
+            }
+        }
+    }
+
+    return nullptr;
 }
 
 }; // namespace zoneutils
