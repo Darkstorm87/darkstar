@@ -25,7 +25,7 @@ FROM (
     and itemid NOT BETWEEN 6457 AND 8798
     and itemid NOT BETWEEN 8930 AND 9878
 	AND NOT flags & (0x4000 | 0x8000)
-	AND NOT EXISTS(SELECT 1 FROM synth_recipes WHERE a.itemid IN (Result, ResultHQ1, ResultHQ2, ResultHQ3))
+	AND NOT EXISTS(SELECT 1 FROM synth_recipes WHERE a.itemid IN (Result, ResultHQ1, ResultHQ2, ResultHQ3) AND Desynth != 1)
     AND NOT EXISTS(SELECT 1 FROM item_equipment ie WHERE a.itemid = ie.itemid)
     AND aH NOT IN (15, 35, 36, 49)
 ) bd
