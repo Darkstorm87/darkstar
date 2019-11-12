@@ -1,9 +1,9 @@
 SELECT itemid, name, 1 AS sell01, 0 AS buy01,
-		IF(!ISNULL(vp.price) AND vp.price<bd.Price, vp.price, bd.Price) as price01,
+		GREATEST(FLOOR(IF(!ISNULL(vp.price) AND vp.price<bd.Price, vp.price, bd.Price)), 1) as price01,
         40 AS stock01,
         if(stackSize > 1, 1, 0) as sell12,
         0 AS buy12,
-        FLOOR(IF(!ISNULL(vp.price) AND vp.price<bd.Price, vp.price, bd.Price) * stackSize * 0.9) as price12,
+        GREATEST(FLOOR(IF(!ISNULL(vp.price) AND vp.price<bd.Price, vp.price, bd.Price) * stackSize * 0.9), 1) as price12,
         40 as stock12
 FROM (
 	SELECT *, 1000 DIV stackSize AS Price
@@ -12,7 +12,7 @@ FROM (
 	AND NoSale = 0
 	AND NOT flags & (0x4000 | 0x8000)
 	UNION
-	SELECT *, if(BaseSell = 0, 1000 DIV stackSize, BaseSell) * 9 AS Price
+	SELECT *, if(BaseSell = 0, 1000 DIV stackSize, BaseSell) * 1.1 AS Price
 	FROM item_basic a
 	WHERE itemid NOT BETWEEN 0x0200 AND 0x0206
 	-- AND (itemid BETWEEN 0x01D8 AND 0x0DFF
@@ -28,6 +28,12 @@ FROM (
 	AND NOT EXISTS(SELECT 1 FROM synth_recipes WHERE a.itemid IN (Result, ResultHQ1, ResultHQ2, ResultHQ3) AND Desynth != 1)
     AND NOT EXISTS(SELECT 1 FROM item_equipment ie WHERE a.itemid = ie.itemid)
     AND aH NOT IN (15, 35, 36, 49)
+    AND NOT a.flags & 0x80
+    UNION
+    SELECT a.*, v.price * 0.9 AS Price FROM item_basic a
+	INNER JOIN vendor_prices v
+		ON a.itemid = v.item_id
+	WHERE a.flags & 0x80
 ) bd
 LEFT OUTER JOIN vendor_prices vp
-	ON bd.itemid = vp.item_id
+	ON bd.itemid = vp.item_id;

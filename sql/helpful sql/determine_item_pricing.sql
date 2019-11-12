@@ -1,6 +1,10 @@
 DROP TABLE IF EXISTS `single`;
 CREATE TABLE single
-SELECT itemid, MIN(price) as AHPrice FROM auction_house WHERE seller_name = 'IVALICE' AND stack = 0 GROUP BY itemid;
+SELECT itemid, MIN(price) as AHPrice 
+FROM auction_house a
+WHERE seller_name = 'IVALICE' AND stack = 0
+AND NOT EXISTS(SELECT 1 FROM item_basic b WHERE a.itemid = b.itemid AND b.itemid BETWEEN 8805 AND 8916)
+GROUP BY itemid;
 
 DROP TABLE IF EXISTS `item_pricing`;
 create table item_pricing (
@@ -12,7 +16,7 @@ INSERT INTO item_pricing
 SELECT itemid, AHPrice, 1 FROM single;
 
 delimiter //
--- DROP PROCEDURE determine_item_pricing;
+DROP PROCEDURE determine_item_pricing;
 CREATE PROCEDURE determine_item_pricing(IN pItemId INT, OUT pPrice INT)
 start_label: BEGIN
 	DECLARE totalPrice INT DEFAULT 0;
@@ -151,7 +155,7 @@ start_label: BEGIN
 						SET vhqBonus = 1;
                     ELSEIF (pItemId = vResultHQ1) THEN
 						SET pPrice = vRecipePrice DIV vResultHQ1Qty;
-						SET vhqBonus = 2;
+						SET vhqBonus = 5;
                     ELSEIF (pItemId = vResultHQ2) THEN
 						SET pPrice = vRecipePrice DIV vResultHQ2Qty;
 						SET vhqBonus = 10;
@@ -173,7 +177,7 @@ start_label: BEGIN
     END IF;
 END//
 
--- DROP PROCEDURE determine_equipment_pricing;
+DROP PROCEDURE determine_equipment_pricing;
 CREATE PROCEDURE determine_equipment_pricing()
 BEGIN
   DECLARE done INT DEFAULT FALSE;
@@ -207,7 +211,7 @@ INNER JOIN item_pricing ip
 	ON ib.itemid = ip.item_id
 LEFT OUTER JOIN vendor_prices vp
 	ON ib.itemid = vp.item_id
-SET ib.BaseSell = FLOOR(IF(vp.item_id IS NULL OR ip.price * 1.4 * ip.hqBonus < vp.price, ip.price * 1.4 * ip.hqBonus , vp.price))
+SET ib.BaseSell = FLOOR(IF(vp.item_id IS NULL OR ip.price * 5 * ip.hqBonus < vp.price, ip.price * 5 * ip.hqBonus , vp.price))
 WHERE aH NOT IN (15, 35, 36, 49);
 
 DROP TABLE item_pricing;
