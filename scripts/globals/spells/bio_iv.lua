@@ -55,11 +55,11 @@ function onSpellCast(caster,target,spell)
     spell:setMsg(dsp.msg.basic.MAGIC_DMG)
 
     -- Try to kill same tier Dia (default behavior)
-    if DIA_OVERWRITE == 1 and dia ~= nil then
-        if dia:getPower() <= 4 then
-            target:delStatusEffect(dsp.effect.DIA)
-        end
-    end
+    -- if DIA_OVERWRITE == 1 and dia ~= nil then
+        -- if dia:getPower() <= 4 then
+            -- target:delStatusEffect(dsp.effect.DIA)
+        -- end
+    -- end
 
     return final
 end
