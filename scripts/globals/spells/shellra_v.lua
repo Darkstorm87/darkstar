@@ -19,7 +19,7 @@ function onSpellCast(caster,target,spell)
     power = power * 100 / 256 -- doing it this way because otherwise the merit power would have to be 0.78125.
     --printf("Shellra V Power: %d", power)
 
-    local duration = calculateDuration(1800, spell:getSkillType(), spell:getSpellGroup(), caster, target, false)
+    local duration = calculateDuration(28800, spell:getSkillType(), spell:getSpellGroup(), caster, target, false)
     duration = calculateDurationForLvl(duration, 75, target:getMainLvl())
 
     local typeEffect = dsp.effect.SHELL
