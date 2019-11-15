@@ -594,11 +594,3 @@ DropEquipList_t* CTreasurePool::GetGlobalDrop(uint8 level)
     }
     return nullptr;
 }
-
-template <typename M> void FreeClear(M& amap)
-{
-    for (typename M::iterator it = amap.begin(); it != amap.end(); ++it) {
-        delete it->second;
-    }
-    amap.clear();
-}

@@ -604,7 +604,7 @@ function handleOnTrade(player,npc,trade)
 						end
 						
 						if (currentAugTier < maxTier) then
-							player:PrintToPlayer(string.format("Bring me %s Gil, and a %s to enhance your augment.", augCost[currentAugTier], getNMItemFromIndex(currentAugTier)), 0, npcName);
+							player:PrintToPlayer(string.format("Bring me %s Gil, and a %s to enhance your augment. %s", augCost[currentAugTier], getNMItemFromIndex(currentAugTier), string.format(augments[augmentId].Description,augment.Multiplier)), 0, npcName);
 						else
 							player:PrintToPlayer("I cannot enhance this further.", 0, npcName);
 							printCannotDoAnything(player, npc, augmentId)
