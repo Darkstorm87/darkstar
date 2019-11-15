@@ -93,6 +93,13 @@ public:
 
     void AddGlobalDrop(uint8 level, DropEquipList_t* dropList);
     DropEquipList_t* GetGlobalDrop(uint8 level);
+    template <typename M> void FreeClear(M& amap)
+    {
+        for (typename M::iterator it = amap.begin(); it != amap.end(); ++it) {
+            delete it->second;
+        }
+        amap.clear();
+    }
 
 private:
 

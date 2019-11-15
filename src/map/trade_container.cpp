@@ -68,7 +68,7 @@ uint32 CTradeContainer::getQuantity(uint8 slotID)
 	return 0;
 }
 
-uint8 CTradeContainer::getConfirmedStatus(uint8 slotID)
+uint32 CTradeContainer::getConfirmedStatus(uint8 slotID)
 {
     if (slotID < m_PItem.size())
 	{
@@ -149,11 +149,11 @@ void CTradeContainer::setQuantity(uint8 slotID, uint32 quantity)
 	return;
 }
 
-bool CTradeContainer::setConfirmedStatus(uint8 slotID, uint8 amount)
+bool CTradeContainer::setConfirmedStatus(uint8 slotID, uint32 amount)
 {
     if (slotID < m_PItem.size() && m_PItem[slotID] && m_PItem[slotID]->getQuantity() >= amount)
 	{
-		m_confirmed[slotID] = std::min<uint8>(amount, m_PItem[slotID]->getQuantity());
+		m_confirmed[slotID] = std::min<uint32>(amount, m_PItem[slotID]->getQuantity());
         return true;
 	}
     return false;
