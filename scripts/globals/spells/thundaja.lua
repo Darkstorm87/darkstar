@@ -25,7 +25,7 @@ function onSpellCast(caster, target, spell)
     spellParams.M200 = 3
 
 	if (caster:isPC()) then
-		spellParams = calculateElementalNukeSpellParams(caster, ELEMENTAL_TIER_4, AOE);
+		spellParams = calculateElementalNukeSpellParams(caster, ELEMENTAL_TIER_5, AOE);
 	end
 
     return doElementalNuke(caster, spell, target, spellParams)
