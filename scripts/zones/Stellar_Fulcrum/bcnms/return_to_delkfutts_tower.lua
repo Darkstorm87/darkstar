@@ -33,6 +33,7 @@ end
 function onEventFinish(player, csid, option)
     if csid == 32001 then
         if player:getCurrentMission(ZILART) == dsp.mission.id.zilart.RETURN_TO_DELKFUTTS_TOWER then
+			addColoredDrop(player);
             player:completeMission(ZILART, dsp.mission.id.zilart.RETURN_TO_DELKFUTTS_TOWER)
             player:addMission(ZILART, dsp.mission.id.zilart.ROMAEVE)
             player:setCharVar("ZilartStatus", 0)

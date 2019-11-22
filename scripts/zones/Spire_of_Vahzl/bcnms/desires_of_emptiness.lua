@@ -33,6 +33,7 @@ end
 function onEventFinish(player, csid, option)
     if csid == 32001 then
         if player:getCurrentMission(COP) == dsp.mission.id.cop.DESIRES_OF_EMPTINESS and player:getCharVar("PromathiaStatus") == 8 then
+			addColoredDrop(player);
             player:setCharVar("PromathiaStatus", 9)
         end
         player:addExp(1500)

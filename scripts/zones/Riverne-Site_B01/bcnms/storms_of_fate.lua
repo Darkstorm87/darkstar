@@ -39,6 +39,7 @@ end
 function onEventFinish(player, csid, option)
     if csid == 32001 then
         if player:getQuestStatus(JEUNO, dsp.quest.id.jeuno.STORMS_OF_FATE) == QUEST_ACCEPTED and player:getCharVar('StormsOfFate') == 2 then
+			addColoredDrop(player);
             player:addKeyItem(dsp.ki.WHISPER_OF_THE_WYRMKING)
             player:messageSpecial(ID.text.KEYITEM_OBTAINED, dsp.ki.WHISPER_OF_THE_WYRMKING)
             player:setCharVar('StormsOfFate', 3)

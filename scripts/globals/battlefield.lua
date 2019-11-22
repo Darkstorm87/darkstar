@@ -246,3 +246,9 @@ function dsp.battlefield.HealPlayers(battlefield, players)
         player:messageBasic(msgBasic.ALL_ABILITIES_RECHARGED)
     end
 end
+
+function addColoredDrop(player)
+	local dropId = 4258+math.random(0,7);
+	player:addItem(dropId);
+	player:messageSpecial(zones[player:getZoneID()].text.ITEM_OBTAINED,dropId);
+end;

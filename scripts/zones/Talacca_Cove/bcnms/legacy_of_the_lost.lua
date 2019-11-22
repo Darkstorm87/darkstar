@@ -32,6 +32,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 32001 and not player:hasCompletedMission(TOAU, dsp.mission.id.toau.LEGACY_OF_THE_LOST) then
+		addColoredDrop(player);
         player:completeMission(TOAU, dsp.mission.id.toau.LEGACY_OF_THE_LOST)
         player:setTitle(dsp.title.GESSHOS_MERCY)
         player:addMission(TOAU, dsp.mission.id.toau.GAZE_OF_THE_SABOTEUR)

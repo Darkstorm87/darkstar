@@ -43,6 +43,7 @@ function onEventFinish(player, csid, option)
                 player:hasKeyItem(dsp.ki.SHARD_OF_ENVY) and
                 player:hasKeyItem(dsp.ki.SHARD_OF_RAGE)
             then
+				addColoredDrop(player);
                 player:completeMission(ZILART, dsp.mission.id.zilart.ARK_ANGELS)
                 player:addMission(ZILART, dsp.mission.id.zilart.THE_SEALED_SHRINE)
                 player:setCharVar("ZilartStatus", 0)
