@@ -33,6 +33,7 @@ end
 function onEventFinish(player, csid, option)
     if csid == 32001 then
         if player:getCurrentMission(COP) == dsp.mission.id.cop.THE_SAVAGE and player:getCharVar("PromathiaStatus") == 1 then
+			addColoredDrop(player);
             player:setCharVar("PromathiaStatus", 2)
         end
         player:addExp(1500)

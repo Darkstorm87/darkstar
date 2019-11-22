@@ -43,6 +43,7 @@ function onEventFinish(player, csid, option)
         player:delKeyItem(dsp.ki.SACRIFICIAL_CHAMBER_KEY)
         player:addKeyItem(dsp.ki.DARK_FRAGMENT)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, dsp.ki.DARK_FRAGMENT)
+		addColoredDrop(player);
         player:completeMission(ZILART, dsp.mission.id.zilart.THE_TEMPLE_OF_UGGALEPIH)
         player:addMission(ZILART, dsp.mission.id.zilart.HEADSTONE_PILGRIMAGE)
     end

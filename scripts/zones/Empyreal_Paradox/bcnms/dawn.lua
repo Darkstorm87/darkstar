@@ -53,6 +53,7 @@ function onEventFinish(player, csid, option)
         player:addTitle(dsp.title.AVERTER_OF_THE_APOCALYPSE)
         player:startEvent(3)
         if player:getCurrentMission(COP) == dsp.mission.id.cop.DAWN and player:getCharVar("PromathiaStatus") == 2 then
+			addColoredDrop(player);
             player:addKeyItem(dsp.ki.TEAR_OF_ALTANA)
             player:messageSpecial(ID.text.KEYITEM_OBTAINED, dsp.ki.TEAR_OF_ALTANA)
             player:setCharVar("Promathia_kill_day", tonumber(os.date("%j")))

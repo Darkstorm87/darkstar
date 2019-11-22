@@ -33,6 +33,7 @@ end
 function onEventFinish(player, csid, option)
     if csid == 32001 then
         if player:getCurrentMission(COP) == dsp.mission.id.cop.THE_WARRIOR_S_PATH then
+			addColoredDrop(player);
             player:completeMission(COP, dsp.mission.id.cop.THE_WARRIOR_S_PATH)
             player:addMission(COP, dsp.mission.id.cop.GARDEN_OF_ANTIQUITY)
             player:setCharVar("PromathiaStatus", 0)

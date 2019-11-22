@@ -53,6 +53,7 @@ function onInstanceComplete(instance)
 
     for i,v in pairs(chars) do
         if (v:getCurrentMission(TOAU) == dsp.mission.id.toau.NASHMEIRAS_PLEA and v:getCharVar("AhtUrganStatus") == 1) then
+			addColoredDrop(v);
             v:setCharVar("AhtUrganStatus", 2);
         end
 

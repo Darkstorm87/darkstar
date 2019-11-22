@@ -49,6 +49,7 @@ function onEventFinish(player, csid, option)
                 player:messageSpecial(ID.text.KEYITEM_OBTAINED, i)
             end
             if player:getCurrentMission(ZILART) == dsp.mission.id.zilart.ARK_ANGELS then
+				addColoredDrop(player);
                 player:completeMission(ZILART, dsp.mission.id.zilart.ARK_ANGELS)
                 player:addMission(ZILART, dsp.mission.id.zilart.THE_SEALED_SHRINE)
                 player:setCharVar("ZilartStatus", 0)

@@ -35,6 +35,7 @@ function onEventFinish(player, csid, option)
         player:addExp(1000)
         player:addTitle(dsp.title.TAVNAZIAN_TRAVELER)
         if player:getCurrentMission(COP) == dsp.mission.id.cop.ANCIENT_VOWS and player:getCharVar("PromathiaStatus") == 2 then
+			addColoredDrop(player);
             player:completeMission(COP, dsp.mission.id.cop.ANCIENT_VOWS)
             player:addMission(COP, dsp.mission.id.cop.THE_CALL_OF_THE_WYRMKING)
             player:setCharVar("VowsDone", 1)

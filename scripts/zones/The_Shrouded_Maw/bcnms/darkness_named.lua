@@ -39,6 +39,7 @@ end
 function onEventFinish(player, csid, option)
     if csid == 32001 then
         if player:getCurrentMission(COP) == dsp.mission.id.cop.DARKNESS_NAMED and player:getCharVar("PromathiaStatus") == 2 then
+			addColoredDrop(player);
             player:addTitle(dsp.title.TRANSIENT_DREAMER)
             player:setCharVar("PromathiaStatus", 3)
         end

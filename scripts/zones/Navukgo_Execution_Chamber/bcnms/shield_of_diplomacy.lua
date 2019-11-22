@@ -37,6 +37,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 32001 and player:getCurrentMission(TOAU) == dsp.mission.id.toau.SHIELD_OF_DIPLOMACY then
+		addColoredDrop(player);
         player:completeMission(TOAU, dsp.mission.id.toau.SHIELD_OF_DIPLOMACY)
         player:addMission(TOAU, dsp.mission.id.toau.SOCIAL_GRACES)
         player:setCharVar("AhtUrganStatus", 0)

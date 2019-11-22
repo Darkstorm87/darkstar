@@ -33,6 +33,7 @@ end
 function onEventFinish(player, csid, option)
     if csid == 32001 then
         if player:getCurrentMission(ZILART) == dsp.mission.id.zilart.THE_CELESTIAL_NEXUS then
+			addColoredDrop(player);
             player:completeMission(ZILART, dsp.mission.id.zilart.THE_CELESTIAL_NEXUS)
             player:addMission(ZILART, dsp.mission.id.zilart.AWAKENING)
             player:addTitle(dsp.title.BURIER_OF_THE_ILLUSION)

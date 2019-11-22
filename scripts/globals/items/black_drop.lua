@@ -15,5 +15,12 @@ end
 
 function onItemUse(target)
     target:addStatusEffect(dsp.effect.MEDICINE,0,0,3600)
-    target:warp()
+	
+	if (target:getCharMod(dsp.mod.HP) < 100) then
+		target:addCharMod(dsp.mod.HP,5)
+    end
+	if (target:getCharMod(dsp.mod.MP) < 100) then
+		target:addCharMod(dsp.mod.MP,5)
+    end
+    --target:warp()
 end
