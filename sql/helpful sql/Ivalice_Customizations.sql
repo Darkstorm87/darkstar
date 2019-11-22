@@ -450,3 +450,41 @@ UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 221;
 
 -- STATUS_EFFECTS
 UPDATE status_effects SET flags = flags + 0x0002 WHERE id = 16; -- Amnesia eraseable
+
+--AUCTION HOUSE
+INSERT INTO auction_house (itemid, stack, seller, seller_name, date, price)
+SELECT ib.itemid, 0, 21839, 'Hokuten', 1573966939, 1000
+from item_basic ib
+INNER JOIN item_equipment ie
+	ON ib.itemid = ie.itemid
+where ib.aH > 0
+AND ie.name like '%lizard%1'
+	or (ie.name like '%chain%1' and level = 24)
+	or (ie.name like '%baron%' and level = 20)
+	or ie.name like '%beetle%1'
+	or (ie.name like '%iron%1' and level < 70)
+	or ie.name like '%brass%1'
+	or ie.name like '%seer%1'
+	or (ie.name like '%kamp%' and level = 29)
+	or ie.name like '%noct%1'
+	or ie.name like '%silver%1'
+	or ie.name like '%Irn.Msk.%'
+	or ie.name like '%luisant%'
+	or ie.name like '%steel%1'
+	or ie.name like '%raven%'
+	or ie.name like '%t.m%'
+	or ie.name like '%sipahi%';
+    
+INSERT INTO auction_house (itemid, stack, seller, seller_name, date, price)
+SELECT ib.itemid, 0, 21839, 'Hokuten', 1573966939, 1000
+from item_basic ib
+INNER JOIN item_equipment ie
+	ON ib.itemid = ie.itemid
+where ib.aH > 0
+AND ie.name like '%akinji%'
+	OR ie.name like '%mythril%1'
+    OR ie.name like '%wool%1'
+    OR (ie.name like '%mage%' AND level < 75)
+    OR ie.name like '%soil%1'
+    OR (ie.name like '%ring%1' AND level < 75);
+	

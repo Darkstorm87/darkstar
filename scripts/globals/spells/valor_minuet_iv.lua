@@ -32,11 +32,13 @@ function onSpellCast(caster,target,spell)
 		lvl = caster:getSubLvl()
 	end
 	
-	local sBonus = math.max(sLvl - caster:getMaxSkillLevel(dsp.skill.SINGING,dsp.job.BRD,lvl), 0)
-	local iBonus = math.max(iLvl - caster:getMaxSkillLevel(caster:getWeaponSkillType(dsp.slot.RANGED),dsp.job.BRD,lvl), 0)
-	
-	if sBonus+iBonus > 0 then
-		power = power + math.floor((sBonus+iBonus) / 5)
+	if caster:isPC() then
+		local sBonus = math.max(sLvl - caster:getMaxSkillLevel(dsp.skill.SINGING,dsp.job.BRD,lvl), 0)
+		local iBonus = math.max(iLvl - caster:getMaxSkillLevel(caster:getWeaponSkillType(dsp.slot.RANGED),dsp.job.BRD,lvl), 0)
+		
+		if sBonus+iBonus > 0 then
+			power = power + math.floor((sBonus+iBonus) / 5)
+		end
 	end
 
     power =  power + caster:getMerit(dsp.merit.MINUET_EFFECT)
