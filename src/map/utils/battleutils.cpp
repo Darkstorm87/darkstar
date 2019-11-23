@@ -478,7 +478,7 @@ namespace battleutils
         WEATHER weakWeatherDouble[8] = { WEATHER_SQUALL, WEATHER_GALES, WEATHER_THUNDERSTORMS, WEATHER_BLIZZARDS, WEATHER_HEAT_WAVE, WEATHER_SAND_STORM, WEATHER_DARKNESS, WEATHER_STELLAR_GLARE };
         uint32 obi[8] = { 15435, 15438, 15440, 15437, 15436, 15439, 15441, 15442 };
         Mod resistarray[8] = { Mod::FIRERES, Mod::EARTHRES, Mod::WATERRES, Mod::WINDRES, Mod::ICERES, Mod::THUNDERRES, Mod::LIGHTRES, Mod::DARKRES };
-        Mod defensearray[8] = { Mod::FIREDEF, Mod::EARTHDEF, Mod::WATERDEF, Mod::WINDDEF, Mod::ICEDEF, Mod::THUNDERDEF, Mod::LIGHTDEF, Mod::DARKDEF };
+        Mod mdefarray[8] = { Mod::FIREDEF, Mod::EARTHDEF, Mod::WATERDEF, Mod::WINDDEF, Mod::ICEDEF, Mod::THUNDERDEF, Mod::LIGHTDEF, Mod::DARKDEF };
         bool obiBonus = false;
 
         double half = (double)(PDefender->getMod(resistarray[element])) / 100;
@@ -522,6 +522,9 @@ namespace battleutils
             dBonus -= 0.1f;
         else if (weather == weakWeatherDouble[element] && (obiBonus || dsprand::GetRandomNumber(100) < 33))
             dBonus -= 0.25f;
+
+        double mdef = (double)(PDefender->getMod(mdefarray[element])) / 256; // negative value is increase in damage, positive is decrease in damage
+        dBonus -= mdef;
 
         damage = (int32)(damage * resist);
         damage = (int32)(damage * dBonus);
