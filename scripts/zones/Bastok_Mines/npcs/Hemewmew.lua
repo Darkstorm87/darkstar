@@ -74,8 +74,8 @@ local items = {
     },
     [5] = {
         id = 15825, -- Alchemist's Ring
-        rank = 6,
-        cost = 80000
+        rank = 1,
+        cost = 1
     },
     [6] = {
         id = 3674, -- Alembic

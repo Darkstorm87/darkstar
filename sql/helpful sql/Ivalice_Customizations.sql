@@ -1,3 +1,5 @@
+update zone_settings set zoneip = '184.97.140.137';
+
 -- ABILITIES
 UPDATE Abilities SET CE = 100, VE = 10000 WHERE abilityId = 6; -- invincible
 UPDATE Abilities SET recastTime = 90 WHERE abilityId = 16; -- warcry

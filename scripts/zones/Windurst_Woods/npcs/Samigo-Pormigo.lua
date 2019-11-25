@@ -72,8 +72,8 @@ local items =
     [5] =
     {
         id = 15824, -- Bonecrafter's Ring
-        rank = 6,
-        cost = 80000
+        rank = 1,
+        cost = 1
     },
     [6] =
     {

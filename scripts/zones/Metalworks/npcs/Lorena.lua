@@ -65,8 +65,8 @@ local items = {
     },
     [5] = {
         id = 15820,
-        rank = 6,
-        cost = 80000
+        rank = 1,
+        cost = 1
     },
     [6] = {
         id = 3661,

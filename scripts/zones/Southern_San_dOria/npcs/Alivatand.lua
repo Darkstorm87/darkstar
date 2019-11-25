@@ -60,8 +60,8 @@ local items = {
     },
     [5] = {
         id = 15823, -- Tanner's Ring
-        rank = 6,
-        cost = 80000
+        rank = 1,
+        cost = 1
     },
     [6] = {
         id = 3668, -- Hide Stretcher
