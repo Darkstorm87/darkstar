@@ -261,6 +261,10 @@ ORDER BY mg.minlevel DIV 10;
 -- 9 4072
 -- 10 4073
 
+update mob_droplist
+set itemRate = 50
+where dropType = 0 and itemrate < 50;
+
 -- SPELL LIST
 UPDATE spell_list SET mpCost = 20, castTime = 2000, recastTime = 10000 WHERE spellid = 57; -- haste
 UPDATE spell_list SET validTargets = 3, spell_range = 204 WHERE spellid = 100; -- enfire
