@@ -691,7 +691,8 @@ public:
     int32 getCharMod(lua_State*);           // Adds permanent mod to character
 
     int32 getBountyMob(lua_State*);         // Gets Bounty Mob
-    int32 setFace(lua_State*);              // Gets Bounty Mob
+    int32 setFace(lua_State*);              // Sets Character face
+    int32 setRace(lua_State*);              // Sets Character race
 };
 
 #endif
