@@ -187,7 +187,7 @@ function doEnspell(caster, target, spell, effect)
         return
     end
 
-    local duration = calculateDuration(180, spell:getSkillType(), spell:getSpellGroup(), caster, target)
+    local duration = calculateDuration(300, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     --calculate potency
     local magicskill = caster:getSkillLevel(dsp.skill.ENHANCING_MAGIC)
