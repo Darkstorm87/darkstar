@@ -369,7 +369,7 @@ UPDATE spell_list SET mpCost = 298 WHERE spellid = 499; -- stoneja
 UPDATE spell_list SET mpCost = 298 WHERE spellid = 500; -- thundaja
 UPDATE spell_list SET mpCost = 298 WHERE spellid = 501; -- waterja
 UPDATE spell_list SET mpCost = 50, recastTime = 10000 WHERE spellid = 511; -- haste 2
-UPDATE spell_list SET validTargets = 3 WHERE spellid IN (249,250,251); -- blaze, ice, shock spikes
+UPDATE spell_list SET validTargets = 3, spell_range = 204  WHERE spellid IN (249,250,251); -- blaze, ice, shock spikes
 
 -- TRAITS --
 -- MOD_CRIT_DMG_INCREASE
