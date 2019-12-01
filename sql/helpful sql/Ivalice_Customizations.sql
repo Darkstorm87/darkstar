@@ -102,6 +102,11 @@ UPDATE item_equipment SET jobs = 3553 WHERE itemid = 16555;
 
 UPDATE item_equipment SET jobs = 2111715 WHERE itemid = 18139;
 
+update item_equipment
+set MId = 16
+WHERE MId IN (14,15)
+AND name like '%subligar%';
+
 -- mob_groups
 UPDATE mob_groups mg
 INNER JOIN mob_pools mp
@@ -260,6 +265,10 @@ ORDER BY mg.minlevel DIV 10;
 -- 8 4071
 -- 9 4072
 -- 10 4073
+
+update mob_droplist
+set itemRate = 50
+where dropType = 0 and itemrate < 50;
 
 -- SPELL LIST
 UPDATE spell_list SET mpCost = 20, castTime = 2000, recastTime = 10000 WHERE spellid = 57; -- haste
