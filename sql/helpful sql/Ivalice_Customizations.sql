@@ -102,6 +102,11 @@ UPDATE item_equipment SET jobs = 3553 WHERE itemid = 16555;
 
 UPDATE item_equipment SET jobs = 2111715 WHERE itemid = 18139;
 
+update item_equipment
+set MId = 16
+WHERE MId IN (14,15)
+AND name like '%subligar%';
+
 -- mob_groups
 UPDATE mob_groups mg
 INNER JOIN mob_pools mp
