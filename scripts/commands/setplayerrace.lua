@@ -1,22 +1,22 @@
 ---------------------------------------------------------------------------------------------------
--- func: setplayerface <face> <player>
--- desc: Sets the Face of the user or target player .
+-- func: setplayerrace <race> <player>
+-- desc: Sets the race of the user or target player.
 ---------------------------------------------------------------------------------------------------
 
 cmdprops =
 {
-    permission = 0,
+    permission = 1,
     parameters = "iis"
 };
 
 function error(player, msg)
     player:PrintToPlayer(msg);
-    player:PrintToPlayer("!setplayerface <face> {player}");
+    player:PrintToPlayer("!setplayerrace <race> {player}");
 end;
 
-function onTrigger(player, face, target)
+function onTrigger(player, race, target)
     -- validate model
-    if (face == nil) then
+    if (race == nil) then
         error(player, "Invalid face ID.");
         return;
     end
@@ -34,6 +34,6 @@ function onTrigger(player, face, target)
     end
 
     -- set model
-    targ:setFace(face);
-    player:PrintToPlayer(string.format("Set %s's face to %i.", targ:getName(), face));
+    targ:setRace(race);
+    player:PrintToPlayer(string.format("Set %s's face to %i.", targ:getName(), race));
 end;
