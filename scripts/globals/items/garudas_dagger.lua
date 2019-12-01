@@ -9,7 +9,7 @@ require("scripts/globals/weather")
 -----------------------------------
 
 function onAdditionalEffect(player,target,damage)
-    local chance = 10
+    local chance = 25
 
     if (VanadielDayElement() == dsp.day.WINDSDAY) then
         chance = chance+6

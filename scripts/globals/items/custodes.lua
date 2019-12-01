@@ -10,7 +10,7 @@ require("scripts/globals/msg")
 -----------------------------------
 
 function onAdditionalEffect(player,target,damage)
-    local chance = 5
+    local chance = 25
 
     if (VanadielDayElement() == dsp.day.ICEDAY) then
         chance = chance+6

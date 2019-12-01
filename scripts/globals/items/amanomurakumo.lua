@@ -8,7 +8,7 @@ require("scripts/globals/msg")
 require("scripts/globals/status")
 
 function onAdditionalEffect(player,target,damage)
-    local chance = 10
+    local chance = 25
 
     if math.random(100) <= chance and applyResistanceAddEffect(player, target, dsp.magic.ele.WATER, 0) > 0.5 then
         target:delStatusEffect(dsp.effect.ATTACK_BOOST)
