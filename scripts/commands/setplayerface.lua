@@ -6,7 +6,7 @@
 cmdprops =
 {
     permission = 0,
-    parameters = "iis"
+    parameters = "is"
 };
 
 function error(player, msg)
