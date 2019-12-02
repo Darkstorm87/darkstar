@@ -169,16 +169,16 @@ local augmentMap = {
 			Aug3 = 142, -- Store tp+1
 			Aug4 = 195, -- Subtle blow+1
 			Shield = {
-				Aug1 = {153,130},
-				Aug2 = {363,129},
-				Aug3 = {796,142},
-				Aug4 = {42,195}
+				Aug1 = {153,130}, -- Shield Mastery +1, Attack+1 RAtt+1
+				Aug2 = {363,129}, -- Chance of Block+, Acc+1 Racc+1
+				Aug3 = {796,142}, -- All Element Resist+1, StoreTP+1
+				Aug4 = {42,195} -- Enemy Crit Hit rate-%, Subtle Blow+1
 			},
 			Grip = {
-				Aug1 = 130,
-				Aug2 = 129,
-				Aug3 = 142,
-				Aug4 = 195
+				Aug1 = 130, --Attack+1 RAtt+1
+				Aug2 = 129, --Acc+1 Racc+1
+				Aug3 = 142, --StoreTP+1
+				Aug4 = 195 -- Subtle Blow+1
 			}
 		},
 		Magic = {
@@ -187,16 +187,16 @@ local augmentMap = {
 			Aug3 = 140, -- fastcast+1
 			Aug4 = 141, -- Conserve MP+1
 			Shield = {
-				Aug1 = {153,362,329},
-				Aug2 = {363,35},
-				Aug3 = {796,140},
-				Aug4 = {42,141}
+				Aug1 = {153,362,329}, -- Shield Mastery +1, Magic Damage+1, Cure Pot+1%
+				Aug2 = {363,35},   -- Chance of Block+, MAcc+1
+				Aug3 = {796,140},	-- All Element Resist+1, fastcast+1
+				Aug4 = {42,141}      -- Enemy Crit Hit rate-%, Conserve MP+1
 			},
 			Grip = {
-				Aug1 = 130,
-				Aug2 = 35,
-				Aug3 = 140,
-				Aug4 = 141
+				Aug1 = 362,329, -- Magic Damage+1, Cure Pot+1%
+				Aug2 = 35, --MAcc+1
+				Aug3 = 140, -- fastcast+1
+				Aug4 = 141 --Conserve MP+1
 			}
 		},
 		Pet = {
@@ -210,26 +210,26 @@ local augmentMap = {
 	},
 	[dsp.slot.RANGED] = {
 		Ranged = {
-			Aug1 = 746,
+			Aug1 = 746, -- R Dmg+1
 			Aug2 = {
 				ARCHERY = 281,
 				MARKSMANSHIP = 282
 			},
-			Aug3 = 142,
-			Aug4 = 195,
+			Aug3 = 142, -- StoreTP+1
+			Aug4 = 195, -- Subtle Blow +1
 			Instrument = {
 				Aug1 = {67, Max=2}, -- all songs+1
 				Aug2 = 322, -- spell casting time
 				Aug3 = {296, Max=5}, -- singing skill
-				Aug4 = {297,298,Max=5}
+				Aug4 = {297,298,Max=5} -- String Inst Skill, Wind Inst Skill
 			}
 		},
 		Pet = {
 			Animator = {
-				Aug1 = 278,
-				Aug2 = 279,
-				Aug3 = 280,
-				Aug4 = {99,Multiplier=2}
+				Aug1 = 278, --Automaton Melee Skill+
+				Aug2 = 279, --Automaton Range Skill+
+				Aug3 = 280, --Automaton Magic Skill+
+				Aug4 = {99,Multiplier=2} -- Pet Def+2
 			}
 		}
 	},
@@ -371,6 +371,9 @@ local augmentMap = {
 		Ranged = {
 			Aug2 = 69 -- RAcc & RAtt+1
 		},
+		Magic = {
+			Aug2 = 35 -- MAcc
+		},
 		Pet = {
 			Aug1 = 111, -- Pet Haste+1
 			Aug2 = 96 -- Pet Acc & RAcc+1
@@ -380,40 +383,41 @@ local augmentMap = {
 	[dsp.slot.EAR2] = {
 		Melee = {
 			Aug1 = {257,258,259,260,261,262,263,264,265,266,267,268}, -- weapon skill+1
-			Aug2 = {39,40,195,Max=2},
-			Aug3 = {286,Max=3}
+			Aug2 = {39,40,195,Max=2}, --Enmity +1, enmity-1, Subtle blow +1
+			Aug3 = {286,Max=3} -- shield skill+1
 		},
 		Ranged = {
-			Aug1 = {281,282,283}
+			Aug1 = {281,282,283} -- Ranged Skills+1
 		},
 		Magic = {
-			Aug1 = {288,289,290,291,292,293,294,295,296,299}
+			Aug1 = {288,289,290,291,292,293,294,295,296,299} -- Magic Skills+1
+			Aug3 = {134,Max=3} -- MDB+1
 		},
 		Pet = {
-			Aug1 = {278,279,280}
+			Aug1 = {278,279,280} -- Auto Melee Skill, Auto Ranged, Auto Magic
 		},
 		Max=5
 	},
 	[dsp.slot.RING2] = {
 		Melee = {
-			Aug1 = {512,513,514,515,516,517,518},
-			Aug2 = 796
+			Aug1 = {512,513,514,515,516,517,518}, --Stat +1
+			Aug2 = 796 -- All Element resist
 		},
 		Pet = {
-			Aug1 = {1792,1793,1794,1795,1796,1797,1798}
+			Aug1 = {1792,1793,1794,1795,1796,1797,1798} -- Pet Stat+1
 		},
 		Max=5
 	},
 	[dsp.slot.BACK] = {
 		Melee = {
-			Aug1 = 1152,
-			Aug2 = 42,
-			Aug3 = 71
+			Aug1 = 1152, -- Def+10
+			Aug2 = 42, -- Enemy Crit hit rate -%
+			Aug3 = 71 -- Damage taken -1%
 		},
 		Pet = {
-			Aug1 = {99,Multiplier=10},
-			Aug2 = 103,
-			Aug3 = 112
+			Aug1 = {99,Multiplier=10}, --Pet Def+10
+			Aug2 = 103, -- Pet Enemy Crit hit rate -%
+			Aug3 = 112 -- Pet Dmg taken -1
 		},
 		Max=5
 	}
