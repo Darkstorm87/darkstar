@@ -390,7 +390,7 @@ local augmentMap = {
 			Aug1 = {281,282,283} -- Ranged Skills+1
 		},
 		Magic = {
-			Aug1 = {288,289,290,291,292,293,294,295,296,299} -- Magic Skills+1
+			Aug1 = {288,289,290,291,292,293,294,295,296,299}, -- Magic Skills+1
 			Aug3 = {134,Max=3} -- MDB+1
 		},
 		Pet = {
