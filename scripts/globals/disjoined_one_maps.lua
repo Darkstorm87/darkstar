@@ -193,7 +193,7 @@ local augmentMap = {
 				Aug4 = {42,141}      -- Enemy Crit Hit rate-%, Conserve MP+1
 			},
 			Grip = {
-				Aug1 = 362,329, -- Magic Damage+1, Cure Pot+1%
+				Aug1 = {362,329}, -- Magic Damage+1, Cure Pot+1%
 				Aug2 = 35, --MAcc+1
 				Aug3 = 140, -- fastcast+1
 				Aug4 = 141 --Conserve MP+1
@@ -236,7 +236,7 @@ local augmentMap = {
 	[dsp.slot.AMMO] = {
 		Melee = {
 			Aug1 = {512,513,514,515,516,517,518}, -- STAT+1
-			Aug2 = 39,40 -- enmity+1/-1
+			Aug2 = {39,40} -- enmity+1/-1
 		},
 		Pet = {
 			Aug1 = {1792,1793,1794,1795,1796,1797,1798}, -- Pet: Stat+1
@@ -274,11 +274,11 @@ local augmentMap = {
 			Aug1 = 1152, -- Def+10
 			Aug2 = {1,Multiplier=10}, -- HP+10
 			Aug3 = {512,513,514,515,516,517,518}, -- Stat+1
-			Aug4 = 42, 328 -- crit hit rate+1 OR Crit Hit DMG+1
+			Aug4 = {42,328} -- crit hit rate+1 OR Crit Hit DMG+1
 		},
 		Magic = {
 			Aug2 = {9,Multiplier=10}, -- MP+10
-			Aug4 = 57,335 -- Mag Crit Hit rate+1 OR Mag Crit Hit Dmg+1
+			Aug4 = {57,335} -- Mag Crit Hit rate+1 OR Mag Crit Hit Dmg+1
 		},
 		Pet = {
 			Aug1 = {99,Multiplier=10}, -- Pet Def+10
@@ -311,7 +311,7 @@ local augmentMap = {
 	[dsp.slot.LEGS] = {
 		Melee = {
 			Aug1 = 142, -- Store TP+1
-			Aug2 = {41,328}, -- Crit Hit Rate OR Dmg+1
+			Aug2 = {41,328}, -- Crit Hit Rate OR Crit Dmg+1%
 			Aug3 = 1153, -- Evasion+3
 		    Aug4 = {1,Multiplier=5}, -- HP+5
 		},
