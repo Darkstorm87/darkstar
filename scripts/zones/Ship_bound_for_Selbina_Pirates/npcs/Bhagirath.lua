@@ -57,7 +57,7 @@ function onTrigger(player,npc)
         vHour = 7
     end
 
-    player:messageSpecial( ID.text.message, math.floor((2.4 * ((vHour * 60) + 40 - vMin)) / 60), vHour)
+    player:messageSpecial( ID.text[message], math.floor((2.4 * ((vHour * 60) + 40 - vMin)) / 60), vHour)
 end
 
 function onEventUpdate(player,csid,option)
