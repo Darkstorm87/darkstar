@@ -67,6 +67,27 @@ UPDATE skill_ranks SET brd = 1 WHERE skillid = 40; -- singing
 UPDATE skill_ranks SET brd = 1 WHERE skillid = 41; -- string
 UPDATE skill_ranks SET brd = 1 WHERE skillid = 42; -- wind
 
+-- ITEM_BASIC
+-- POTIONS AND ETHERS STACK TO 12
+UPDATE item_basic ib
+INNER JOIN item_usable iu
+	ON ib.itemid = iu.itemid
+SET ib.stackSize = 12
+WHERE ib.stackSize = 1
+AND NOT ib.flags & (0x8000 | 0x4000 | 0x0080)
+AND ib.aH IN (33)
+AND (ib.itemid BETWEEN 4113 AND 4143
+OR ib.itemid BETWEEN 4199 AND 4211);
+
+-- DRINK STACK TO 99
+UPDATE item_basic ib
+INNER JOIN item_usable iu
+	ON ib.itemid = iu.itemid
+SET ib.stackSize = 99
+WHERE ib.stackSize = 1
+AND NOT ib.flags & (0x8000 | 0x4000 | 0x0080)
+AND ib.aH IN (58);
+
 -- ITEM_EQUIPMENT
 
 UPDATE item_equipment SET jobs = 14785 WHERE itemid = 12430;
