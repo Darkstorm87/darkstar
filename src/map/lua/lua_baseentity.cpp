@@ -13947,15 +13947,16 @@ inline int32 CLuaBaseEntity::getBountyMob(lua_State* L)
 
     int mobId = 0;
     int itemId = 0;
+    CItem* dropItem;
 
     BountyMob_t* bountyMob = zoneutils::GetBountyMob(PChar->GetMLevel(), bountyType);
     if (bountyMob)
     {
-        CItem* dropItem = bountyMob->Items->at(dsprand::GetRandomNumber(bountyMob->Items->size()));
+        mobId = bountyMob->Mob->id;
 
+        dropItem = bountyMob->Items->at(dsprand::GetRandomNumber(bountyMob->Items->size()));
         if (dropItem)
         {
-            mobId = bountyMob->Mob->id;
             itemId = dropItem->getID();
         }
     }

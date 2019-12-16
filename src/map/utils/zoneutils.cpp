@@ -528,7 +528,7 @@ void LoadMOBList()
                             if (dropItem.ItemID && dropItem.DropRate > 0)
                             {
                                 CItem* PItem = itemutils::GetItem(dropItem.ItemID);
-                                if (PItem->getFlag() & (ITEM_FLAG_EX | ITEM_FLAG_RARE)) {
+                                if (PItem->getFlag() & (ITEM_FLAG_EX | ITEM_FLAG_RARE) && (PItem->getID() < 4064 || PItem->getID() > 4073)) {
                                     items->push_back(PItem);
                                 }
                             }
@@ -536,12 +536,12 @@ void LoadMOBList()
 
                         if (items->size())
                         {
-                            if (!bountyDropMap[PMob->GetMLevel()])
+                            if (!bountyDropMap[PMob->m_minLevel])
                             {
-                                bountyDropMap[PMob->GetMLevel()] = new BountyMobList_t();
+                                bountyDropMap[PMob->m_minLevel] = new BountyMobList_t();
                             }
 
-                            bountyDropMap[PMob->GetMLevel()]->push_back(new BountyMob_t(PMob, items));
+                            bountyDropMap[PMob->m_minLevel]->push_back(new BountyMob_t(PMob, items));
                         }
                     }
                 }
@@ -1117,7 +1117,7 @@ BountyMob_t* GetBountyMob(uint8 charLevel, uint8 bountyType)
     }
 
     uint16 nmPoolSize = 0;
-    for (uint8 i = minLevel; i < maxLevel; ++i)
+    for (uint8 i = minLevel; i < maxLevel; i++)
     {
         if (bountyDropMap[i] != nullptr)
         {
@@ -1126,11 +1126,11 @@ BountyMob_t* GetBountyMob(uint8 charLevel, uint8 bountyType)
     }
 
     uint16 randomNum = dsprand::GetRandomNumber(nmPoolSize);
-    for (uint8 i = minLevel; i < maxLevel; ++i)
+    for (uint8 i = minLevel; i < maxLevel; i++)
     {
         if (bountyDropMap[i] != nullptr)
         {
-            if (randomNum > bountyDropMap[i]->size())
+            if (randomNum >= bountyDropMap[i]->size())
             {
                 randomNum -= bountyDropMap[i]->size();
             }
