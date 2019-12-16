@@ -849,7 +849,7 @@ void CMobEntity::DropItems(CCharEntity* PChar)
             {
                 if (dsprand::GetRandomNumber(1000) < 250 + bonus)
                 {
-                    uint16 itemId = coloredDrops[dsprand::GetRandomNumber(coloredDrops.size()-1)];
+                    uint16 itemId = coloredDrops[dsprand::GetRandomNumber(coloredDrops.size())];
 
                     if (AddItemToPool(itemId, ++dropCount))
                         return;
