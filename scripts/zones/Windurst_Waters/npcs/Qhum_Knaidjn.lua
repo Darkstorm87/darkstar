@@ -12,27 +12,27 @@ local keyitems = {
     [0] = {
         id = dsp.ki.RAW_FISH_HANDLING,
         rank = 3,
-        cost = 30000
+        cost = 1
     },
     [1] = {
         id = dsp.ki.NOODLE_KNEADING,
         rank = 3,
-        cost = 30000
+        cost = 1
     },
     [2] = {
         id = dsp.ki.PATISSIER,
         rank = 3,
-        cost = 8000
+        cost = 1
     },
     [3] = {
         id = dsp.ki.STEWPOT_MASTERY,
         rank = 3,
-        cost = 30000
+        cost = 1
     },
     [4] = {
         id = dsp.ki.WAY_OF_THE_CULINARIAN,
         rank = 9,
-        cost = 20000
+        cost = 1
     }
 };
 
@@ -40,27 +40,27 @@ local items = {
     [0] = {
         id = 15451, -- Culinarian's Belt
         rank = 4,
-        cost = 10000
+        cost = 1
     },
     [1] = {
         id = 13948, -- Chef's Hat
         rank = 5,
-        cost = 70000
+        cost = 1
     },
     [2] = {
         id = 14399, -- Culinarian's Apron
         rank = 7,
-        cost = 100000
+        cost = 1
     },
     [3] = {
         id = 137, -- Cordon Bleu Cooking Set
         rank = 9,
-        cost = 150000
+        cost = 1
     },
     [4] = {
         id = 338, -- Culinarian's Signboard
         rank = 9,
-        cost = 200000
+        cost = 1
     },
     [5] = {
         id = 15826, -- Chef's Ring
@@ -70,12 +70,12 @@ local items = {
     [6] = {
         id = 3667, -- Brass Crock
         rank = 7,
-        cost = 50000
+        cost = 1
     },
     [7] = {
         id = 3328, -- Culinarian's Emblem
         rank = 9,
-        cost = 15000
+        cost = 1
     }
 };
 
