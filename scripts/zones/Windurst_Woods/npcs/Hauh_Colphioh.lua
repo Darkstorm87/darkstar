@@ -13,27 +13,27 @@ local keyitems = {
     [0] = {
         id = dsp.ki.CLOTH_PURIFICATION,
         rank = 3,
-        cost = 40000
+        cost = 1
     },
     [1] = {
         id = dsp.ki.CLOTH_ENSORCELLMENT,
         rank = 3,
-        cost = 40000
+        cost = 1
     },
     [2] = {
         id = dsp.ki.SPINNING,
         rank = 3,
-        cost = 10000
+        cost = 1
     },
     [3] = {
         id = dsp.ki.FLETCHING,
         rank = 3,
-        cost = 10000
+        cost = 1
     },
     [4] = {
         id = dsp.ki.WAY_OF_THE_WEAVER,
         rank = 9,
-        cost = 20000
+        cost = 1
     }
 }
 
@@ -41,27 +41,27 @@ local items = {
     [0] = {
         id = 15447, -- Weaver's Belt
         rank = 4,
-        cost = 10000
+        cost = 1
     },
     [1] = {
         id = 13946, -- Magnifying Spectacles
         rank = 6,
-        cost = 70000
+        cost = 1
     },
     [2] = {
         id = 14395, -- Weaver's Apron
         rank = 7,
-        cost = 100000
+        cost = 1
     },
     [3] = {
         id = 198, -- Gilt Tapestry
         rank = 9,
-        cost = 150000
+        cost = 1
     },
     [4] = {
         id = 337, -- Weaver's Signboard
         rank = 9,
-        cost = 200000
+        cost = 1
     },
     [5] = {
         id = 15822, -- Tailor's Ring
@@ -71,12 +71,12 @@ local items = {
     [6] = {
         id = 3665, -- Spinning Wheel
         rank = 7,
-        cost = 50000
+        cost = 1
     },
     [7] = {
         id = 3327, -- Weavers' Emblem
         rank = 9,
-        cost = 15000
+        cost = 1
     }
 }
 
