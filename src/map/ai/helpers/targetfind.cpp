@@ -100,7 +100,7 @@ void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, f
 
         if (m_PMasterTarget->objtype == TYPE_PC)
         {
-
+            bool withPet = true; // Hit pets with AoE spells
             // players will never need to add whole alliance
             m_findType = FIND_PLAYER_PLAYER;
 
@@ -368,6 +368,10 @@ bool CTargetFind::validEntity(CBattleEntity* PTarget)
                 return false;
             }
 
+        }
+        else if (m_findType == FIND_PLAYER_PLAYER && PTarget->PMaster->objtype == TYPE_PC && PTarget->objtype == TYPE_PET)
+        {
+            return true;
         }
         else if (m_findType == FIND_MONSTER_MONSTER || m_findType == FIND_PLAYER_PLAYER){
             return false;
