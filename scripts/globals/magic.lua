@@ -1126,7 +1126,7 @@ function doElementalNuke(caster, spell, target, spellParams)
     local V = 0;
     local M = 0;
 
-    if USE_OLD_MAGIC_DAMAGE and spellParams.V ~= nil and spellParams.M ~= nil then
+    if (USE_OLD_MAGIC_DAMAGE or caster:isMob()) and spellParams.V ~= nil and spellParams.M ~= nil then
         V = spellParams.V; -- Base value
         M = spellParams.M; -- Tier multiplier
         local I = spellParams.I; -- Inflection point

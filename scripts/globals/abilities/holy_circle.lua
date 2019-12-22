@@ -20,7 +20,7 @@ function onUseAbility(player,target,ability)
 		local subPower = 5;
 	
 		if (player:getMainLvl() > 50) then
-			subPower = subPower + (player:getMainLvl() - 50) // 5;
+			subPower = subPower + math.floor((player:getMainLvl() - 50) / 5);
 		end
 	
 		target:addStatusEffect(dsp.effect.HOLY_CIRCLE,15,0,duration,0,subPower)
