@@ -137,6 +137,8 @@ WHERE MId IN (14,15)
 AND name like '%subligar%';
 
 -- mob_groups
+UPDATE mob_groups SET minLevel = 35, maxLevel = 35 WHERE groupid = 26 AND zoneid = 140;
+
 UPDATE mob_groups mg
 INNER JOIN mob_pools mp
 	ON mg.poolid = mp.poolid
