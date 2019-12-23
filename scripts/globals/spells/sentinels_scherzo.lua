@@ -23,7 +23,7 @@ function onSpellCast(caster,target,spell)
     local iBoost = caster:getMod(dsp.mod.SCHERZO_EFFECT) + caster:getMod(dsp.mod.ALL_SONGS_EFFECT)
     power = power + iBoost
 
-    local duration = 120
+    local duration = 300
 
     duration = duration * ((iBoost * 0.1) + (caster:getMod(dsp.mod.SONG_DURATION_BONUS)/100) + 1)
 
