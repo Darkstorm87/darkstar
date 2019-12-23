@@ -494,7 +494,10 @@ UPDATE weapon_skills SET skilllevel = 300 WHERE weaponskillid = 221;
 -- STATUS_EFFECTS
 UPDATE status_effects SET flags = flags + 0x0002 WHERE id = 16; -- Amnesia eraseable
 
---AUCTION HOUSE
+-- Pet Names
+INSERT INTO pet_name (id, name) VALUES (1500, 'Delita'),(1501,'Ramza');
+
+-- AUCTION HOUSE
 INSERT INTO auction_house (itemid, stack, seller, seller_name, date, price)
 SELECT ib.itemid, 0, 21839, 'Hokuten', 1573966939, 1000
 from item_basic ib
@@ -530,4 +533,3 @@ AND ie.name like '%akinji%'
     OR (ie.name like '%mage%' AND level < 75)
     OR ie.name like '%soil%1'
     OR (ie.name like '%ring%1' AND level < 75);
-	
