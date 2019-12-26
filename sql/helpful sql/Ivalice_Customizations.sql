@@ -533,3 +533,17 @@ AND ie.name like '%akinji%'
     OR (ie.name like '%mage%' AND level < 75)
     OR ie.name like '%soil%1'
     OR (ie.name like '%ring%1' AND level < 75);
+
+delimiter //    
+CREATE PROCEDURE myproc()
+BEGIN
+    DECLARE i int DEFAULT 0;
+    WHILE i <= 100 DO
+        INSERT INTO auction_house (itemid, stack, seller, seller_name, date, price) VALUES (2229, 0, 0, 'Ivalice', 1577836800, 1000000);
+        INSERT INTO auction_house (itemid, stack, seller, seller_name, date, price) VALUES (2229, 1, 0, 'Ivalice', 1577836800, 12000000);
+        SET i = i + 1;
+    END WHILE;
+END//
+delimiter ;
+CALL myproc();
+DROP PROCEDURE myProc;
