@@ -39,6 +39,19 @@ function onTrigger(player,npc)
         2259, 19890,    -- Heatsink
         2263, 19890,    -- Flashbulb
         2267, 19890,    -- Mana Converter
+        2322, 1000000,  -- attuner
+        2323, 1000000,  -- tactical_processor
+        2324, 1000000,  -- drum_magazine
+        2325, 1000000,  -- equalizer
+        2326, 1000000,  -- target_marker
+        2327, 1000000,  -- mana_channeler
+        2328, 1000000,  -- eraser
+        2329, 1000000,  -- smoke_screen
+        3307, 1000000,  -- heat_capacitor
+        3309, 1000000,  -- barrage_turbine
+        3312, 1000000,  -- percolator
+        3313, 1000000,  -- vivi-valve
+        3314, 1000000,  -- disruptor
     }
 
     player:showText(npc, ID.text.YOYOROON_SHOP_DIALOG)
