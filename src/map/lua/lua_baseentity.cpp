@@ -12931,6 +12931,17 @@ inline int32 CLuaBaseEntity::hasTrait(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::getTraitValue(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    lua_pushinteger(L, charutils::getTraitValue((CCharEntity*)m_PBaseEntity, lua_tointeger(L, 1)));
+    return 1;
+}
+
 /************************************************************************
 *  Function: hasImmunity()
 *  Purpose : Returns true if a Mob is immune to a specified type of spell
@@ -14595,6 +14606,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,instantiateMob),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasTrait),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTraitValue),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasImmunity),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setAggressive),
