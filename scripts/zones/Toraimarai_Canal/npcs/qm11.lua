@@ -11,11 +11,11 @@ function onTrade(player,npc,trade)
 end
 
 function onTrigger(player,npc)
-    if player:getVar("***REMOVED***Problem") == 2 then
-        if not GetMobByID(ID.mob.MAGIC_SLUDGE):isSpawned() and player:getVar("***REMOVED***ProblemQ1") == 2 and player:getVar("***REMOVED***ProblemQ2") == 2 then
+    if player:getCharVar("***REMOVED***Problem") == 2 then
+        if not GetMobByID(ID.mob.MAGIC_SLUDGE):isSpawned() and player:getCharVar("***REMOVED***ProblemQ1") == 2 and player:getCharVar("***REMOVED***ProblemQ2") == 2 then
             player:startEvent(48)
         end
-    elseif player:getVar("***REMOVED***Problem") == 3 then
+    elseif player:getCharVar("***REMOVED***Problem") == 3 then
         player:startEvent(55)
     end
 end
