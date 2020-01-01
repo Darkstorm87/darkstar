@@ -274,7 +274,7 @@ local augmentMap = {
 			Aug1 = 1152, -- Def+10
 			Aug2 = {1,Multiplier=10}, -- HP+10
 			Aug3 = {512,513,514,515,516,517,518}, -- Stat+1
-			Aug4 = {42,328} -- crit hit rate+1 OR Crit Hit DMG+1
+			Aug4 = {41,328} -- crit hit rate+1 OR Crit Hit DMG+1
 		},
 		Magic = {
 			Aug2 = {9,Multiplier=10}, -- MP+10
