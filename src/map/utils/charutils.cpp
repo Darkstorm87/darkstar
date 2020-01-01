@@ -2174,7 +2174,7 @@ namespace charutils
 
         if (equipSlotID == SLOT_MAIN || equipSlotID == SLOT_RANGED || equipSlotID == SLOT_SUB)
         {
-            if (!(PItem->IsShield() || ((CItemWeapon*)PItem)->getSkillType() == SKILL_STRING_INSTRUMENT || ((CItemWeapon*)PItem)->getSkillType() == SKILL_WIND_INSTRUMENT))
+            if (PItem && !(PItem->IsShield() || ((CItemWeapon*)PItem)->getSkillType() == SKILL_STRING_INSTRUMENT || ((CItemWeapon*)PItem)->getSkillType() == SKILL_WIND_INSTRUMENT))
             {
                 PChar->health.tp = 0;
                 /*// fixes logging in with no h2h

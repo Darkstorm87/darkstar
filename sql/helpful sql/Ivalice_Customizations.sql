@@ -10,6 +10,7 @@ UPDATE Abilities SET recastTime = 60 WHERE abilityId = 27; -- hide
 UPDATE Abilities SET recastTime = 60 WHERE abilityId = 29; -- mug
 UPDATE Abilities SET recastTime = 30, CE = 200, VE = 800 WHERE abilityId = 30; -- shield bash
 UPDATE Abilities SET recastTime = 300, CE = 100, VE = 80 WHERE abilityId = 31; -- holy circle
+UPDATE Abilities SET recastTime = 300 WHERE abilityId = 34; -- Arcane Circle
 UPDATE Abilities SET CE = 100, VE = 1860 WHERE abilityId = 32; -- sentinel
 UPDATE Abilities SET recastTime = 60 WHERE abilityId = 41; -- shadowbind
 UPDATE Abilities SET recastTime = 300 WHERE abilityId = 45; -- call wyvern
