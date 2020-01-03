@@ -137,6 +137,8 @@ set MId = 16
 WHERE MId IN (14,15)
 AND name like '%subligar%';
 
+INSERT INTO item_mods (itemId, modId, value) VALUES (16827, 431, 1);
+
 -- mob_groups
 UPDATE mob_groups SET minLevel = 35, maxLevel = 35 WHERE groupid = 26 AND zoneid = 140;
 
