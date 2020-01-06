@@ -16,12 +16,15 @@ end
 function onUseAbility(player,target,ability)
     local duration = 180 + player:getMod(dsp.mod.WARDING_CIRCLE_DURATION)
 
-	if (target:getMainJob() ~= dsp.job.SAM) then
-		local merits = player:getMerit(dsp.merit.STORE_TP_EFFECT);
-		local storeTPTraitValue = player:getTraitValue(TRAIT_STORE_TP);
-		
-		target:addStatusEffect(dsp.effect.WARDING_CIRCLE,15,0,duration,0,(merits + storeTPTraitValue)/2)
-	else
-		target:addStatusEffect(dsp.effect.WARDING_CIRCLE,15,0,duration)
-	end
+    if (player:getID() ~= target:getID()) then
+        local subPower = (player:getMerit(dsp.merit.STORE_TP_EFFECT) + player:getTraitValue(TRAIT_STORE_TP)) / 2
+        
+        if player:getSubJob() == dsp.job.SAM then
+            subPower = math.floor(subPower / 2);
+        end
+        
+        target:addStatusEffect(dsp.effect.WARDING_CIRCLE,15,0,duration,0,subPower)
+    else
+        target:addStatusEffect(dsp.effect.WARDING_CIRCLE,15,0,duration)
+    end
 end

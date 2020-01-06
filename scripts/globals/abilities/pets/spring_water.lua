@@ -34,13 +34,13 @@ function onPetAbility(target, pet, skill)
     target:delStatusEffect(dsp.effect.PARALYSIS)
     target:delStatusEffect(dsp.effect.DISEASE)
     target:delStatusEffect(dsp.effect.PETRIFICATION)
-        target:wakeUp()
+    target:wakeUp()
     target:delStatusEffect(dsp.effect.SILENCE)
     if math.random() > 0.5 then
         target:delStatusEffect(dsp.effect.SLOW)
     end
     skill:setMsg(dsp.msg.basic.SELF_HEAL)
     target:addHP(base)
-	target:addMP(mp)
+    target:addMP(mp)
     return base
 end

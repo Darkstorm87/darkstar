@@ -14,9 +14,9 @@ end
 
 function onPetAbility(target, pet, skill, summoner)
     local bonusTime = utils.clamp(summoner:getSkillLevel(dsp.skill.SUMMONING_MAGIC) - 300, 0, 200)
-    local duration = 60 + bonusTime
+    local duration = 300 + bonusTime
 
-    target:addStatusEffect(dsp.effect.WARCRY,15,0,duration)
+    target:addStatusEffect(dsp.effect.WARCRY,15,0,duration,0,200)
     skill:setMsg(dsp.msg.basic.SKILL_GAIN_EFFECT)
     return dsp.effect.WARCRY
 end
