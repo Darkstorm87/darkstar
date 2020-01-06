@@ -14,18 +14,18 @@ end
 
 function onPetAbility(target, pet, skill, summoner)
     local bonusTime = utils.clamp(summoner:getSkillLevel(dsp.skill.SUMMONING_MAGIC) - 300, 0, 200)
-    local duration = 180 + bonusTime
+    local duration = 300 + bonusTime
 
     local moon = VanadielMoonPhase()
     local buffvalue = 0
     if moon > 90 then
-        buffvalue = 7
+        buffvalue = 10
     elseif moon > 75 then
-        buffvalue = 6
+        buffvalue = 9
     elseif moon > 60 then
-        buffvalue = 5;
+        buffvalue = 8;
     else
-        buffvalue = 4;
+        buffvalue = 7;
     end
     target:delStatusEffect(dsp.effect.STR_BOOST)
     target:delStatusEffect(dsp.effect.DEX_BOOST)
@@ -37,10 +37,10 @@ function onPetAbility(target, pet, skill, summoner)
     target:addStatusEffect(dsp.effect.STR_BOOST,buffvalue,0,duration)
     target:addStatusEffect(dsp.effect.DEX_BOOST,buffvalue,0,duration)
     target:addStatusEffect(dsp.effect.VIT_BOOST,buffvalue,0,duration)
-    target:addStatusEffect(dsp.effect.AGI_BOOST,8-buffvalue,0,duration)
-    target:addStatusEffect(dsp.effect.INT_BOOST,8-buffvalue,0,duration)
-    target:addStatusEffect(dsp.effect.MND_BOOST,8-buffvalue,0,duration)
-    target:addStatusEffect(dsp.effect.CHR_BOOST,8-buffvalue,0,duration)
+    target:addStatusEffect(dsp.effect.AGI_BOOST,buffvalue,0,duration)
+    target:addStatusEffect(dsp.effect.INT_BOOST,buffvalue,0,duration)
+    target:addStatusEffect(dsp.effect.MND_BOOST,buffvalue,0,duration)
+    target:addStatusEffect(dsp.effect.CHR_BOOST,buffvalue,0,duration)
     skill:setMsg(dsp.msg.basic.NONE)
     return 0
 end

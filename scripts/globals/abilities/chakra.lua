@@ -22,15 +22,16 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onUseAbility(player, target, ability)
-	if (target:getMainJob() ~= dsp.job.MNK) then
-		local effect = dsp.effect.SUBTLE_BLOW_PLUS;
-		target:addStatusEffect(effect,20,0,120);
-		ability:setMsg(0);
-		return;
-	elseif (player:getID() ~= target:getID()) then
-		ability:setMsg(0);
-		return;
-	end
+    if (player:getID() ~= target:getID()) then
+        local power = 20
+        if player:getSubJob() == dsp.job.MNK then
+            power = math.floor(power / 2);
+        end
+        
+        target:addStatusEffect(dsp.effect.SUBTLE_BLOW_PLUS,power,0,120);
+        ability:setMsg(0);
+        return;
+    end
 
     local chakraRemoval = player:getMod(dsp.mod.CHAKRA_REMOVAL)
     for k, v in pairs(ChakraStatusEffects) do

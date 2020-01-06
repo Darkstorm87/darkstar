@@ -14,7 +14,7 @@ end
 
 function onPetAbility(target, pet, skill, summoner)
     local bonusTime = utils.clamp(summoner:getSkillLevel(dsp.skill.SUMMONING_MAGIC) - 300, 0, 200)
-    local duration = 180 + bonusTime
+    local duration = 300 + bonusTime
 
     target:delStatusEffect(dsp.effect.SHINING_RUBY)
     target:addStatusEffect(dsp.effect.SHINING_RUBY,1,0,duration)
