@@ -75,6 +75,10 @@ UPDATE skill_ranks SET rng = 1 WHERE skillid = 26; -- marksmanship
 UPDATE skill_ranks SET brd = 1 WHERE skillid = 40; -- singing
 UPDATE skill_ranks SET brd = 1 WHERE skillid = 41; -- string
 UPDATE skill_ranks SET brd = 1 WHERE skillid = 42; -- wind
+UPDATE skill_ranks SET pld = 1 WHERE skillid = 32; -- Divine Skill for PLD
+UPDATE skill_ranks SET whm = 4, rdm = 1, run = 4 WHERE skillid = 34; -- Enhancing Skill for WHM, RDM, RUN
+UPDATE skill_ranks SET smn = 1 WHERE skillid = 38; -- Summoning Skill for SMN
+UPDATE skill_ranks SET nin = 1 WHERE skillid = 39; -- Ninjistu Skill for NIN
 
 -- ITEM_BASIC
 -- POTIONS AND ETHERS STACK TO 12
