@@ -98,12 +98,12 @@ LandKingSystem_NQ = 2;
 LandKingSystem_HQ = 2;
 
 -- DYNAMIS SETTINGS
-    BETWEEN_2DYNA_WAIT_TIME = 24;       -- Hours before player can re-enter Dynamis. Default is 1 Earthday (24 hours).
-        DYNA_MIDNIGHT_RESET = true;     -- if true, makes the wait time count by number of server midnights instead of full 24 hour intervals
-             DYNA_LEVEL_MIN = 65;       -- level min for entering in Dynamis
-    TIMELESS_HOURGLASS_COST = 10000;   -- refund for the timeless hourglass for Dynamis.
-   PRISMATIC_HOURGLASS_COST = 50000;    -- cost of the prismatic hourglass for Dynamis.
-     CURRENCY_EXCHANGE_RATE = 100;      -- X Tier 1 ancient currency -> 1 Tier 2, and so on.  Certain values may conflict with shop items.  Not designed to exceed 198.
+BETWEEN_2DYNA_WAIT_TIME = 24;       -- Hours before player can re-enter Dynamis. Default is 1 Earthday (24 hours).
+DYNA_MIDNIGHT_RESET = true;     -- if true, makes the wait time count by number of server midnights instead of full 24 hour intervals
+DYNA_LEVEL_MIN = 65;       -- level min for entering in Dynamis
+TIMELESS_HOURGLASS_COST = 10000;   -- refund for the timeless hourglass for Dynamis.
+PRISMATIC_HOURGLASS_COST = 50000;    -- cost of the prismatic hourglass for Dynamis.
+CURRENCY_EXCHANGE_RATE = 100;      -- X Tier 1 ancient currency -> 1 Tier 2, and so on.  Certain values may conflict with shop items.  Not designed to exceed 198.
 RELIC_2ND_UPGRADE_WAIT_TIME = 7200;     -- wait time for 2nd relic upgrade (stage 2 -> stage 3) in seconds. 7200s = 2 hours.
 RELIC_3RD_UPGRADE_WAIT_TIME = 3600;     -- wait time for 3rd relic upgrade (stage 3 -> stage 4) in seconds. 3600s = 1 hour.
 FREE_COP_DYNAMIS = 0 ; -- Authorize player to entering inside COP Dynamis without completing COP mission ( 1 = enable 0= disable)
@@ -117,7 +117,7 @@ OldSchoolG2 = true; -- Set true to require the NMs for "Atop the Highest Mountai
 FrigiciteDuration = 30; -- When OldSChoolG2 is enabled, this is the time (in seconds) you have from killing Boreal NMs to click the "???" target.
 
 -- SPELL SPECIFIC SETTINGS
-DIA_OVERWRITE = 1; --Set to 1 to allow Bio to overwrite same tier Dia.  Default is 1.
+DIA_OVERWRITE = 0; --Set to 1 to allow Bio to overwrite same tier Dia.  Default is 1.
 BIO_OVERWRITE = 0; --Set to 1 to allow Dia to overwrite same tier Bio.  Default is 0.
 STONESKIN_CAP = 350; -- soft cap for hp absorbed by stoneskin
 BLINK_SHADOWS = 2;   -- number of shadows supplied by Blink spell
@@ -128,7 +128,7 @@ ABSORB_SPELL_AMOUNT = 10; -- how much of a stat gets absorbed by DRK absorb spel
 ABSORB_SPELL_TICK = 9; -- duration of 1 absorb spell tick
 SNEAK_INVIS_DURATION_MULTIPLIER = 1; -- multiplies duration of sneak,invis,deodorize to reduce player torture. 1 = retail behavior.
 USE_OLD_CURE_FORMULA = false; -- true/false. if true, uses older cure formula (3*MND + VIT + 3*(healing skill/5)) // cure 6 will use the newer formula
-USE_OLD_MAGIC_DAMAGE = false; -- true/false. if true, uses older magic damage formulas
+USE_OLD_MAGIC_DAMAGE = true; -- true/false. if true, uses older magic damage formulas
 
 -- CELEBRATIONS
 EXPLORER_MOOGLE_LV = 10; -- Enables Explorer Moogle teleports and sets required level. Zero to disable.
