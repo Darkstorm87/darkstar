@@ -1125,16 +1125,23 @@ function doElementalNuke(caster, spell, target, spellParams)
     local dINT = caster:getStat(dsp.mod.INT) - target:getStat(dsp.mod.INT);
     local V = 0;
     local M = 0;
+    
+    local hasMultipleTargetReduction = spellParams.hasMultipleTargetReduction; --still unused!!!
+    local resistBonus = spellParams.resistBonus;
+    local AMIIaccBonus = spellParams.AMIIaccBonus;
+    local mDMG = caster:getMod(dsp.mod.MAGIC_DAMAGE);
 
     if USE_OLD_MAGIC_DAMAGE and spellParams.V ~= nil and spellParams.M ~= nil then
         V = spellParams.V; -- Base value
         M = spellParams.M; -- Tier multiplier
         local I = spellParams.I; -- Inflection point
-        local cap = I * 2 + V; -- Base damage soft cap
+        -- local cap = I * 2 + V; -- Base damage soft cap
+
+        DMG = DMG + mDMG;
 
         if dINT < 0 then
             -- If dINT is a negative value the tier multiplier is always 1
-            DMG = V + dINT;
+            DMG = DMG + V + dINT;
 
             -- Check/ set lower limit of 0 damage for negative dINT
             if DMG < 1 then
@@ -1143,24 +1150,19 @@ function doElementalNuke(caster, spell, target, spellParams)
 
         elseif dINT < I then
              -- If dINT > 0 but below inflection point I
-            DMG = V + dINT * M;
+            DMG = DMG + V + dINT * M;
 
         else
              -- Above inflection point I additional dINT is only half as effective
-            DMG = V + I + ((dINT - I) * (M / 2));
+            DMG = DMG + V + I + ((dINT - I) * (M / 2));
         end
 
         -- Check/ set damage soft cap
-        if DMG > cap then
-            DMG = cap;
-        end
+        -- if DMG > cap then
+            -- DMG = cap;
+        -- end
 
     else
-        local hasMultipleTargetReduction = spellParams.hasMultipleTargetReduction; --still unused!!!
-        local resistBonus = spellParams.resistBonus;
-        local AMIIaccBonus = spellParams.AMIIaccBonus;
-        local mDMG = caster:getMod(dsp.mod.MAGIC_DAMAGE);
-
         --[[
                 Calculate base damage:
                 D = mDMG + V + (dINT × M)
