@@ -29,6 +29,7 @@ UPDATE Abilities SET recastTime = 1200 WHERE abilityId = 165; -- trance
 UPDATE Abilities SET recastTime = 1200 WHERE abilityId = 194; -- tabula rasa
 UPDATE Abilities SET recastTime = 150 WHERE abilityId = 214; -- sekkanoki
 UPDATE Abilities SET recastTime = 45 WHERE abilityId IN (640,641,642,643,644,645,646); -- camisado, somnolence, nightmare, ultimate terror, noctoshield, dream shroud, nether blast
+INSERT INTO `abilities` VALUES (262,'divine_waltz_ii',19,75,27,20,190,306,0,11,2000,0,14,20.0,1,0,0,0,0,'WOTG');
 
 -- MERITS
 UPDATE merits SET Value = 4 WHERE meritid = 516; -- barspell effect
