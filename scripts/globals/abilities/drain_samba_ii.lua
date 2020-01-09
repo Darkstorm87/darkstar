@@ -17,7 +17,7 @@ function onAbilityCheck(player,target,ability)
         return dsp.msg.basic.UNABLE_TO_USE_JA2, 0
     elseif (player:hasStatusEffect(dsp.effect.TRANCE)) then
         return 0,0
-    elseif (player:getTP() < 250) then
+    elseif (player:getTP() < 200) then
         return dsp.msg.basic.NOT_ENOUGH_TP,0
     else
         return 0,0
@@ -27,10 +27,10 @@ end
 function onUseAbility(player,target,ability)
     -- Only remove TP if the player doesn't have Trance.
     if not player:hasStatusEffect(dsp.effect.TRANCE) then
-        player:delTP(250)
+        player:delTP(200)
     end
 
-    local duration = 120 + player:getMod(dsp.mod.SAMBA_DURATION)
+    local duration = 180 + player:getMod(dsp.mod.SAMBA_DURATION)
     duration = duration * (100 + player:getMod(dsp.mod.SAMBA_PDURATION))/100
     player:delStatusEffect(dsp.effect.HASTE_SAMBA)
     player:delStatusEffect(dsp.effect.ASPIR_SAMBA)

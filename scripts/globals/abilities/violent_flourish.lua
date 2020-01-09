@@ -67,7 +67,7 @@ function onUseAbility(player,target,ability,action)
         isSneakValid = false
     end
     local pdif = generatePdif (cratio[1], cratio[2], true)
-    local hitrate = getHitRate(player,target,true)
+    local hitrate = math.max(0.8, getHitRate(player,target,true))
 
     if (math.random() <= hitrate or isSneakValid) then
         hit = 3
@@ -77,7 +77,7 @@ function onUseAbility(player,target,ability,action)
         local params = {}
         params.diff = 0
         params.skillType = player:getWeaponSkillType(dsp.slot.MAIN)
-        params.bonus = 50 - target:getMod(dsp.mod.STUNRES) + player:getMod(dsp.mod.VFLOURISH_MACC)
+        params.bonus = 100 - target:getMod(dsp.mod.STUNRES) + player:getMod(dsp.mod.VFLOURISH_MACC)
         local resist = applyResistance(player, target, spell, params)
 
         if resist > 0.25 then

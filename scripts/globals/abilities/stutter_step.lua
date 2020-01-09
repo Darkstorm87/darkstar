@@ -35,7 +35,7 @@ function onUseAbility(player,target,ability,action)
     local hit = 3
     local effect = 1
 
-    if math.random() <= getHitRate(player,target,true,player:getMod(dsp.mod.STEP_ACCURACY)) then
+    if math.random() <= math.max(0.8, getHitRate(player,target,true,player:getMod(dsp.mod.STEP_ACCURACY))) then
         hit = 7
         local mjob = player:getMainJob()
         local daze = 1
@@ -45,11 +45,11 @@ function onUseAbility(player,target,ability,action)
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_1):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_1)
                 if (player:hasStatusEffect(dsp.effect.PRESTO)) then
-                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_3,1,0,duration+30)
+                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_3,1,0,duration+45)
                     daze = 3
                     effect = 3
                 else
-                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_2,1,0,duration+30)
+                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_2,1,0,duration+45)
                     daze = 2
                     effect = 2
                 end
@@ -58,11 +58,11 @@ function onUseAbility(player,target,ability,action)
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_2):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_2)
                 if (player:hasStatusEffect(dsp.effect.PRESTO)) then
-                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_4,1,0,duration+30)
+                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_4,1,0,duration+45)
                     daze = 3
                     effect = 4
                 else
-                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_3,1,0,duration+30)
+                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_3,1,0,duration+45)
                     daze = 2
                     effect = 3
                 end
@@ -71,11 +71,11 @@ function onUseAbility(player,target,ability,action)
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_3):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_3)
                 if (player:hasStatusEffect(dsp.effect.PRESTO)) then
-                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+30)
+                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+45)
                     daze = 3
                     effect = 5
                 else
-                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_4,1,0,duration+30)
+                    target:addStatusEffect(dsp.effect.WEAKENED_DAZE_4,1,0,duration+45)
                     daze = 2
                     effect = 4
                 end
@@ -88,13 +88,13 @@ function onUseAbility(player,target,ability,action)
                 else
                     daze = 2
                 end
-                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+30)
+                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+45)
                 effect = 5
 
             elseif (target:hasStatusEffect(dsp.effect.WEAKENED_DAZE_5)) then
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_5):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_5)
-                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+30)
+                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+45)
                 daze = 1
                 effect = 5
 
@@ -113,31 +113,31 @@ function onUseAbility(player,target,ability,action)
             if (target:hasStatusEffect(dsp.effect.WEAKENED_DAZE_1)) then
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_1):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_1)
-                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_2,1,0,duration+30)
+                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_2,1,0,duration+45)
                 effect = 2
 
             elseif (target:hasStatusEffect(dsp.effect.WEAKENED_DAZE_2)) then
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_2):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_2)
-                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_3,1,0,duration+30)
+                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_3,1,0,duration+45)
                 effect = 3
 
             elseif (target:hasStatusEffect(dsp.effect.WEAKENED_DAZE_3)) then
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_3):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_3)
-                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_4,1,0,duration+30)
+                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_4,1,0,duration+45)
                 effect = 4
 
             elseif (target:hasStatusEffect(dsp.effect.WEAKENED_DAZE_4)) then
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_4):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_4)
-                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+30)
+                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+45)
                 effect = 5
 
             elseif (target:hasStatusEffect(dsp.effect.WEAKENED_DAZE_5)) then
                 local duration = target:getStatusEffect(dsp.effect.WEAKENED_DAZE_5):getDuration()
                 target:delStatusEffectSilent(dsp.effect.WEAKENED_DAZE_5)
-                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+30)
+                target:addStatusEffect(dsp.effect.WEAKENED_DAZE_5,1,0,duration+45)
                 effect = 5
             else
                 target:addStatusEffect(dsp.effect.WEAKENED_DAZE_1,1,0,60)
