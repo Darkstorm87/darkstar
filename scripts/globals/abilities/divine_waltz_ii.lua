@@ -17,7 +17,7 @@ function onAbilityCheck(player,target,ability)
         return dsp.msg.basic.UNABLE_TO_USE_JA2, 0
     elseif (player:hasStatusEffect(dsp.effect.TRANCE)) then
         return 0,0
-    elseif (player:getTP() < 800) then
+    elseif (player:getTP() < 700) then
         return dsp.msg.basic.NOT_ENOUGH_TP,0
     else
         --[[ Apply "Waltz Ability Delay" reduction
@@ -42,7 +42,7 @@ end
 function onUseAbility(player,target,ability)
     -- Only remove TP if the player doesn't have Trance, and only deduct once instead of for each target.
     if (player:getID() == target:getID() and player:hasStatusEffect(dsp.effect.TRANCE) == false) then
-        player:delTP(800)
+        player:delTP(700)
     end
 
     -- Grabbing variables.
@@ -54,11 +54,11 @@ function onUseAbility(player,target,ability)
 
     -- Performing sj mj check.
     if mjob == dsp.job.DNC then
-        cure = (vit+chr)*0.75+270
+        cure = (vit+chr)*0.8+270
     end
 
     if sjob == dsp.job.DNC then
-        cure = (vit+chr)*0.175+270
+        cure = (vit+chr)*0.4+270
     end
 
     -- Apply waltz modifiers
@@ -75,6 +75,9 @@ function onUseAbility(player,target,ability)
     target:restoreHP(cure)
     target:wakeUp()
     player:updateEnmityFromCure(target,cure)
+    
+    target:addStatusEffect(dsp.effect.EVASION_BOOST, 100, 0, 10)
+    target:addStatusEffect(dsp.effect.DEFENSE_BOOST, 100, 0, 10)
 
     return cure
 end

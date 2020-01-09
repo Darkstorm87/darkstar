@@ -17,7 +17,7 @@ function onAbilityCheck(player,target,ability)
         return dsp.msg.basic.UNABLE_TO_USE_JA2, 0
     elseif (player:hasStatusEffect(dsp.effect.TRANCE)) then
         return 0,0
-    elseif (player:getTP() < 200) then
+    elseif (player:getTP() < 100) then
         return dsp.msg.basic.NOT_ENOUGH_TP,0
     else
         --[[ Apply "Waltz Ability Delay" reduction
@@ -42,7 +42,7 @@ end
 function onUseAbility(player,target,ability)
     -- Only remove TP if the player doesn't have Trance.
     if not player:hasStatusEffect(dsp.effect.TRANCE) then
-        player:delTP(200)
+        player:delTP(100)
     end
 
     local effect = target:healingWaltz()
