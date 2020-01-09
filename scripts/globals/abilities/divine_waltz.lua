@@ -77,7 +77,7 @@ function onUseAbility(player,target,ability)
     player:updateEnmityFromCure(target,cure)
     
     target:addStatusEffect(dsp.effect.EVASION_BOOST, 50, 0, 10)
-    target:addStatusEffect(dsp.effect.DEFENSE_BOOST, 50, 0, 10)
+    target:addStatusEffect(dsp.effect.DEFENSE_BOOST, 15, 0, 10)
 
     return cure
 end
