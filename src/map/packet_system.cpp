@@ -518,6 +518,7 @@ void SmallPacket0x015(map_session_data_t* session, CCharEntity* PChar, CBasicPac
     {
         bool moved = ((PChar->loc.p.x != data.ref<float>(0x04)) ||
             (PChar->loc.p.z != data.ref<float>(0x0C)) ||
+            (PChar->loc.p.rotation != data.ref<uint8>(0x14)) ||
             (PChar->m_TargID != data.ref<uint16>(0x16)));
 
         bool isUpdate = moved || PChar->updatemask & UPDATE_POS;
@@ -1326,7 +1327,7 @@ void SmallPacket0x037(map_session_data_t* session, CCharEntity* PChar, CBasicPac
     uint8  SlotID = data.ref<uint8>(0x0E);
     uint8  StorageID = data.ref<uint8>(0x10);
 
-    if (PChar->UContainer->GetType() != UCONTAINER_USEITEM)
+    if (PChar->UContainer->GetType() != UCONTAINER_EMPTY)
         PChar->PAI->UseItem(TargetID, StorageID, SlotID);
     else
         PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, 56));

@@ -17,7 +17,7 @@ end
 
 function onMobWeaponSkill(target, mob, skill)
     local typeEffect = dsp.effect.PETRIFICATION
-    local duration = 45
+    local duration = 5
 
     skill:setMsg(MobGazeMove(mob, target, typeEffect, 1, 0, duration))
 
