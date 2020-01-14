@@ -449,7 +449,7 @@ UPDATE traits SET value = 35 WHERE traitid = 14 AND job = 12 AND level = 90 AND 
 
 UPDATE traits SET value = 35 WHERE traitid = 67 AND job = 2 AND level = 5 AND modifier = 289;
 UPDATE traits SET value = 40 WHERE traitid = 67 AND job = 2 AND level = 25 AND modifier = 289;
-UPDATE traits SET value = 45 WHERE traitid = 67 AND job = 2 AND level = 45 AND modifier = 289;
+UPDATE traits SET value = 45 WHERE traitid = 67 AND job = 2 AND level = 40 AND modifier = 289;
 UPDATE traits SET value = 50 WHERE traitid = 67 AND job = 2 AND level = 65 AND modifier = 289;
 UPDATE traits SET value = 55 WHERE traitid = 67 AND job = 2 AND level = 91 AND modifier = 289;
 
@@ -462,6 +462,57 @@ INSERT INTO `traits` VALUES (84,'recycle',11,50,3,305,50,'SOA',0);
 UPDATE traits SET level = 25 WHERE traitid = 106 AND job = 12 AND level = 78 AND rank = 1 AND modifier = 174;
 UPDATE traits SET level = 50 WHERE traitid = 106 AND job = 12 AND level = 88 AND rank = 2 AND modifier = 174;
 UPDATE traits SET level = 75 WHERE traitid = 106 AND job = 12 AND level = 98 AND rank = 3 AND modifier = 174;
+
+UPDATE traits SET level = 25 WHERE traitid = 100 and job = 13 and rank = 1;
+UPDATE traits SET level = 50 WHERE traitid = 100 and job = 13 and rank = 2;
+UPDATE traits SET level = 74 WHERE traitid = 100 and job = 13 and rank = 3;
+UPDATE traits SET level = 50 WHERE traitid = 99 and job = 7 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 99 and job = 7 and rank = 2;
+UPDATE traits SET level = 50 WHERE traitid = 106 and job = 13 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 110 and job = 13 and rank = 1;
+
+UPDATE traits SET level = 75 WHERE traitid = 17 and job = 2 and rank = 2;
+UPDATE traits SET level = 50 WHERE traitid = 101 and job = 2 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 101 and job = 2 and rank = 2;
+
+UPDATE traits SET level = 75 WHERE traitid = 13 and job = 4 and rank = 2;
+
+UPDATE traits SET level = 75 WHERE traitid = 12 and job = 5 and rank = 4;
+UPDATE traits SET level = 75 WHERE traitid = 110 and job = 5 and rank = 1;
+
+UPDATE traits SET level = 75 WHERE traitid = 16 and job = 6 and rank = 2;
+UPDATE traits SET level = 60 WHERE traitid = 18 and job = 6 and rank = 1;
+UPDATE traits SET level = 50 WHERE traitid = 98 and job = 6 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 98 and job = 6 and rank = 2;
+
+UPDATE traits SET level = 75 WHERE traitid = 3 and job = 8 and rank = 5;
+UPDATE traits SET level = 75 WHERE traitid = 98 and job = 8 and rank = 1;
+
+UPDATE traits SET level = 10, value = 16 WHERE traitid IN (32,33,34,35,36,37,38) and job = 9 and rank = 1;
+UPDATE traits SET level = 50 WHERE traitid = 103 and job = 9 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 103 and job = 9 and rank = 2;
+
+UPDATE traits SET level = 50 WHERE traitid = 108 and job = 11 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 108 and job = 11 and rank = 2;
+
+UPDATE traits SET level = 75 WHERE traitid = 1 and job = 14 and rank = 3;
+UPDATE traits SET level = 75 WHERE traitid = 3 and job = 14 and rank = 2;
+UPDATE traits SET level = 75 WHERE traitid = 127 and job = 14 and rank = 2;
+
+UPDATE traits SET level = 75 WHERE traitid = 8 and job = 15 and rank = 5;
+UPDATE traits SET level = 75 WHERE traitid = 10 and job = 15 and rank = 2;
+UPDATE traits SET level = 50 WHERE traitid = 103 and job = 15 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 103 and job = 15 and rank = 2;
+UPDATE traits SET level = 75 WHERE traitid = 105 and job = 15 and rank = 3;
+
+UPDATE traits SET level = 50 WHERE traitid = 103 and job = 18 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 103 and job = 18 and rank = 2;
+
+UPDATE traits SET level = 50 WHERE traitid = 100 and job = 19 and rank = 1;
+UPDATE traits SET level = 75 WHERE traitid = 100 and job = 19 and rank = 2;
+UPDATE traits SET level = 75 WHERE traitid = 108 and job = 19 and rank = 1;
+
+UPDATE traits SET level = 75 WHERE traitid = 110 and job = 20 and rank = 1;
 
 DELIMITER $$
 -- TRIGGERS
