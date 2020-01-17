@@ -52,6 +52,8 @@ function onTrigger(player,npc)
         3312, 1000000,  -- percolator
         3313, 1000000,  -- vivi-valve
         3314, 1000000,  -- disruptor
+        2353, 1000000,  -- optic fiber
+        9234, 100000000,  -- optic fiber II
     }
 
     player:showText(npc, ID.text.YOYOROON_SHOP_DIALOG)
