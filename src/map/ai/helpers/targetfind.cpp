@@ -481,6 +481,11 @@ CBattleEntity* CTargetFind::getValidTarget(uint16 actionTargetID, uint16 validTa
         return m_PBattleEntity->PPet;
     }
 
+    if (PTarget->objtype == TYPE_PET && PTarget->isDead())
+    {
+        return nullptr;
+    }
+
     if (PTarget->ValidTarget(m_PBattleEntity, validTargetFlags))
     {
         return PTarget;

@@ -5641,11 +5641,13 @@ void SmallPacket0x102(map_session_data_t* session, CCharEntity* PChar, CBasicPac
         {
             if (data.ref<uint8>(0x0C) != 0)
             {
+                PChar->removePetModifiers((CPetEntity*)PChar->PAutomaton);
                 puppetutils::setHead(PChar, data.ref<uint8>(0x0C));
                 puppetutils::LoadAutomatonStats(PChar);
             }
             else if (data.ref<uint8>(0x0D) != 0)
             {
+                PChar->removePetModifiers((CPetEntity*)PChar->PAutomaton);
                 puppetutils::setFrame(PChar, data.ref<uint8>(0x0D));
                 puppetutils::LoadAutomatonStats(PChar);
             }
