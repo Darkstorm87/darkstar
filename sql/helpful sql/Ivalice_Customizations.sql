@@ -144,6 +144,30 @@ set MId = 16
 WHERE MId IN (14,15)
 AND name like '%subligar%';
 
+UPDATE item_puppet
+SET element = 1144206147
+WHERE itemid IN (8227,8196); -- storm walker
+
+UPDATE item_puppet
+SET element = 1430401570
+WHERE itemid IN (8197); -- soulsoother
+
+UPDATE item_puppet
+SET element = 1380069970
+WHERE itemid IN (8198); -- spiritreaver
+
+UPDATE item_puppet
+SET element = 860108068
+WHERE itemid IN (8195,8226); -- sharpshot
+
+UPDATE item_puppet
+SET element = 861164324
+WHERE itemid IN (8194,8225); -- valoredge
+
+UPDATE item_puppet
+SET element = 858993459
+WHERE itemid IN (8193,8224); -- harlequin
+
 INSERT INTO item_mods (itemId, modId, value) VALUES (16827, 431, 1);
 
 -- mob_groups
