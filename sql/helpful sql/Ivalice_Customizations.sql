@@ -1,4 +1,4 @@
-update zone_settings set zoneip = '184.97.140.137';
+update zone_settings set zoneip = '184.97.163.130';
 
 -- ABILITIES
 UPDATE Abilities SET CE = 100, VE = 10000 WHERE abilityId = 6; -- invincible
@@ -136,6 +136,8 @@ UPDATE item_equipment SET jobs = 10689 WHERE itemid = 16067;
 UPDATE item_equipment SET jobs = 3553 WHERE itemid = 16555;
 
 UPDATE item_equipment SET jobs = 2111715 WHERE itemid = 18139;
+
+UPDATE item_equipment SET jobs = 2 | 2048 | 4096 WHERE itemid IN (13184,13201,13202,13186);
 
 update item_equipment
 set MId = 16
