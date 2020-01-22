@@ -32,7 +32,7 @@ function onPetAbility(target, pet, skill)
             effectid = dsp.effect.CHR_BOOST
         end
 
-        target:addStatusEffect(effectid,math.random(12,14),0,90)
+        target:addStatusEffect(effectid,math.random(12,14),0,300)
         skill:setMsg(dsp.msg.basic.SKILL_GAIN_EFFECT)
     end
     
