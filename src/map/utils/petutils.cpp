@@ -1589,7 +1589,7 @@ namespace petutils
             //Set B+ weapon skill (assumed capped for level derp)
             //attack is madly high for avatars (roughly x2)
             PPet->setModifier(Mod::ATT, 2 * battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
-            PPet->setModifier(Mod::ACC, battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
+            PPet->setModifier(Mod::ACC, 1.25 * battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
             //Set E evasion and def
             PPet->setModifier(Mod::EVA, battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
             PPet->setModifier(Mod::DEF, battleutils::GetMaxSkill(SKILL_HEALING_MAGIC, JOB_WHM, PPet->GetMLevel()));
@@ -1656,7 +1656,7 @@ namespace petutils
             }
 
             // Randomize: 0-2 lvls lower, less Monster Gloves(+1/+2) bonus
-            highestLvl -= dsprand::GetRandomNumber(3 - std::clamp<int16>(PChar->getMod(Mod::JUG_LEVEL_RANGE), 0, 2));
+            //highestLvl -= dsprand::GetRandomNumber(3 - std::clamp<int16>(PChar->getMod(Mod::JUG_LEVEL_RANGE), 0, 2));
 
             PPet->SetMLevel(highestLvl);
             LoadJugStats(PPet, PPetData); //follow monster calcs (w/o SJ)
