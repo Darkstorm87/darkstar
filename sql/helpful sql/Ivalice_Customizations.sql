@@ -177,7 +177,9 @@ WHERE id = 1242
 AND NOT EXISTS (SELECT 1 FROM synth_recipes WHERE Result = 9040);
 
 UPDATE synth_recipes SET Result = 9037, ResultHQ1 = 9037, ResultHQ2 = 9037, ResultHQ3 = 9037 WHERE ID = 4184;
-UPDATE synth_recipes SET Result = 9037, ResultHQ1 = 9037, ResultHQ2 = 9037, ResultHQ3 = 9037 WHERE ID = 4375;
+UPDATE synth_recipes SET Result = 9039, ResultHQ1 = 9039, ResultHQ2 = 9039, ResultHQ3 = 9039 WHERE ID = 4375;
+
+UPDATE mob_spawn_points SET pos_x = 1 WHERE mobid = 17580341 -- make aroma fly spawnable
 
 -- mob_groups
 UPDATE mob_groups SET minLevel = 35, maxLevel = 35 WHERE groupid = 26 AND zoneid = 140;
