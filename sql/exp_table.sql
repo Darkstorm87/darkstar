@@ -104,7 +104,7 @@ INSERT INTO `exp_table` VALUES (-30,  0,   0,   0,   0,   0,   0,   0,   0,   0,
 INSERT INTO `exp_table` VALUES (-31,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  16,  16,  16,  16,  16);
 INSERT INTO `exp_table` VALUES (-32,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  15,  15,  15,  15,  15);
 INSERT INTO `exp_table` VALUES (-33,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  14,  14,  14,  14,  14);
-INSERT INTO `exp_table` VALUES (-34,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  13,  13,  13,  13,  13;
+INSERT INTO `exp_table` VALUES (-34,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  13,  13,  13,  13,  13);
 INSERT INTO `exp_table` VALUES (-35,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  12,  12,  12,  12,  12);
 INSERT INTO `exp_table` VALUES (-36,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  11,  11,  11,  11,  11);
 INSERT INTO `exp_table` VALUES (-37,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  10,  10,  10,  10,  10);
