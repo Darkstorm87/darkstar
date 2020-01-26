@@ -3133,12 +3133,12 @@ namespace charutils
         uint32 baseExp = GetRealExp(charlvl, moblvl);
 
         if (baseExp >= 400) return EMobDifficulty::IncrediblyTough;
-        if (baseExp >= 350) return EMobDifficulty::VeryTough;
-        if (baseExp >= 220) return EMobDifficulty::Tough;
-        if (baseExp >= 200) return EMobDifficulty::EvenMatch;
-        if (baseExp >= 160) return EMobDifficulty::DecentChallenge;
-        if (baseExp >= 60) return EMobDifficulty::EasyPrey;
-        if (baseExp >= 14) return EMobDifficulty::IncredibyEasyPrey;
+        if (baseExp >= 240) return EMobDifficulty::VeryTough;
+        if (baseExp >= 120) return EMobDifficulty::Tough;
+        if (baseExp >= 100) return EMobDifficulty::EvenMatch;
+        if (baseExp >= 75) return EMobDifficulty::DecentChallenge;
+        if (baseExp >= 15) return EMobDifficulty::EasyPrey;
+        if (baseExp > 0) return EMobDifficulty::IncredibyEasyPrey;
 
         return EMobDifficulty::TooWeak;
     }
@@ -3386,15 +3386,15 @@ namespace charutils
                     // Per monster caps pulled from: https://ffxiclopedia.fandom.com/wiki/Experience_Points
                     if (PMember->GetMLevel() <= 50)
                     {
-                        exp = std::fmin(exp, 400.f);
+                        exp = std::fmin(exp, 200);
                     }
                     else if (PMember->GetMLevel() <= 60)
                     {
-                        exp = std::fmin(exp, 500.f);
+                        exp = std::fmin(exp, 250.f);
                     }
                     else
                     {
-                        exp = std::fmin(exp, 600.f);
+                        exp = std::fmin(exp, 300.f);
                     }
 
                     if (PMember->expChain.chainTime > gettick() || PMember->expChain.chainTime == 0)
