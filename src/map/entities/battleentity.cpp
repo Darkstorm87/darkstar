@@ -876,6 +876,10 @@ void CBattleEntity::addEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 {
                     m_modStat[Mod::SUB_DMG_RANK] += modAmount;
                 }
+                else if (modList->at(i).getModID() == Mod::MAIN_DMG_RATING)
+                {
+                    m_modStat[Mod::SUB_DMG_RATING] += modAmount;
+                }
                 else
                 {
                     m_modStat[modList->at(i).getModID()] += modAmount;
@@ -961,6 +965,10 @@ void CBattleEntity::delEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 {
                     m_modStat[Mod::SUB_DMG_RANK] -= modList->at(i).getModAmount();
                 }
+                else if (modList->at(i).getModID() == Mod::MAIN_DMG_RATING)
+                {
+                    m_modStat[Mod::SUB_DMG_RATING] -= modList->at(i).getModAmount();
+                }
                 else
                 {
                     m_modStat[modList->at(i).getModID()] -= modList->at(i).getModAmount();
@@ -1015,6 +1023,10 @@ void CBattleEntity::delEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 if (modList->at(i).getModID() == Mod::MAIN_DMG_RANK)
                 {
                     m_modStat[Mod::SUB_DMG_RANK] -= modAmount;
+                }
+                else if (modList->at(i).getModID() == Mod::MAIN_DMG_RATING)
+                {
+                    m_modStat[Mod::SUB_DMG_RATING] -= modAmount;
                 }
                 else
                 {
