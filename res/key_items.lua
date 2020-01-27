@@ -724,7 +724,7 @@ return {
     [734] = {id=734,en="Cosmo-Cleanse",ja="コズミッククリーナー",category="Temporary Key Items"},
     [735] = {id=735,en="old woman's portrait",ja="おばあさんの肖像画",category="Temporary Key Items"},
     [736] = {id=736,en="glimmering mica",ja="霞のきらら",category="Temporary Key Items"},
-    [737] = {id=737,en="mist***REMOVED***",ja="霧の香草",category="Temporary Key Items"},
+    [737] = {id=737,en="mistroot",ja="霧の香草",category="Temporary Key Items"},
     [738] = {id=738,en="lunascent log",ja="靄の香木",category="Temporary Key Items"},
     [739] = {id=739,en="Dynamis - Valkurm sliver",ja="デュナミス-バルクルムの黒水晶",category="Permanent Key Items"},
     [740] = {id=740,en="Dynamis - Buburimu sliver",ja="デュナミス-ブブリムの黒水晶",category="Permanent Key Items"},

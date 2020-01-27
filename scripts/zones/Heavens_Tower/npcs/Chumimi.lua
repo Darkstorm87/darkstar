@@ -28,7 +28,7 @@ function onTrade(player, npc, trade)
         player:startEvent(271)
     elseif
         player:getQuestStatus(WINDURST, dsp.quest.id.windurst.THE_ROOT_OF_THE_PROBLEM) == QUEST_ACCEPTED and
-        player:getCharVar("***REMOVED***Problem") == 1 and
+        player:getCharVar("rootProblem") == 1 and
         trade:hasItemQty(829, 1) and
         trade:getItemCount() == 1
     then
@@ -39,7 +39,7 @@ end
 function onTrigger(player, npc)
     local theThreeMagi = player:getQuestStatus(WINDURST, dsp.quest.id.windurst.THE_THREE_MAGI)
     local recollections = player:getQuestStatus(WINDURST, dsp.quest.id.windurst.RECOLLECTIONS)
-    local ***REMOVED***Problem = player:getQuestStatus(WINDURST, dsp.quest.id.windurst.THE_ROOT_OF_THE_PROBLEM)
+    local rootProblem = player:getQuestStatus(WINDURST, dsp.quest.id.windurst.THE_ROOT_OF_THE_PROBLEM)
     local mLvl = player:getMainLvl()
     local mJob = player:getMainJob()
 
@@ -65,20 +65,20 @@ function onTrigger(player, npc)
         player:startEvent(275) -- Finish Quest "Recollections"
     elseif
         recollections == QUEST_COMPLETED and
-        ***REMOVED***Problem == QUEST_AVAILABLE and
+        rootProblem == QUEST_AVAILABLE and
         mJob == dsp.job.BLM and
         mLvl >= 50 and
         not player:needToZone()
     then
         player:startEvent(276, 0, 829) -- Start Quest "The Root of The problem"
-    elseif ***REMOVED***Problem == QUEST_ACCEPTED then
-        local ***REMOVED***ProblemCS = player:getCharVar("***REMOVED***Problem")
+    elseif rootProblem == QUEST_ACCEPTED then
+        local rootProblemCS = player:getCharVar("rootProblem")
 
-        if ***REMOVED***ProblemCS == 1 then
+        if rootProblemCS == 1 then
             player:startEvent(277, 0, 829)
-        elseif ***REMOVED***ProblemCS == 2 then
+        elseif rootProblemCS == 2 then
             player:startEvent(279)
-        elseif ***REMOVED***ProblemCS == 3 then
+        elseif rootProblemCS == 3 then
             player:startEvent(281)
         end
     else
@@ -134,7 +134,7 @@ function onEventFinish(player, csid, option)
         end
     elseif csid == 276 then
         player:addQuest(WINDURST, dsp.quest.id.windurst.THE_ROOT_OF_THE_PROBLEM)
-        player:setCharVar("***REMOVED***Problem", 1)
+        player:setCharVar("rootProblem", 1)
     elseif csid == 279 then
         player:addKeyItem(dsp.ki.SLUICE_SURVEYOR_MK_I)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, dsp.ki.SLUICE_SURVEYOR_MK_I)

@@ -215,7 +215,7 @@ static void display_title(void)
 
 /************************************************************************
 *																		*
-*  Warning if logged in as superuser (***REMOVED***)								*
+*  Warning if logged in as superuser (root)								*
 *																		*
 ************************************************************************/
 
@@ -224,8 +224,8 @@ void usercheck(void)
 #ifndef _WIN32
     if ((getuid() == 0) && (getgid() == 0)) 
 	{
-		ShowWarning ("You are running DSP as the ***REMOVED*** superuser.\n");
-		ShowWarning ("It is unnecessary and unsafe to run with ***REMOVED*** privileges.\n");
+		ShowWarning ("You are running DSP as the root superuser.\n");
+		ShowWarning ("It is unnecessary and unsafe to run with root privileges.\n");
 		sleep(3);
     }
 #endif

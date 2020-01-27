@@ -588,9 +588,9 @@ template<class T> inline T rcSqr(T a) { return a*a; }
 ///  @return The value, clamped to the specified range.
 template<class T> inline T rcClamp(T v, T mn, T mx) { return v < mn ? mn : (v > mx ? mx : v); }
 
-/// Returns the square ***REMOVED*** of the value.
+/// Returns the square root of the value.
 ///  @param[in]		x	The value.
-///  @return The square ***REMOVED*** of the vlaue.
+///  @return The square root of the vlaue.
 float rcSqrt(float x);
 
 /// @}

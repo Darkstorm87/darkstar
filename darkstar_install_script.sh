@@ -1,5 +1,5 @@
 #!/bin/bash
-# Make sure its running with ***REMOVED***
+# Make sure its running with root
 if [[ $EUID != 0 ]]; then
   printf "Root permissions required, starting with sudo\n\n"
   chmod +x "$0"
@@ -62,9 +62,9 @@ if [ "${RUN_CHOICE}" == "1" ]; then
     ./configure || exit
   fi
   make -j4 || exit
-  chown -R "${DARKSTAR_USER}":***REMOVED*** /opt/darkstar/
-  printf "\nEnter the MySQL ***REMOVED*** password\nDefault: No password\n"
-  mysql -h "localhost" -u "***REMOVED***" -p -e "CREATE USER '${DARKSTAR_USER}'@'localhost' IDENTIFIED BY '${DARKSTAR_PASSWORD}';CREATE DATABASE dspdb;USE dspdb;GRANT ALL PRIVILEGES ON dspdb.* TO '${DARKSTAR_USER}'@'localhost';"
+  chown -R "${DARKSTAR_USER}":root /opt/darkstar/
+  printf "\nEnter the MySQL root password\nDefault: No password\n"
+  mysql -h "localhost" -u "root" -p -e "CREATE USER '${DARKSTAR_USER}'@'localhost' IDENTIFIED BY '${DARKSTAR_PASSWORD}';CREATE DATABASE dspdb;USE dspdb;GRANT ALL PRIVILEGES ON dspdb.* TO '${DARKSTAR_USER}'@'localhost';"
   printf "\n"
   cd ${INSTALL_DIR}/sql || exit
   for SQL_FILE in *.sql
@@ -148,8 +148,8 @@ if [ "${RUN_CHOICE}" == "1" ] || [ "${RUN_CHOICE}" == "2" ]; then
     ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
     echo
     read -r -p "Enter the IP address you wish to use with this Server: " DARKSTAR_IP
-    printf "\nEnter the MySQL ***REMOVED*** password\nDefault: No password\n"
-    mysql -h "localhost" -u "***REMOVED***" -p -e "USE dspdb;UPDATE zone_settings SET zoneip = '${DARKSTAR_IP}';"
+    printf "\nEnter the MySQL root password\nDefault: No password\n"
+    mysql -h "localhost" -u "root" -p -e "USE dspdb;UPDATE zone_settings SET zoneip = '${DARKSTAR_IP}';"
   fi
   clear
   printf "\nYou now need to update the SQL username and password in 3 configuration files.\n"

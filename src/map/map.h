@@ -65,7 +65,7 @@ struct map_config_t
 
     std::string mysql_host;         // mysql addr     -> localhost:3306
     uint16 mysql_port;              // mysql port     -> 3306
-    std::string mysql_login;        // mysql login    -> default ***REMOVED***
+    std::string mysql_login;        // mysql login    -> default root
     std::string mysql_password;     // mysql pass     -> default nullptr
     std::string mysql_database;     // mysql database -> default dspdb
 

@@ -9,8 +9,8 @@ function onTrade(player,npc,trade)
 end
 
 function onTrigger(player,npc)
-    if player:getCharVar("***REMOVED***Problem") == 2 then
-        if player:getCharVar("***REMOVED***ProblemQ1") <= 1 then
+    if player:getCharVar("rootProblem") == 2 then
+        if player:getCharVar("rootProblemQ1") <= 1 then
             player:startEvent(42)
         else
             player:startEvent(42)
@@ -23,6 +23,6 @@ end
 
 function onEventFinish(player,csid,option)
     if csid == 42 then
-        player:setCharVar("***REMOVED***ProblemQ1", 2)
+        player:setCharVar("rootProblemQ1", 2)
     end
 end

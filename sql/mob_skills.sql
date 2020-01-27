@@ -1613,7 +1613,7 @@ INSERT INTO `mob_skills` VALUES (1789,1227,'magma_hoplon',0,7.0,2000,1500,1,0,0,
 INSERT INTO `mob_skills` VALUES (1790,1228,'gates_of_hades',1,20.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1791,1217,'incinerate',4,12.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1792,1536,'nullsong',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (1793,62,'vampiric_***REMOVED***',0,7.0,2000,1500,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (1793,62,'vampiric_root',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1794,1214,'perdition',0,7.0,2000,1500,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (1795,1215,'malediction',1,10.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (1796,1540,'piercing_shriek',0,7.0,2000,1500,4,0,0,0,0,0,0);
@@ -2878,9 +2878,9 @@ INSERT INTO `mob_skills` VALUES (3033,2102,'vaskania',1,18.0,2000,1000,4,0,0,0,0
 -- INSERT INTO `mob_skills` VALUES (3054,2798,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3055,2799,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
 -- INSERT INTO `mob_skills` VALUES (3056,2800,'.',0,7.0,2000,1500,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3057,2205,'***REMOVED***_of_the_problem',1,18.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3057,2205,'root_of_the_problem',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3058,2206,'potted_plant',1,18.0,2000,1000,4,0,0,0,0,0,0);
-INSERT INTO `mob_skills` VALUES (3059,2207,'up***REMOVED***',1,18.0,2000,1000,4,0,0,0,0,0,0);
+INSERT INTO `mob_skills` VALUES (3059,2207,'uproot',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3060,2208,'canopierce',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3061,2209,'firefly_fandango',1,18.0,2000,1000,4,0,0,0,0,0,0);
 INSERT INTO `mob_skills` VALUES (3062,2210,'tiiimbeeer',1,18.0,2000,1000,4,0,0,0,0,0,0);

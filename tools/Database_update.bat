@@ -32,7 +32,7 @@ REM may need to change the path to mysql
 
 set mysql="C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe"
 set dbhost=localhost
-set dbuser=***REMOVED***
+set dbuser=root
 
 :dbpassset
 

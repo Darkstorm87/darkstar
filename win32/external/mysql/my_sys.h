@@ -109,7 +109,7 @@ extern int NEAR my_errno;		/* Last error in mysys */
 #define MIN_COMPRESS_LENGTH		50	/* Don't compress small bl. */
 #define KEYCACHE_BLOCK_SIZE		1024
 
-	/* ***REMOVED***_alloc flags */
+	/* root_alloc flags */
 #define MY_KEEP_PREALLOC	1
 
 	/* defines when allocating data */
@@ -365,7 +365,7 @@ typedef struct st_changeable_var {
 } CHANGEABLE_VAR;
 
 
-/* structs for alloc_***REMOVED*** */
+/* structs for alloc_root */
 
 #ifndef ST_USED_MEM_DEFINED
 #define ST_USED_MEM_DEFINED
@@ -375,7 +375,7 @@ typedef struct st_used_mem {   /* struct for once_alloc */
   size_t size;                 /* Size of block */
 } USED_MEM;
 
-typedef struct st_mem_***REMOVED*** {
+typedef struct st_mem_root {
   USED_MEM *free;
   USED_MEM *used;
   USED_MEM *pre_alloc;
@@ -604,12 +604,12 @@ extern void my_free_lock(byte *ptr,myf flags);
 #define my_malloc_lock(A,B) my_malloc((A),(B))
 #define my_free_lock(A,B) my_free((A),(B))
 #endif
-#define alloc_***REMOVED***_inited(A) ((A)->min_malloc != 0)
-void init_alloc_***REMOVED***(MEM_ROOT *mem_***REMOVED***, size_t block_size, size_t pre_alloc_size);
-gptr alloc_***REMOVED***(MEM_ROOT *mem_***REMOVED***, size_t Size);
-void free_***REMOVED***(MEM_ROOT ****REMOVED***, myf MyFLAGS);
-char *strdup_***REMOVED***(MEM_ROOT ****REMOVED***,const char *str);
-char *memdup_***REMOVED***(MEM_ROOT ****REMOVED***,const char *str, size_t len);
+#define alloc_root_inited(A) ((A)->min_malloc != 0)
+void init_alloc_root(MEM_ROOT *mem_root, size_t block_size, size_t pre_alloc_size);
+gptr alloc_root(MEM_ROOT *mem_root, size_t Size);
+void free_root(MEM_ROOT *root, myf MyFLAGS);
+char *strdup_root(MEM_ROOT *root,const char *str);
+char *memdup_root(MEM_ROOT *root,const char *str, size_t len);
 void load_defaults(const char *conf_file, const char **groups,
 		   int *argc, char ***argv);
 void free_defaults(char **argv);

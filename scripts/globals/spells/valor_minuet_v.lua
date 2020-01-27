@@ -14,15 +14,11 @@ function onSpellCast(caster,target,spell)
     local sLvl = caster:getSkillLevel(dsp.skill.SINGING) -- Gets skill level of Singing
     local iLvl = caster:getWeaponSkillLevel(dsp.slot.RANGED)
 
-    local power = 32 + math.floor((sLvl+iLvl) / 5.5)
-
-    if (power >= 168) then
-        power = 168
-    end
+    local power = math.min(124, 32 + math.floor((sLvl+iLvl) * 0.14))
 
     local iBoost = caster:getMod(dsp.mod.MINUET_EFFECT) + caster:getMod(dsp.mod.ALL_SONGS_EFFECT)
     if (iBoost > 0) then
-        power = power + iBoost*12
+        power = power * (1+iBoost*0.1)
     end
 	
 	local lvl = 0
@@ -37,7 +33,7 @@ function onSpellCast(caster,target,spell)
 		local iBonus = math.max(iLvl - caster:getMaxSkillLevel(lvl,dsp.job.BRD,caster:getWeaponSkillType(dsp.slot.RANGED)), 0)
 		
 		if sBonus+iBonus > 0 then
-			power = power + math.floor((sBonus+iBonus) / 5)
+			power = power + math.floor((sBonus+iBonus) / 2)
 		end
 	end
 

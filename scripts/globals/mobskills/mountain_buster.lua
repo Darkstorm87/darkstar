@@ -1,6 +1,6 @@
 ---------------------------------------------------
 -- Mountain Buster
--- Titan delivers an earth-shattering attack that ***REMOVED***s its target in place.
+-- Titan delivers an earth-shattering attack that roots its target in place.
 ---------------------------------------------------
 
 require("scripts/globals/settings")

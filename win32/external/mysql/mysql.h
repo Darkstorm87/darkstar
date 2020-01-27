@@ -65,7 +65,7 @@ typedef struct st_used_mem {   /* struct for once_alloc */
   size_t size;                 /* Size of block */
 } USED_MEM;
 
-typedef struct st_mem_***REMOVED*** {
+typedef struct st_mem_root {
   USED_MEM *free;
   USED_MEM *used;
   USED_MEM *pre_alloc;

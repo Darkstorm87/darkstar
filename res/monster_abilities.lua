@@ -2570,7 +2570,7 @@ return {
     [3053] = {id=3053,en="Dynastic Gravitas",ja="ダイナスティーグラビタス"},
     [3057] = {id=3057,en="Root of the Problem",ja="ルートプロブレム"},
     [3058] = {id=3058,en="Potted Plant",ja="ポッテドプラント"},
-    [3059] = {id=3059,en="Up***REMOVED***",ja="アップルート"},
+    [3059] = {id=3059,en="Uproot",ja="アップルート"},
     [3060] = {id=3060,en="Canopierce",ja="カノピアス"},
     [3061] = {id=3061,en="Firefly Fandango",ja="ファイアフライファンダンゴ"},
     [3062] = {id=3062,en="Tiiimbeeer",ja="ティーンバー"},
