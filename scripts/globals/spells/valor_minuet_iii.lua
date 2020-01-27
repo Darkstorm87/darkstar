@@ -14,31 +14,27 @@ function onSpellCast(caster,target,spell)
     local sLvl = caster:getSkillLevel(dsp.skill.SINGING) -- Gets skill level of Singing
     local iLvl = caster:getWeaponSkillLevel(dsp.slot.RANGED)
 
-    local power = 24 + math.floor((sLvl+iLvl) / 5.5)
+    local power = math.min(96, 24 + math.floor((sLvl+iLvl) * 0.17))
 
-    if (power >= 105) then
-        power = 105
+    local lvl = 0
+    if caster:getMainJob() == dsp.job.BRD then
+        lvl = caster:getMainLvl()
+    else
+        lvl = caster:getSubLvl()
     end
-	
-	local lvl = 0
-	if caster:getMainJob() == dsp.job.BRD then
-		lvl = caster:getMainLvl()
-	else
-		lvl = caster:getSubLvl()
-	end
-	
-	if caster:isPC() then
-		local sBonus = math.max(sLvl - caster:getMaxSkillLevel(lvl,dsp.job.BRD,dsp.skill.SINGING), 0)
-		local iBonus = math.max(iLvl - caster:getMaxSkillLevel(lvl,dsp.job.BRD,caster:getWeaponSkillType(dsp.slot.RANGED)), 0)
-		
-		if sBonus+iBonus > 0 then
-			power = power + math.floor((sBonus+iBonus) / 5)
-		end
-	end
+    
+    if caster:isPC() then
+        local sBonus = math.max(sLvl - caster:getMaxSkillLevel(lvl,dsp.job.BRD,dsp.skill.SINGING), 0)
+        local iBonus = math.max(iLvl - caster:getMaxSkillLevel(lvl,dsp.job.BRD,caster:getWeaponSkillType(dsp.slot.RANGED)), 0)
+        
+        if sBonus+iBonus > 0 then
+            power = power + math.floor((sBonus+iBonus) / 2)
+        end
+    end
 
     local iBoost = caster:getMod(dsp.mod.MINUET_EFFECT) + caster:getMod(dsp.mod.ALL_SONGS_EFFECT)
     if (iBoost > 0) then
-        power = power + iBoost*9
+        power = power* (1+iBoost*0.1)
     end
 
     power =  power + caster:getMerit(dsp.merit.MINUET_EFFECT)
