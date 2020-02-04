@@ -116,8 +116,8 @@ public:
 	inline rcScopedDelete(T* p) : ptr(p) {}
 	inline ~rcScopedDelete() { rcFree(ptr); }
 
-	/// The ***REMOVED*** array pointer.
-	///  @return The ***REMOVED*** array pointer.
+	/// The root array pointer.
+	///  @return The root array pointer.
 	inline operator T*() { return ptr; }
 };
 

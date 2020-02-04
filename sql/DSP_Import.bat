@@ -29,10 +29,10 @@ REM ============================================================================
 REM =============================================================================
 
 ECHO Creating Database dspdb
-"C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqladmin" -h localhost -u ***REMOVED*** -p***REMOVED*** DROP dspdb
+"C:\Program Files\MySQL\MySQL Server 5.7\bin\mysqladmin" -h localhost -u ******** -p******** DROP dspdb
 
 ECHO Creating Database dspdb
-"c:\program files\mysql\mysql server 5.7\bin\mysqladmin" -h localhost -u ***REMOVED*** -p***REMOVED*** CREATE dspdb
+"c:\program files\mysql\mysql server 5.7\bin\mysqladmin" -h localhost -u ******** -p******** CREATE dspdb
 
 ECHO Loading dspdb tables into the database
 REM B:
@@ -64,6 +64,6 @@ REM del linkshells.sql
 REM del FFIvalice_ZoneIPs.sql
 REM del char_merits.sql
 
-FOR %%X IN (*.sql) DO ECHO Importing %%X & "c:\program files\mysql\mysql server 5.7\bin\mysql" dspdb -h localhost -u ***REMOVED*** -p***REMOVED*** < %%X
+FOR %%X IN (*.sql) DO ECHO Importing %%X & "c:\program files\mysql\mysql server 5.7\bin\mysql" dspdb -h localhost -u ******** -p******** < %%X
 
 ECHO Finished!

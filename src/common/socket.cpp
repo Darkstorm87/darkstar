@@ -570,13 +570,13 @@ static int connect_check_clear(time_point tick,CTaskMgr::CTask* PTask)
 	int i;
 	int clear = 0;
 	int list  = 0;
-	ConnectHistory ***REMOVED***;
+	ConnectHistory root;
 	ConnectHistory* prev_hist;
 	ConnectHistory* hist;
 
 	for( i=0; i < 0x10000 ; ++i ){
-		prev_hist = &***REMOVED***;
-		***REMOVED***.next = hist = connect_history[i];
+		prev_hist = &root;
+		root.next = hist = connect_history[i];
 		while( hist ){
 			if( (!hist->ddos && (tick - hist->tick) > ddos_interval*3) ||
 					(hist->ddos && (tick - hist->tick) > ddos_autoreset) )
@@ -591,7 +591,7 @@ static int connect_check_clear(time_point tick,CTaskMgr::CTask* PTask)
 			}
 			list++;
 		}
-		connect_history[i] = ***REMOVED***.next;
+		connect_history[i] = root.next;
 	}
 	if( access_debug ){
 		ShowInfo("connect_check_clear: Cleared %d of %d from IP list.\n", clear, list);

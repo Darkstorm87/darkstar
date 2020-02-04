@@ -127,7 +127,7 @@ local loot =
             {itemid =   858, droprate = 1000}, -- wolf_hide
         },
         {
-            {itemid =   940, droprate = 1000}, -- revival_tree_***REMOVED***
+            {itemid =   940, droprate = 1000}, -- revival_tree_root
         },
         {
             {itemid =     0, droprate =  100}, -- nothing

@@ -31,7 +31,7 @@ function onTrigger(player,npc)
     elseif ASquiresTest == (QUEST_ACCEPTED) then
         player:startEvent(619) -- i found the examiner but said i had to use sword
     else
-        player:startEvent(620) -- says i needs a revival tree ***REMOVED***
+        player:startEvent(620) -- says i needs a revival tree root
     end
 end;
 

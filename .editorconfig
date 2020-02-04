@@ -1,5 +1,5 @@
 # top-most EditorConfig file
-***REMOVED*** = true
+root = true
 
 # Visual Studio add on:  https://visualstudiogallery.msdn.microsoft.com/c8bccfe2-650c-4b42-bc5c-845e21f96328
 # Notepad++ plugin:  https://sourceforge.net/projects/editorconfig/files/EditorConfig-Notepad%2B%2B-Plugin/

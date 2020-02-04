@@ -647,7 +647,7 @@ return {
     [651] = {id=651,en="Satiator Depriver",ja="セイシエーターデプライバー"},
     [652] = {id=652,en="Iratham Capturer",ja="イラタムキャプチャラー"},
     [653] = {id=653,en="Lacovie Capsizer",ja="ラコビキャプサイザー"},
-    [654] = {id=654,en="Chloris Up***REMOVED***er",ja="クロリスアップルーター"},
+    [654] = {id=654,en="Chloris Uprooter",ja="クロリスアップルーター"},
     [655] = {id=655,en="Myrmecoleon Tamer",ja="メルメコレオンテイマー"},
     [656] = {id=656,en="Glavoid Stampeder",ja="グラヴォイドスタンピーダー"},
     [657] = {id=657,en="Usurper Deposer",ja="ユーサーパーデポーザー"},

@@ -1454,7 +1454,7 @@ INSERT INTO `item_usable` VALUES (5647,'lik_kabob',1,1,28,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5648,'grilled_lik',1,1,28,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5649,'handful_of_roasted_almonds',1,1,28,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5650,'pair_of_nopales',1,1,24,0,0,0,0,0);
-INSERT INTO `item_usable` VALUES (5651,'burdock_***REMOVED***',1,1,24,0,0,0,0,0);
+INSERT INTO `item_usable` VALUES (5651,'burdock_root',1,1,24,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5652,'plate_of_anchovies',1,1,25,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5653,'cherry_muffin',1,1,24,0,0,0,0,0);
 INSERT INTO `item_usable` VALUES (5654,'cherry_muffin_+1',1,1,24,0,0,0,0,0);
@@ -1995,7 +1995,7 @@ INSERT INTO `item_usable` VALUES (15300,'nebimonite_belt',1,3,0,0,50,30,86400,0)
 INSERT INTO `item_usable` VALUES (15312,'mist_pumps',1,1,0,0,10,30,600,0);
 INSERT INTO `item_usable` VALUES (15320,'powder_boots',1,3,24,0,20,30,600,0);
 INSERT INTO `item_usable` VALUES (15326,'gargoyle_boots',1,7,24,0,20,30,60,0);
-INSERT INTO `item_usable` VALUES (15328,'***REMOVED***_sabots',1,2,24,0,50,30,1800,0);
+INSERT INTO `item_usable` VALUES (15328,'root_sabots',1,2,24,0,50,30,1800,0);
 INSERT INTO `item_usable` VALUES (15372,'magic_slacks',1,10,0,0,50,30,36,0);
 INSERT INTO `item_usable` VALUES (15444,'carpenters_belt',1,2,0,0,25,30,180,0);
 INSERT INTO `item_usable` VALUES (15445,'blacksmiths_belt',1,2,0,0,25,30,180,0);

@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Bhaflau Thickets
---  NPC: ??? (Spawn Livid***REMOVED*** Amooshah(ZNM T2))
+--  NPC: ??? (Spawn Lividroot Amooshah(ZNM T2))
 -- !pos 334 -10 184 52
 -----------------------------------
 local ID = require("scripts/zones/Bhaflau_Thickets/IDs")

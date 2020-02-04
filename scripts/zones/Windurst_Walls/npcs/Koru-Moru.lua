@@ -45,7 +45,7 @@ function onTrade(player,npc,trade)
         if (player:getQuestStatus(WINDURST,dsp.quest.id.windurst.THE_ROOT_OF_THE_PROBLEM) == QUEST_ACCEPTED) then
             player:startEvent(349);
             player:tradeComplete();
-            player:setCharVar("***REMOVED***Problem",2);
+            player:setCharVar("rootProblem",2);
         end
     elseif (trade:hasItemQty(17299,4) and count == 4 and trade:getGil() == 0) then -- trade:getItemCount() is apparently checking total of all 8 slots combined. Could have sworn that wasn't how it worked before.
         if (player:getQuestStatus(WINDURST,dsp.quest.id.windurst.CLASS_REUNION) == QUEST_ACCEPTED and player:getCharVar("ClassReunionProgress") == 2) then
@@ -58,7 +58,7 @@ function onTrigger(player,npc)
     local qStarStruck = player:getQuestStatus(WINDURST,dsp.quest.id.windurst.STAR_STRUCK);
     local blastFromPast = player:getQuestStatus(WINDURST,dsp.quest.id.windurst.BLAST_FROM_THE_PAST);
     local blastProg = player:getCharVar("BlastFromThePast_Prog");
-    local ***REMOVED***Problem = player:getQuestStatus(WINDURST,dsp.quest.id.windurst.THE_ROOT_OF_THE_PROBLEM);
+    local rootProblem = player:getQuestStatus(WINDURST,dsp.quest.id.windurst.THE_ROOT_OF_THE_PROBLEM);
     local ThePuppetMaster = player:getQuestStatus(WINDURST,dsp.quest.id.windurst.THE_PUPPET_MASTER);
     local ThePuppetMasterProgress = player:getCharVar("ThePuppetMasterProgress");
     local ClassReunion = player:getQuestStatus(WINDURST,dsp.quest.id.windurst.CLASS_REUNION);
@@ -120,7 +120,7 @@ function onTrigger(player,npc)
     elseif (ThePuppetMaster == QUEST_COMPLETED and ClassReunion ~= 2) then
         player:startEvent(405); -- new cs after completed AF1
     ----------------------------------------------------------
-    elseif (***REMOVED***Problem == QUEST_ACCEPTED and player:getCharVar("***REMOVED***Problem") == 1) then
+    elseif (rootProblem == QUEST_ACCEPTED and player:getCharVar("rootProblem") == 1) then
         player:startEvent(348,0,829);
     else
         if (qStarStruck == QUEST_COMPLETED) then
