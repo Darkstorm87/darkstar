@@ -27,13 +27,13 @@
 #include "../common/cbasetypes.h"
 #include <vector>
 
-#define CONTAINER_SIZE			17	
-#define TRADE_CONTAINER_SIZE	 8
+#define CONTAINER_SIZE          17
+#define TRADE_CONTAINER_SIZE     8
 
 /************************************************************************
-*																		*
-*																		*
-*																		*
+*                                                                       *
+*                                                                       *
+*                                                                       *
 ************************************************************************/
 
 enum CRAFT_TYPE
@@ -48,9 +48,9 @@ class CTradeContainer
 {
 public:
 
-	CTradeContainer();
+    CTradeContainer();
 
-	uint8	getType();
+    uint8   getType();
     uint8   getCraftType();
 	uint8	getItemsCount();
 	uint8	getSlotCount();									// количество занятых ячеек
@@ -63,7 +63,7 @@ public:
 	uint32	getItemQuantity(uint16 itemID);					// количество предметов одного типа
     uint8   getSize();
 
-	void	setType(uint8 type);
+    void    setType(uint8 type);
     void    setCraftType(uint8 craftType);
 	void	setItemsCount(uint8 count);
 	void	setItem(uint8 slotID, CItem* item);
@@ -74,13 +74,13 @@ public:
 	void	setItem(uint8 slotID, uint16 itemID, uint8 invSlotID, uint32 quantity, CItem* item = nullptr);
     void    setSize(uint8 size);
 
-	void	Clean();										// отчищаем контейнер
+    void    Clean();                                        // отчищаем контейнер
 
 private:
 
-	uint8	m_type;											// тип контейнера (тип кристалла, нация магазина и т.д.)
+    uint8   m_type;                                         // тип контейнера (тип кристалла, нация магазина и т.д.)
     uint8   m_craftType;                                    // The craft synthesis type (CRAFT_TYPE)
-	uint8	m_ItemsCount;									// количество предметов в контейнере (устанавливаем самостоятельно)
+    uint8   m_ItemsCount;                                   // количество предметов в контейнере (устанавливаем самостоятельно)
 
 	std::vector<CItem*>     m_PItem;
     std::vector<uint8>	    m_slotID;
