@@ -2226,8 +2226,13 @@ namespace battleutils
     {
         int32 hitrate = 75;
 
-        if (PAttacker->objtype == TYPE_PC && ((PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK) && (abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23 || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE))) ||
-            (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_ASSASSIN) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK) && battleutils::getAvailableTrickAttackChar(PAttacker, PDefender))))
+        if (PAttacker->objtype == TYPE_PC
+            && ((PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK)
+                && (abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23
+                    || (PDefender->loc.p.rotation < 64 && PAttacker->loc.p.rotation > 192 && abs(PAttacker->loc.p.rotation - 256 - PDefender->loc.p.rotation) < 23)
+                    || (PDefender->loc.p.rotation > 192 && PAttacker->loc.p.rotation < 64 && abs(PDefender->loc.p.rotation - 256 - PAttacker->loc.p.rotation) < 23)
+                    || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE)))
+                || (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_ASSASSIN) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK) && battleutils::getAvailableTrickAttackChar(PAttacker, PDefender))))
         {
             hitrate = 100; //attack with SA active or TA/Assassin cannot miss
         }
@@ -2301,7 +2306,10 @@ namespace battleutils
         else if (PAttacker->objtype == TYPE_PC && (!ignoreSneakTrickAttack) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK))
         {
 
-            if (abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23 || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE))
+            if (abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23
+                || (PDefender->loc.p.rotation < 64 && PAttacker->loc.p.rotation > 192 && abs(PAttacker->loc.p.rotation - 256 - PDefender->loc.p.rotation) < 23)
+                || (PDefender->loc.p.rotation > 192 && PAttacker->loc.p.rotation < 64 && abs(PDefender->loc.p.rotation - 256 - PAttacker->loc.p.rotation) < 23)
+                || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE))
             {
                 crithitrate = 100;
             }
