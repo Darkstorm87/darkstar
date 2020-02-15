@@ -2225,14 +2225,13 @@ namespace battleutils
     uint8 GetHitRateEx(CBattleEntity* PAttacker, CBattleEntity* PDefender, uint8 attackNumber, int8 offsetAccuracy) //subWeaponAttack is for calculating acc of dual wielded sub weapon
     {
         int32 hitrate = 75;
+        uint8 playerRotation = PAttacker->loc.p.rotation;
+        uint8 mobRotation = PDefender->loc.p.rotation;
 
         if (PAttacker->objtype == TYPE_PC
             && ((PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK)
-                && (abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23
-                    || (PDefender->loc.p.rotation < 64 && PAttacker->loc.p.rotation > 192 && abs(PAttacker->loc.p.rotation - 256 - PDefender->loc.p.rotation) < 23)
-                    || (PDefender->loc.p.rotation > 192 && PAttacker->loc.p.rotation < 64 && abs(PDefender->loc.p.rotation - 256 - PAttacker->loc.p.rotation) < 23)
-                    || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE)))
-                || (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_ASSASSIN) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK) && battleutils::getAvailableTrickAttackChar(PAttacker, PDefender))))
+                    && (abs(mobRotation - playerRotation) < 23 || (abs(mobRotation - playerRotation) >= 232 && 256 - abs(mobRotation - playerRotation) < 23) || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE)))
+            || (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_ASSASSIN) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK) && battleutils::getAvailableTrickAttackChar(PAttacker, PDefender))))
         {
             hitrate = 100; //attack with SA active or TA/Assassin cannot miss
         }
@@ -2303,22 +2302,20 @@ namespace battleutils
             PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_MIGHTY_STRIKES)) {
             return 100;
         }
-        else if (PAttacker->objtype == TYPE_PC && (!ignoreSneakTrickAttack) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK))
+        else if (PAttacker->objtype == TYPE_PC && (!ignoreSneakTrickAttack))
         {
+            uint8 playerRotation = PAttacker->loc.p.rotation;
+            uint8 mobRotation = PDefender->loc.p.rotation;
 
-            if (abs(PDefender->loc.p.rotation - PAttacker->loc.p.rotation) < 23
-                || (PDefender->loc.p.rotation < 64 && PAttacker->loc.p.rotation > 192 && abs(PAttacker->loc.p.rotation - 256 - PDefender->loc.p.rotation) < 23)
-                || (PDefender->loc.p.rotation > 192 && PAttacker->loc.p.rotation < 64 && abs(PDefender->loc.p.rotation - 256 - PAttacker->loc.p.rotation) < 23)
-                || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE))
+            if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK)
+                && (abs(mobRotation - playerRotation) < 23 || (abs(mobRotation - playerRotation) >= 232 && 256 - abs(mobRotation - playerRotation) < 23) || PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE)))
             {
                 crithitrate = 100;
             }
-        }
-        else if (PAttacker->objtype == TYPE_PC && PAttacker->GetMJob() == JOB_THF && charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_ASSASSIN) && (!ignoreSneakTrickAttack) &&
-            PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK))
-        {
-            CBattleEntity* taChar = battleutils::getAvailableTrickAttackChar(PAttacker, PDefender);
-            if (taChar != nullptr) crithitrate = 100;
+            else if (charutils::hasTrait((CCharEntity*)PAttacker, TRAIT_ASSASSIN) && PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_TRICK_ATTACK) && battleutils::getAvailableTrickAttackChar(PAttacker, PDefender))
+            {
+                crithitrate = 100;
+            }
         }
         else
         {
