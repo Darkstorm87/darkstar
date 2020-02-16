@@ -148,12 +148,12 @@ function calculateRawWSDmg(attacker, target, wsID, tp, action, wsParams, calcPar
         -- Add DEX/AGI bonus to first hit if THF main and valid Sneak/Trick Attack
         if calcParams.sneakApplicable then 
             finaldmg = finaldmg +
-                        (attacker:getStat(dsp.mod.DEX) * (1 + attacker:getMod(dsp.mod.SNEAK_ATK_DEX)/100) * calcParams.pdif) *
+                        (attacker:getStat(dsp.mod.DEX) * (1 + attacker:getMod(dsp.mod.SNEAK_ATK_DEX)/100) * 1.25 * calcParams.pdif) *
                         ((100+(attacker:getMod(dsp.mod.AUGMENTS_SA)))/100)
         end
         if calcParams.trickApplicable then
             finaldmg = finaldmg +
-                        (attacker:getStat(dsp.mod.AGI) * (1 + attacker:getMod(dsp.mod.TRICK_ATK_AGI)/100) * calcParams.pdif) *
+                        (attacker:getStat(dsp.mod.AGI) * (1 + attacker:getMod(dsp.mod.TRICK_ATK_AGI)/100) * 1.25 * calcParams.pdif) *
                         ((100+(attacker:getMod(dsp.mod.AUGMENTS_TA)))/100)
         end
     end

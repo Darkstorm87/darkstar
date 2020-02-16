@@ -460,6 +460,7 @@ void CAttack::ProcessDamage()
         m_isFirstSwing &&
         m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_SNEAK_ATTACK) &&
         ((abs(m_victim->loc.p.rotation - m_attacker->loc.p.rotation) < 23) ||
+            (abs(m_victim->loc.p.rotation - m_attacker->loc.p.rotation) >= 232 && 256 - abs(m_victim->loc.p.rotation - m_attacker->loc.p.rotation) < 23) ||
             m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_HIDE) ||
             m_victim->StatusEffectContainer->HasStatusEffect(EFFECT_DOUBT)))
     {
