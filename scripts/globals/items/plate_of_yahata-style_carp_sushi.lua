@@ -28,6 +28,11 @@ function onEffectGain(target,effect)
     target:addMod(dsp.mod.FOOD_ACCP, 11)
     target:addMod(dsp.mod.FOOD_ACC_CAP, 56)
     target:addMod(dsp.mod.HPHEAL, 2)
+    
+    target:addPetMod(dsp.mod.DEX, 2)
+    target:addPetMod(dsp.mod.FOOD_ACCP, 11)
+    target:addPetMod(dsp.mod.FOOD_ACC_CAP, 56)
+    target:addPetMod(dsp.mod.HPHEAL, 2)
 end
 
 function onEffectLose(target, effect)
@@ -35,4 +40,9 @@ function onEffectLose(target, effect)
     target:delMod(dsp.mod.FOOD_ACCP, 11)
     target:delMod(dsp.mod.FOOD_ACC_CAP, 56)
     target:delMod(dsp.mod.HPHEAL, 2)
+    
+    target:delPetMod(dsp.mod.DEX, 2)
+    target:delPetMod(dsp.mod.FOOD_ACCP, 11)
+    target:delPetMod(dsp.mod.FOOD_ACC_CAP, 56)
+    target:delPetMod(dsp.mod.HPHEAL, 2)
 end
