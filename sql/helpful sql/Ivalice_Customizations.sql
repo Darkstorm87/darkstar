@@ -1,5 +1,9 @@
 update zone_settings set zoneip = '184.97.163.130';
 
+-- Augments
+UPDATE augments SET multiplier = 100, value = 1 WHERE augmentId = 49;
+UPDATE augments SET multiplier = -100, value = 1 WHERE augmentId = 50;
+
 -- ABILITIES
 UPDATE Abilities SET CE = 100, VE = 10000 WHERE abilityId = 6; -- invincible
 UPDATE Abilities SET recastTime = 90 WHERE abilityId = 16; -- warcry
@@ -169,6 +173,7 @@ SET element = 858993459
 WHERE itemid IN (8193,8224); -- harlequin
 
 INSERT INTO item_mods (itemId, modId, value) VALUES (16827, 431, 1);
+INSERT INTO item_mods (itemid, modid, value) VALUES (16580, 431, 1);
 
 INSERT INTO synth_recipes
 SELECT (select MAX(ID)+1 from synth_recipes) AS ID, Desynth, KeyItem, '61', Bone, Cloth, Cook, '50', Leather, Smith, Wood, Crystal, HQCrystal, '752', Ingredient2, Ingredient3, Ingredient4, Ingredient5, Ingredient6, Ingredient7, Ingredient8, '9040', '9040', '9040', '9040', ResultQty, ResultHQ1Qty, ResultHQ2Qty, ResultHQ3Qty, 'Stabilizer III'
@@ -179,7 +184,7 @@ AND NOT EXISTS (SELECT 1 FROM synth_recipes WHERE Result = 9040);
 UPDATE synth_recipes SET Result = 9037, ResultHQ1 = 9037, ResultHQ2 = 9037, ResultHQ3 = 9037 WHERE ID = 4184;
 UPDATE synth_recipes SET Result = 9039, ResultHQ1 = 9039, ResultHQ2 = 9039, ResultHQ3 = 9039 WHERE ID = 4375;
 
-UPDATE mob_spawn_points SET pos_x = 1 WHERE mobid = 17580341 -- make aroma fly spawnable
+UPDATE mob_spawn_points SET pos_x = 1 WHERE mobid = 17580341; -- make aroma fly spawnable
 
 -- mob_groups
 UPDATE mob_groups SET minLevel = 35, maxLevel = 35 WHERE groupid = 26 AND zoneid = 140;
