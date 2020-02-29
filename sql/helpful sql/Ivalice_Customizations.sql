@@ -3,6 +3,7 @@ update zone_settings set zoneip = '184.97.163.130';
 -- Augments
 UPDATE augments SET multiplier = 100, value = 1 WHERE augmentId = 49;
 UPDATE augments SET multiplier = -100, value = 1 WHERE augmentId = 50;
+UPDATE augments SET multiplier = 100, value = 1 WHERE augmentId = 111;
 
 -- ABILITIES
 UPDATE Abilities SET CE = 100, VE = 10000 WHERE abilityId = 6; -- invincible
