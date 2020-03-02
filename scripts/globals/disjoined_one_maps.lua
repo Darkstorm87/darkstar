@@ -343,7 +343,7 @@ local augmentMap = {
             Aug4 = 31 -- Eva+1
         },
         Ranged = {
-            Aug2 = 69
+            Aug2 = 69 -- RAcc & RAtt+1
         },
         Magic = {
             Aug2 = 133, -- MAB+1
