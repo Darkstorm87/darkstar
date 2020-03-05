@@ -216,7 +216,7 @@ local augmentMap = {
             Aug4 = 195 -- Subtle Blow +1
         },
         Ranged = {
-            Aug1 = 746, -- R Dmg+1
+            Aug1 = {746,Multiplier=2}, -- R Dmg+1
             Aug2 = {
                 ARCHERY = 281,
                 MARKSMANSHIP = 282
