@@ -11,13 +11,13 @@ function onMagicCastingCheck(caster, target, spell)
 end
 
 function onSpellCast(caster, target, spell)
-    local duration = 180
+    local duration = 300
 
     if caster:hasStatusEffect(tpz.effect.COMPOSURE) and caster:getID() == target:getID() then
        duration = duration * 3
     end
 
-    local power = 150 -- 15%
+    local power = 1465 -- 150/1024 ~14.65%
 
     if not target:addStatusEffect(tpz.effect.HASTE, power, 0, duration) then
         spell:setMsg(tpz.msg.basic.MAGIC_NO_EFFECT)

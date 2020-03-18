@@ -184,7 +184,7 @@ uint8 getangle(const position_t& A, const position_t& B)
 
 bool isFaceing(const position_t& A, const position_t& B, uint8 coneAngle)
 {
-    int32 angle = getangle(A, B);
+	int32 angle = getangle(A, B);
     return abs(int8(angle - A.rotation)) < (coneAngle >> 1);
 }
 

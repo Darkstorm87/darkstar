@@ -24,8 +24,8 @@ function onUseAbility(player,target,ability)
         strboost = target:getSubLvl()/7
     end
     if (target:isWeaponTwoHanded()) then
-        target:delStatusEffect(tpz.effect.HASSO)
-        target:delStatusEffect(tpz.effect.SEIGAN)
-        target:addStatusEffect(tpz.effect.HASSO,strboost,0,300)
+        target:delStatusEffect(dsp.effect.HASSO)
+        target:delStatusEffect(dsp.effect.SEIGAN)
+        target:addStatusEffect(dsp.effect.HASSO,strboost,0,3600)
     end
 end

@@ -621,13 +621,9 @@ uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill)
     }
     int skill_level = GetSkill(skill) + bonusSkill;
     uint16 acc = skill_level;
-    if (skill_level > 200)
-    {
-        acc = (uint16)(200 + (skill_level - 200) * 0.9);
-    }
     acc += getMod(Mod::RACC);
     acc += battleutils::GetRangedAccuracyBonuses(this);
-    acc += AGI() / 2;
+    acc += (uint16)(AGI() * 0.75);
     return acc + std::min<int16>(((100 + getMod(Mod::FOOD_RACCP) * acc) / 100), getMod(Mod::FOOD_RACC_CAP));
 }
 
@@ -669,14 +665,14 @@ uint16 CBattleEntity::ACC(uint8 attackNumber, uint8 offsetAccuracy)
             skill = SKILL_HAND_TO_HAND;
         }
         int16 ACC = GetSkill(skill) + iLvlSkill;
-        ACC = (ACC > 200 ? (int16)(((ACC - 200) * 0.9) + 200) : ACC);
+        //ACC = (ACC > 200 ? (int16)(((ACC - 200) * 0.9) + 200) : ACC);
         if (auto weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]); weapon && weapon->isTwoHanded() == true)
         {
             ACC += (int16)(DEX() * 0.75);
         }
         else
         {
-            ACC += (int16)(DEX() * 0.5);
+            ACC += (int16)(DEX() * 0.75);
         }
         ACC = (ACC + m_modStat[Mod::ACC] + offsetAccuracy);
         auto PChar = dynamic_cast<CCharEntity *>(this);
@@ -706,7 +702,7 @@ uint16 CBattleEntity::DEF()
 {
     int32 DEF = 8 + m_modStat[Mod::DEF] + VIT() / 2;
     if (this->StatusEffectContainer->HasStatusEffect(EFFECT_COUNTERSTANCE, 0)) {
-	return DEF / 2;
+	    return (uint16)DEF * 0.85;
     }
 
     return DEF + (DEF * m_modStat[Mod::DEFP] / 100) +
@@ -717,10 +713,10 @@ uint16 CBattleEntity::EVA()
 {
     int16 evasion = GetSkill(SKILL_EVASION);
 
-    if (evasion > 200) { //Evasion skill is 0.9 evasion post-200
-        evasion = (int16)(200 + (evasion - 200) * 0.9);
-    }
-    return std::max(0, (m_modStat[Mod::EVA] + evasion + AGI() / 2));
+    //if (evasion > 200) { //evasion skill is 0.9 evasion post-200
+    //    evasion = (int16)(200 + (evasion - 200) * 0.9);
+    //}
+    return std::max<int16>(0, (m_modStat[Mod::EVA] + evasion + AGI() * 0.75));
 }
 
 /************************************************************************
@@ -819,6 +815,10 @@ void CBattleEntity::addEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 {
                     m_modStat[Mod::SUB_DMG_RANK] += modList->at(i).getModAmount();
                 }
+                else if (modList->at(i).getModID() == Mod::MAIN_DMG_RATING)
+                {
+                    m_modStat[Mod::SUB_DMG_RATING] += modList->at(i).getModAmount();
+                }
                 else
                 {
                     m_modStat[modList->at(i).getModID()] += modList->at(i).getModAmount();
@@ -873,6 +873,10 @@ void CBattleEntity::addEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 if (modList->at(i).getModID() == Mod::MAIN_DMG_RANK)
                 {
                     m_modStat[Mod::SUB_DMG_RANK] += modAmount;
+                }
+                else if (modList->at(i).getModID() == Mod::MAIN_DMG_RATING)
+                {
+                    m_modStat[Mod::SUB_DMG_RATING] += modAmount;
                 }
                 else
                 {
@@ -959,6 +963,10 @@ void CBattleEntity::delEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 {
                     m_modStat[Mod::SUB_DMG_RANK] -= modList->at(i).getModAmount();
                 }
+                else if (modList->at(i).getModID() == Mod::MAIN_DMG_RATING)
+                {
+                    m_modStat[Mod::SUB_DMG_RATING] -= modList->at(i).getModAmount();
+                }
                 else
                 {
                     m_modStat[modList->at(i).getModID()] -= modList->at(i).getModAmount();
@@ -1013,6 +1021,10 @@ void CBattleEntity::delEquipModifiers(std::vector<CModifier> *modList, uint8 ite
                 if (modList->at(i).getModID() == Mod::MAIN_DMG_RANK)
                 {
                     m_modStat[Mod::SUB_DMG_RANK] -= modAmount;
+                }
+                else if (modList->at(i).getModID() == Mod::MAIN_DMG_RATING)
+                {
+                    m_modStat[Mod::SUB_DMG_RATING] -= modAmount;
                 }
                 else
                 {
@@ -1157,6 +1169,7 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
             }
         }
     }
+
     if ((targetFlags & TARGET_SELF) && (this == PInitiator || (PInitiator->objtype == TYPE_PET &&
         static_cast<CPetEntity*>(PInitiator)->getPetType() == PETTYPE_AUTOMATON && this == PInitiator->PMaster)))
     {

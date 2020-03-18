@@ -831,6 +831,41 @@ void CMobEntity::DropItems(CCharEntity* PChar)
                 }
             }
         }
+
+        DropEquipList_t* equipDrops = PChar->PTreasurePool->GetGlobalDrop(this->GetMLevel());
+        if (equipDrops == nullptr) {
+            equipDrops = itemutils::GetEquipDropList(PChar, this);
+            PChar->PTreasurePool->AddGlobalDrop(this->GetMLevel(), equipDrops);
+        }
+        if (equipDrops->size() > 0)
+        {
+            for (int16 roll = 0; roll < maxRolls; ++roll)
+            {
+                if (dsprand::GetRandomNumber(1000) < map_config.global_equipment_drop_rate + bonus)
+                {
+                    DropEquip_t* drop = equipDrops->at(dsprand::GetRandomNumber(equipDrops->size()));
+
+                    if (AddItemToPool(drop->ItemID, ++dropCount))
+                        return;
+                    break;
+                }
+            }
+        }
+
+        if (this->GetMLevel() > 85 && this->m_Type & MOBTYPE_NOTORIOUS)
+        {
+            for (int16 roll = 0; roll < maxRolls; ++roll)
+            {
+                if (dsprand::GetRandomNumber(1000) < 250 + bonus)
+                {
+                    uint16 itemId = coloredDrops[dsprand::GetRandomNumber(coloredDrops.size())];
+
+                    if (AddItemToPool(itemId, ++dropCount))
+                        return;
+                    break;
+                }
+            }
+        }
     }
 
     //check for seal drops

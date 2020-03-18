@@ -108,8 +108,7 @@ function onEventFinish(player,csid,option)
         player:addGil(GIL_RATE*1200)
         player:confirmTrade()
     elseif csid == 254 then
-        npcUtil.completeQuest(player, WINDURST, tpz.quest.id.windurst.MANDRAGORA_MAD, { fame = 10 })
-            fame = 10,
+        npcUtil.completeQuest(player, WINDURST, dsp.quest.id.windurst.MANDRAGORA_MAD, { fame = 10 })
         player:addGil(GIL_RATE*120)
         player:confirmTrade()
     elseif csid == 255 then

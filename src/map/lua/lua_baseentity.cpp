@@ -11063,7 +11063,7 @@ inline int32 CLuaBaseEntity::addBardSong(lua_State *L)
         (uint16)lua_tointeger(L, 7),  // SubPower
         (uint16)lua_tointeger(L, 8)); // Tier
 
-    uint8 maxSongs = 2;
+    uint8 maxSongs = 3;
 
     if (PEntity && PEntity->m_PBaseEntity && PEntity->m_PBaseEntity->objtype == TYPE_PC)
     {
@@ -13045,6 +13045,17 @@ inline int32 CLuaBaseEntity::hasTrait(lua_State *L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::getTraitValue(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    lua_pushinteger(L, charutils::getTraitValue((CCharEntity*)m_PBaseEntity, lua_tointeger(L, 1)));
+    return 1;
+}
+
 /************************************************************************
 *  Function: hasImmunity()
 *  Purpose : Returns true if a Mob is immune to a specified type of spell
@@ -14021,6 +14032,100 @@ inline int32 CLuaBaseEntity::getTHlevel(lua_State* L)
     return 1;
 }
 
+inline int32 CLuaBaseEntity::addCharMod(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+
+    charutils::AddCharMod(((CCharEntity*)m_PBaseEntity), static_cast<Mod>(lua_tointeger(L, 1)), (int16)lua_tointeger(L, 2));
+
+    /*((CCharEntity*)m_PBaseEntity)->addCharMod(
+        static_cast<Mod>(lua_tointeger(L, 1)),
+        (int16)lua_tointeger(L, 2));*/
+    return 0;
+}
+
+inline int32 CLuaBaseEntity::getCharMod(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    lua_pushinteger(L, ((CCharEntity*)m_PBaseEntity)->getCharMod(static_cast<Mod>(lua_tointeger(L, 1))));
+
+    return 1;
+}
+
+inline int32 CLuaBaseEntity::getBountyMob(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+
+    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+    CCharEntity* PChar = ((CCharEntity*)m_PBaseEntity);
+    uint8 bountyType = lua_isnumber(L, 1);
+
+    int mobId = 0;
+    int itemId = 0;
+    CItem* dropItem;
+
+    BountyMob_t* bountyMob = zoneutils::GetBountyMob(PChar->GetMLevel(), bountyType);
+    if (bountyMob)
+    {
+        mobId = bountyMob->Mob->id;
+
+        dropItem = bountyMob->Items->at(dsprand::GetRandomNumber(bountyMob->Items->size()));
+        if (dropItem)
+        {
+            itemId = dropItem->getID();
+        }
+    }
+    
+    lua_pushinteger(L, mobId);
+    lua_pushinteger(L, itemId);
+
+    return 2;
+}
+
+inline int32 CLuaBaseEntity::setFace(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->objtype == TYPE_PC)
+    {
+        DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+      
+        m_PBaseEntity->look.face = (uint16)lua_tointeger(L, 1);
+
+        ((CCharEntity*)m_PBaseEntity)->pushPacket(new CCharAppearancePacket((CCharEntity*)m_PBaseEntity));
+        m_PBaseEntity->updatemask |= UPDATE_LOOK;
+    }
+
+    return 0;
+}
+
+inline int32 CLuaBaseEntity::setRace(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+
+    if (m_PBaseEntity->objtype == TYPE_PC)
+    {
+        DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+
+        m_PBaseEntity->look.race = (uint16)lua_tointeger(L, 1);
+
+        ((CCharEntity*)m_PBaseEntity)->pushPacket(new CCharAppearancePacket((CCharEntity*)m_PBaseEntity));
+        m_PBaseEntity->updatemask |= UPDATE_LOOK;
+    }
+
+    return 0;
+}
+
 //=======================================================//
 
 const char CLuaBaseEntity::className[] = "CBaseEntity";
@@ -14619,6 +14724,7 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,instantiateMob),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasTrait),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTraitValue),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,hasImmunity),
 
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,setAggressive),
@@ -14672,6 +14778,11 @@ Lunar<CLuaBaseEntity>::Register_t CLuaBaseEntity::methods[] =
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getTHlevel),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,getPlayerRegionInZone),
     LUNAR_DECLARE_METHOD(CLuaBaseEntity,updateToEntireZone),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity, addCharMod),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity, getCharMod),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity, getBountyMob),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity, setFace),
+    LUNAR_DECLARE_METHOD(CLuaBaseEntity, setRace),
 
     {nullptr,nullptr}
 };

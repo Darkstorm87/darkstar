@@ -1546,7 +1546,10 @@ tpz.mod =
     -- SPARE = 958, -- stuff
     -- SPARE = 959, -- stuff
     -- SPARE = 960, -- stuff
-}
+
+    ENMITY_CAP                  = 2000,
+    DMG_II                      = 2001
+};
 
 tpz.latent =
 {
@@ -2827,3 +2830,9 @@ tpz.relicTiers =
         15070, 16195, 16196, 16197, 16198, 11927, 16200
     },
 }
+
+------------------------------------
+-- JOB TRAITS
+------------------------------------
+TRAIT_ACCURACY_BONUS                = 1;
+TRAIT_STORE_TP                        = 14;

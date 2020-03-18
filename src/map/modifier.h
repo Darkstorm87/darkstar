@@ -789,6 +789,9 @@ enum class Mod
     // SPARE = 958, // stuff
     // SPARE = 959, // stuff
     // SPARE = 960, // stuff
+
+    ENMITY_CAP                  = 2000,
+    DMG_II                      = 2001
 };
 
 //temporary workaround for using enum class as unordered_map key until compilers support it

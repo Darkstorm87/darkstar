@@ -20,5 +20,7 @@ end
 function onMobDespawn(mob)
     -- Retail behavior is for it to walk back to where willow died if unclaimed *unless* willow was pulled down the cliff
     -- In that case, it will walk back near where Willow was spawned at.
-    GetMobByID(mob:getID() + 6):setSpawn(mob:getXPos(), mob:getYPos(), mob:getZPos())
+    local jack = GetMobByID(mob:getID() + 6)
+    jack:setSpawn(mob:getXPos(), mob:getYPos(), mob:getZPos())
+    jack:spawn()
 end

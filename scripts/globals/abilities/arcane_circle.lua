@@ -13,6 +13,21 @@ function onAbilityCheck(player,target,ability)
 end
 
 function onUseAbility(player,target,ability)
-    local duration = 180 + player:getMod(tpz.mod.ARCANE_CIRCLE_DURATION)
-    target:addStatusEffect(tpz.effect.ARCANE_CIRCLE,15,0,duration)
+    local duration = 180 + player:getMod(dsp.mod.ARCANE_CIRCLE_DURATION)
+    
+    if (player:getID() ~= target:getID()) then
+        local subPower = 5;
+    
+        if (player:getMainLvl() > 50) then
+            subPower = subPower + math.floor((player:getMainLvl() - 50) / 5);
+        end
+        
+        if player:getSubJob() == dsp.job.DRK then
+            subPower = math.floor(subPower / 2);
+        end
+        
+        target:addStatusEffect(dsp.effect.ARCANE_CIRCLE,15,0,duration,0,subPower)
+    else
+        target:addStatusEffect(dsp.effect.ARCANE_CIRCLE,15,0,duration);
+    end
 end

@@ -104,8 +104,12 @@ local function CharCreate(player)
 
     -- increase starting inventory
     if START_INVENTORY > 30 then
-        player:changeContainerSize(tpz.inv.INVENTORY, START_INVENTORY - 30)
-        player:changeContainerSize(tpz.inv.MOGSATCHEL, START_INVENTORY - 30)
+        player:changeContainerSize(dsp.inv.INVENTORY, START_INVENTORY)
+        player:changeContainerSize(dsp.inv.MOGSATCHEL, START_INVENTORY)
+		player:changeContainerSize(dsp.inv.MOGLOCKER, START_INVENTORY)
+	   
+		player:setCharVar("mog-locker-access-type", 1);
+		player:setCharVar("mog-locker-expiry-timestamp", 1767139200);
     end
 
     --[[
@@ -173,7 +177,7 @@ function onGameIn(player, firstLogin, zoning)
         player:addHP(50000)
         player:setMP(50000)
     end
-
+	
     -- !hide
     if player:getCharVar("GMHidden") == 1 then
         player:setGMHidden(true)

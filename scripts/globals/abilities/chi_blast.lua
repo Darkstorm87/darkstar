@@ -14,8 +14,8 @@ function onAbilityCheck(player,target,ability)
 end
 
 function onUseAbility(player,target,ability)
-    local boost = player:getStatusEffect(tpz.effect.BOOST)
-    local multiplier = 1.0
+    local boost = player:getStatusEffect(dsp.effect.BOOST)
+    local multiplier = 2.0
     if boost ~= nil then
         multiplier = (boost:getPower()/100) * 4 -- power is the raw % atk boost
     end

@@ -22,17 +22,25 @@ function onPetAbility(target, pet, skill)
     if (target:getHP()+base > target:getMaxHP()) then
         base = target:getMaxHP() - target:getHP() --cap it
     end
-    target:delStatusEffect(tpz.effect.BLINDNESS)
-    target:delStatusEffect(tpz.effect.POISON)
-    target:delStatusEffect(tpz.effect.PARALYSIS)
-    target:delStatusEffect(tpz.effect.DISEASE)
-    target:delStatusEffect(tpz.effect.PETRIFICATION)
-        target:wakeUp()
-    target:delStatusEffect(tpz.effect.SILENCE)
+
+	local mp = 47 + pet:getMainLvl()*2;
+	mp = mp * tp / 1000;
+	
+	if (target:getMP()+mp > target:getMaxMP()) then
+        mp = target:getMaxMP() - target:getMP(); --cap it
+    end
+    target:delStatusEffect(dsp.effect.BLINDNESS)
+    target:delStatusEffect(dsp.effect.POISON)
+    target:delStatusEffect(dsp.effect.PARALYSIS)
+    target:delStatusEffect(dsp.effect.DISEASE)
+    target:delStatusEffect(dsp.effect.PETRIFICATION)
+    target:wakeUp()
+    target:delStatusEffect(dsp.effect.SILENCE)
     if math.random() > 0.5 then
         target:delStatusEffect(tpz.effect.SLOW)
     end
     skill:setMsg(tpz.msg.basic.SELF_HEAL)
     target:addHP(base)
+    target:addMP(mp)
     return base
 end

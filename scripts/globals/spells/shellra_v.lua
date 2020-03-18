@@ -14,7 +14,7 @@ function onSpellCast(caster,target,spell)
     local meritBonus = caster:getMerit(tpz.merit.SHELLRA_V)
     local power = 29 -- according to bg-wiki
 
-    local duration = calculateDuration(1800, spell:getSkillType(), spell:getSpellGroup(), caster, target, false)
+    local duration = calculateDuration(28800, spell:getSkillType(), spell:getSpellGroup(), caster, target, false)
     duration = calculateDurationForLvl(duration, 75, target:getMainLvl())
 
     local typeEffect = tpz.effect.SHELL

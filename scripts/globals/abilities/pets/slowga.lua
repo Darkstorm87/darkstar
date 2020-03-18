@@ -17,8 +17,8 @@ function onPetAbility(target, pet, skill, summoner)
         duration = 350
     end
 
-    if target:addStatusEffect(tpz.effect.SLOW, 3000, 0, duration) then
-        skill:setMsg(tpz.msg.basic.SKILL_ENFEEB_IS)
+    if target:addStatusEffect(dsp.effect.SLOW, 3500, 0, duration) then
+        skill:setMsg(dsp.msg.basic.SKILL_ENFEEB_IS)
     else
         skill:setMsg(tpz.msg.basic.SKILL_NO_EFFECT)
     end

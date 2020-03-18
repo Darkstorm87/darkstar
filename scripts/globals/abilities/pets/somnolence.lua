@@ -13,9 +13,9 @@ function onAbilityCheck(player, target, ability)
 end
 
 function onPetAbility(target, pet, skill)
-    local dmg = 10 + pet:getMainLvl() * 2
-    local resist = applyPlayerResistance(pet,-1,target, 0, tpz.skill.ELEMENTAL_MAGIC, tpz.magic.ele.DARK)
-    local duration = 120
+    local dmg = 10 + pet:getMainLvl() * 3
+    local resist = applyPlayerResistance(pet,-1,target, 0, dsp.skill.ELEMENTAL_MAGIC, dsp.magic.ele.DARK)
+    local duration = 300
 
     dmg = dmg*resist
     dmg = mobAddBonuses(pet,spell,target,dmg, tpz.magic.ele.DARK)

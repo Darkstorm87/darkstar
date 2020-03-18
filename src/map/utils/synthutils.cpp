@@ -327,9 +327,9 @@ uint8 calcSynthResult(CCharEntity* PChar)
             double synthDiff = getSynthDifficulty(PChar, skillID);
             hqtier = 0;
 
-            if(synthDiff <= 0)
-            {
-                success = 0.95;
+			if(synthDiff <= 0)
+			{
+				success = 0.99;
 
                 if(synthDiff > -11) //0-10 levels over recipe
                 {

@@ -138,6 +138,7 @@ namespace charutils
     int32	delPetAbility(CCharEntity* PChar, uint16 AbilityID);
 
     int32	hasTrait(CCharEntity* PChar, uint8 TraitID);	            // check if pchar has trait by traitid and jobid
+	int32	getTraitValue(CCharEntity* PChar, uint8 TraitID);	        // get the value of a characters trait
     int32	addTrait(CCharEntity* PChar, uint8 TraitID);	            // add trait by traitid and jobid
     int32	delTrait(CCharEntity* PChar, uint8 TraitID);	            // delete trait by traitid and jobid
 
@@ -202,6 +203,8 @@ namespace charutils
     bool    AddWeaponSkillPoints(CCharEntity*, SLOTTYPE, int);
 
     int32   GetCharVar(CCharEntity* PChar, const char* var);
+
+    void    AddCharMod(CCharEntity* PChar, Mod type, int value);
 };
 
 #endif

@@ -794,6 +794,24 @@ namespace charutils
             PChar->menuConfigFlags.flags = (uint32)Sql_GetUIntData(SqlHandle, 2);
         }
 
+        fmtQuery = "SELECT modid, value "
+            "FROM char_mods "
+            "WHERE charid = %u;";
+
+        ret = Sql_Query(SqlHandle, fmtQuery, PChar->id);
+
+        if (ret != SQL_ERROR && Sql_NumRows(SqlHandle) != 0)
+        {
+            while (Sql_NextRow(SqlHandle) == SQL_SUCCESS)
+            {
+                Mod ModID = (Mod)Sql_GetUIntData(SqlHandle, 0);
+                int16 ModValue = (int16)Sql_GetUIntData(SqlHandle, 1);
+
+                PChar->addModifier(ModID, ModValue);
+                PChar->setCharMod(ModID, ModValue);
+            }
+        }
+
         charutils::LoadInventory(PChar);
 
         CalculateStats(PChar);
@@ -2155,22 +2173,29 @@ namespace charutils
                 }
             }
         }
+
+        charutils::BuildingCharSkillsTable(PChar);
+
         if (equipSlotID == SLOT_MAIN || equipSlotID == SLOT_RANGED || equipSlotID == SLOT_SUB)
         {
-            PChar->health.tp = 0;
-            /*// fixes logging in with no h2h
-            if(PChar->m_Weapons[SLOT_MAIN]->getDmgType() == DAMAGE_NONE && PChar->GetMJob() == JOB_MNK){
-            PChar->m_Weapons[SLOT_MAIN] = itemutils::GetUnarmedH2HItem();
-            } else if(PChar->m_Weapons[SLOT_MAIN] == itemutils::GetUnarmedH2HItem() && PChar->GetMJob() != JOB_MNK) {
-            // return back to normal if changed jobs
-            PChar->m_Weapons[SLOT_MAIN] = itemutils::GetUnarmedItem();
-            }*/
-            if (!PChar->getEquip(SLOT_MAIN) || !PChar->getEquip(SLOT_MAIN)->isType(ITEM_EQUIPMENT) || PChar->m_Weapons[SLOT_MAIN] == itemutils::GetUnarmedH2HItem())
+            if (PItem && !(PItem->IsShield() || ((CItemWeapon*)PItem)->getSkillType() == SKILL_STRING_INSTRUMENT || ((CItemWeapon*)PItem)->getSkillType() == SKILL_WIND_INSTRUMENT))
             {
-                CheckUnarmedWeapon(PChar);
-            }
+                PChar->health.tp = 0;
+                /*// fixes logging in with no h2h
+                if(PChar->m_Weapons[SLOT_MAIN]->getDmgType() == DAMAGE_NONE && PChar->GetMJob() == JOB_MNK){
+                PChar->m_Weapons[SLOT_MAIN] = itemutils::GetUnarmedH2HItem();
+                } else if(PChar->m_Weapons[SLOT_MAIN] == itemutils::GetUnarmedH2HItem() && PChar->GetMJob() != JOB_MNK) {
+                // return back to normal if changed jobs
+                PChar->m_Weapons[SLOT_MAIN] = itemutils::GetUnarmedItem();
+                }*/
+                if (!PChar->getEquip(SLOT_MAIN) || !PChar->getEquip(SLOT_MAIN)->isType(ITEM_EQUIPMENT) || PChar->m_Weapons[SLOT_MAIN] == itemutils::GetUnarmedH2HItem())
+                {
+                    CheckUnarmedWeapon(PChar);
+                }
 
-            PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
+                PChar->StatusEffectContainer->DelStatusEffect(EFFECT_AFTERMATH);
+            }
+            
             BuildingCharWeaponSkills(PChar);
             PChar->pushPacket(new CCharAbilitiesPacket(PChar));
         }
@@ -2998,6 +3023,27 @@ namespace charutils
         return hasBit(TraitID, PChar->m_TraitList, sizeof(PChar->m_TraitList));
     }
 
+	int32 getTraitValue(CCharEntity* PChar, uint8 TraitID)
+	{
+		if (PChar->objtype != TYPE_PC)
+		{
+			ShowError("charutils::hasTrait Attempt to reference a trait from a non-character entity: %s %i", PChar->name.c_str(), PChar->id);
+			return 0;
+		}
+
+		for (uint8 j = 0; j < PChar->TraitList.size(); ++j)
+		{
+			CTrait* PCharTrait = PChar->TraitList.at(j);
+
+			if (PCharTrait->getID() == TraitID)
+			{
+				return PCharTrait->getValue();
+			}
+		}
+
+		return 0;
+	}
+
     int32 addTrait(CCharEntity* PChar, uint8 TraitID)
     {
         if (PChar->objtype != TYPE_PC)
@@ -3090,12 +3136,12 @@ namespace charutils
         uint32 baseExp = GetRealExp(charlvl, moblvl);
 
         if (baseExp >= 400) return EMobDifficulty::IncrediblyTough;
-        if (baseExp >= 350) return EMobDifficulty::VeryTough;
-        if (baseExp >= 220) return EMobDifficulty::Tough;
-        if (baseExp >= 200) return EMobDifficulty::EvenMatch;
-        if (baseExp >= 160) return EMobDifficulty::DecentChallenge;
-        if (baseExp >= 60) return EMobDifficulty::EasyPrey;
-        if (baseExp >= 14) return EMobDifficulty::IncrediblyEasyPrey;
+        if (baseExp >= 240) return EMobDifficulty::VeryTough;
+        if (baseExp >= 120) return EMobDifficulty::Tough;
+        if (baseExp >= 100) return EMobDifficulty::EvenMatch;
+        if (baseExp >= 75) return EMobDifficulty::DecentChallenge;
+        if (baseExp >= 15) return EMobDifficulty::EasyPrey;
+        if (baseExp > 0) return EMobDifficulty::IncredibyEasyPrey;
 
         return EMobDifficulty::TooWeak;
     }
@@ -3343,15 +3389,15 @@ namespace charutils
                     // Per monster caps pulled from: https://ffxiclopedia.fandom.com/wiki/Experience_Points
                     if (PMember->GetMLevel() <= 50)
                     {
-                        exp = std::fmin(exp, 400.f);
+                        exp = std::fmin(exp, 200);
                     }
                     else if (PMember->GetMLevel() <= 60)
                     {
-                        exp = std::fmin(exp, 500.f);
+                        exp = std::fmin(exp, 250.f);
                     }
                     else
                     {
-                        exp = std::fmin(exp, 600.f);
+                        exp = std::fmin(exp, 300.f);
                     }
 
                     if (PMember->expChain.chainTime > gettick() || PMember->expChain.chainTime == 0)
@@ -3365,7 +3411,7 @@ namespace charutils
                             case 3: exp *= 1.3f; break;
                             case 4: exp *= 1.4f; break;
                             case 5: exp *= 1.5f; break;
-                            default: exp *= 1.55f; break;
+                            default: exp *= std::min(1.5f + PMember->expChain.chainNumber * 0.005f, 2.5f); break; // should cap at 2.5f on chain 200
                         }
                     }
                     else
@@ -4462,7 +4508,7 @@ namespace charutils
         {
             CStatusEffect* dedication = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_DEDICATION);
             int16 percentage = dedication->GetPower();
-            int16 cap = dedication->GetSubPower();
+            uint32 cap = dedication->GetSubPower();
             bonus += std::clamp<int32>((int32)((exp * percentage) / 100), 0, cap);
             dedication->SetSubPower(cap -= bonus);
 
@@ -5043,4 +5089,11 @@ namespace charutils
         return 0;
     }
 
+    void AddCharMod(CCharEntity* PChar, Mod type, int value)
+    {
+        PChar->addModifier(type, value);
+        PChar->addCharMod(type, value);
+
+        Sql_Query(SqlHandle, "INSERT INTO char_mods (charid, modid, value) VALUES(%u, %u, %u) ON DUPLICATE KEY UPDATE value = %u", PChar->id, (int)type, PChar->getCharMod(type), PChar->getCharMod(type));
+    }
 }; // namespace charutils
