@@ -63,7 +63,7 @@ function onEventFinish(player, csid, option)
             -- final promyvion completed
             else
 				addColoredDrop(player);
-                player:completeMission(COP, dsp.mission.id.cop.THE_MOTHERCRYSTALS)
+                player:completeMission(COP, tpz.mission.id.cop.THE_MOTHERCRYSTALS)
                 player:setCharVar("PromathiaStatus", 0)
                 player:addMission(COP, tpz.mission.id.cop.AN_INVITATION_WEST)
                 player:addKeyItem(ki)

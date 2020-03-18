@@ -23,7 +23,7 @@ end
 function onUseAbility(player,target,ability)
 
     local burden = 10
-    if (target:getStat(dsp.mod.VIT) < target:getPet():getStat(dsp.mod.VIT)) then
+    if (target:getStat(tpz.mod.VIT) < target:getPet():getStat(tpz.mod.VIT)) then
         burden = 15
     end
 

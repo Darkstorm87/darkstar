@@ -37,8 +37,8 @@ end;
 function onEventFinish(player,csid,option)
 
     if (csid == 4 and option == 1) then
-        player:delKeyItem(dsp.ki.CRAWLER_BLOOD);
-        player:delKeyItem(dsp.ki.OLD_BOOTS);
+        player:delKeyItem(tpz.ki.CRAWLER_BLOOD);
+        player:delKeyItem(tpz.ki.OLD_BOOTS);
         player:setCharVar("theCrimsonTrial_date", os.date("%M")); -- %M for next minute, %j for next day
         player:setCharVar("theCrimsonTrial_prog", 1);
         player:messageSpecial(ID.text.YOU_BURY_THE,tpz.ki.OLD_BOOTS,tpz.ki.CRAWLER_BLOOD);

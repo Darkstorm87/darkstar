@@ -16,7 +16,7 @@ function onAbilityCheck(player, target, ability)
     elseif player:hasStatusEffect(tpz.effect.TRANCE) then
         return 0, 0
     elseif player:getTP() < 300 then
-        return dsp.msg.basic.NOT_ENOUGH_TP, 0
+        return tpz.msg.basic.NOT_ENOUGH_TP, 0
     else
         return 0,0
     end
@@ -24,13 +24,13 @@ end
 
 function onUseAbility(player, target, ability)
     -- Only remove TP if the player doesn't have Trance.
-    if not player:hasStatusEffect(dsp.effect.TRANCE) then
+    if not player:hasStatusEffect(tpz.effect.TRANCE) then
         player:delTP(300)
     end
 
-    local duration = 180 + player:getMod(dsp.mod.SAMBA_DURATION)
-    duration = duration * (100 + player:getMod(dsp.mod.SAMBA_PDURATION)) / 100
-    player:delStatusEffect(dsp.effect.DRAIN_SAMBA)
-    player:delStatusEffect(dsp.effect.ASPIR_SAMBA)
-    player:addStatusEffect(dsp.effect.HASTE_SAMBA, 500 + player:getMerit(dsp.merit.HASTE_SAMBA_EFFECT), 0, duration)
+    local duration = 180 + player:getMod(tpz.mod.SAMBA_DURATION)
+    duration = duration * (100 + player:getMod(tpz.mod.SAMBA_PDURATION)) / 100
+    player:delStatusEffect(tpz.effect.DRAIN_SAMBA)
+    player:delStatusEffect(tpz.effect.ASPIR_SAMBA)
+    player:addStatusEffect(tpz.effect.HASTE_SAMBA, 500 + player:getMerit(tpz.merit.HASTE_SAMBA_EFFECT), 0, duration)
 end

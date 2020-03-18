@@ -542,9 +542,9 @@ end
 function onTrigger(player,npc)
     -- TODO: once fishing skill is implemented, replace all these mLvl checks with player:getSkillLevel(tpz.skill.FISHING)
 
-    local theRealGift    = player:getQuestStatus(OTHER_AREAS_LOG, dsp.quest.id.otherAreas.THE_REAL_GIFT)
-    local insideTheBelly = player:getQuestStatus(OTHER_AREAS_LOG, dsp.quest.id.otherAreas.INSIDE_THE_BELLY)
-	local fishingSkill = player:getSkillLevel(dsp.skill.FISHING)
+    local theRealGift    = player:getQuestStatus(OTHER_AREAS_LOG, tpz.quest.id.otherAreas.THE_REAL_GIFT)
+    local insideTheBelly = player:getQuestStatus(OTHER_AREAS_LOG, tpz.quest.id.otherAreas.INSIDE_THE_BELLY)
+	local fishingSkill = player:getSkillLevel(tpz.skill.FISHING)
 
     -- UNDER THE SEA
     if player:getCharVar("underTheSeaVar") == 3 then

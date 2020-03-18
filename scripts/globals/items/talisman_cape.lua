@@ -6,27 +6,27 @@
 require("scripts/globals/msg")
 
 function onItemCheck(target)
-    local effect = target:getStatusEffect(dsp.effect.ENCHANTMENT)
+    local effect = target:getStatusEffect(tpz.effect.ENCHANTMENT)
     if effect ~= nil and effect:getSubType() == 15485 then
-        target:delStatusEffect(dsp.effect.ENCHANTMENT)
+        target:delStatusEffect(tpz.effect.ENCHANTMENT)
     end
     return 0
 end
 
 function onItemUse(target)
-    if (target:hasStatusEffect(dsp.effect.ENCHANTMENT) == true) then
-        target:delStatusEffect(dsp.effect.ENCHANTMENT)
+    if (target:hasStatusEffect(tpz.effect.ENCHANTMENT) == true) then
+        target:delStatusEffect(tpz.effect.ENCHANTMENT)
     end
     
-    target:addStatusEffect(dsp.effect.ENCHANTMENT,0,0,1800,15485)
+    target:addStatusEffect(tpz.effect.ENCHANTMENT,0,0,1800,15485)
 end
 
 function onEffectGain(target,effect)
-    target:addMod(dsp.mod.MP, 12)
-    target:addMod(dsp.mod.ENMITY, -2)
+    target:addMod(tpz.mod.MP, 12)
+    target:addMod(tpz.mod.ENMITY, -2)
 end
 
 function onEffectLose(target, effect)
-    target:delMod(dsp.mod.MP, 12)
-    target:delMod(dsp.mod.ENMITY, -2)
+    target:delMod(tpz.mod.MP, 12)
+    target:delMod(tpz.mod.ENMITY, -2)
 end

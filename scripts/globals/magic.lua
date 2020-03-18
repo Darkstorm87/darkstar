@@ -158,13 +158,13 @@ function doBoostGain(caster, target, spell, effect)
     --Only one Boost Effect can be active at once, so if the player has any we have to cancel & overwrite
     -- local effectOverwrite =
     -- {
-        -- dsp.effect.STR_BOOST,
-        -- dsp.effect.DEX_BOOST,
-        -- dsp.effect.VIT_BOOST,
-        -- dsp.effect.AGI_BOOST,
-        -- dsp.effect.INT_BOOST,
-        -- dsp.effect.MND_BOOST,
-        -- dsp.effect.CHR_BOOST
+        -- tpz.effect.STR_BOOST,
+        -- tpz.effect.DEX_BOOST,
+        -- tpz.effect.VIT_BOOST,
+        -- tpz.effect.AGI_BOOST,
+        -- tpz.effect.INT_BOOST,
+        -- tpz.effect.MND_BOOST,
+        -- tpz.effect.CHR_BOOST
     -- }
 
     -- for i, effect in ipairs(effectOverwrite) do
@@ -191,7 +191,7 @@ function doEnspell(caster, target, spell, effect)
     local duration = calculateDuration(300, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     --calculate potency
-    local magicskill = caster:getSkillLevel(dsp.skill.ENHANCING_MAGIC)
+    local magicskill = caster:getSkillLevel(tpz.skill.ENHANCING_MAGIC)
 
     local potency = 3 + math.floor(6 * magicskill / 100)
     if magicskill > 200 then
@@ -1138,14 +1138,14 @@ end
 
 function doElementalNuke(caster, spell, target, spellParams)
     local DMG = 0;
-    local dINT = caster:getStat(dsp.mod.INT) - target:getStat(dsp.mod.INT);
+    local dINT = caster:getStat(tpz.mod.INT) - target:getStat(tpz.mod.INT);
     local V = 0;
     local M = 0;
     
     local hasMultipleTargetReduction = spellParams.hasMultipleTargetReduction; --still unused!!!
     local resistBonus = spellParams.resistBonus;
     local AMIIaccBonus = spellParams.AMIIaccBonus;
-    local mDMG = caster:getMod(dsp.mod.MAGIC_DAMAGE);
+    local mDMG = caster:getMod(tpz.mod.MAGIC_DAMAGE);
 
     if USE_OLD_MAGIC_DAMAGE and spellParams.V ~= nil and spellParams.M ~= nil then
         V = spellParams.V; -- Base value
@@ -1414,7 +1414,7 @@ end
 
 function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
     local spellParams = {};
-    local skillLevel = caster:getSkillLevel(dsp.skill.ELEMENTAL_MAGIC) + caster:getMod(79 + dsp.skill.ELEMENTAL_MAGIC);
+    local skillLevel = caster:getSkillLevel(tpz.skill.ELEMENTAL_MAGIC) + caster:getMod(79 + tpz.skill.ELEMENTAL_MAGIC);
     
     --Attempt to scale V with elemental magic skill, starting with Stone potency and scaling up to Thunder potency
     if (AOE == 1) then
@@ -1618,4 +1618,4 @@ ELEMENTAL_TIER_4 = 4;
 ELEMENTAL_TIER_5 = 5;
 ANCIENT_MAGIC = 6;
 
-dsp.mag = dsp.magic;
+tpz.mag = tpz.magic;

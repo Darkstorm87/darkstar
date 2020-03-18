@@ -9,17 +9,17 @@ require("scripts/globals/status")
 -----------------------------------------
 
 function onMagicCastingCheck(caster,target,spell)
-    if (not caster:canUseMisc(dsp.zoneMisc.PET)) then
-        return dsp.msg.basic.CANT_BE_USED_IN_AREA
+    if (not caster:canUseMisc(tpz.zoneMisc.PET)) then
+        return tpz.msg.basic.CANT_BE_USED_IN_AREA
     elseif (caster:hasPet()) then
-        return dsp.msg.basic.ALREADY_HAS_A_PET
+        return tpz.msg.basic.ALREADY_HAS_A_PET
     else
         return 0
     end
 end
 
 function onSpellCast(caster,target,spell)
-    caster:spawnPet(dsp.pet.id.CAIT_SITH)
+    caster:spawnPet(tpz.pet.id.CAIT_SITH)
 
     return 0
 end

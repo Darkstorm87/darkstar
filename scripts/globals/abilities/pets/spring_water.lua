@@ -29,13 +29,13 @@ function onPetAbility(target, pet, skill)
 	if (target:getMP()+mp > target:getMaxMP()) then
         mp = target:getMaxMP() - target:getMP(); --cap it
     end
-    target:delStatusEffect(dsp.effect.BLINDNESS)
-    target:delStatusEffect(dsp.effect.POISON)
-    target:delStatusEffect(dsp.effect.PARALYSIS)
-    target:delStatusEffect(dsp.effect.DISEASE)
-    target:delStatusEffect(dsp.effect.PETRIFICATION)
+    target:delStatusEffect(tpz.effect.BLINDNESS)
+    target:delStatusEffect(tpz.effect.POISON)
+    target:delStatusEffect(tpz.effect.PARALYSIS)
+    target:delStatusEffect(tpz.effect.DISEASE)
+    target:delStatusEffect(tpz.effect.PETRIFICATION)
     target:wakeUp()
-    target:delStatusEffect(dsp.effect.SILENCE)
+    target:delStatusEffect(tpz.effect.SILENCE)
     if math.random() > 0.5 then
         target:delStatusEffect(tpz.effect.SLOW)
     end

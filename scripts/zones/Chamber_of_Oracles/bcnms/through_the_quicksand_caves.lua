@@ -31,9 +31,9 @@ function onEventUpdate(player, csid, option)
 end
 
 function onEventFinish(player, csid, option)
-    if csid == 32001 and player:getCurrentMission(ZILART) == dsp.mission.id.zilart.THROUGH_THE_QUICKSAND_CAVES then
+    if csid == 32001 and player:getCurrentMission(ZILART) == tpz.mission.id.zilart.THROUGH_THE_QUICKSAND_CAVES then
 		addColoredDrop(player);
-        player:completeMission(ZILART, dsp.mission.id.zilart.THROUGH_THE_QUICKSAND_CAVES)
-        player:addMission(ZILART, dsp.mission.id.zilart.THE_CHAMBER_OF_ORACLES)
+        player:completeMission(ZILART, tpz.mission.id.zilart.THROUGH_THE_QUICKSAND_CAVES)
+        player:addMission(ZILART, tpz.mission.id.zilart.THE_CHAMBER_OF_ORACLES)
     end
 end

@@ -110,25 +110,25 @@ local itemMap = {
                 };
 
 local skillMap = {
-    [dsp.skill.HAND_TO_HAND] = "HAND_TO_HAND",
-    [dsp.skill.DAGGER] = "DAGGER",
-    [dsp.skill.SWORD] = "SWORD",
-    [dsp.skill.GREAT_SWORD] = "GREAT_SWORD",
-    [dsp.skill.AXE] = "AXE",
-    [dsp.skill.GREAT_AXE] = "GREAT_AXE",
-    [dsp.skill.SCYTHE] = "SCYTHE",
-    [dsp.skill.POLEARM] = "POLEARM",
-    [dsp.skill.KATANA] = "KATANA",
-    [dsp.skill.GREAT_KATANA] = "GREAT_KATANA",
-    [dsp.skill.CLUB] = "CLUB",
-    [dsp.skill.STAFF] = "STAFF",
-    [dsp.skill.ARCHERY] = "ARCHERY",
-    [dsp.skill.MARKSMANSHIP] = "MARKSMANSHIP"
+    [tpz.skill.HAND_TO_HAND] = "HAND_TO_HAND",
+    [tpz.skill.DAGGER] = "DAGGER",
+    [tpz.skill.SWORD] = "SWORD",
+    [tpz.skill.GREAT_SWORD] = "GREAT_SWORD",
+    [tpz.skill.AXE] = "AXE",
+    [tpz.skill.GREAT_AXE] = "GREAT_AXE",
+    [tpz.skill.SCYTHE] = "SCYTHE",
+    [tpz.skill.POLEARM] = "POLEARM",
+    [tpz.skill.KATANA] = "KATANA",
+    [tpz.skill.GREAT_KATANA] = "GREAT_KATANA",
+    [tpz.skill.CLUB] = "CLUB",
+    [tpz.skill.STAFF] = "STAFF",
+    [tpz.skill.ARCHERY] = "ARCHERY",
+    [tpz.skill.MARKSMANSHIP] = "MARKSMANSHIP"
 }                
     
 
 local augmentMap = {
-    [dsp.slot.MAIN] = { -- 2h weapons and h2h
+    [tpz.slot.MAIN] = { -- 2h weapons and h2h
         Melee = {
             Aug1 = {45,Multiplier=2}, -- DMG+1
             Aug2 = {
@@ -156,7 +156,7 @@ local augmentMap = {
             Aug4 = 116 -- Pet Subtle Blow+1
         }
     },
-    [dsp.slot.SUB] = { -- 1h weapons, shields, and grips
+    [tpz.slot.SUB] = { -- 1h weapons, shields, and grips
         Melee = {
             Aug1 = 45, -- DMG+1
             Aug2 = {
@@ -208,7 +208,7 @@ local augmentMap = {
             Grip = {}
         }
     },
-    [dsp.slot.RANGED] = {
+    [tpz.slot.RANGED] = {
         Melee = {
             Aug1 = {512,513,514,515,516,517,518}, -- STAT+1
             Aug2 = {39,40}, -- enmity+1/-1
@@ -239,7 +239,7 @@ local augmentMap = {
             }
         }
     },
-    [dsp.slot.AMMO] = {
+    [tpz.slot.AMMO] = {
         Melee = {
             Aug1 = {512,513,514,515,516,517,518}, -- STAT+1
             Aug2 = {39,40}, -- enmity+1/-1
@@ -252,7 +252,7 @@ local augmentMap = {
         },
         Max=5
     },
-    [dsp.slot.HEAD] = {
+    [tpz.slot.HEAD] = {
         Melee = {
             Aug1 = 143, -- Double Attack+1
             Aug2 = 129, -- Acc & RAcc+1
@@ -277,7 +277,7 @@ local augmentMap = {
             Aug4 = {117,119} -- Pet MEva+1 OR MDB+1
         }
     },
-    [dsp.slot.BODY] = {
+    [tpz.slot.BODY] = {
         Melee = {
             Aug1 = 1152, -- Def+10
             Aug2 = {1,Multiplier=10}, -- HP+10
@@ -294,7 +294,7 @@ local augmentMap = {
             Aug4 = 102 -- Pet Crit hit rate
         }
     },
-    [dsp.slot.HANDS] = {
+    [tpz.slot.HANDS] = {
         Melee = {
             Aug1 = 129, -- Acc & RAcc+1
             Aug2 = 130, -- Att & RAtt+1
@@ -316,7 +316,7 @@ local augmentMap = {
             Aug4 = {1792,1793,1794,1795,1796,1797,1798}, -- Pet Stat+1
         }
     },
-    [dsp.slot.LEGS] = {
+    [tpz.slot.LEGS] = {
         Melee = {
             Aug1 = 142, -- Store TP+1
             Aug2 = {41,328}, -- Crit Hit Rate OR Crit Dmg+1%
@@ -335,7 +335,7 @@ local augmentMap = {
             Aug3 = {98,117}, -- Pet Eva OR MEva+1
         }
     },
-    [dsp.slot.FEET] = {
+    [tpz.slot.FEET] = {
         Melee = {
             Aug1 = 49, -- Haste+1
             Aug2 = 68, -- Acc & Att+1
@@ -357,7 +357,7 @@ local augmentMap = {
             Aug4 = {98,117}
         }
     },
-    [dsp.slot.NECK] = {
+    [tpz.slot.NECK] = {
         Melee = {
             Aug1 = {39,40}, -- Enmity+1/-1
             Aug2 = {1,Multiplier=5}, -- HP+5
@@ -371,7 +371,7 @@ local augmentMap = {
         },
         Max=5
     },
-    [dsp.slot.WAIST] = {
+    [tpz.slot.WAIST] = {
         Melee = {
             Aug1 = 49, -- Haste+1
             Aug2 = 68 -- Acc & Att+1
@@ -388,7 +388,7 @@ local augmentMap = {
         },
         Max=5
     },
-    [dsp.slot.EAR2] = {
+    [tpz.slot.EAR2] = {
         Melee = {
             Aug1 = {257,258,259,260,261,262,263,264,265,266,267,268}, -- weapon skill+1
             Aug2 = {39,40,195,Max=2}, --Enmity +1, enmity-1, Subtle blow +1
@@ -406,7 +406,7 @@ local augmentMap = {
         },
         Max=5
     },
-    [dsp.slot.RING2] = {
+    [tpz.slot.RING2] = {
         Melee = {
             Aug1 = {512,513,514,515,516,517,518}, --Stat +1
             Aug2 = 796 -- All Element resist
@@ -416,7 +416,7 @@ local augmentMap = {
         },
         Max=5
     },
-    [dsp.slot.BACK] = {
+    [tpz.slot.BACK] = {
         Melee = {
             Aug1 = 1152, -- Def+10
             Aug2 = 42, -- Enemy Crit hit rate -%
@@ -591,7 +591,7 @@ function handleOnTrade(player,npc,trade)
     
     if (trade:getSlotCount() == 1) then
         local item = trade:getItem()
-        if (item:isType(dsp.itemType.ARMOR)) then
+        if (item:isType(tpz.itemType.ARMOR)) then
             local augmentId, augmentValue = item:getAugment(augmentIdx);
             
             local slotType = item:getSlotType()
@@ -639,7 +639,7 @@ function handleOnTrade(player,npc,trade)
                 local itemId = trade:getItemId(i);
                 if (itemId > 0) then
                     local item = trade:getItem(i);
-                    if (item:isType(dsp.itemType.ARMOR) and gearItem == nil) then
+                    if (item:isType(tpz.itemType.ARMOR) and gearItem == nil) then
                         gearItem  = item;
                     elseif(itemMap[itemId] ~= nil)  then
                         augItemId = itemId;
@@ -743,7 +743,7 @@ function handleOnTrade(player,npc,trade)
                 local itemId = trade:getItemId(i);
                 if (itemId > 0) then
                     local item = trade:getItem(i);
-                    if (item:isType(dsp.itemType.ARMOR) and gearItem == nil) then
+                    if (item:isType(tpz.itemType.ARMOR) and gearItem == nil) then
                         gearItem  = item;
                     end
                 end
@@ -860,13 +860,13 @@ function getAugmentList(slotType, augmentType, augmentSlot, item)
         local skill = item:getSkillType()
         local subSkill = item:getSubSkillType()
         
-        if (slotType == dsp.slot.SUB) then
+        if (slotType == tpz.slot.SUB) then
             if (item:isShield() and augmentList["Shield"]) then
                 augmentList = augmentList["Shield"]
             elseif (skill == 0 and augmentList["Grip"]) then
                 augmentList = augmentList["Grip"]
             end
-        elseif (slotType == dsp.slot.RANGED) then
+        elseif (slotType == tpz.slot.RANGED) then
             if (subSkill == 10 and augmentList["Animator"]) then
                 augmentList = augmentList["Animator"]
             elseif (skill >= 40 and skill <= 42 and augmentList["Instrument"]) then

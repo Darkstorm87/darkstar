@@ -18,9 +18,9 @@ function onPetAbility(target, pet, skill)
 
     local damage = math.floor(325 + 0.035*(tp))
     damage = damage + math.max(0, dINT * 2.5)
-    damage = MobMagicalMove(pet,target,skill,damage,dsp.magic.ele.WIND,1,TP_NO_EFFECT,0)
-    damage = mobAddBonuses(pet, nil, target, damage.dmg, dsp.magic.ele.WIND)
-    damage = AvatarFinalAdjustments(damage,pet,skill,target,dsp.attackType.MAGICAL,dsp.damageType.WIND,1)
+    damage = MobMagicalMove(pet,target,skill,damage,tpz.magic.ele.WIND,1,TP_NO_EFFECT,0)
+    damage = mobAddBonuses(pet, nil, target, damage.dmg, tpz.magic.ele.WIND)
+    damage = AvatarFinalAdjustments(damage,pet,skill,target,tpz.attackType.MAGICAL,tpz.damageType.WIND,1)
 
     target:takeDamage(damage, pet, tpz.attackType.MAGICAL, tpz.damageType.WIND)
     target:updateEnmityFromDamage(pet,damage)

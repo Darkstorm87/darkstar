@@ -32,9 +32,9 @@ function onPetAbility(target, pet, skill)
         tp = 1000
     end
     damage.dmg = damage.dmg * tp / 1000
-    totaldamage = AvatarFinalAdjustments(damage.dmg,pet,skill,target,dsp.attackType.MAGICAL,dsp.damageType.LIGHTNING,numhits)
-    target:addStatusEffect(dsp.effect.PARALYSIS, 25, 0, 120)
-    target:takeDamage(totaldamage, pet, dsp.attackType.MAGICAL, dsp.damageType.LIGHTNING)
+    totaldamage = AvatarFinalAdjustments(damage.dmg,pet,skill,target,tpz.attackType.MAGICAL,tpz.damageType.LIGHTNING,numhits)
+    target:addStatusEffect(tpz.effect.PARALYSIS, 25, 0, 120)
+    target:takeDamage(totaldamage, pet, tpz.attackType.MAGICAL, tpz.damageType.LIGHTNING)
     target:updateEnmityFromDamage(pet,totaldamage)
 
     return totaldamage

@@ -217,7 +217,7 @@ inline int32 CLuaItem::getSkillType(lua_State* L)
 
 inline int32 CLuaItem::getSubSkillType(lua_State* L)
 {
-    DSP_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
 
     auto PItem = dynamic_cast<CItemWeapon*>(m_PLuaItem);
 
@@ -296,7 +296,7 @@ inline int32 CLuaItem::isShield(lua_State* L)
 
 inline int32 CLuaItem::getSlotType(lua_State* L)
 {
-    DSP_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PLuaItem == nullptr);
 
     if (CItemEquipment* PEquip = dynamic_cast<CItemEquipment*>(m_PLuaItem))
         lua_pushinteger(L, PEquip->getSlotType());

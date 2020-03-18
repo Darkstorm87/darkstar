@@ -13,7 +13,7 @@ end
 
 function onPetAbility(target, pet, skill)
     local duration = 120
-    local resm = applyPlayerResistance(pet,-1,target,pet:getStat(dsp.mod.INT)-target:getStat(dsp.mod.INT),dsp.skill.ELEMENTAL_MAGIC, 5)
+    local resm = applyPlayerResistance(pet,-1,target,pet:getStat(tpz.mod.INT)-target:getStat(tpz.mod.INT),tpz.skill.ELEMENTAL_MAGIC, 5)
     if (resm < 0.5) then
         skill:setMsg(tpz.msg.basic.RESIST) -- resist message
         return tpz.effect.SLEEP_I

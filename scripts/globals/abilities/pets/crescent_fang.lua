@@ -21,7 +21,7 @@ function onPetAbility(target, pet, skill)
     totaldamage = AvatarFinalAdjustments(damage.dmg,pet,skill,target,tpz.attackType.PHYSICAL,tpz.damageType.PIERCING,numhits)
 
     if (damage.hitslanded > 0) then
-        target:addStatusEffect(dsp.effect.PARALYSIS, 25, 0, 90)
+        target:addStatusEffect(tpz.effect.PARALYSIS, 25, 0, 90)
     end
 
     target:takeDamage(totaldamage, pet, tpz.attackType.PHYSICAL, tpz.damageType.PIERCING)

@@ -8333,7 +8333,7 @@ inline int32 CLuaBaseEntity::delLearnedAbility(lua_State *L)
 /************************************************************************
 *  Function: addSpell()
 *  Purpose : Adds a specified spell to the player
-*  Example : player:addSpell(128)
+*  Example : player:adtpzell(128)
 *  Notes   :
 ************************************************************************/
 
@@ -13047,10 +13047,10 @@ inline int32 CLuaBaseEntity::hasTrait(lua_State *L)
 
 inline int32 CLuaBaseEntity::getTraitValue(lua_State* L)
 {
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
-    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     lua_pushinteger(L, charutils::getTraitValue((CCharEntity*)m_PBaseEntity, lua_tointeger(L, 1)));
     return 1;
@@ -14034,11 +14034,11 @@ inline int32 CLuaBaseEntity::getTHlevel(lua_State* L)
 
 inline int32 CLuaBaseEntity::addCharMod(lua_State* L)
 {
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
-    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
-    DSP_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 2) || !lua_isnumber(L, 2));
 
     charutils::AddCharMod(((CCharEntity*)m_PBaseEntity), static_cast<Mod>(lua_tointeger(L, 1)), (int16)lua_tointeger(L, 2));
 
@@ -14050,10 +14050,10 @@ inline int32 CLuaBaseEntity::addCharMod(lua_State* L)
 
 inline int32 CLuaBaseEntity::getCharMod(lua_State* L)
 {
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
-    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     lua_pushinteger(L, ((CCharEntity*)m_PBaseEntity)->getCharMod(static_cast<Mod>(lua_tointeger(L, 1))));
 
@@ -14062,10 +14062,10 @@ inline int32 CLuaBaseEntity::getCharMod(lua_State* L)
 
 inline int32 CLuaBaseEntity::getBountyMob(lua_State* L)
 {
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity->objtype != TYPE_PC);
 
-    DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
     CCharEntity* PChar = ((CCharEntity*)m_PBaseEntity);
     uint8 bountyType = lua_isnumber(L, 1);
@@ -14079,7 +14079,7 @@ inline int32 CLuaBaseEntity::getBountyMob(lua_State* L)
     {
         mobId = bountyMob->Mob->id;
 
-        dropItem = bountyMob->Items->at(dsprand::GetRandomNumber(bountyMob->Items->size()));
+        dropItem = bountyMob->Items->at(tpzrand::GetRandomNumber(bountyMob->Items->size()));
         if (dropItem)
         {
             itemId = dropItem->getID();
@@ -14094,11 +14094,11 @@ inline int32 CLuaBaseEntity::getBountyMob(lua_State* L)
 
 inline int32 CLuaBaseEntity::setFace(lua_State* L)
 {
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
 
     if (m_PBaseEntity->objtype == TYPE_PC)
     {
-        DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+        TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
       
         m_PBaseEntity->look.face = (uint16)lua_tointeger(L, 1);
 
@@ -14111,11 +14111,11 @@ inline int32 CLuaBaseEntity::setFace(lua_State* L)
 
 inline int32 CLuaBaseEntity::setRace(lua_State* L)
 {
-    DSP_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
+    TPZ_DEBUG_BREAK_IF(m_PBaseEntity == nullptr);
 
     if (m_PBaseEntity->objtype == TYPE_PC)
     {
-        DSP_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+        TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
 
         m_PBaseEntity->look.race = (uint16)lua_tointeger(L, 1);
 

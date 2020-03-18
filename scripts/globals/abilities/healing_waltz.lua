@@ -18,7 +18,7 @@ function onAbilityCheck(player,target,ability)
     elseif (player:hasStatusEffect(tpz.effect.TRANCE)) then
         return 0,0
     elseif (player:getTP() < 100) then
-        return dsp.msg.basic.NOT_ENOUGH_TP,0
+        return tpz.msg.basic.NOT_ENOUGH_TP,0
     else
         --[[ Apply "Waltz Ability Delay" reduction
             1 modifier = 1 second]]
@@ -41,7 +41,7 @@ end
 
 function onUseAbility(player,target,ability)
     -- Only remove TP if the player doesn't have Trance.
-    if not player:hasStatusEffect(dsp.effect.TRANCE) then
+    if not player:hasStatusEffect(tpz.effect.TRANCE) then
         player:delTP(100)
     end
 
