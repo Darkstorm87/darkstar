@@ -21,12 +21,12 @@ function onPetAbility(target, pet, skill)
     if (master ~= nil and master:isPC()) then
         merits = master:getMerit(tpz.merit.THUNDERSTORM)
     end
-    
+
     tp = tp + (merits - 40)
     if (tp > 300) then
         tp = 300
     end
-    
+
     --note: this formula is only accurate for level 75 - 76+ may have a different intercept and/or slope
     local damage = math.floor(512 + 2*(tp+1))
     damage = damage + math.max(0, dINT * 2.5)

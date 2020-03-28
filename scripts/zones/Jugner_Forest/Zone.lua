@@ -57,9 +57,9 @@ function onEventUpdate( player, csid, option)
 end
 
 function onEventFinish( player, csid, option)
-    if (csid == 15) then
-        lightCutsceneFinish(player); -- Quest: I Can Hear A Rainbow
-    elseif (csid == 14) then
-        player:setCharVar("UnderOathCS",8); -- Quest: Under Oath - PLD AF3
+    if csid == 15 then
+        lightCutsceneFinish(player) -- Quest: I Can Hear A Rainbow
+    elseif csid == 14 then
+        player:setCharVar("UnderOathCS", 8) -- Quest: Under Oath - PLD AF3
     end
-end;
+end
