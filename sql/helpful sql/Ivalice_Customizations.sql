@@ -1,4 +1,4 @@
-update zone_settings set zoneip = '184.97.163.130';
+update zone_settings set zoneip = '184.97.151.39';
 
 -- Augments
 UPDATE augments SET multiplier = 100, value = 1 WHERE augmentId = 49;
