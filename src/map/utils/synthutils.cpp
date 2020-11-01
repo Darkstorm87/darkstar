@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -41,30 +41,27 @@
 #include "../trade_container.h"
 #include "../vana_time.h"
 #include "../anticheat.h"
+#include "../roe.h"
 
 #include "charutils.h"
 #include "itemutils.h"
 #include "synthutils.h"
 #include "zoneutils.h"
 
-//#define _TPZ_SYNTH_DEBUG_MESSAGES_ // включаем отладочные сообщения
+//#define _TPZ_SYNTH_DEBUG_MESSAGES_ // enable debugging messages
 
 namespace synthutils
 {
 
-/************************************************************************
-*                                                                       *
-*  Проверяем наличие рецепта и возможности его синтеза (если его        *
-*  сложность выше на 15 уровней, чем умение персонажа, то рецепт        *
-*  считается сверх трудным и синтех отменяется). Так же собираем всю    *
-*  необходимую информацию о рецепте, чтобы не обращаться к базе         *
-*  несколько раз                                                        *
-*                                                                       *
-*  в поля itemID девятой ячейки сохраняем ID рецепта                    *
-*  в поля quantity 9-16 ячеек записываем требуемые значения skills      *
-*  в поля itemID и slotID 10-14 ячеек записываем результаты синтеза     *
-*                                                                       *
-************************************************************************/
+/********************************************************************************************************************************
+* We check the availability of the recipe and the possibility of its synthesis.                                                 *
+* If its difficulty is 15 levels higher than character skill then recipe is considered too difficult and the synth is canceled. *
+* We also collect all the necessary information about the recipe, to avoid contacting the database repeatedly.                  *
+*                                                                                                                               *
+* In the itemID fields of the ninth cell, we save the recipe ID                                                                 *
+* In the quantity fields of 9-16 cells, write the required skills values                                                        *
+* In the fields itemID and slotID of 10-14 cells, we write the results of the synthesis                                         *
+********************************************************************************************************************************/
 
 bool isRightRecipe(CCharEntity* PChar)
 {
@@ -102,11 +99,11 @@ bool isRightRecipe(CCharEntity* PChar)
         Sql_NumRows(SqlHandle) != 0 &&
         Sql_NextRow(SqlHandle) == SQL_SUCCESS)
     {
-        uint16 KeyItemID = (uint16)Sql_GetUIntData(SqlHandle,1);
+        uint16 KeyItemID = (uint16)Sql_GetUIntData(SqlHandle,1); // Check if recipe needs KI
 
-        if ((KeyItemID == 0) || (charutils::hasKeyItem(PChar,KeyItemID)))
+        if ((KeyItemID == 0) || (charutils::hasKeyItem(PChar,KeyItemID))) // If recipe doesn't need KI OR Player has the required KI
         {
-            // в девятую ячейку записываем id рецепта
+            // in the ninth cell write the id of the recipe
             PChar->CraftContainer->setItem(9, Sql_GetUIntData(SqlHandle,0),0xFF,0);
             #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
             ShowDebug(CL_CYAN"Recipe matches ID %u.\n" CL_RESET, PChar->CraftContainer->getItemID(9));
@@ -116,23 +113,23 @@ bool isRightRecipe(CCharEntity* PChar)
             PChar->CraftContainer->setItem(10 + 2, (uint16)Sql_GetUIntData(SqlHandle,11), (uint8)Sql_GetUIntData(SqlHandle,15), 0); // RESULT_HQ
             PChar->CraftContainer->setItem(10 + 3, (uint16)Sql_GetUIntData(SqlHandle,12), (uint8)Sql_GetUIntData(SqlHandle,16), 0); // RESULT_HQ2
             PChar->CraftContainer->setItem(10 + 4, (uint16)Sql_GetUIntData(SqlHandle,13), (uint8)Sql_GetUIntData(SqlHandle,17), 0); // RESULT_HQ3
-            PChar->CraftContainer->setCraftType((uint8)Sql_GetUIntData(SqlHandle, 18));
+            PChar->CraftContainer->setCraftType((uint8)Sql_GetUIntData(SqlHandle, 18)); // Store if it's a desynth
 
             uint16 skillValue   = 0;
             uint16 currentSkill = 0;
 
-            for (uint8 skillID = 49; skillID < 57; ++skillID)
+            for (uint8 skillID = SKILL_WOODWORKING; skillID <= SKILL_COOKING; ++skillID) // range for all 8 synth skills
             {
                 skillValue   = (uint16)Sql_GetUIntData(SqlHandle,(skillID-49+2));
                 currentSkill = PChar->RealSkills.skill[skillID];
 
-                // skill записываем в поле quantity ячеек 9-16
+                // skill write in the quantity field of cells 9-16
                 PChar->CraftContainer->setQuantity(skillID-40, skillValue);
 
                 #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
                 ShowDebug(CL_CYAN"Current skill = %u, Recipe skill = %u\n" CL_RESET, currentSkill, skillValue*10);
                 #endif
-                if (currentSkill < (skillValue*10 - 150))
+                if (currentSkill < (skillValue*10 - 150)) // Check player skill against recipe level. Range must be 14 or less.
                 {
                     PChar->pushPacket(new CSynthMessagePacket(PChar, SYNTH_NOSKILL));
                     #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
@@ -160,97 +157,45 @@ bool isRightRecipe(CCharEntity* PChar)
     return false;
 }
 
-/************************************************************************
-*                                                                       *
-*  Расчитываем сложность синтеза для конкретного умения. Хорошо бы      *
-*  сохранять результат в какой-нибудь ячейке контейнера (тип dooble)    *
-*                                                                       *
-************************************************************************/
+/****************************************************************************
+*                                                                           *
+* We calculate the complexity of the synthesis for a particular skill.      *
+* It is good to save the result in some cell of the container (dooble type) *
+*                                                                           *
+****************************************************************************/
 
 double getSynthDifficulty(CCharEntity* PChar, uint8 skillID)
 {
-    uint8  ElementDirection = 0;
-    uint8  WeekDay = (uint8)CVanaTime::getInstance()->getWeekday();
-    uint8  crystalElement = PChar->CraftContainer->getType();
-    uint8  direction = (PChar->loc.p.rotation - 16)/32;
-    uint8  strongElement[8] = {2,3,5,4,0,1,7,6};
     Mod ModID = Mod::NONE;
 
     switch (skillID)
     {
-        case SKILL_WOODWORKING:  ModID = Mod::WOOD;     break;
-        case SKILL_SMITHING:     ModID = Mod::SMITH;        break;
-        case SKILL_GOLDSMITHING: ModID = Mod::GOLDSMITH;    break;
-        case SKILL_CLOTHCRAFT:   ModID = Mod::CLOTH;        break;
-        case SKILL_LEATHERCRAFT: ModID = Mod::LEATHER;  break;
-        case SKILL_BONECRAFT:    ModID = Mod::BONE;     break;
-        case SKILL_ALCHEMY:      ModID = Mod::ALCHEMY;  break;
-        case SKILL_COOKING:      ModID = Mod::COOK;     break;
+        case SKILL_WOODWORKING:  ModID = Mod::WOOD;      break;
+        case SKILL_SMITHING:     ModID = Mod::SMITH;     break;
+        case SKILL_GOLDSMITHING: ModID = Mod::GOLDSMITH; break;
+        case SKILL_CLOTHCRAFT:   ModID = Mod::CLOTH;     break;
+        case SKILL_LEATHERCRAFT: ModID = Mod::LEATHER;   break;
+        case SKILL_BONECRAFT:    ModID = Mod::BONE;      break;
+        case SKILL_ALCHEMY:      ModID = Mod::ALCHEMY;   break;
+        case SKILL_COOKING:      ModID = Mod::COOK;      break;
     }
 
     uint8 charSkill = PChar->RealSkills.skill[skillID]/10;  //player skill level is truncated before synth difficulty is calced
     double difficult = PChar->CraftContainer->getQuantity(skillID-40) - (double)(charSkill + PChar->getMod(ModID));
-    double MoonPhase = (double)CVanaTime::getInstance()->getMoonPhase();
-
-    if (map_config.craft_day_matters == 1)
-    {
-        if (crystalElement == WeekDay)
-            difficult -= 1;
-        else if (strongElement[crystalElement] == WeekDay)
-            difficult += 1;
-        else if (strongElement[WeekDay] == crystalElement)
-            difficult -= 1;
-        else if (WeekDay == LIGHTSDAY)
-            difficult -= 1;
-        else if (WeekDay == DARKSDAY)
-            difficult += 1;
-    }
-
-    if (map_config.craft_moonphase_matters == 1)
-    {
-        difficult -= (MoonPhase - 50)/50;   // full moon reduces difficulty by 1, new moon increases difficulty by 1, 50% moon has 0 effect
-    }
-
-    if (map_config.craft_direction_matters == 1)
-    {
-        switch (direction)
-        {
-            case 0: ElementDirection = ELEMENT_WIND;      break;
-            case 1: ElementDirection = ELEMENT_EARTH;     break;
-            case 2: ElementDirection = ELEMENT_LIGHTNING; break;
-            case 3: ElementDirection = ELEMENT_WATER;     break;
-            case 4: ElementDirection = ELEMENT_FIRE;      break;
-            case 5: ElementDirection = ELEMENT_DARK;      break;
-            case 6: ElementDirection = ELEMENT_LIGHT;     break;
-            case 7: ElementDirection = ELEMENT_ICE;       break;
-        }
-
-        if (crystalElement == ElementDirection)
-        {
-            difficult -= 0.5;
-        }
-        else if (strongElement[crystalElement] == ElementDirection)
-        {
-            difficult += 0.5;
-        }
-    }
 
     #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
-    ShowDebug(CL_CYAN"Direction = %i\n" CL_RESET, ElementDirection);
-    ShowDebug(CL_CYAN"Day = %i\n" CL_RESET, WeekDay);
-    ShowDebug(CL_CYAN"Moon = %g\n" CL_RESET, MoonPhase);
     ShowDebug(CL_CYAN"Difficulty = %g\n" CL_RESET, difficult);
     #endif
 
     return difficult;
 }
 
-/************************************************************************
-*                                                                       *
-*  Проверяем возможность создания предметов высокого качества           *
-*  Это сделано из-за наличия в игре специфических колец.                *
-*                                                                       *
-************************************************************************/
+/*************************************************************
+*                                                            *
+* Checking the ability to create high quality items          *
+* This is due to the presence of specific rings in the game. *
+*                                                            *
+*************************************************************/
 
 bool canSynthesizeHQ(CCharEntity* PChar, uint8 skillID)
 {
@@ -258,68 +203,40 @@ bool canSynthesizeHQ(CCharEntity* PChar, uint8 skillID)
 
     switch (skillID)
     {
-        case SKILL_WOODWORKING:  ModID = Mod::ANTIHQ_WOOD;    break;
-        case SKILL_SMITHING:     ModID = Mod::ANTIHQ_SMITH;   break;
+        case SKILL_WOODWORKING:  ModID = Mod::ANTIHQ_WOOD;      break;
+        case SKILL_SMITHING:     ModID = Mod::ANTIHQ_SMITH;     break;
         case SKILL_GOLDSMITHING: ModID = Mod::ANTIHQ_GOLDSMITH; break;
-        case SKILL_CLOTHCRAFT:   ModID = Mod::ANTIHQ_CLOTH;   break;
-        case SKILL_LEATHERCRAFT: ModID = Mod::ANTIHQ_LEATHER;     break;
-        case SKILL_BONECRAFT:    ModID = Mod::ANTIHQ_BONE;    break;
-        case SKILL_ALCHEMY:      ModID = Mod::ANTIHQ_ALCHEMY;     break;
-        case SKILL_COOKING:      ModID = Mod::ANTIHQ_COOK;    break;
+        case SKILL_CLOTHCRAFT:   ModID = Mod::ANTIHQ_CLOTH;     break;
+        case SKILL_LEATHERCRAFT: ModID = Mod::ANTIHQ_LEATHER;   break;
+        case SKILL_BONECRAFT:    ModID = Mod::ANTIHQ_BONE;      break;
+        case SKILL_ALCHEMY:      ModID = Mod::ANTIHQ_ALCHEMY;   break;
+        case SKILL_COOKING:      ModID = Mod::ANTIHQ_COOK;      break;
     }
 
     return (PChar->getMod(ModID) != 0 ? false : true);
 }
 
-/************************************************************************
-*                                                                       *
-*  Получаем ID главного умения в рецепте. Именно от него зависит        *
-*  возможность создания предметов высокого качества                     *
-*                                                                       *
-************************************************************************/
-
-uint8 getGeneralCraft(CCharEntity* PChar)
-{
-    uint8 skillValue   = 0;
-    uint8 generalCraft = 0;
-
-    for(uint8 skillID = 49; skillID < 57; skillID ++)
-    {
-        if (PChar->CraftContainer->getQuantity(skillID-40) > skillValue)
-        {
-            skillValue = PChar->CraftContainer->getQuantity(skillID-40);
-            generalCraft = skillID;
-        }
-    }
-
-    return generalCraft;
-}
-
-/************************************************************************
-*                                                                       *
-*  Расчет результата синтеза.                                           *
-*                                                                       *
-*  результат синтеза записываем в поле quantity ячейки кристалла.       *
-*  сохраняем в slotID ячейки кристалла ID умения, из-за котороги синтез *
-*  провалился.                                                          *
-*                                                                       *
-************************************************************************/
+/**************************************************************************************
+*                                                                                     *
+* Calculation of the result of the synthesis.                                         *
+*                                                                                     *
+* The result of the synthesis is written in the quantity field of the crystal cell.   *
+* Save the skill ID in the slotID of the crystal cell, due to which synthesis failed. *
+*                                                                                     *
+**************************************************************************************/
 
 uint8 calcSynthResult(CCharEntity* PChar)
 {
     uint8 result = SYNTHESIS_SUCCESS;
     uint8 hqtier = 0;
-    uint8 mainID = getGeneralCraft(PChar);
+    uint8 finalhqtier = 4;
     bool canHQ = true;
 
     double success = 0;
     double chance  = 0;
-    double MoonPhase = (double)CVanaTime::getInstance()->getMoonPhase();
-    uint8  WeekDay = (uint8)CVanaTime::getInstance()->getWeekday();
-    uint8  crystalElement = PChar->CraftContainer->getType();
-    uint8  strongElement[8] = {2,3,5,4,0,1,7,6};
+    double random = tpzrand::GetRandomNumber(1.);
 
-    for(uint8 skillID = 49; skillID < 57; ++skillID)
+    for (uint8 skillID = SKILL_WOODWORKING; skillID <= SKILL_COOKING; ++skillID)
     {
         uint8 checkSkill = PChar->CraftContainer->getQuantity(skillID-40);
         if(checkSkill != 0)
@@ -327,25 +244,32 @@ uint8 calcSynthResult(CCharEntity* PChar)
             double synthDiff = getSynthDifficulty(PChar, skillID);
             hqtier = 0;
 
-			if(synthDiff <= 0)
-			{
-				success = 0.99;
+            if(synthDiff <= 0)
+            {
+                if (PChar->CraftContainer->getCraftType() ==  1) //if it's a desynth lower success rate
+                    success = 0.45;
+                else
+                    success = 0.99;
 
-                if(synthDiff > -11) //0-10 levels over recipe
-                {
-                    success -= (double)(PChar->CraftContainer->getType() == ELEMENT_LIGHTNING) * 0.2;
+                if(synthDiff > -11)       //0-10 levels over recipe
                     hqtier = 1;
-                }
-                else if(synthDiff > -31) //11-30 levels over recipe
+                else if(synthDiff > -31)  //11-30 levels over recipe
                     hqtier = 2;
-                else if(synthDiff > -51) //31-50 levels over recipe
+                else if(synthDiff > -51)  //31-50 levels over recipe
                     hqtier = 3;
-                else //51+ levels over recipe
+                else                      //51+ levels over recipe
                     hqtier = 4;
+
+                if(hqtier < finalhqtier)
+                    finalhqtier = hqtier; //set var to limit possible hq if needed
             }
             else
             {
-                success = 0.95 - (synthDiff / 10) - (double)(PChar->CraftContainer->getType() == ELEMENT_LIGHTNING) * 0.2;
+                if (PChar->CraftContainer->getCraftType() ==  1) //if it's a desynth lower success rate
+                    success = 0.45 - (synthDiff / 10);
+                else
+                    success = 0.95 - (synthDiff / 10);
+
                 canHQ = false;
                 if(success < 0.05)
                     success = 0.05;
@@ -362,10 +286,10 @@ uint8 calcSynthResult(CCharEntity* PChar)
             if(!canSynthesizeHQ(PChar,skillID))
             {
                 success += 0.01; //the crafting rings that block HQ synthesis all also increase their respective craft's success rate by 1%
-                canHQ = false; //assuming here that if a crafting ring is used matching a recipe's subsynth, overall HQ will still be blocked
+                canHQ = false;   //assuming here that if a crafting ring is used matching a recipe's subsynth, overall HQ will still be blocked
             }
 
-            if (success > 0.99)
+            if(success > 0.99)
             {
                 // Clamp success rate to 0.99
                 // Even if using kitron macaron, breaks can still happen
@@ -376,76 +300,14 @@ uint8 calcSynthResult(CCharEntity* PChar)
                 success = 0.99;
             }
 
-            double random = tpzrand::GetRandomNumber(1.);
             #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
             ShowDebug(CL_CYAN"Success: %g  Random: %g\n" CL_RESET, success, random);
             #endif
 
-            if(random < success)
+            if(random >= success) // Synthesis broke
             {
-                if(mainID == skillID)
-                {
-                    random = tpzrand::GetRandomNumber(1.);
-
-                    switch(hqtier)
-                    {
-                        case 4:  chance = 0.5; break; // 1 in 2
-                        case 3:  chance = 0.25; break; // 1 in 4
-                        case 2:  chance = 0.0625; break; // 1 in 16
-                        case 1:  chance = 0.015625; break; // 1 in 64
-                        default: chance = 0.000; break;
-                    }
-
-                    int16 modSynthHqRate = PChar->getMod(Mod::SYNTH_HQ_RATE);
-
-                    // Using x/512 calculation for HQ success rate modifier
-                    // see: https://www.bluegartr.com/threads/130586-CraftyMath-v2-Post-September-2017-Update
-                    chance += (double)modSynthHqRate / 512.;
-
-                    if(chance > 0)
-                    {
-                        if (map_config.craft_moonphase_matters)
-                            chance *= 1.0 - (MoonPhase - 50)/150;  //new moon +33% of base rate bonus to hq chance, full moon -33%, corresponding/weakday/lightsday -33%, opposing/darksday +33%
-
-                        if (map_config.craft_day_matters)
-                        {
-                            if (crystalElement == WeekDay)
-                                chance *= 1.0 - ((double)1 / 3);
-                            else if (strongElement[crystalElement] == WeekDay)
-                                chance *= 1.0 + ((double)1 / 3);
-                            else if (strongElement[WeekDay] == crystalElement)
-                                chance *= 1.0 - ((double)1 / 3);
-                            else if (WeekDay == LIGHTSDAY)
-                                chance *= 1.0 - ((double)1 / 3);
-                            else if (WeekDay == DARKSDAY)
-                                chance *= 1.0 + ((double)1 / 3);
-                        }
-
-                        chance = std::clamp(chance, 0., 0.500);
-                    }
-
-                    #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
-                    ShowDebug(CL_CYAN"HQ Tier: %i HQ Chance: %g Random: %g SkillID: %u\n" CL_RESET, hqtier, chance, random, skillID);
-                    #endif
-
-                    if (random < chance && canHQ)
-                    {
-                        random = tpzrand::GetRandomNumber(0, 16);
-
-                        if (random == 0)
-                            result = SYNTHESIS_HQ3;
-                        else if (random < 4)
-                            result = SYNTHESIS_HQ2;
-                        else
-                            result = SYNTHESIS_HQ;
-
-                    }
-                }
-            }
-            else
-            {
-                // сохраняем умение, из-за которого синтез провалился.
-                // используем slotID ячейки кристалла, т.к. он был удален еще в начале синтеза
+                // keep the skill, because of which the synthesis failed.
+                // use the slotID of the crystal cell, because it was removed at the beginning of the synthesis
                 PChar->CraftContainer->setInvSlotID(0,skillID);
                 result = SYNTHESIS_FAIL;
                 break;
@@ -453,7 +315,56 @@ uint8 calcSynthResult(CCharEntity* PChar)
         }
     }
 
-    // результат синтеза записываем в поле quantity ячейки кристалла.
+    if(result != SYNTHESIS_FAIL) // It has gone through the cycle without breaking
+    {
+        switch(finalhqtier)
+        {
+            case 4:  chance = 0.5;      break; // 1 in 2
+            case 3:  chance = 0.25;     break; // 1 in 4
+            case 2:  chance = 0.0625;   break; // 1 in 16
+            case 1:  chance = 0.015625; break; // 1 in 64
+            default: chance = 0.000;    break;
+        }
+
+        if (PChar->CraftContainer->getCraftType() ==  1) //if it's a desynth raise HQ chance
+            chance *= 1.5;
+
+        int16 modSynthHqRate = PChar->getMod(Mod::SYNTH_HQ_RATE);
+
+        // Using x/512 calculation for HQ success rate modifier
+        // see: https://www.bluegartr.com/threads/130586-CraftyMath-v2-Post-September-2017-Update
+        chance += (double)modSynthHqRate / 512.;
+
+        if(chance > 0 && canHQ) // if there is a chance already and it can HQ, we add myth mods
+        {
+            //limit max hq chance
+            if (PChar->CraftContainer->getCraftType() ==  1)
+                chance = std::clamp(chance, 0., 0.800);
+            else
+                chance = std::clamp(chance, 0., 0.500);
+        }
+
+        #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
+        ShowDebug(CL_CYAN"HQ Tier: %i HQ Chance: %g Random: %g SkillID: %u\n" CL_RESET, hqtier, chance, random, skillID);
+        #endif
+
+        if(random < chance && canHQ) // we try for HQ
+        {
+            random = tpzrand::GetRandomNumber(0, 16);
+
+            if (random == 0)
+                result = SYNTHESIS_HQ3;
+            else if (random < 4)
+                result = SYNTHESIS_HQ2;
+            else
+                result = SYNTHESIS_HQ;
+
+        }
+        else
+            result = SYNTHESIS_SUCCESS;
+    }
+
+    // the result of the synthesis is written in the quantity field of the crystal cell.
     PChar->CraftContainer->setQuantity(0, result);
 
     switch(result)
@@ -492,142 +403,182 @@ uint8 calcSynthResult(CCharEntity* PChar)
     return result;
 }
 
-/************************************************************************
-*                                                                       *
-*  Пытаемся увеличить умение персонажа.                                 *
-*  Desynthesis (разбор предметов на запчасть) не увеличивает умение.    *
-*                                                                       *
-*  Ломать не строить. Ломание столов и стульев не сделает из нас        *
-*  плотника, значит умение в данном случае не повышается.               *
-*                                                                       *
-************************************************************************/
+/********************************************************************
+*                                                                   *
+* Do Skill Up                                                       *
+*                                                                   *
+********************************************************************/
 
 int32 doSynthSkillUp(CCharEntity* PChar)
 {
-    for(uint8 skillID = 49; skillID < 57; ++skillID)
+    for (uint8 skillID = SKILL_WOODWORKING; skillID <= SKILL_COOKING; ++skillID) // Check for all skills involved in a recipe, to check for skill up
     {
-        if (PChar->CraftContainer->getQuantity(skillID-40) == 0)    // получаем необходимый уровень умения рецепта
+        if (PChar->CraftContainer->getQuantity(skillID-40) == 0) // Get the required skill level for the recipe
         {
             continue;
         }
 
-        uint8  skillRank = PChar->RealSkills.rank[skillID];
-        uint16 maxSkill  = (skillRank+1)*100;
+        uint8  skillRank = PChar->RealSkills.rank[skillID]; // Check character rank
+        uint16 maxSkill  = (skillRank+1)*100;               // Skill cap, depending on rank
 
-        int32  charSkill = PChar->RealSkills.skill[skillID];
+        int32  charSkill = PChar->RealSkills.skill[skillID]; // Compare against real character skill, without image support, gear or moghancements
         int32  baseDiff   = PChar->CraftContainer->getQuantity(skillID-40) - charSkill/10; //the 5 lvl difference rule for breaks does NOT consider the effects of image support/gear
 
-        if ((baseDiff <= 0) || ((baseDiff > 5) && (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL)))       // результат синтеза хранится в quantity нулевой ячейки
-        {
+        if ((baseDiff <= 0) || ((baseDiff > 5) && (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL))) // synthesis result is stored in the zero cell quantity
+        {                                                                                                     // if you break a recipe higher than 5 levels, no skill ups
             continue;
         }
 
-        if (charSkill < maxSkill)
+        if (charSkill < maxSkill) // Check if a character can skill up
         {
-            double skillUpChance = ((double)baseDiff*(map_config.craft_chance_multiplier - (log(1.2 + charSkill/100))))/10;
+            double skillUpChance = (double)baseDiff * map_config.craft_chance_multiplier * (3 - (log(1.2 + charSkill/100))) / 10;
 
             // Apply synthesis skill gain rate modifier before synthesis fail modifier
             int16 modSynthSkillGain = PChar->getMod(Mod::SYNTH_SKILL_GAIN);
             skillUpChance += (double)modSynthSkillGain * 0.01;
 
-            skillUpChance = skillUpChance/(1 + (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL));      // результат синтеза хранится в quantity нулевой ячейки
+            skillUpChance = skillUpChance / (1 + (PChar->CraftContainer->getQuantity(0) == SYNTHESIS_FAIL)); // Lower skill up chance if synth breaks
+
+            if (PChar->CraftContainer->getCraftType() == 1)  // If it's a desynth lower skill up rate
+                skillUpChance = skillUpChance / 2;
 
             double random = tpzrand::GetRandomNumber(1.);
             #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
             ShowDebug(CL_CYAN"Skill up chance: %g  Random: %g\n" CL_RESET, skillUpChance, random);
             #endif
 
-            if (random < skillUpChance)
+            if (random < skillUpChance) // If character skills up
             {
-                int32  satier = 0;
-                int32  skillAmount  = 1;
-                double chance = 0;
+                int32  skillUpAmount = 1;
 
-                if((baseDiff >= 1) && (baseDiff < 3))
-                    satier = 1;
-                else if((baseDiff >= 3) && (baseDiff < 5))
-                    satier = 2;
-                else if((baseDiff >= 5) && (baseDiff < 8))
-                    satier = 3;
-                else if((baseDiff >= 8) && (baseDiff < 10))
-                    satier = 4;
-                else if (baseDiff >= 10)
-                    satier = 5;
-
-                for(uint8 i = 0; i < 4; i ++)
+                if (charSkill < 600) // no skill ups over 0.1 happen over level 60
                 {
-                    random = tpzrand::GetRandomNumber(1.);
-                    #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
-                    ShowDebug(CL_CYAN"SkillAmount Tier: %i  Random: %g\n" CL_RESET, satier, random);
-                    #endif
+                    int32  satier = 0;
+                    double chance = 0;
 
-                    switch(satier)
+                    // Set satier initial rank
+                    if((baseDiff >= 1) && (baseDiff < 3))
+                        satier = 1;
+                    else if((baseDiff >= 3) && (baseDiff < 5))
+                        satier = 2;
+                    else if((baseDiff >= 5) && (baseDiff < 8))
+                        satier = 3;
+                    else if((baseDiff >= 8) && (baseDiff < 10))
+                        satier = 4;
+                    else if (baseDiff >= 10)
+                        satier = 5;
+
+                    for(uint8 i = 0; i < 4; i ++) // cicle up to 4 times until cap (0.5) or break. The lower the satier, the more likely it will break
                     {
-                        case 5:  chance = 0.900; break;
-                        case 4:  chance = 0.700; break;
-                        case 3:  chance = 0.500; break;
-                        case 2:  chance = 0.300; break;
-                        case 1:  chance = 0.200; break;
-                        default: chance = 0.000; break;
+                        #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
+                        ShowDebug(CL_CYAN"SkillUpAmount Tier: %i  Random: %g\n" CL_RESET, satier, random);
+                        #endif
+
+                        switch(satier)
+                        {
+                            case 5:  chance = 0.900; break;
+                            case 4:  chance = 0.700; break;
+                            case 3:  chance = 0.500; break;
+                            case 2:  chance = 0.300; break;
+                            case 1:  chance = 0.200; break;
+                            default: chance = 0.000; break;
+                        }
+
+                        if(chance < random)
+                            break;
+
+                        skillUpAmount++;
+                        satier--;
                     }
-
-                    if(chance < random)
-                        break;
-
-                    skillAmount++;
-                    satier--;
                 }
 
                 // Do craft amount multiplier
                 if (map_config.craft_amount_multiplier > 1)
                 {
-                    skillAmount += (int32)(skillAmount * map_config.craft_amount_multiplier);
-                    if (skillAmount > 9)
+                    skillUpAmount += (int32)(skillUpAmount * map_config.craft_amount_multiplier);
+                    if (skillUpAmount > 9)
                     {
-                        skillAmount = 9;
+                        skillUpAmount = 9;
                     }
                 }
 
-                if((skillAmount + charSkill) > maxSkill)
+                // Cap skill gain if character hits the current cap
+                if((skillUpAmount + charSkill) > maxSkill)
                 {
-                    skillAmount = maxSkill - charSkill;
+                    skillUpAmount = maxSkill - charSkill;
                 }
 
-                PChar->RealSkills.skill[skillID] += skillAmount;
-                PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, skillID, skillAmount, 38));
+                uint16 skillCumulation = skillUpAmount;
+                uint8 skillHighest = skillID;
+                uint16 skillHighestValue = map_config.craft_common_cap;
 
-                if((charSkill/10) < (charSkill + skillAmount)/10)
+                if ((charSkill + skillUpAmount) > map_config.craft_common_cap) // If character is using the specialization system
+                {
+                    // Cycle through all skills
+                    for (uint8 i = SKILL_WOODWORKING; i <= SKILL_COOKING; i++)
+                    {
+                        if (PChar->RealSkills.skill[i] > map_config.craft_common_cap) // If the skill being checked is above the cap from wich spezialitation points start counting.
+                        {
+                            skillCumulation += (PChar->RealSkills.skill[i] - map_config.craft_common_cap); //Add to the ammount of specialization points in use.
+                            if (skillID != i && PChar->RealSkills.skill[i] > skillHighestValue) //Set the ID of the highest craft UNLESS it's the craft currently in use.
+                            {
+                                skillHighest = i;
+                                skillHighestValue = PChar->RealSkills.skill[i];
+                            }
+                        }
+                    }
+                }
+
+                PChar->RealSkills.skill[skillID] += skillUpAmount;
+                PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, skillID, skillUpAmount, 38));
+
+                if ((charSkill / 10) < (charSkill + skillUpAmount) / 10)
                 {
                     PChar->WorkingSkills.skill[skillID] += 0x20;
 
                     PChar->pushPacket(new CCharSkillsPacket(PChar));
-                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, skillID, (charSkill + skillAmount)/10, 53));
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, skillID, (charSkill + skillUpAmount) / 10, 53));
                 }
 
                 charutils::SaveCharSkills(PChar, skillID);
+
+                if (skillHighest != 0 && skillCumulation > map_config.craft_specialization_points)
+                {
+                    PChar->RealSkills.skill[skillHighest] -= skillUpAmount;
+                    PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, skillHighest, skillUpAmount, 310));
+
+                    if ((PChar->RealSkills.skill[skillHighest] + skillUpAmount) / 10 > (PChar->RealSkills.skill[skillHighest]) / 10)
+                    {
+                        PChar->WorkingSkills.skill[skillHighest] -= 0x20;
+                        PChar->pushPacket(new CCharSkillsPacket(PChar));
+                        PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, skillHighest, (PChar->RealSkills.skill[skillHighest] - skillUpAmount) / 10, 53));
+                    }
+
+                    charutils::SaveCharSkills(PChar, skillHighest);
+                }
             }
         }
     }
     return 0;
 }
 
-/************************************************************************
-*                                                                       *
-*  Синтез завершился неудачей. Решаем вопрос, сколько ингредиентов      *
-*  потеряет персонаж. Вероятность потери зависить от умения, из-за      *
-*  которого синтез провалился. ID умения сохранен в slotID ячейки       *
-*  кристалла.                                                           *
-*                                                                       *
-************************************************************************/
+/**************************************************************************
+*                                                                         *
+*  Synthesis failed. We decide how many ingredients will be lost.         *
+*  Probability of loss is dependent on character skill.                   *
+*  Skill ID stored in slotID of cell a crystal.                           *
+*                                                                         *
+**************************************************************************/
 
 int32 doSynthFail(CCharEntity* PChar)
 {
     uint8 currentCraft = PChar->CraftContainer->getInvSlotID(0);
-    double synthDiff    = getSynthDifficulty(PChar, currentCraft);
+    double synthDiff = getSynthDifficulty(PChar, currentCraft);
     int16 modSynthFailRate = PChar->getMod(Mod::SYNTH_FAIL_RATE);
 
     // We are able to get the correct elemental mod here by adding the element to it since they are in the same order
     double reduction = PChar->getMod((Mod)((int32)Mod::SYNTH_FAIL_RATE_FIRE + PChar->CraftContainer->getType()));
+
     // Similarly we get the correct craft mod here by adding the current craft to it since they are in the same order
     reduction += PChar->getMod((Mod)((int32)Mod::SYNTH_FAIL_RATE_WOOD + (currentCraft - SKILL_WOODWORKING)));
     reduction /= 100.0;
@@ -637,7 +588,7 @@ int32 doSynthFail(CCharEntity* PChar)
     uint8 lostCount  = 0;
     uint8 totalCount = 0;
 
-    double random   = 0;
+    double random = 0;
     double lostItem = std::clamp(0.15 - reduction + (synthDiff > 0 ? synthDiff/20 : 0), 0.0, 1.0);
 
     // Translation of JP wiki for the "Synthesis failure rate" modifier is "Synthetic material loss rate"
@@ -703,12 +654,12 @@ int32 doSynthFail(CCharEntity* PChar)
     return 0;
 }
 
-/************************************************************************
-*                                                                       *
-*  Начало синтеза.                                                      *
-*  в поле type контейнера записываем элемент синтеза                    *
-*                                                                       *
-************************************************************************/
+/*********************************************************************
+*                                                                    *
+*  The beginning of the synthesis.                                   *
+*  In the type field of the container we write the synthesis element *
+*                                                                    *
+*********************************************************************/
 
 int32 startSynth(CCharEntity* PChar)
 {
@@ -780,7 +731,7 @@ int32 startSynth(CCharEntity* PChar)
         }
     }
 
-    // удаляем кристалл
+    // remove crystal
     auto PItem = PChar->getStorage(LOC_INVENTORY)->GetItem(PChar->CraftContainer->getInvSlotID(0));
     PItem->setReserve(PItem->getReserve() - 1);
     charutils::UpdateItem(PChar, LOC_INVENTORY, PChar->CraftContainer->getInvSlotID(0), -1);
@@ -827,7 +778,7 @@ int32 startSynth(CCharEntity* PChar)
 
 /************************************************************************
 *                                                                       *
-*  Отправляем результат синтеза персонажу                               *
+*  Send the result of the synthesis to the character                    *
 *                                                                       *
 ************************************************************************/
 
@@ -841,7 +792,7 @@ int32 doSynthResult(CCharEntity* PChar)
         {
             // Attempted cheating - Did not spend enough time doing the synth animation.
             #ifdef _TPZ_SYNTH_DEBUG_MESSAGES_
-            ShowDebug(CL_CYAN"Caught player cheating by injecting synth done packet.\n");
+            ShowExploit(CL_CYAN"Caught player cheating by injecting synth done packet.\n");
             #endif
             // Check whether the cheat type action requires us to actively block the cheating attempt
             // Note: Due to technical reasons jail action also forces us to break the synth
@@ -874,7 +825,7 @@ int32 doSynthResult(CCharEntity* PChar)
     else
     {
         uint16 itemID   = PChar->CraftContainer->getItemID(10 + m_synthResult);
-        uint8  quantity = PChar->CraftContainer->getInvSlotID(10 + m_synthResult); // к сожалению поле quantity занято
+        uint8  quantity = PChar->CraftContainer->getInvSlotID(10 + m_synthResult); // unfortunately, the quantity field is taken
 
         uint8 invSlotID   = 0;
         uint8 nextSlotID  = 0;
@@ -905,7 +856,7 @@ int32 doSynthResult(CCharEntity* PChar)
             }
         }
 
-        // TODO: перейти на новую функцию AddItem, чтобы не обновлять signature ручками
+        // TODO: switch to the new AddItem function so as not to update the signature
 
         invSlotID = charutils::AddItem(PChar, LOC_INVENTORY, itemID, quantity);
 
@@ -938,6 +889,7 @@ int32 doSynthResult(CCharEntity* PChar)
         {
             PChar->pushPacket(new CSynthMessagePacket(PChar, SYNTH_SUCCESS, itemID, quantity));
         }
+        roeutils::event(ROE_EVENT::ROE_SYNTHSUCCESS, PChar, RoeDatagram("itemid", itemID));
     }
 
     doSynthSkillUp(PChar);
@@ -947,7 +899,7 @@ int32 doSynthResult(CCharEntity* PChar)
 
 /************************************************************************
 *                                                                       *
-*  Завершаем синтез                                                     *
+*  We complete the synthesis                                            *
 *                                                                       *
 ************************************************************************/
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
 Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -42,6 +42,12 @@ enum AOERADIUS
 {
     AOERADIUS_ATTACKER = 1,
     AOERADIUS_TARGET = 2
+};
+
+enum AURATARGET
+{
+    AURATARGET_ALLIES  = 0,
+    AURATARGET_ENEMIES = 1,
 };
 
 enum FINDFLAGS
@@ -99,7 +105,8 @@ public:
 	void addAllInParty(CBattleEntity* PTarget, bool withPet);
 	void addAllInMobList(CBattleEntity* PTarget, bool withPet);
     void addAllInEnmityList();
-	void addEntity(CBattleEntity* PTarget, bool withPet);
+    void addAllInRange(CBattleEntity* PTarget, float radius, uint8 allegiance);
+    void addEntity(CBattleEntity* PTarget, bool withPet);
 
     // helpers
     bool isMobOwner(CBattleEntity* PTarget);

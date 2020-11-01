@@ -17,7 +17,7 @@ local idStrengths = {
     [19185] = 4  -- Automaton Oil + 3
 }
 
-function onAbilityCheck(player,target,ability)
+function onAbilityCheck(player, target, ability)
     if not player:getPet() then
         return tpz.msg.basic.REQUIRES_A_PET, 0
     elseif not player:getPetID() or not (player:getPetID() >= 69 and player:getPetID() <= 72) then
@@ -32,7 +32,7 @@ function onAbilityCheck(player,target,ability)
     end
 end
 
-function onUseAbility(player,target,ability)
+function onUseAbility(player, target, ability)
     local id = player:getEquipID(tpz.slot.AMMO)
     local pet = player:getPet()
 
@@ -45,7 +45,7 @@ function onUseAbility(player,target,ability)
         if pet:delStatusEffect(tpz.effect.SILENCE) then return true end
         if pet:delStatusEffect(tpz.effect.BANE) then return true end
         if pet:delStatusEffect(tpz.effect.CURSE_II) then return true end
-        if pet:delStatusEffect(tpz.effect.CURSE) then return true end
+        if pet:delStatusEffect(tpz.effect.CURSE_I) then return true end
         if pet:delStatusEffect(tpz.effect.PARALYSIS) then return true end
         if pet:delStatusEffect(tpz.effect.PLAGUE) then return true end
         if pet:delStatusEffect(tpz.effect.POISON) then return true end

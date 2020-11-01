@@ -8,8 +8,8 @@
 require("scripts/globals/status")
 -----------------------------------
 
-function onAbilityCheck(player,target,ability)
-    return 0,0
+function onAbilityCheck(player, target, ability)
+    return 0, 0
 end
 
 function onUseAbility(player,target,ability)
@@ -18,8 +18,8 @@ function onUseAbility(player,target,ability)
     if (player:hasStatusEffect(tpz.effect.BOOST) == true) then
         local effect = player:getStatusEffect(tpz.effect.BOOST)
         effect:setPower(effect:getPower() + power)
-        player:addMod(tpz.mod.ATTP,power)
+        player:addMod(tpz.mod.ATTP, power)
     else
-        player:addStatusEffect(tpz.effect.BOOST,power,1,180)
+        player:addStatusEffect(tpz.effect.BOOST, power, 1, 180)
     end
 end

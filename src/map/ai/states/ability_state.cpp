@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
 Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -62,7 +62,7 @@ CAbilityState::CAbilityState(CBattleEntity* PEntity, uint16 targid, uint16 abili
         actionTarget.reaction = (REACTION)24;
         actionTarget.animation = 121;
         actionTarget.messageID = 326;
-        actionTarget.param = PAbility->getID() + 16;
+        actionTarget.param = PAbility->getID();
         PEntity->loc.zone->PushPacket(PEntity, CHAR_INRANGE_SELF, new CActionPacket(action));
     }
     m_PEntity->PAI->EventHandler.triggerListener("ABILITY_START", m_PEntity, PAbility);
@@ -83,15 +83,8 @@ void CAbilityState::ApplyEnmity()
             !(m_PAbility->getCE() == 0 && m_PAbility->getVE() == 0))
         {
             CMobEntity* mob = (CMobEntity*)PTarget;
-            if (!mob->CalledForHelp())
-            {
-                mob->m_OwnerID.id = m_PEntity->id;
-                mob->m_OwnerID.targid = m_PEntity->targid;
-            }
-            mob->updatemask |= UPDATE_STATUS;
             mob->PEnmityContainer->UpdateEnmity(m_PEntity, m_PAbility->getCE(), m_PAbility->getVE(), false, m_PAbility->getID() == ABILITY_CHARM);
-            if (mob->m_HiPCLvl < m_PEntity->GetMLevel())
-                mob->m_HiPCLvl = m_PEntity->GetMLevel();
+            battleutils::ClaimMob(mob, m_PEntity);
         }
     }
     else if (PTarget->allegiance == m_PEntity->allegiance)
@@ -145,7 +138,7 @@ bool CAbilityState::CanUseAbility()
         }
         if (PChar->StatusEffectContainer->HasStatusEffect({EFFECT_AMNESIA, EFFECT_IMPAIRMENT}) ||
             (!PAbility->isPetAbility() && !charutils::hasAbility(PChar, PAbility->getID())) ||
-            (PAbility->isPetAbility() && !charutils::hasPetAbility(PChar, PAbility->getID() - 496)))
+            (PAbility->isPetAbility() && !charutils::hasPetAbility(PChar, PAbility->getID() - ABILITY_HEALING_RUBY)))
         {
             PChar->pushPacket(new CMessageBasicPacket(PChar, PChar, 0, 0, MSGBASIC_UNABLE_TO_USE_JA2));
             return false;
@@ -177,7 +170,7 @@ bool CAbilityState::CanUseAbility()
             int32 errNo = luautils::OnAbilityCheck(PChar, PTarget, PAbility, &PMsgTarget);
             if (errNo != 0)
             {
-                PChar->pushPacket(new CMessageBasicPacket(PChar, PMsgTarget, PAbility->getID() + 16, PAbility->getID(), errNo));
+                PChar->pushPacket(new CMessageBasicPacket(PChar, PMsgTarget, PAbility->getID(), PAbility->getID(), errNo));
                 return false;
             }
             return true;

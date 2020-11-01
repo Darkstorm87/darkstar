@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2016 Darkstar Dev Teams
@@ -33,6 +33,7 @@
 #include <thread>
 #include <iostream>
 #include <functional>
+#include <cstdlib>
 
 #ifdef WIN32
 #include <io.h>
@@ -50,6 +51,8 @@ const char* LOGIN_CONF_FILENAME = nullptr;
 const char* VERSION_INFO_FILENAME = nullptr;
 const char* MAINT_CONF_FILENAME = nullptr;
 
+volatile bool consoleThreadRun = true;
+
 login_config_t login_config;    //main settings
 version_info_t version_info;
 maint_config_t maint_config;
@@ -62,7 +65,7 @@ int32 do_init(int32 argc, char** argv)
 {
     int32 i;
     LOGIN_CONF_FILENAME = "conf/login.conf";
-    VERSION_INFO_FILENAME = "version.info";
+    VERSION_INFO_FILENAME = "conf/version.conf";
     MAINT_CONF_FILENAME = "conf/maint.conf";
 
     //srand(gettick());
@@ -80,6 +83,7 @@ int32 do_init(int32 argc, char** argv)
 
     login_config_default();
     config_read(LOGIN_CONF_FILENAME, "login", login_config_read);
+    login_config_read_from_env();
 
     version_info_default();
     config_read(VERSION_INFO_FILENAME, "version info", version_info_read);
@@ -119,6 +123,11 @@ int32 do_init(int32 argc, char** argv)
     messageThread = std::thread(message_server_init);
     ShowStatus("The login-server is " CL_GREEN"ready" CL_RESET" to work...\n");
 
+    if(!login_config.account_creation)
+    {
+        ShowStatus("New account creation is " CL_RED"disabled" CL_RESET" in login_config.\n");
+    }
+
     bool attached = isatty(0);
 
     if (attached)
@@ -128,7 +137,7 @@ int32 do_init(int32 argc, char** argv)
             ShowStatus("Console input thread is ready..\r\n");
             // ctrl c apparently causes log spam
             auto lastInputTime = server_clock::now();
-            while (true)
+            while (consoleThreadRun)
             {
                 if ((server_clock::now() - lastInputTime) > 1s)
                 {
@@ -206,6 +215,7 @@ int32 do_init(int32 argc, char** argv)
                     lastInputTime = server_clock::now();
                 }
             };
+            ShowStatus("Console input thread exiting..\r\n");
         });
     }
     return 0;
@@ -213,13 +223,21 @@ int32 do_init(int32 argc, char** argv)
 
 void do_final(int code)
 {
+    consoleThreadRun = false;
     message_server_close();
     if (messageThread.joinable())
     {
         messageThread.join();
     }
-
-    Sql_Free(SqlHandle);
+    if (consoleInputThread.joinable())
+    {
+        consoleInputThread.join();
+    }
+    if(SqlHandle)
+    {
+        Sql_Free(SqlHandle);
+        SqlHandle = nullptr;
+    }
 
     timer_final();
     socket_final();
@@ -438,6 +456,10 @@ void login_config_read(const char *key, const char *value)
     {
         login_config.log_user_ip = config_switch(value);
     }
+    else if (strcmp(key, "account_creation") == 0)
+    {
+        login_config.account_creation = config_switch(value);
+    }
     else
     {
         ShowWarning("Unknown setting '%s' with value '%s' in  login file\n", key, value);
@@ -488,12 +510,24 @@ void login_config_default()
     login_config.msg_server_ip = "127.0.0.1";
 
     login_config.log_user_ip = "false";
+    login_config.account_creation = "true";
+}
+
+void login_config_read_from_env()
+{
+    login_config.mysql_login     = std::getenv("TPZ_DB_USER") ? std::getenv("TPZ_DB_USER") : login_config.mysql_login;
+    login_config.mysql_password  = std::getenv("TPZ_DB_USER_PASSWD") ? std::getenv("TPZ_DB_USER_PASSWD") : login_config.mysql_password;
+    login_config.mysql_host      = std::getenv("TPZ_DB_HOST") ? std::getenv("TPZ_DB_HOST") : login_config.mysql_host;
+    login_config.mysql_port      = std::getenv("TPZ_DB_PORT") ? std::stoi(std::getenv("TPZ_DB_PORT")) : login_config.mysql_port;
+    login_config.mysql_database  = std::getenv("TPZ_DB_NAME") ? std::getenv("TPZ_DB_NAME") : login_config.mysql_database;
+    login_config.msg_server_ip   = std::getenv("TPZ_MSG_IP") ? std::getenv("TPZ_MSG_IP") : login_config.msg_server_ip;
+    login_config.msg_server_port = std::getenv("TPZ_MSG_PORT") ? std::stoi(std::getenv("TPZ_MSG_PORT")) : login_config.msg_server_port;
 }
 
 void version_info_default()
 {
     version_info.client_ver = "99999999_9"; // xxYYMMDD_m = xx:MajorRelease YY:year MM:month DD:day _m:MinorRelease
-    version_info.ver_lock = 1;
+    version_info.ver_lock = 2;
 }
 
 void maint_config_read(const char* key, const char* value)
@@ -644,12 +678,10 @@ void log_init(int argc, char** argv)
 {
     std::string logFile;
 
-#ifdef DEBUGLOGLOGIN
 #ifdef WIN32
     logFile = "log\\login-server.log";
 #else
     logFile = "log/login-server.log";
-#endif
 #endif
     for (int i = 1; i < argc; i++)
     {

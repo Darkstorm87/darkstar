@@ -36,6 +36,8 @@ enum SKILLFLAG
     SKILLFLAG_DRAW_IN        = 0x020
 };
 
+#define MAX_MOBSKILL_ID	4262
+
 class CMobSkill
 {
 public:
@@ -48,6 +50,7 @@ public:
     bool        isSingle() const;
     bool        isTwoHour() const;
     bool        isSpecial() const;
+    bool        isAttackReplacement() const;
     bool        isTpSkill() const;
 
     uint16      getID() const;

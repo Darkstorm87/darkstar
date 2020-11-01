@@ -68,6 +68,7 @@ enum EFFECTFLAG
     EFFECTFLAG_NO_CANCEL        = 0x800000, // CAN NOT CLICK IT OFF IN CLIENT
     EFFECTFLAG_INFLUENCE        = 0x1000000, // Influence effects - e.g. Signet, Sanction, Sigil, Ionis
     EFFECTFLAG_OFFLINE_TICK     = 0x2000000, // Duration elapses while offline
+    EFFECTFLAG_AURA             = 0x4000000, // Is an aura type effect
 };
 
 enum EFFECT
@@ -602,35 +603,35 @@ enum EFFECT
     EFFECT_GAMBIT                   = 536,
     EFFECT_LIEMENT                  = 537,
     EFFECT_ONE_FOR_ALL              = 538,
-    EFFECT_REGEN_II                 = 539,
-    EFFECT_POISON_II                = 540,
-    EFFECT_REFRESH_II               = 541,
-    EFFECT_STR_BOOST_III            = 542,
-    EFFECT_DEX_BOOST_III            = 543,
-    EFFECT_VIT_BOOST_III            = 544,
-    EFFECT_AGI_BOOST_III            = 545,
-    EFFECT_INT_BOOST_III            = 546,
-    EFFECT_MND_BOOST_III            = 547,
-    EFFECT_CHR_BOOST_III            = 548,
-    EFFECT_ATTACK_BOOST_II          = 549,
-    EFFECT_DEFENSE_BOOST_II         = 550,
-    EFFECT_MAGIC_ATK_BOOST_II       = 551,
-    EFFECT_MAGIC_DEF_BOOST_II       = 552,
-    EFFECT_ACCURACY_BOOST_II        = 553,
-    EFFECT_EVASION_BOOST_II         = 554,
-    EFFECT_MAGIC_ACC_BOOST_II       = 555,
-    EFFECT_MAGIC_EVASION_BOOST      = 556,
-    EFFECT_ATTACK_DOWN_II           = 557,
-    EFFECT_DEFENSE_DOWN_II          = 558,
-    EFFECT_MAGIC_ATK_DOWN_II        = 559,
-    EFFECT_MAGIC_DEF_DOWN_II        = 560,
-    EFFECT_ACCURACY_DOWN_II         = 561,
-    EFFECT_EVASION_DOWN_II          = 562,
-    EFFECT_MAGIC_ACC_DOWN_II        = 563,
-    EFFECT_MAGIC_EVASION_DOWN_II    = 564,
-    EFFECT_SLOW_II                  = 565,
-    EFFECT_PARALYSIS_II             = 566,
-    EFFECT_WEIGHT_II                = 567,
+    EFFECT_GEO_REGEN                = 539,
+    EFFECT_GEO_POISON               = 540,
+    EFFECT_GEO_REFRESH              = 541,
+    EFFECT_GEO_STR_BOOST            = 542,
+    EFFECT_GEO_DEX_BOOST            = 543,
+    EFFECT_GEO_VIT_BOOST            = 544,
+    EFFECT_GEO_AGI_BOOST            = 545,
+    EFFECT_GEO_INT_BOOST            = 546,
+    EFFECT_GEO_MND_BOOST            = 547,
+    EFFECT_GEO_CHR_BOOST            = 548,
+    EFFECT_GEO_ATTACK_BOOST         = 549,
+    EFFECT_GEO_DEFENSE_BOOST        = 550,
+    EFFECT_GEO_MAGIC_ATK_BOOST      = 551,
+    EFFECT_GEO_MAGIC_DEF_BOOST      = 552,
+    EFFECT_GEO_ACCURACY_BOOST       = 553,
+    EFFECT_GEO_EVASION_BOOST        = 554,
+    EFFECT_GEO_MAGIC_ACC_BOOST      = 555,
+    EFFECT_GEO_MAGIC_EVASION_BOOST  = 556,
+    EFFECT_GEO_ATTACK_DOWN          = 557,
+    EFFECT_GEO_DEFENSE_DOWN         = 558,
+    EFFECT_GEO_MAGIC_ATK_DOWN       = 559,
+    EFFECT_GEO_MAGIC_DEF_DOWN       = 560,
+    EFFECT_GEO_ACCURACY_DOWN        = 561,
+    EFFECT_GEO_EVASION_DOWN         = 562,
+    EFFECT_GEO_MAGIC_ACC_DOWN       = 563,
+    EFFECT_GEO_MAGIC_EVASION_DOWN   = 564,
+    EFFECT_GEO_SLOW                 = 565,
+    EFFECT_GEO_PARALYSIS            = 566,
+    EFFECT_GEO_WEIGHT               = 567,
     EFFECT_FOIL                     = 568,
     EFFECT_BLAZE_OF_GLORY           = 569,
     EFFECT_BATTUTA                  = 570,
@@ -643,7 +644,7 @@ enum EFFECT
     EFFECT_CAIT_SITH_S_FAVOR        = 577,
     EFFECT_FISHY_INTUITION          = 578,
     EFFECT_COMMITMENT               = 579,
-    EFFECT_HASTE_II                 = 580,
+    EFFECT_GEO_HASTE                = 580,
     EFFECT_FLURRY_II                = 581,
     EFFECT_APOGEE                   = 583,
     EFFECT_ENTRUST                  = 584,
@@ -674,6 +675,9 @@ enum EFFECT
     EFFECT_NEGATE_CURSE             = 609,
     EFFECT_NEGATE_CHARM             = 610,
     EFFECT_MAGIC_EVASION_BOOST_II   = 611,
+    EFFECT_COLURE_ACTIVE            = 612,
+
+    EFFECT_RAMPART                  = 623,
 
     // Effect icons in packet can go from 0-767, so no custom effects should go in that range.
 
@@ -692,7 +696,7 @@ enum EFFECT
     // GoV Prowess bonus effects, real effect at ID 474
     EFFECT_PROWESS_CASKET_RATE      = 777, // (Unimplemented)
     EFFECT_PROWESS_SKILL_RATE       = 778, // (Unimplemented)
-    EFFECT_PROWESS_CRYSTAL_YEILD    = 779, // (Unimplemented)
+    EFFECT_PROWESS_CRYSTAL_YIELD    = 779, // (Unimplemented)
     EFFECT_PROWESS_TH               = 780, // +1 per tier
     EFFECT_PROWESS_ATTACK_SPEED     = 781, // *flat 4% for now
     EFFECT_PROWESS_HP_MP            = 782, // Base 3% and another 1% per tier.
@@ -716,12 +720,14 @@ enum EFFECT
     EFFECT_SKILLCHAIN               = 799,
     EFFECT_DYNAMIS                  = 800,
     EFFECT_MEDITATE                 = 801, // Dummy effect for SAM Meditate JA
-    // EFFECT_PLACEHOLDER              = 802 // Description
-    // 802-1022
-    // EFFECT_PLACEHOLDER             = 1023 // The client dat file seems to have only this many "slots", results of exceeding that are untested.
+    EFFECT_ELEMENTALRES_DOWN        = 802, // Elemental resistance down
+    EFFECT_FULL_SPEED_AHEAD         = 803, // Used to track Full Speed Ahead quest minigame
+    // EFFECT_PLACEHOLDER           = 804  // Description
+    // 804-1022
+    // EFFECT_PLACEHOLDER           = 1023 // The client dat file seems to have only this many "slots", results of exceeding that are untested.
 };
 
-#define MAX_EFFECTID    802  // 768 real + 32 custom
+#define MAX_EFFECTID    804  // 768 real + 32 custom
 
 /************************************************************************
 *                                                                       *
@@ -746,6 +752,7 @@ public:
     uint16  GetTier();
     uint32  GetFlag();
     uint16  GetType();
+    uint8   GetSlot();
 
     uint32  GetTickTime();
     uint32  GetDuration();
@@ -756,6 +763,7 @@ public:
     void    SetFlag(uint32 Flag);
     void    UnsetFlag(uint32 Flag);
     void    SetType(uint16 Type);
+    void    SetSlot(uint8 Slot);
     void    SetIcon(uint16 Icon);
     void    SetPower(uint32 Power);
     void    SetSubPower(uint32 subPower);
@@ -802,6 +810,7 @@ private:
     uint16      m_Tier {0};                 // Tier of the effect
     uint32      m_Flag {0};                 // флаг эффекта (условия его исчезновения)
     uint16      m_Type {0};                 // used to enforce only one
+    uint8       m_Slot {0};                 // used to determine slot order for songs/rolls
 
     uint32      m_TickTime {0};             // время повторения эффекта (млс)
     uint32      m_Duration {0};             // продолжительность эффекта (млс)

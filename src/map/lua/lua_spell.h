@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -55,6 +55,7 @@ public:
     int32 getMagicBurstMessage(lua_State*);
     int32 getElement(lua_State*);
     int32 getID(lua_State*);
+    int32 getMPCost(lua_State*);
     int32 getSkillType(lua_State*);
     int32 getSpellGroup(lua_State*);
     int32 getFlag(lua_State*);

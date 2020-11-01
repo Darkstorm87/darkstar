@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
 Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -68,6 +68,7 @@ void CTargetFind::findSingleTarget(CBattleEntity* PTarget, uint8 flags)
 
 void CTargetFind::findWithinArea(CBattleEntity* PTarget, AOERADIUS radiusType, float radius, uint8 flags)
 {
+    TracyZoneScoped;
     m_findFlags = flags;
     m_radius = radius;
     m_zone = m_PBattleEntity->getZone();
@@ -170,13 +171,18 @@ void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float a
     m_findFlags = flags;
     m_conal = true;
 
-    // TODO: a point should be based on targets position
     m_APoint = &m_PBattleEntity->loc.p;
 
-    float halfAngle = (angle * (256.0f / 360.0f)) / 2.0f;
+    uint8 halfAngle = static_cast<uint8>((angle * (256.0f / 360.0f)) / 2.0f);
 
-    float rightAngle = rotationToRadian(m_APoint->rotation + (uint8)halfAngle);
-    float leftAngle = rotationToRadian(m_APoint->rotation - (uint8)halfAngle);
+    // Confirmation on the center of cones is still needed for mob skills; player skills seem to be facing angle
+    // uint8 angleToTarget = worldAngle(m_PBattleEntity->loc.p, PTarget->loc.p);
+    uint8 angleToTarget = m_APoint->rotation;
+    
+    // "Left" and "Right" are like the entity's face - "left" means "turning to the left" NOT "left when looking overhead"
+    // Remember that rotation increases when turning to the right, and decreases when turning to the left
+    float leftAngle = rotationToRadian(relativeAngle(angleToTarget, -halfAngle));
+    float rightAngle = rotationToRadian(relativeAngle(angleToTarget, halfAngle));
 
     // calculate end points for triangle
     m_BPoint.x = cosf((2 * (float)M_PI) - rightAngle) * distance + m_APoint->x;
@@ -185,7 +191,7 @@ void CTargetFind::findWithinCone(CBattleEntity* PTarget, float distance, float a
     m_CPoint.x = cosf((2 * (float)M_PI) - leftAngle) * distance + m_APoint->x;
     m_CPoint.z = sinf((2 * (float)M_PI) - leftAngle) * distance + m_APoint->z;
 
-    // ShowDebug("angle %f, rotation %f, distance %f, A (%f, %f) B (%f, %f) C (%f, %f)\n", angle, rightAngle, distance, m_APoint->x, m_APoint->z, m_BPoint.x, m_BPoint.z, m_CPoint.x, m_CPoint.z);
+    // ShowDebug("angle %f, left %f, right %f, distance %f, A (%f, %f) B (%f, %f) C (%f, %f)\n", angle, leftAngle, rightAngle, distance, m_APoint->x, m_APoint->z, m_BPoint.x, m_BPoint.z, m_CPoint.x, m_CPoint.z);
     // ShowDebug("Target: (%f, %f)\n", PTarget->loc.p.x, PTarget->loc.p.z);
 
     // precompute for next stage
@@ -219,6 +225,7 @@ void CTargetFind::addAllInMobList(CBattleEntity* PTarget, bool withPet)
 
 void CTargetFind::addAllInZone(CBattleEntity* PTarget, bool withPet)
 {
+    TracyZoneScoped;
 	zoneutils::GetZone(PTarget->getZone())->ForEachCharInstance(PTarget, [&](CCharEntity* PChar){
 		if (PChar){
 			addEntity(PChar, withPet);
@@ -263,6 +270,44 @@ void CTargetFind::addAllInEnmityList()
             {
                 addEntity(PEnmityObject.PEnmityOwner, false);
             }
+        }
+    }
+}
+
+void CTargetFind::addAllInRange(CBattleEntity* PTarget, float radius, uint8 allegiance)
+{
+    m_radius = radius;
+    m_PRadiusAround = &(m_PBattleEntity->loc.p);
+
+    if (allegiance == ALLEGIANCE_PLAYER)
+    {
+        if (PTarget && PTarget->objtype == TYPE_PC)
+        {
+            CCharEntity* PChar = static_cast<CCharEntity*>(PTarget);
+            for (auto& list : { PChar->SpawnPCList, PChar->SpawnPETList })
+            {
+                for (auto& pair : list)
+                {
+                    CBattleEntity* PBattleEntity = static_cast<CBattleEntity*>(pair.second);
+                    if (PBattleEntity &&
+                        isWithinArea(&(PBattleEntity->loc.p)) &&
+                        !PBattleEntity->isDead() &&
+                        PBattleEntity->allegiance == ALLEGIANCE_PLAYER)
+                    {
+                        m_targets.push_back(PBattleEntity);
+                    }
+                }
+            }
+        }
+        else
+        {
+            zoneutils::GetZone(PTarget->getZone())->ForEachCharInstance(PTarget, [&](CCharEntity* PChar)
+            {
+                if (PChar && isWithinArea(&(PChar->loc.p)) && !PChar->isDead())
+                {
+                    m_targets.push_back(PChar);
+                }
+            });
         }
     }
 }

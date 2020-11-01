@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -68,5 +68,5 @@ CGuildMenuBuyPacket::CGuildMenuBuyPacket(CCharEntity* PChar, CItemContainer* PGu
         }
     }
     ref<uint8>(0xF4) = ItemCount;
-    ref<uint8>(0xF5) = PacketCount + 0xC0;
+    ref<uint8>(0xF5) = PacketCount + 0x80;
 }

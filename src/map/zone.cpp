@@ -37,6 +37,7 @@
 #include "map.h"
 #include "message.h"
 #include "party.h"
+#include "notoriety_container.h"
 #include "spell.h"
 #include "status_effect_container.h"
 #include "treasure_pool.h"
@@ -290,37 +291,44 @@ void CZone::LoadZoneLines()
     }
 }
 
-/************************************************************************
-*                                                                       *
-*  Загружаем параметры погоды                                           *
-*                                                                       *
-************************************************************************/
+/*************************************************************************
+*                                                                        *
+*  Loads weather for the zone from zone_bweather SQL Table               *
+*                                                                        *
+*  Weather is a rotating pattern of 2160 vanadiel days for each zone.    *
+*  It's stored as a blob of 2160 16-bit values, each representing 1 day  *
+*  starting from day 0 and storing 3 5-bit weather values each.          *
+*                                                                        *
+*              0        00000       00000        00000                   *
+*              ^        ^^^^^       ^^^^^        ^^^^^                   *
+*          padding      normal      common       rare                    *
+*                                                                        *
+*************************************************************************/
 
 void CZone::LoadZoneWeather()
 {
     static const char* Query =
-        "SELECT "
-        "weather_day,"
-        "normal,"
-        "common,"
-        "rare "
-        "FROM zone_weather "
-        "WHERE zoneid = %u "
-        "ORDER BY weather_day";
+        "SELECT weather FROM zone_weather WHERE zone = %u;";
 
     int32 ret = Sql_Query(SqlHandle, Query, m_zoneID);
-
     if (ret != SQL_ERROR && Sql_NumRows(SqlHandle) != 0)
     {
-        while (Sql_NextRow(SqlHandle) == SQL_SUCCESS)
-        {
-            m_WeatherVector.insert(std::make_pair((uint16)Sql_GetUIntData(SqlHandle, 0), zoneWeather_t(Sql_GetIntData(SqlHandle, 1),
-                Sql_GetIntData(SqlHandle, 2), Sql_GetIntData(SqlHandle, 3))));
-        }
+            Sql_NextRow(SqlHandle);
+            auto weatherBlob = reinterpret_cast<uint16*>(Sql_GetData(SqlHandle, 0));
+            for(uint16 i = 0; i < WEATHER_CYCLE; i++)
+            {
+                if(weatherBlob[i])
+                {
+                    uint8 w_normal = static_cast<uint8>( weatherBlob[i] >> 10);
+                    uint8 w_common = static_cast<uint8>((weatherBlob[i] >> 5) & 0x1F);
+                    uint8 w_rare   = static_cast<uint8>( weatherBlob[i] & 0x1F);
+                    m_WeatherVector.insert(std::make_pair(i, zoneWeather_t(w_normal, w_common, w_rare)));
+                }
+            }
     }
     else
     {
-        ShowFatalError(CL_RED"CZone::LoadZoneWeather: Cannot load zone weather (%u)\n" CL_RESET, m_zoneID);
+        ShowFatalError(CL_RED"CZone::LoadZoneWeather: Cannot load zone weather (%u). Ensure zone_weather.sql has been imported!\n" CL_RESET, m_zoneID);
     }
 }
 
@@ -357,7 +365,7 @@ void CZone::LoadZoneSettings()
     {
         m_zoneName.insert(0, (const char*)Sql_GetData(SqlHandle, 0));
 
-        m_zoneIP = inet_addr((const char*)Sql_GetData(SqlHandle, 1));
+        inet_pton(AF_INET, (const char*)Sql_GetData(SqlHandle, 1), &m_zoneIP);
         m_zonePort = (uint16)Sql_GetUIntData(SqlHandle, 2);
         m_zoneMusic.m_songDay = (uint8)Sql_GetUIntData(SqlHandle, 3);   // background music (day)
         m_zoneMusic.m_songNight = (uint8)Sql_GetUIntData(SqlHandle, 4);   // background music (night)
@@ -604,6 +612,7 @@ void CZone::DecreaseZoneCounter(CCharEntity* PChar)
 
 void CZone::IncreaseZoneCounter(CCharEntity* PChar)
 {
+    TracyZoneScoped;
     TPZ_DEBUG_BREAK_IF(PChar == nullptr);
     TPZ_DEBUG_BREAK_IF(PChar->loc.zone != nullptr);
     TPZ_DEBUG_BREAK_IF(PChar->PTreasurePool != nullptr);
@@ -836,6 +845,7 @@ void CZone::createZoneTimer()
 
 void CZone::CharZoneIn(CCharEntity* PChar)
 {
+    TracyZoneScoped;
     // ищем свободный targid для входящего в зону персонажа
 
     PChar->loc.zone = this;
@@ -890,6 +900,7 @@ void CZone::CharZoneIn(CCharEntity* PChar)
 
 void CZone::CharZoneOut(CCharEntity* PChar)
 {
+    TracyZoneScoped;
     for (regionList_t::const_iterator region = m_regionList.begin(); region != m_regionList.end(); ++region)
     {
         if ((*region)->GetRegionID() == PChar->m_InsideRegionID)
@@ -983,6 +994,7 @@ void CZone::CharZoneOut(CCharEntity* PChar)
 
 void CZone::CheckRegions(CCharEntity* PChar)
 {
+    TracyZoneScoped;
     uint32 RegionID = 0;
 
     for (regionList_t::const_iterator region = m_regionList.begin(); region != m_regionList.end(); ++region)

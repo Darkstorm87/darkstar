@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
 Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -36,6 +36,9 @@ CPetController::CPetController(CPetEntity* _PPet) :
 
 void CPetController::Tick(time_point tick)
 {
+    TracyZoneScoped;
+    TracyZoneIString(PPet->GetName());
+
     if (PPet->isCharmed && tick > PPet->charmTime)
     {
         petutils::DespawnPet(PPet->PMaster);

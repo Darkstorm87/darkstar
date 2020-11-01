@@ -7,9 +7,8 @@ require("scripts/globals/monstertpmoves")
 require("scripts/globals/ability")
 
 ---------------------------------------------------
-
 function onAbilityCheck(player, target, ability)
-    return 0,0
+    return 0, 0
 end
 
 function onUseAbility(pet, target, skill, action)
@@ -21,17 +20,17 @@ function onUseAbility(pet, target, skill, action)
     -- TODO: 0.1 per merit for augmented AF2 (10663 *w/ augment*)
     local deep = 1
     if (pet:hasStatusEffect(tpz.effect.MAGIC_ATK_BOOST) == true) then
-        deep = deep + 1 + (master:getMerit(tpz.merit.DEEP_BREATHING)-1)*0.25
+        deep = deep + 1 + (master:getMerit(tpz.merit.DEEP_BREATHING) - 1) * 0.25
         pet:delStatusEffect(tpz.effect.MAGIC_ATK_BOOST)
     end
 
-    local gear = master:getMod(tpz.mod.WYVERN_BREATH)/256 -- Master gear that enhances breath
+    local gear = master:getMod(tpz.mod.WYVERN_BREATH) / 256 -- Master gear that enhances breath
 
-    local dmgmod = MobBreathMove(pet, target, 0.4, pet:getMainLvl()*15, tpz.magic.ele.FIRE,pet:getHP()) -- Works out to (hp/6) + 15, as desired
-    dmgmod = (dmgmod * (1+gear))*deep
+    local dmgmod = MobBreathMove(pet, target, 0.4, pet:getMainLvl() * 15, tpz.magic.ele.FIRE) -- Works out to (hp/6) + 15, as desired
+    dmgmod = (dmgmod * (1 + gear)) * deep
     pet:setTP(0)
 
-    local dmg = AbilityFinalAdjustments(dmgmod,pet,skill,target,tpz.attackType.BREATH,tpz.damageType.FIRE,MOBPARAM_IGNORE_SHADOWS)
+    local dmg = AbilityFinalAdjustments(dmgmod, pet, skill, target, tpz.attackType.BREATH, tpz.damageType.FIRE, MOBPARAM_IGNORE_SHADOWS)
     target:takeDamage(dmg, pet, tpz.attackType.BREATH, tpz.damageType.FIRE)
     return dmg
 end

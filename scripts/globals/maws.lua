@@ -55,7 +55,7 @@ end
 tpz.maws.onTrigger = function(player, npc)
     local ID = zones[player:getZoneID()]
 
-    if not ENABLE_WOTG == 1 then
+    if ENABLE_WOTG == 0 then
         player:messageSpecial(ID.text.NOTHING_HAPPENS)
         return
     end
@@ -117,8 +117,8 @@ tpz.maws.onEventFinish = function(player, csid, option)
         addMaw() -- May not have yet, check
     elseif maw.cs.new and csid == maw.cs.new then
         local ID = zones[player:getZoneID()]
-        player:completeMission(WOTG,tpz.mission.id.wotg.CAVERNOUS_MAWS)
-        player:addMission(WOTG,tpz.mission.id.wotg.BACK_TO_THE_BEGINNING)
+        player:completeMission(WOTG, tpz.mission.id.wotg.CAVERNOUS_MAWS)
+        player:addMission(WOTG, tpz.mission.id.wotg.BACK_TO_THE_BEGINNING)
         player:addKeyItem(tpz.ki.PURE_WHITE_FEATHER)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.PURE_WHITE_FEATHER)
         local x = math.random(1, 3)

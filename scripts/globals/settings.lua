@@ -28,9 +28,16 @@ ENABLE_ROV     = 1;
 ENABLE_VOIDWATCH = 1; -- Not an expansion, but has its own storyline.
 
 -- FIELDS OF VALOR/Grounds of Valor settings
-ENABLE_FIELD_MANUALS  = 0; -- Enables Fields of Valor
-ENABLE_GROUNDS_TOMES  = 0; -- Enables Grounds of Valor
-REGIME_WAIT = 1; -- Make people wait till 00:00 game time as in retail. If it's 0, there is no wait time.
+ENABLE_FIELD_MANUALS  = 1 -- Enables Fields of Valor
+ENABLE_GROUNDS_TOMES  = 1 -- Enables Grounds of Valor
+ENABLE_SURVIVAL_GUIDE = 1 -- Enables Survival Guides
+REGIME_WAIT = 1 -- Make people wait till 00:00 game time as in retail. If it's 0, there is no wait time.
+FOV_REWARD_ALLIANCE = 0 -- Allow Fields of Valor rewards while being a member of an alliance. (default retail behavior: 0)
+GOV_REWARD_ALLIANCE = 1 -- Allow Grounds of Valor rewards while being a member of an alliance. (default retail behavior: 1)
+
+-- Records of Eminence
+ENABLE_ROE = 1
+ENABLE_ROE_TIMED = 1 -- Enable 4-hour timed records
 
 -- TREASURE CASKETS
 -- Retail droprate = 0.1 (10%) with no other effects active
@@ -45,33 +52,35 @@ CASKET_DROP_RATE = 0.1
 RESTRICT_CONTENT = 0
 
 -- CHARACTER CONFIG
-INITIAL_LEVEL_CAP = 50; -- The initial level cap for new players.  There seems to be a hardcap of 255.
-MAX_LEVEL = 75; -- Level max of the server, lowers the attainable cap by disabling Limit Break quests.
-NORMAL_MOB_MAX_LEVEL_RANGE_MIN = 0; -- Lower Bound of Max Level Range for Normal Mobs (0 = Uncapped)
-NORMAL_MOB_MAX_LEVEL_RANGE_MAX = 0; -- Upper Bound of Max Level Range for Normal Mobs (0 = Uncapped)
-START_GIL = 10000; -- Amount of gil given to newly created characters.
-START_INVENTORY = 80; -- Starting inventory and satchel size.  Ignores values < 30.  Do not set above 80!
-OPENING_CUTSCENE_ENABLE = 0; -- Set to 1 to enable opening cutscenes, 0 to disable.
-SUBJOB_QUEST_LEVEL = 18; -- Minimum level to accept either subjob quest.  Set to 0 to start the game with subjobs unlocked.
-ADVANCED_JOB_LEVEL = 30; -- Minimum level to accept advanced job quests.  Set to 0 to start the game with advanced jobs.
-ALL_MAPS = 0; -- Set to 1 to give starting characters all the maps.
-UNLOCK_OUTPOST_WARPS = 0; -- Set to 1 to give starting characters all outpost warps.  2 to add Tu'Lia and Tavnazia.
+INITIAL_LEVEL_CAP = 50 -- The initial level cap for new players.  There seems to be a hardcap of 255.
+MAX_LEVEL = 75 -- Level max of the server, lowers the attainable cap by disabling Limit Break quests.
+NORMAL_MOB_MAX_LEVEL_RANGE_MIN = 0 -- Lower Bound of Max Level Range for Normal Mobs (0 = Uncapped)
+NORMAL_MOB_MAX_LEVEL_RANGE_MAX = 0 -- Upper Bound of Max Level Range for Normal Mobs (0 = Uncapped)
+START_GIL = 10000 -- Amount of gil given to newly created characters.
+START_INVENTORY = 80 -- Starting inventory and satchel size.  Ignores values < 30.  Do not set above 80!
+NEW_CHARACTER_CUTSCENE = 1 -- Set to 1 to enable opening cutscenes, 0 to disable.
+SUBJOB_QUEST_LEVEL = 18 -- Minimum level to accept either subjob quest.  Set to 0 to start the game with subjobs unlocked.
+ADVANCED_JOB_LEVEL = 30 -- Minimum level to accept advanced job quests.  Set to 0 to start the game with advanced jobs.
+ALL_MAPS = 0 -- Set to 1 to give starting characters all the maps.
+UNLOCK_OUTPOST_WARPS = 1 -- Set to 1 to give starting characters all outpost warps.  2 to add Tu'Lia and Tavnazia.
 
-SHOP_PRICE      = 1.000; -- Multiplies prices in NPC shops.
-GIL_RATE        = 5.000; -- Multiplies gil earned from quests.  Won't always display in game.
-BAYLD_RATE      = 1.000; -- Multiples bayld earned from quests.
-EXP_RATE        = 1.000; -- Multiplies exp earned from fov and quests.
-TABS_RATE       = 1.000; -- Multiplies tabs earned from fov.
-CURE_POWER      = 1.000; -- Multiplies amount healed from Healing Magic, including the relevant Blue Magic.
-ELEMENTAL_POWER = 1.000; -- Multiplies damage dealt by Elemental and non-drain Dark Magic.
-DIVINE_POWER    = 1.000; -- Multiplies damage dealt by Divine Magic.
-NINJUTSU_POWER  = 1.000; -- Multiplies damage dealt by Ninjutsu Magic.
-BLUE_POWER      = 1.000; -- Multiplies damage dealt by Blue Magic.
-DARK_POWER      = 1.000; -- Multiplies amount drained by Dark Magic.
-ITEM_POWER      = 1.000; -- Multiplies the effect of items such as Potions and Ethers.
-WEAPON_SKILL_POWER  = 1.000; -- Multiplies damage dealt by Weapon Skills.
-WEAPON_SKILL_POINTS = 1.000; -- Multiplies points earned during weapon unlocking.
-USE_ADOULIN_WEAPON_SKILL_CHANGES = false; -- true/false. Change to toggle new Adoulin weapon skill damage calculations
+SHOP_PRICE      = 1.000 -- Multiplies prices in NPC shops.
+GIL_RATE        = 5.000 -- Multiplies gil earned from quests.  Won't always display in game.
+BAYLD_RATE      = 1.000 -- Multiples bayld earned from quests.
+EXP_RATE        = 1.000 -- Multiplies exp earned from fov and quests.
+TABS_RATE       = 1.000 -- Multiplies tabs earned from fov.
+ROE_EXP_RATE    = 1.000 -- Multiplies exp earned from records of eminence.
+SPARKS_RATE     = 1.000 -- Multiplies sparks earned from records of eminence.
+CURE_POWER      = 1.000 -- Multiplies amount healed from Healing Magic, including the relevant Blue Magic.
+ELEMENTAL_POWER = 1.000 -- Multiplies damage dealt by Elemental and non-drain Dark Magic.
+DIVINE_POWER    = 1.000 -- Multiplies damage dealt by Divine Magic.
+NINJUTSU_POWER  = 1.000 -- Multiplies damage dealt by Ninjutsu Magic.
+BLUE_POWER      = 1.000 -- Multiplies damage dealt by Blue Magic.
+DARK_POWER      = 1.000 -- Multiplies amount drained by Dark Magic.
+ITEM_POWER      = 1.000 -- Multiplies the effect of items such as Potions and Ethers.
+WEAPON_SKILL_POWER  = 1.000 -- Multiplies damage dealt by Weapon Skills.
+WEAPON_SKILL_POINTS = 1.000 -- Multiplies points earned during weapon unlocking.
+USE_ADOULIN_WEAPON_SKILL_CHANGES = false -- true/false. Change to toggle new Adoulin weapon skill damage calculations
 
 HARVESTING_BREAK_CHANCE = 33; -- % chance for the sickle to break during harvesting.  Set between 0 and 100.
 EXCAVATION_BREAK_CHANCE = 33; -- % chance for the pickaxe to break during excavation.  Set between 0 and 100.
@@ -94,8 +103,13 @@ CHEST_MIN_ILLUSION_TIME  = 60;  -- 1 minutes
 
 -- Sets spawn type for: Behemoth, Fafnir, Adamantoise, King Behemoth, Nidhog, Aspidochelone.
 -- Use 0 for timed spawns, 1 for force pop only, 2 for both
-LandKingSystem_NQ = 2;
-LandKingSystem_HQ = 2;
+LandKingSystem_NQ = 2
+LandKingSystem_HQ = 2
+
+-- Multiplier to NM lottery spawn chance. (Default 1.0) eg. 0 = disable lottery spawns. -1 for always 100% chance.
+NM_LOTTERYCHANCE = 1.0
+-- Multiplier to NM lottery cooldown time (Default 1.0) eg. 2.0 = twice as long. 0 = no cooldowns.
+NM_LOTTERYCOOLDOWN = 1.0
 
 -- DYNAMIS SETTINGS
 BETWEEN_2DYNA_WAIT_TIME = 24;       -- Hours before player can re-enter Dynamis. Default is 1 Earthday (24 hours).
@@ -128,7 +142,7 @@ ABSORB_SPELL_AMOUNT = 10; -- how much of a stat gets absorbed by DRK absorb spel
 ABSORB_SPELL_TICK = 9; -- duration of 1 absorb spell tick
 SNEAK_INVIS_DURATION_MULTIPLIER = 1; -- multiplies duration of sneak,invis,deodorize to reduce player torture. 1 = retail behavior.
 USE_OLD_CURE_FORMULA = false; -- true/false. if true, uses older cure formula (3*MND + VIT + 3*(healing skill/5)) // cure 6 will use the newer formula
-USE_OLD_MAGIC_DAMAGE = true; -- true/false. if true, uses older magic damage formulas
+USE_OLD_MAGIC_DAMAGE = false; -- true/false. if true, uses older magic damage formulas
 
 -- CELEBRATIONS
 EXPLORER_MOOGLE_LV = 10 -- Enables Explorer Moogle teleports and sets required level. Zero to disable.
@@ -136,21 +150,17 @@ HALLOWEEN_2005 = 0 -- Set to 1 to Enable the 2005 version of Harvest Festival, w
 HALLOWEEN_YEAR_ROUND = 0 -- Set to 1 to have Harvest Festival initialize outside of normal times.
 
 -- MISC
-HOMEPOINT_HEAL = 1; --Set to 1 if you want Home Points to heal you like in single-player Final Fantasy games.
-RIVERNE_PORTERS = 120; -- Time in seconds that Unstable Displacements in Cape Riverne stay open after trading a scale.
-LANTERNS_STAY_LIT = 1200; -- time in seconds that lanterns in the Den of Rancor stay lit.
-ENABLE_COP_ZONE_CAP = 1; -- enable or disable lvl cap
-TIMEZONE_OFFSET = 9.0; -- Offset from UTC used to determine when "JP Midnight" is for the server.  Default is JST (+9.0).
-ALLOW_MULTIPLE_EXP_RINGS = 1; -- Set to 1 to remove ownership restrictions on the Chariot/Empress/Emperor Band trio.
-BYPASS_EXP_RING_ONE_PER_WEEK = 1; -- -- Set to 1 to bypass the limit of one ring per Conquest Tally Week.
-NUMBER_OF_DM_EARRINGS = 3; -- Number of earrings players can simultaneously own from Divine Might before scripts start blocking them (Default: 1)
-HOMEPOINT_TELEPORT = 1; -- Enables the homepoint teleport system
-DIG_ABUNDANCE_BONUS = 0; -- Increase chance of digging up an item (450  = item digup chance +45)
-DIG_FATIGUE = 1; -- Set to 0 to disable Dig Fatigue
-DIG_GRANT_BURROW = 0; -- Set to 1 to grant burrow ability
-DIG_GRANT_BORE = 0; -- Set to 1 to grant bore ability
-ENM_COOLDOWN = 1;  -- Number of hours before a player can obtain same KI for ENMs (default: 5 days)
-FORCE_SPAWN_QM_RESET_TIME = 30; -- Number of seconds the ??? remains hidden for after the despawning of the mob it force spawns.
-
--- LIMBUS
-BETWEEN_2COSMOCLEANSE_WAIT_TIME = 20; -- Hours before player can re-enter Limbus. Default is 20 hrs.
+HOMEPOINT_HEAL = 1 --Set to 1 if you want Home Points to heal you like in single-player Final Fantasy games.
+RIVERNE_PORTERS = 120 -- Time in seconds that Unstable Displacements in Cape Riverne stay open after trading a scale.
+LANTERNS_STAY_LIT = 1200 -- time in seconds that lanterns in the Den of Rancor stay lit.
+ENABLE_COP_ZONE_CAP = 1 -- enable or disable lvl cap
+ALLOW_MULTIPLE_EXP_RINGS = 1 -- Set to 1 to remove ownership restrictions on the Chariot/Empress/Emperor Band trio.
+BYPASS_EXP_RING_ONE_PER_WEEK = 1 -- -- Set to 1 to bypass the limit of one ring per Conquest Tally Week.
+NUMBER_OF_DM_EARRINGS = 3 -- Number of earrings players can simultaneously own from Divine Might before scripts start blocking them (Default: 1)
+HOMEPOINT_TELEPORT = 1 -- Enables the homepoint teleport system
+DIG_ABUNDANCE_BONUS = 0 -- Increase chance of digging up an item (450  = item digup chance +45)
+DIG_FATIGUE = 1 -- Set to 0 to disable Dig Fatigue
+DIG_GRANT_BURROW = 0 -- Set to 1 to grant burrow ability
+DIG_GRANT_BORE = 0 -- Set to 1 to grant bore ability
+ENM_COOLDOWN = 1  -- Number of hours before a player can obtain same KI for ENMs (default: 5 days)
+FORCE_SPAWN_QM_RESET_TIME = 30 -- Number of seconds the ??? remains hidden for after the despawning of the mob it force spawns.

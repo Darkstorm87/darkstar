@@ -8,11 +8,11 @@
 require("scripts/globals/status")
 -----------------------------------
 
-function onAbilityCheck(player,target,ability)
-    return 0,0
+function onAbilityCheck(player, target, ability)
+    return 0, 0
 end
 
-function onUseAbility(player,target,ability)
+function onUseAbility(player, target, ability)
     local power = 25 + player:getMod(tpz.mod.FOCUS_EFFECT)
-    player:addStatusEffect(tpz.effect.FOCUS,power,0,180)
+    player:addStatusEffect(tpz.effect.FOCUS, power, 0, 180)
 end

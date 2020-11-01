@@ -38,15 +38,18 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "utils/battleutils.h"
 #include "utils/charutils.h"
 #include "utils/fishingutils.h"
+#include "utils/gardenutils.h"
 #include "utils/guildutils.h"
 #include "utils/instanceutils.h"
 #include "utils/itemutils.h"
 #include "linkshell.h"
 #include "map.h"
 #include "mob_spell_list.h"
+#include "packet_guard.h"
 #include "packet_system.h"
 #include "party.h"
 #include "utils/petutils.h"
+#include "roe.h"
 #include "spell.h"
 #include "time_server.h"
 #include "transport.h"
@@ -63,6 +66,20 @@ along with this program.  If not, see http://www.gnu.org/licenses/
 #include "packets/char_update.h"
 #include "message.h"
 
+#ifdef TRACY_ENABLE
+void* operator new(std::size_t count)
+{
+    auto ptr = malloc(count);
+    TracyAlloc(ptr, count);
+    return ptr;
+}
+
+void operator delete(void* ptr) noexcept
+{
+    TracyFree(ptr);
+    free(ptr);
+}
+#endif // TRACY_ENABLE
 
 const char* MAP_CONF_FILENAME = nullptr;
 
@@ -109,6 +126,7 @@ map_session_data_t* mapsession_getbyipp(uint64 ipp)
 
 map_session_data_t* mapsession_createsession(uint32 ip, uint16 port)
 {
+    TracyZoneScoped;
     map_session_data_t* map_session_data = new map_session_data_t;
     memset(map_session_data, 0, sizeof(map_session_data_t));
 
@@ -125,12 +143,12 @@ map_session_data_t* mapsession_createsession(uint32 ip, uint16 port)
 
     const char* fmtQuery = "SELECT charid FROM accounts_sessions WHERE inet_ntoa(client_addr) = '%s' LIMIT 1;";
 
-    int32 ret = Sql_Query(SqlHandle, fmtQuery, ip2str(map_session_data->client_addr, nullptr));
+    int32 ret = Sql_Query(SqlHandle, fmtQuery, ip2str(map_session_data->client_addr));
 
     if (ret == SQL_ERROR ||
         Sql_NumRows(SqlHandle) == 0)
     {
-        ShowError(CL_RED"recv_parse: Invalid login attempt from %s\n" CL_RESET, ip2str(map_session_data->client_addr, nullptr));
+        ShowError(CL_RED"recv_parse: Invalid login attempt from %s\n" CL_RESET, ip2str(map_session_data->client_addr));
         return nullptr;
     }
     return map_session_data;
@@ -144,13 +162,18 @@ map_session_data_t* mapsession_createsession(uint32 ip, uint16 port)
 
 int32 do_init(int32 argc, char** argv)
 {
+    TracyZoneScoped;
     ShowStatus("do_init: begin server initialization...");
     map_ip.s_addr = 0;
 
     for (int i = 1; i < argc; i++)
     {
         if (strcmp(argv[i], "--ip") == 0)
-            map_ip.s_addr = inet_addr(argv[i + 1]);
+        {
+            uint32 ip;
+            inet_pton(AF_INET, argv[i + 1], &ip);
+            map_ip.s_addr = ip;
+        }
         else if (strcmp(argv[i], "--port") == 0)
             map_port = std::stoi(argv[i + 1]);
     }
@@ -162,6 +185,7 @@ int32 do_init(int32 argc, char** argv)
 
     map_config_default();
     map_config_read((const int8*)MAP_CONF_FILENAME);
+    map_config_from_env();
     ShowMessage("\t\t - " CL_GREEN"[OK]" CL_RESET"\n");
     ShowStatus("do_init: map_config is reading");
     ShowMessage("\t\t - " CL_GREEN"[OK]" CL_RESET"\n");
@@ -197,6 +221,10 @@ int32 do_init(int32 argc, char** argv)
     itemutils::Initialize();
     ShowMessage("\t\t\t - " CL_GREEN"[OK]" CL_RESET"\n");
 
+    ShowStatus("do_init: loading plants");
+    gardenutils::Initialize();
+    ShowMessage("\t\t\t - " CL_GREEN "[OK]" CL_RESET "\n");
+
     // нужно будет написать один метод для инициализации всех данных в battleutils
     // и один метод для освобождения этих данных
 
@@ -218,6 +246,7 @@ int32 do_init(int32 argc, char** argv)
     battleutils::LoadSkillChainDamageModifiers();
     petutils::LoadPetList();
     mobutils::LoadCustomMods();
+    roeutils::init();
 
     ShowStatus("do_init: loading zones");
     zoneutils::LoadZoneList();
@@ -229,7 +258,7 @@ int32 do_init(int32 argc, char** argv)
     map_fd = makeBind_udp(map_config.uiMapIp, map_port == 0 ? map_config.usMapPort : map_port);
     ShowMessage("\t - " CL_GREEN"[OK]" CL_RESET"\n");
 
-    CVanaTime::getInstance()->setCustomOffset(map_config.vanadiel_time_offset);
+    CVanaTime::getInstance()->setCustomEpoch(map_config.vanadiel_time_epoch);
 
     zoneutils::InitializeWeather(); // Need VanaTime initialized
 
@@ -241,6 +270,8 @@ int32 do_init(int32 argc, char** argv)
 
     g_PBuff = new int8[map_config.buffer_size + 20];
     PTempBuff = new int8[map_config.buffer_size + 20];
+
+    PacketGuard::Init();
 
     ShowStatus("The map-server is " CL_GREEN"ready" CL_RESET" to work...\n");
     ShowMessage("=======================================================================\n");
@@ -256,7 +287,9 @@ int32 do_init(int32 argc, char** argv)
 void do_final(int code)
 {
     delete[] g_PBuff;
+    g_PBuff = nullptr;
     delete[] PTempBuff;
+    PTempBuff = nullptr;
 
     itemutils::FreeItemList();
     battleutils::FreeWeaponSkillsList();
@@ -271,10 +304,11 @@ void do_final(int code)
         messageThread.join();
     }
 
-    delete CTaskMgr::getInstance();
-    delete CVanaTime::getInstance();
+    CTaskMgr::delInstance();
+    CVanaTime::delInstance();
 
     Sql_Free(SqlHandle);
+    SqlHandle = nullptr;
 
     timer_final();
     socket_final();
@@ -390,6 +424,9 @@ int32 do_sockets(fd_set* rfd, duration next)
             }
         }
     }
+
+    TracyReportLuaMemory(luautils::LuaHandle);
+
     return 0;
 }
 
@@ -436,8 +473,7 @@ int32 map_decipher_packet(int8* buff, size_t size, sockaddr_in* from, map_sessio
         return 0;
     }
 
-    int8 ip_str[16];
-    ShowError("map_encipher_packet: bad packet from <%s>\n", ip2str(ip, (char*)ip_str));
+    ShowError("map_encipher_packet: bad packet from <%s>\n", ip2str(ip));
     return -1;
 }
 
@@ -459,7 +495,7 @@ int32 recv_parse(int8* buff, size_t* buffsize, sockaddr_in* from, map_session_da
     }
     catch (...)
     {
-        ShowError(CL_RED"Possible crash attempt from: %s\n" CL_RESET, ip2str(map_session_data->client_addr, nullptr));
+        ShowError(CL_RED"Possible crash attempt from: %s\n" CL_RESET, ip2str(map_session_data->client_addr));
         return -1;
     }
 #else
@@ -553,12 +589,15 @@ int32 recv_parse(int8* buff, size_t* buffsize, sockaddr_in* from, map_session_da
 
 int32 parse(int8* buff, size_t* buffsize, sockaddr_in* from, map_session_data_t* map_session_data)
 {
+    TracyZoneScoped;
     // начало обработки входящего пакета
 
     int8* PacketData_Begin = &buff[FFXI_HEADER_SIZE];
     int8* PacketData_End = &buff[*buffsize];
 
-    CCharEntity *PChar = map_session_data->PChar;
+    CCharEntity* PChar = map_session_data->PChar;
+
+    TracyZoneIString(PChar->GetName());
 
     uint16 SmallPD_Size = 0;
     uint16 SmallPD_Type = 0;
@@ -573,18 +612,34 @@ int32 parse(int8* buff, size_t* buffsize, sockaddr_in* from, map_session_data_t*
 
         if (PacketSize[SmallPD_Type] == SmallPD_Size || PacketSize[SmallPD_Type] == 0) // Tests incoming packets for the correct size prior to processing
         {
-            // если код текущего пакета меньше либо равен последнему полученному
-            // или больше глобального то игнорируем пакет
+            // Google Translate:
+            // if the code of the current package is less than or equal to the last received
+            // or more global then ignore the package
 
             if ((ref<uint16>(SmallPD_ptr, 2) <= map_session_data->client_packet_id) ||
                 (ref<uint16>(SmallPD_ptr, 2) > SmallPD_Code))
             {
                 continue;
             }
+
             if (SmallPD_Type != 0x15)
             {
                 ShowInfo("parse: %03hX | %04hX %04hX %02hX from user: %s\n", SmallPD_Type, ref<uint16>(SmallPD_ptr, 2), ref<uint16>(buff, 2), SmallPD_Size, PChar->GetName());
             }
+
+            if (map_config.packetguard_enabled && PacketGuard::IsRateLimitedPacket(PChar, SmallPD_Type))
+            {
+                ShowExploit(CL_RED "[PacketGuard] Rate-limiting packet: Player: %s - Packet: %03hX\n" CL_RESET, PChar->GetName(), SmallPD_Type);
+                continue; // skip this packet
+            }
+
+            if (map_config.packetguard_enabled && !PacketGuard::PacketIsValidForPlayerState(PChar, SmallPD_Type))
+            {
+                ShowExploit(CL_RED "[PacketGuard] Caught mismatch between player substate and recieved packet: Player: %s - Packet: %03hX\n" CL_RESET, PChar->GetName(), SmallPD_Type);
+                // TODO: Plug in optional jailutils usage
+                continue; // skip this packet
+            }
+
             if (PChar->loc.zone == nullptr && SmallPD_Type != 0x0A)
             {
                 ShowWarning("This packet is unexpected from %s - Received %03hX earlier without matching 0x0A\n", PChar->GetName(), SmallPD_Type);
@@ -601,8 +656,9 @@ int32 parse(int8* buff, size_t* buffsize, sockaddr_in* from, map_session_data_t*
     }
     map_session_data->client_packet_id = SmallPD_Code;
 
-    // здесь мы проверяем, получил ли клиент предыдущий пакет
-    // если не получил, то мы не создаем новый, а отправляем предыдущий
+    // Google Translate:
+    // here we check if the client received the previous package
+    // if not received, then we do not create a new one, but send the previous one
 
     if (ref<uint16>(buff, 2) != map_session_data->server_packet_id)
     {
@@ -616,7 +672,7 @@ int32 parse(int8* buff, size_t* buffsize, sockaddr_in* from, map_session_data_t*
         return -1;
     }
 
-    // увеличиваем номер отправленного пакета только в случае отправки новых данных
+    // GT: increase the number of the sent packet only if new data is sent
 
     map_session_data->server_packet_id += 1;
 
@@ -786,6 +842,7 @@ int32 map_close_session(time_point tick, map_session_data_t* map_session_data)
 
 int32 map_cleanup(time_point tick, CTaskMgr::CTask* PTask)
 {
+    TracyZoneScoped;
     map_session_list_t::iterator it = map_session_list.begin();
 
     while (it != map_session_list.end())
@@ -944,13 +1001,13 @@ int32 map_config_default()
     map_config.mysql_database = "tpzdb";
     map_config.mysql_port = 3306;
     map_config.server_message = "";
-    map_config.server_message_fr = "";
     map_config.buffer_size = 1800;
     map_config.ah_base_fee_single = 1;
     map_config.ah_base_fee_stacks = 4;
     map_config.ah_tax_rate_single = 1.0;
     map_config.ah_tax_rate_stacks = 0.5;
     map_config.ah_max_fee = 10000;
+    map_config.ah_list_limit = 7;
     map_config.exp_rate = 1.0f;
     map_config.exp_loss_rate = 1.0f;
     map_config.exp_retain = 0.0f;
@@ -959,14 +1016,18 @@ int32 map_config_default()
     map_config.disable_gear_scaling = 0;
     map_config.all_jobs_widescan = 1;
     map_config.speed_mod = 0;
+    map_config.mount_speed_mod = 0;
     map_config.mob_speed_mod = 0;
-    map_config.skillup_chance_multiplier = 2.5f;
-    map_config.craft_chance_multiplier = 2.6f;
+    map_config.skillup_chance_multiplier = 1.0f;
+    map_config.craft_chance_multiplier = 1.0f;
     map_config.skillup_amount_multiplier = 1;
     map_config.craft_amount_multiplier = 1;
-    map_config.craft_day_matters = 1;
-    map_config.craft_moonphase_matters = 0;
-    map_config.craft_direction_matters = 0;
+    map_config.garden_day_matters = false;
+    map_config.garden_moonphase_matters = false;
+    map_config.garden_pot_matters = false;
+    map_config.garden_mh_aura_matters = false;
+    map_config.craft_common_cap = 700;
+    map_config.craft_specialization_points = 400;
     map_config.mob_tp_multiplier = 1.0f;
     map_config.player_tp_multiplier = 1.0f;
     map_config.mob_stat_scale_start_level = 20;
@@ -977,16 +1038,20 @@ int32 map_config_default()
     map_config.mob_mp_multiplier = 1.0f;
     map_config.player_mp_multiplier = 1.0f;
     map_config.sj_mp_divisor = 2.0f;
+    map_config.subjob_ratio = 1;
+    map_config.include_mob_sj = false;
     map_config.nm_stat_multiplier = 1.0f;
     map_config.mob_stat_multiplier = 1.0f;
     map_config.player_stat_multiplier = 1.0f;
     map_config.ability_recast_multiplier = 1.0f;
     map_config.blood_pact_shared_timer = 0;
-    map_config.vanadiel_time_offset = 0;
+    map_config.vanadiel_time_epoch = 0;
     map_config.lightluggage_block = 4;
+    map_config.packetguard_enabled = false;
     map_config.max_time_lastupdate = 60000;
     map_config.newstyle_skillups = 7;
     map_config.drop_rate_multiplier = 1.0f;
+    map_config.mob_gil_multiplier = 1.0f;
     map_config.all_mobs_gil_bonus = 0;
     map_config.max_gil_bonus = 9999;
     map_config.Battle_cap_tweak = 0;
@@ -1009,6 +1074,18 @@ int32 map_config_default()
     map_config.anticheat_jail_disable = false;
     map_config.global_equipment_drop_rate = 30;
     map_config.global_equipment_drop_range = 3;
+    return 0;
+}
+
+int32 map_config_from_env()
+{
+    map_config.mysql_login     = std::getenv("TPZ_DB_USER") ? std::getenv("TPZ_DB_USER") : map_config.mysql_login;
+    map_config.mysql_password  = std::getenv("TPZ_DB_USER_PASSWD") ? std::getenv("TPZ_DB_USER_PASSWD") : map_config.mysql_password;
+    map_config.mysql_host      = std::getenv("TPZ_DB_HOST") ? std::getenv("TPZ_DB_HOST") : map_config.mysql_host;
+    map_config.mysql_port      = std::getenv("TPZ_DB_PORT") ? std::stoi(std::getenv("TPZ_DB_PORT")) : map_config.mysql_port;
+    map_config.mysql_database  = std::getenv("TPZ_DB_NAME") ? std::getenv("TPZ_DB_NAME") : map_config.mysql_database;
+    map_config.msg_server_ip   = std::getenv("TPZ_MSG_IP") ? std::getenv("TPZ_MSG_IP") : map_config.msg_server_ip;
+    map_config.msg_server_port = std::getenv("TPZ_MSG_PORT") ? std::stoi(std::getenv("TPZ_MSG_PORT")) : map_config.msg_server_port;
     return 0;
 }
 
@@ -1074,9 +1151,9 @@ int32 map_config_read(const int8* cfgName)
         {
             map_config.max_time_lastupdate = atoi(w2);
         }
-        else if (strcmp(w1, "vanadiel_time_offset") == 0)
+        else if (strcmp(w1, "vanadiel_time_epoch") == 0)
         {
-            map_config.vanadiel_time_offset = atoi(w2);
+            map_config.vanadiel_time_epoch = atoi(w2);
         }
         else if (strcmp(w1, "fame_multiplier") == 0)
         {
@@ -1085,6 +1162,10 @@ int32 map_config_read(const int8* cfgName)
         else if (strcmp(w1, "lightluggage_block") == 0)
         {
             map_config.lightluggage_block = atoi(w2);
+        }
+        else if (strcmp(w1, "packetguard_enabled") == 0)
+        {
+            map_config.packetguard_enabled = atoi(w2);
         }
         else if (strcmp(w1, "ah_base_fee_single") == 0)
         {
@@ -1106,6 +1187,10 @@ int32 map_config_read(const int8* cfgName)
         {
             map_config.ah_max_fee = atoi(w2);
         }
+        else if (strcmp(w1, "ah_list_limit") == 0)
+        {
+            map_config.ah_list_limit = atoi(w2);
+        }
         else if (strcmp(w1, "exp_rate") == 0)
         {
             map_config.exp_rate = (float)atof(w2);
@@ -1117,10 +1202,6 @@ int32 map_config_read(const int8* cfgName)
         else if (strcmp(w1, "exp_party_gap_penalties") == 0)
         {
             map_config.exp_party_gap_penalties = (uint8)atof(w2);
-        }
-        else if (strcmp(w1, "fov_allow_alliance") == 0)
-        {
-            map_config.fov_allow_alliance = (uint8)atof(w2);
         }
         else if (strcmp(w1, "mob_tp_multiplier") == 0)
         {
@@ -1162,6 +1243,14 @@ int32 map_config_read(const int8* cfgName)
         {
             map_config.sj_mp_divisor = (float)atof(w2);
         }
+        else if (strcmp(w1, "subjob_ratio") == 0)
+        {
+            map_config.subjob_ratio = atoi(w2);
+        }
+        else if (strcmp(w1, "include_mob_sj") == 0)
+        {
+            map_config.include_mob_sj = atoi(w2);
+        }
         else if (strcmp(w1, "nm_stat_multiplier") == 0)
         {
             map_config.nm_stat_multiplier = (float)atof(w2);
@@ -1185,6 +1274,10 @@ int32 map_config_read(const int8* cfgName)
         else if (strcmp(w1, "drop_rate_multiplier") == 0)
         {
             map_config.drop_rate_multiplier = (float)atof(w2);
+        }
+        else if (strcmp(w1, "mob_gil_multiplier") == 0)
+        {
+            map_config.mob_gil_multiplier = (float)atof(w2);
         }
         else if (strcmp(w1, "all_mobs_gil_bonus") == 0)
         {
@@ -1218,6 +1311,10 @@ int32 map_config_read(const int8* cfgName)
         {
             map_config.speed_mod = atoi(w2);
         }
+        else if (strcmp(w1, "mount_speed_mod") == 0)
+        {
+            map_config.mount_speed_mod = atoi(w2);
+        }
         else if (strcmp(w1, "mob_speed_mod") == 0)
         {
             map_config.mob_speed_mod = atoi(w2);
@@ -1238,17 +1335,29 @@ int32 map_config_read(const int8* cfgName)
         {
             map_config.craft_amount_multiplier = (float)atof(w2);
         }
-        else if (strcmp(w1, "craft_day_matters") == 0)
+        else if (strcmp(w1, "craft_common_cap") == 0)
         {
-            map_config.craft_day_matters = atof(w2);
+            map_config.craft_common_cap = atoi(w2);
         }
-        else if (strcmp(w1, "craft_moonphase_matters") == 0)
+        else if (strcmp(w1, "craft_specialization_points") == 0)
         {
-            map_config.craft_moonphase_matters = atof(w2);
+            map_config.craft_specialization_points = atoi(w2);
         }
-        else if (strcmp(w1, "craft_direction_matters") == 0)
+        else if (strcmp(w1, "garden_day_matters") == 0)
         {
-            map_config.craft_direction_matters = atof(w2);
+            map_config.garden_day_matters = atof(w2);
+        }
+        else if (strcmp(w1, "garden_moonphase_matters") == 0)
+        {
+            map_config.garden_moonphase_matters = atof(w2);
+        }
+        else if (strcmp(w1, "garden_pot_matters") == 0)
+        {
+            map_config.garden_pot_matters = atof(w2);
+        }
+        else if (strcmp(w1, "garden_mh_aura_matters") == 0)
+        {
+            map_config.garden_mh_aura_matters = atof(w2);
         }
         else if (strcmp(w1, "mysql_host") == 0)
         {
@@ -1386,30 +1495,10 @@ int32 map_config_read(const int8* cfgName)
 
     fclose(fp);
 
-    // Load the French server message..
-    fp = fopen("./conf/server_message_fr.conf", "rb");
-    if (fp == nullptr)
-    {
-        ShowError("Could not read English server message from: ./conf/server_message_fr.conf\n");
-        return 1;
-    }
-
-    while (fgets(line, sizeof(line), fp))
-    {
-        string_t sline(line);
-        map_config.server_message_fr += sline;
-    }
-
-    fclose(fp);
-
     // Ensure both messages have nullptr terminates..
     if (map_config.server_message.at(map_config.server_message.length() - 1) != 0x00)
     {
         map_config.server_message += (char)0x00;
-    }
-    if (map_config.server_message_fr.at(map_config.server_message_fr.length() - 1) != 0x00)
-    {
-        map_config.server_message_fr += (char)0x00;
     }
 
     return 0;
@@ -1417,6 +1506,7 @@ int32 map_config_read(const int8* cfgName)
 
 int32 map_garbage_collect(time_point tick, CTaskMgr::CTask* PTask)
 {
+    TracyZoneScoped;
     luautils::garbageCollect();
     return 0;
 }

@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -62,7 +62,7 @@ CCharUpdatePacket::CCharUpdatePacket(CCharEntity* PChar)
     if (PChar->isNewPlayer())
         ref<uint8>(0x38) |= 0x08; // New player ?
 
-    ref<uint8>(0x29) = PChar->GetGender() + (PChar->look.size > 0 ? PChar->look.size * 8 : 2); // +  управляем ростом: 0x02 - 0; 0x08 - 1; 0x10 - 2;
+    ref<uint8>(0x29) = PChar->GetGender() + (PChar->look.size > 0 ? PChar->look.size * 8 : 2); // + управляем ростом: 0x02 - 0; 0x08 - 1; 0x10 - 2;
     ref<uint8>(0x2C) = PChar->GetSpeed();
     ref<uint16>(0x2E) |= PChar->speedsub << 1;
     ref<uint8>(0x30) = PChar->m_event.EventID != -1 ? ANIMATION_EVENT : PChar->animation;
@@ -102,6 +102,12 @@ CCharUpdatePacket::CCharUpdatePacket(CCharEntity* PChar)
         ref<uint8>(0x4A) = 0x0D; //was 0x10
     }
     ref<uint64>(0x4C) = PChar->StatusEffectContainer->m_Flags;
+
+    // GEO bubble effects, changes bubble effect depending on what effect is activated.
+    if (PChar->StatusEffectContainer->HasStatusEffect(EFFECT_COLURE_ACTIVE))
+    {
+        ref<uint8>(0x58) = 0x50 + PChar->StatusEffectContainer->GetStatusEffect(EFFECT_COLURE_ACTIVE)->GetPower();
+    }
 
     if (PChar->animation == ANIMATION_MOUNT)
         ref<uint16>(0x5B) = PChar->StatusEffectContainer->GetStatusEffect(EFFECT_MOUNTED)->GetPower();

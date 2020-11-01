@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -47,6 +47,16 @@ CAttackRound::CAttackRound(CBattleEntity* attacker, CBattleEntity* defender)
     // Grab a trick attack assistant.
     m_taEntity = battleutils::getAvailableTrickAttackChar(attacker, attacker->GetBattleTarget());
 
+    // Get cover partner
+    if (attacker->GetBattleTarget()->objtype == TYPE_PC)
+    {
+        m_coverAbilityUserEntity = battleutils::GetCoverAbilityUser(attacker->GetBattleTarget(), attacker);
+    }
+    else
+    {
+        m_coverAbilityUserEntity = nullptr;
+    }
+
     // Build main weapon attacks.
     CreateAttacks(dynamic_cast<CItemWeapon*>(attacker->m_Weapons[SLOT_MAIN]), RIGHTATTACK);
 
@@ -60,8 +70,7 @@ CAttackRound::CAttackRound(CBattleEntity* attacker, CBattleEntity* defender)
         CreateKickAttacks();
     }
 
-    else if ((m_subWeaponType > 0 && m_subWeaponType < 4) ||
-        (attacker->objtype == TYPE_MOB && static_cast<CMobEntity*>(attacker)->getMobMod(MOBMOD_DUAL_WIELD)))
+    else if (attacker->m_dualWield)
     {
         CreateAttacks(dynamic_cast<CItemWeapon*>(attacker->m_Weapons[SLOT_SUB]), LEFTATTACK);
     }
@@ -147,6 +156,16 @@ bool CAttackRound::GetSATAOccured()
 CBattleEntity*	CAttackRound::GetTAEntity()
 {
     return m_taEntity;
+}
+
+/************************************************************************
+*                                                                       *
+*  Returns the Cover entity.                                            *
+*                                                                       *
+************************************************************************/
+CBattleEntity* CAttackRound::GetCoverAbilityUserEntity()
+{
+    return m_coverAbilityUserEntity;
 }
 
 /************************************************************************

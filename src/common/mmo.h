@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -193,6 +193,8 @@ struct questlog_t
 struct missionlog_t
 {
 	uint16 current;
+    uint16 logExUpper;
+    uint16 logExLower;
 	bool   complete[64];
 };
 
@@ -206,6 +208,20 @@ struct campaignlog_t
 {
 	uint16 current;
 	bool   complete[512];
+};
+
+struct eminencelog_t
+{
+    uint16 active[31];   //slot 31 is for time-limited records
+    uint32 progress[31];
+    uint8 complete[512]; //bitmap of all 4096 possible records.
+};
+
+struct eminencecache_t
+{
+    std::bitset<4096> activemap;
+    uint32 lastWriteout {0};
+    bool notifyTimedRecord {false};
 };
 
 struct nameflags_t

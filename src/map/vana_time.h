@@ -22,12 +22,18 @@
 #ifndef _CVANATIME_H
 #define _CVANATIME_H
 
+#ifdef WIN32
+#define timegm _mkgmtime
+#endif
+
 #define VTIME_BASEDATE		1009810800		// unix epoch - 1009810800 = se epoch (in earth seconds)
 #define VTIME_YEAR			518400			// 360 * GameDay
 #define VTIME_MONTH			43200			// 30 * GameDay
 #define VTIME_WEEK			11520			// 8 * GameDay
 #define VTIME_DAY			1440			// 24 hours * GameHour
 #define VTIME_HOUR			60				// 60 minutes
+
+#define JST_OFFSET 32400                    // JST +offset from UTC
 
 #include "../common/cbasetypes.h"
 
@@ -60,6 +66,7 @@ class CVanaTime
 public:
 
 	static	CVanaTime * getInstance();
+	static  void delInstance();
 
 	TIMETYPE SyncTime();
 	TIMETYPE GetCurrentTOTD();
@@ -80,17 +87,19 @@ public:
 	uint32	 getSysSecond();
 	uint32	 getSysWeekDay();						// Number of day since sunday
 	uint32	 getSysYearDay();						// Number of day since 1st january
+    uint32   getJstHour();
+    uint32   getJstMinute();
+    uint32   getJstSecond();
+    uint32   getJstWeekDay();                       // Number of day since sunday
+    uint32   getJstDayOfMonth();
+    uint32   getJstYearDay();                       // Number of day since 1st january
+    uint32   getJstMidnight();                      // Upcoming JST midnight in unix timestamp
 
     uint32   getVanaTime();
-	int32	 getCustomOffset();
+	int32	 getCustomEpoch();
 
-	void	 setCustomOffset(int32 offset);
+	void	 setCustomEpoch(int32 epoch);
 
-	time_point   lastConquestUpdate;
-    time_point   lastVHourlyUpdate;
-    time_point   lastVDailyUpdate;
-    time_point   lastConquestTally;
-    time_point   lastMidnight;
 
 private:
 
@@ -108,7 +117,7 @@ private:
 
 	TIMETYPE m_TimeType;							// текущий тип времени
 
-	int32	 m_customOffset;						// Смещение игрового времени в игровых минутах
+	int32	 m_customEpoch;						// Custom epoch to use instead of VTIME_BASEDATE
 };
 
 #endif

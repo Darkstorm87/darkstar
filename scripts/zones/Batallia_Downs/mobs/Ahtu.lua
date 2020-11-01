@@ -4,7 +4,7 @@
 -----------------------------------
 
 function onMobDeath(mob, player, isKiller)
-end;
+end
 
 function onMobDespawn(mob)
     -- Set Ahtu's spawnpoint and respawn time (2-4 hours)

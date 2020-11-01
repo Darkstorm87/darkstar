@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
 Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -36,7 +36,7 @@ class CSynthSuggestionPacket : public CBasicPacket
 {
 public:
 
-	CSynthSuggestionPacket(uint32 synthID);
+	CSynthSuggestionPacket(uint16 skillID, uint16 skillLevel);
 };
 
 #endif

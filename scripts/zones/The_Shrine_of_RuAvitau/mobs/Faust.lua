@@ -5,8 +5,8 @@
 -- TODO: Faust should WS ~3 times in a row each time.
 
 function onMobDeath(mob, player, isKiller)
-end;
+end
 
 function onMobDespawn(mob)
-	mob:setRespawnTime(900); -- respawn 3-6 hrs
-end;
+	mob:setRespawnTime(900) -- respawn 3-6 hrs
+end

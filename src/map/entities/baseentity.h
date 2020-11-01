@@ -135,7 +135,9 @@ enum ALLEGIANCETYPE
     ALLEGIANCE_PLAYER    = 1,
     ALLEGIANCE_SAN_DORIA = 2,
     ALLEGIANCE_BASTOK    = 3,
-    ALLEGIANCE_WINDURST  = 4
+    ALLEGIANCE_WINDURST  = 4,
+    ALLEGIANCE_WYVERNS   = 5,
+    ALLEGIANCE_GRIFFONS  = 6,
 };
 
 enum UPDATETYPE
@@ -212,7 +214,9 @@ public:
     float           GetZPos();          // позиция по координате Z
     uint8           GetRotPos();
     void            HideName(bool hide); // hide / show name
-    bool            IsNameHidden();     // checks if name is hidden
+    bool            IsNameHidden();      // checks if name is hidden
+    bool            IsTargetable();      // checks if entity is targetable
+    virtual bool    isWideScannable();   // checks if the entity should show up on wide scan
 
     CBaseEntity*    GetEntity(uint16 targid, uint8 filter = -1);
 

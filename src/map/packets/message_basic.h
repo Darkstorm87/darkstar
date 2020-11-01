@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -33,6 +33,7 @@
  */
 enum MSGBASIC_ID : uint16
 {
+    MSGBASIC_NONE                   = 0, /* Display nothing */
 	MSGBASIC_DEFEATS_TARG			= 6, /* The <player> defeats <target>. */
 	MSGBASIC_ALREADY_CLAIMED		= 12, /* Cannot attack. Your target is already claimed. */
 	MSGBASIC_IS_INTERRUPTED			= 16, /* The <player>'s casting is interrupted. */
@@ -47,6 +48,8 @@ enum MSGBASIC_ID : uint16
     MSGBASIC_CANNOT_CAST_SPELL      = 47, /* >player> cannot cast <spell>. */
     MSGBASIC_CANNOT_USE_IN_AREA      = 40, /* cannot use in this area */
 	MSGBASIC_UNABLE_TO_CAST_SPELLS  = 49, /* The <player> is unable to cast spells. */
+    MSGBASIC_MAGIC_NO_EFFECT        = 75, /* <caster>'s <spell> has no effect on <target>. */
+    MSGBASIC_MAGIC_TELEPORT         = 93, /* <caster> casts <spell>. <target> vanishes. */
 	MSGBASIC_WAIT_LONGER			= 94, /* You must wait longer to perform that action. */
     MSGBASIC_PLAYER_DEFEATED_BY     = 97, /* <player> was defeated by the <target>. */
 	MSGBASIC_USES_JA				= 100, /* The <player> uses .. */
@@ -85,6 +88,10 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_CANNOT_USE_ITEM_ON		= 92,  /* Cannot use the <item> on <target>. */
 	MSGBASIC_ITEM_FAILS_TO_ACTIVATE = 62,  /* The <item> fails to activate. */
 	MSGBASIC_FULL_INVENTORY         = 356, /* Cannot execute command. Your inventory is full. */
+	/* Gardening */
+	MSGBASIC_GARDENING_SEED_SOWN    = 256, /* In this flower pot: Seeds sown: <item>*/
+	MSGBASIC_GARDENING_CRYSTAL_NONE = 257, /* Crystal used: none*/
+	MSGBASIC_GARDENING_CRYSTAL_USED = 258, /* Crystal used: <item>*/ 
 	/* Ranged */
 	MSGBASIC_NO_RANGED_WEAPON		= 216, /* You do not have an appropriate ranged weapon equipped. */
 	MSGBASIC_CANNOT_SEE				= 217, /* You cannot see <target>. */
@@ -123,6 +130,18 @@ enum MSGBASIC_ID : uint16
 	MSGBASIC_TREASURE_HUNTER_UP		= 603,  /* Additional effect: Treasure Hunter effectiveness against <target> increases to .. */
 	/* DNC */
 	MSGBASIC_NO_FINISHINGMOVES		= 524,
+    /* GEO */
+    MSGBASIC_SAME_EEFECT_LUOPAN     = 660, /* The same effect is already active on that luopan! */
+    MSGBASIC_LUOPAN_ALREADY_PLACED  = 661, /* <player> has already placed a luopan. Unable to use ability. */
+    MSGBASIC_REQUIRE_LUOPAN         = 662, /* This action requires a luopan. */
+    MSGBASIC_LUOPAN_HP_RATE_DOWN    = 663, /* <player> uses <ability>. The luopan's HP consumption rate has been reduced. */
+    MSGBASIC_LUOPAN_HP_RATE_UP      = 664, /* <player> uses <ability>. The luopan's HP consumption rate has been increased. */
+    MSGBASIC_HAS_LUOPON_NO_USE      = 665, /* <player> has a pet. Unable to use ability. */
+	/* ROE */
+	MSGBASIC_ROE_START              = 704,
+	MSGBASIC_ROE_TIMED              = 705, // You have undertaken the timed record X.
+	MSGBASIC_ROE_RECORD             = 697, // Records of Eminence: <record>.
+	MSGBASIC_ROE_PROGRESS           = 698, // Progress: <amount>/<amount>.
 
 	/* DEBUG MESSAGES */
 	MSGBASIC_DEBUG_RESISTED_SPELL	= 66, /* Debug: Resisted spell! */

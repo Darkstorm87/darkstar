@@ -1,3 +1,4 @@
+require("scripts/globals/spell_data")
 require("scripts/globals/magicburst")
 require("scripts/globals/settings")
 require("scripts/globals/weather")
@@ -8,67 +9,6 @@ require("scripts/globals/msg")
 
 tpz = tpz or {}
 tpz.magic = tpz.magic or {}
-
-------------------------------------
--- Elements
-------------------------------------
-
-tpz.magic.element =
-{
-    NONE      = 0,
-    FIRE      = 1,
-    EARTH     = 2,
-    WATER     = 3,
-    WIND      = 4,
-    ICE       = 5,
-    LIGHTNING = 6,
-    THUNDER   = 6,
-    LIGHT     = 7,
-    DARK      = 8,
-}
-tpz.magic.ele = tpz.magic.element
-
-------------------------------------
--- Spell Groups
-------------------------------------
-
-tpz.magic.spellGroup =
-{
-    NONE      = 0,
-    SONG      = 1,
-    BLACK     = 2,
-    BLUE      = 3,
-    NINJUTSU  = 4,
-    SUMMONING = 5,
-    WHITE     = 6,
-}
-
-------------------------------------
--- Spell AOE IDs
-------------------------------------
-
-tpz.magic.aoe =
-{
-    NONE        = 0,
-    RADIAL      = 1,
-    CONAL       = 2,
-    RADIAL_MANI = 3, -- AOE when under SCH stratagem Manifestation
-    RADIAL_ACCE = 4, -- AOE when under SCH stratagem Accession
-    PIANISSIMO  = 5, -- Single target when under BRD JA Pianissimo
-    DIFFUSION   = 6, -- AOE when under Diffusion
-}
-
-------------------------------------
--- Spell flag bits
-------------------------------------
-
-tpz.magic.spellFlag =
-{
-    NONE           = 0x00,
-    HIT_ALL        = 0x01, -- Hit all targets in range regardless of party
-    WIPE_SHADOWS   = 0x02, -- Wipe shadows even if single target and miss/resist (example: "Maiden's Virelai")
-    IGNORE_SHADOWS = 0x04  -- Ignore shadows and hit player anyways (example: Mobs "Death" spell)
-}
 
 ------------------------------------
 -- Tables by element
@@ -183,11 +123,6 @@ function doBoostGain(caster, target, spell, effect)
 end
 
 function doEnspell(caster, target, spell, effect)
-    if effect == tpz.effect.BLOOD_WEAPON then
-        target:addStatusEffect(tpz.effect.BLOOD_WEAPON, 1, 0, 30)
-        return
-    end
-
     local duration = calculateDuration(300, spell:getSkillType(), spell:getSpellGroup(), caster, target)
 
     --calculate potency
@@ -210,7 +145,7 @@ end
 --   getCureFinal returns the final cure amount
 --   Source: http://members.shaw.ca/pizza_steve/cure/Cure_Calculator.html
 ---------------------------------
-function getCurePower(caster,isBlueMagic)
+function getCurePower(caster, isBlueMagic)
     local MND = caster:getStat(tpz.mod.MND)
     local VIT = caster:getStat(tpz.mod.VIT)
     local skill = caster:getSkillLevel(tpz.skill.HEALING_MAGIC)
@@ -224,10 +159,10 @@ function getCurePowerOld(caster)
     local power = ((3 * MND) + VIT + (3 * math.floor(skill/5)))
     return power
 end
-function getBaseCure(power,divisor,constant,basepower)
+function getBaseCure(power, divisor, constant, basepower)
     return ((power - basepower) / divisor) + constant
 end
-function getBaseCureOld(power,divisor,constant)
+function getBaseCureOld(power, divisor, constant)
     return (power / 2) / divisor + constant
 end
 
@@ -305,8 +240,8 @@ function getCureFinal(caster, spell, basecure, minCure, isBlueMagic)
     return final
 end
 
-function getCureAsNukeFinal(caster,spell,power,divisor,constant,basepower)
-    return getCureFinal(caster,spell,power,divisor,constant,basepower)
+function getCureAsNukeFinal(caster, spell, power, divisor, constant, basepower)
+    return getCureFinal(caster, spell, power, divisor, constant, basepower)
 end
 
 -----------------------------------
@@ -316,7 +251,7 @@ end
 -- affinities that strengthen/weaken the index element
 
 
-function AffinityBonusDmg(caster,ele)
+function AffinityBonusDmg(caster, ele)
 
     local affinity = caster:getMod(strongAffinityDmg[ele])
     local bonus = 1.00 + affinity * 0.05 -- 5% per level of affinity
@@ -324,7 +259,7 @@ function AffinityBonusDmg(caster,ele)
     return bonus
 end
 
-function AffinityBonusAcc(caster,ele)
+function AffinityBonusAcc(caster, ele)
 
     local affinity = caster:getMod(strongAffinityAcc[ele])
     local bonus = 0 + affinity * 10 -- 10 acc per level of affinity
@@ -367,7 +302,7 @@ function applyResistanceEffect(caster, target, spell, params)
     end
 
     if (skill == tpz.skill.SINGING and caster:hasStatusEffect(tpz.effect.TROUBADOUR)) then
-        if (math.random(0,99) < caster:getMerit(tpz.merit.TROUBADOUR)-25) then
+        if (math.random(0, 99) < caster:getMerit(tpz.merit.TROUBADOUR)-25) then
             return 1.0
         end
     end
@@ -396,14 +331,14 @@ function applyResistanceEffect(caster, target, spell, params)
 end
 
 -- Applies resistance for things that may not be spells - ie. Quick Draw
-function applyResistanceAbility(player,target,element,skill,bonus)
+function applyResistanceAbility(player, target, element, skill, bonus)
     local p = getMagicHitRate(player, target, skill, element, 0, bonus)
 
     return getMagicResist(p)
 end
 
 -- Applies resistance for additional effects
-function applyResistanceAddEffect(player,target,element,bonus)
+function applyResistanceAddEffect(player, target, element, bonus)
 
     local p = getMagicHitRate(player, target, 0, element, 0, bonus)
 
@@ -490,16 +425,16 @@ function getMagicResist(magicHitRate)
     -- Determine final resist based on which thresholds have been crossed.
     if (resvar <= sixteenth) then
         resist = 0.0625
-        --printf("Spell resisted to 1/16!!!  Threshold = %u",sixteenth)
+        --printf("Spell resisted to 1/16!!!  Threshold = %u", sixteenth)
     elseif (resvar <= eighth) then
         resist = 0.125
-        --printf("Spell resisted to 1/8!  Threshold = %u",eighth)
+        --printf("Spell resisted to 1/8!  Threshold = %u", eighth)
     elseif (resvar <= quart) then
         resist = 0.25
-        --printf("Spell resisted to 1/4.  Threshold = %u",quart)
+        --printf("Spell resisted to 1/4.  Threshold = %u", quart)
     elseif (resvar <= half) then
         resist = 0.5
-        --printf("Spell resisted to 1/2.  Threshold = %u",half)
+        --printf("Spell resisted to 1/2.  Threshold = %u", half)
     else
         resist = 1.0
         --printf("1.0")
@@ -512,6 +447,7 @@ end
 -- target has to the given effect (stun, sleep, etc..)
 function getEffectResistance(target, effect)
     local effectres = 0
+    local statusres = target:getMod(tpz.mod.STATUSRES)
     if (effect == tpz.effect.SLEEP_I or effect == tpz.effect.SLEEP_II) then
         effectres = tpz.mod.SLEEPRES
     elseif (effect == tpz.effect.LULLABY) then
@@ -545,10 +481,10 @@ function getEffectResistance(target, effect)
     end
 
     if (effectres ~= 0) then
-        return target:getMod(effectres)
+        return target:getMod(effectres) + statusres
     end
 
-    return 0
+    return statusres
 end
 
 -- Returns the bonus magic accuracy for any spell
@@ -630,7 +566,7 @@ function handleAfflatusMisery(caster, spell, dmg)
     return dmg
 end
 
- function finalMagicAdjustments(caster,target,spell,dmg)
+ function finalMagicAdjustments(caster, target, spell, dmg)
     --Handles target's HP adjustment and returns UNSIGNED dmg (absorb message is set in this function)
 
     -- handle multiple targets
@@ -686,7 +622,7 @@ end
     else
         target:takeSpellDamage(caster, spell, dmg, tpz.attackType.MAGICAL, tpz.damageType.ELEMENTAL + spell:getElement())
         target:handleAfflatusMiseryDamage(dmg)
-        target:updateEnmityFromDamage(caster,dmg)
+        target:updateEnmityFromDamage(caster, dmg)
         -- Only add TP if the target is a mob
         if (target:getObjType() ~= tpz.objType.PC) then
             target:addTP(100)
@@ -696,7 +632,7 @@ end
     return dmg
  end
 
-function finalMagicNonSpellAdjustments(caster,target,ele,dmg)
+function finalMagicNonSpellAdjustments(caster, target, ele, dmg)
     --Handles target's HP adjustment and returns SIGNED dmg (negative values on absorb)
 
     dmg = target:magicDmgTaken(dmg)
@@ -718,16 +654,16 @@ function finalMagicNonSpellAdjustments(caster,target,ele,dmg)
     end
     --Not updating enmity from damage, as this is primarily used for additional effects (which don't generate emnity)
     -- in the case that updating enmity is needed, do it manually after calling this
-    --target:updateEnmityFromDamage(caster,dmg)
+    --target:updateEnmityFromDamage(caster, dmg)
 
     return dmg
 end
 
-function adjustForTarget(target,dmg,ele)
-    if (dmg > 0 and math.random(0,99) < target:getMod(tpz.magic.absorbMod[ele])) then
+function adjustForTarget(target, dmg, ele)
+    if (dmg > 0 and math.random(0, 99) < target:getMod(tpz.magic.absorbMod[ele])) then
         return -dmg
     end
-    if (math.random(0,99) < target:getMod(nullMod[ele])) then
+    if (math.random(0, 99) < target:getMod(nullMod[ele])) then
         return 0
     end
     --Moved non element specific absorb and null mod checks to core
@@ -872,7 +808,7 @@ function addBonuses(caster, spell, target, dmg, params)
         end
 
         local mab_crit = caster:getMod(tpz.mod.MAGIC_CRITHITRATE)
-        if ( math.random(1,100) < mab_crit ) then
+        if ( math.random(1, 100) < mab_crit ) then
            mab = mab + ( 10 + caster:getMod(tpz.mod.MAGIC_CRIT_DMG_INCREASE ) )
         end
 
@@ -1028,17 +964,7 @@ end;
 
 function getElementalDebuffStatDownFromDOT(dot)
     local stat_down = 0
-    if (dot == 1) then
-        stat_down = 5
-    elseif (dot == 2) then
-        stat_down = 7
-    elseif (dot == 3) then
-        stat_down = 9
-    elseif (dot == 4) then
-        stat_down = 11
-    else
-        stat_down = 13
-    end
+    stat_down = (dot-1)*2 +5
     return stat_down
 end
 
@@ -1289,9 +1215,9 @@ function doNuke(caster, target, spell, params)
     --add on bonuses (staff/day/weather/jas/mab/etc all go in this function)
     dmg = addBonuses(caster, spell, target, dmg, params)
     --add in target adjustment
-    dmg = adjustForTarget(target,dmg,spell:getElement())
+    dmg = adjustForTarget(target, dmg, spell:getElement())
     --add in final adjustments
-    dmg = finalMagicAdjustments(caster,target,spell,dmg)
+    dmg = finalMagicAdjustments(caster, target, spell, dmg)
     return dmg
 end
 
@@ -1309,11 +1235,11 @@ function doDivineBanishNuke(caster, target, spell, params)
     --add on bonuses (staff/day/weather/jas/mab/etc all go in this function)
     dmg = addBonuses(caster, spell, target, dmg, params)
     --add in target adjustment
-    dmg = adjustForTarget(target,dmg,spell:getElement())
+    dmg = adjustForTarget(target, dmg, spell:getElement())
     --handling afflatus misery
     dmg = handleAfflatusMisery(caster, spell, dmg)
     --add in final adjustments
-    dmg = finalMagicAdjustments(caster,target,spell,dmg)
+    dmg = finalMagicAdjustments(caster, target, spell, dmg)
     return dmg
 end
 
@@ -1347,7 +1273,11 @@ function calculateDuration(duration, magicSkill, spellGroup, caster, target, use
         end
     elseif magicSkill == tpz.skill.ENFEEBLING_MAGIC then -- Enfeebling Magic
         if caster:hasStatusEffect(tpz.effect.SABOTEUR) then
-            duration = duration * 2
+            if target:isNM() then
+                duration = duration * 1.25
+            else
+                duration = duration * 2
+            end
         end
 
         -- After Saboteur according to bg-wiki
@@ -1409,8 +1339,6 @@ function outputMagicHitRateInfo()
         end
     end
 end
-
--- outputMagicHitRateInfo()
 
 function calculateElementalNukeSpellParams(caster, nukeTier, AOE)
     local spellParams = {};
@@ -1618,4 +1546,4 @@ ELEMENTAL_TIER_4 = 4;
 ELEMENTAL_TIER_5 = 5;
 ANCIENT_MAGIC = 6;
 
-tpz.mag = tpz.magic;
+tpz.ma = tpz.magic;

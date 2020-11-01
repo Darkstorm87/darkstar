@@ -24,25 +24,27 @@
 
 #include "battleentity.h"
 
-#include "../lua/luautils.h"
-#include "../utils/battleutils.h"
-#include "../items/item_weapon.h"
-#include "../status_effect_container.h"
-#include "../recast_container.h"
 #include "../ai/ai_container.h"
 #include "../ai/states/attack_state.h"
-#include "../ai/states/magic_state.h"
 #include "../ai/states/death_state.h"
-#include "../ai/states/raise_state.h"
-#include "../ai/states/inactive_state.h"
-#include "../ai/states/weaponskill_state.h"
 #include "../ai/states/despawn_state.h"
+#include "../ai/states/inactive_state.h"
+#include "../ai/states/magic_state.h"
+#include "../ai/states/raise_state.h"
+#include "../ai/states/weaponskill_state.h"
 #include "../attack.h"
 #include "../attackround.h"
-#include "../weapon_skill.h"
+#include "../notoriety_container.h"
+#include "../items/item_weapon.h"
+#include "../lua/luautils.h"
 #include "../packets/action.h"
+#include "../recast_container.h"
+#include "../roe.h"
+#include "../status_effect_container.h"
+#include "../utils/battleutils.h"
 #include "../utils/petutils.h"
 #include "../utils/puppetutils.h"
+#include "../weapon_skill.h"
 
 CBattleEntity::CBattleEntity()
 {
@@ -60,6 +62,7 @@ CBattleEntity::CBattleEntity()
     m_Weapons[SLOT_SUB] = new CItemWeapon(0);
     m_Weapons[SLOT_RANGED] = new CItemWeapon(0);
     m_Weapons[SLOT_AMMO] = new CItemWeapon(0);
+    m_dualWield = false;
 
     memset(&stats, 0, sizeof(stats));
     memset(&health, 0, sizeof(health));
@@ -74,6 +77,7 @@ CBattleEntity::CBattleEntity()
 
     StatusEffectContainer = std::make_unique<CStatusEffectContainer>(this);
     PRecastContainer = std::make_unique<CRecastContainer>(this);
+    PNotorietyContainer = std::make_unique<CNotorietyContainer>(this);
 
     m_modStat[Mod::SLASHRES] = 1000;
     m_modStat[Mod::PIERCERES] = 1000;
@@ -207,13 +211,25 @@ int32 CBattleEntity::GetMaxMP()
 
 /************************************************************************
 *                                                                       *
-*  Скорость перемещения с учетом модификаторов                          *
+*  Movement speed, taking into account modifiers                        *
+*  Note: retail speeds show as a float in the client,                   *
+*        yet in the packet it seems to be just one byte 0-255..         *
 *                                                                       *
 ************************************************************************/
 
 uint8 CBattleEntity::GetSpeed()
 {
-    return (isMounted() ? 40 + map_config.speed_mod : std::clamp<uint16>(speed * (100 + getMod(Mod::MOVE)) / 100, std::numeric_limits<uint8>::min(), std::numeric_limits<uint8>::max()));
+    int16 startingSpeed = isMounted() ? 40 + map_config.mount_speed_mod : speed;
+
+    // Mod::MOVE (169)
+    // Mod::MOUNT_MOVE (972)
+    Mod mod = isMounted() ? Mod::MOUNT_MOVE : Mod::MOVE;
+
+    float modAmount = (100.0f + static_cast<float>(getMod(mod))) / 100.0f;
+    float modifiedSpeed = static_cast<float>(startingSpeed) * modAmount;
+    uint8 outputSpeed = static_cast<uint8>(modifiedSpeed);
+
+    return std::clamp<uint8>(outputSpeed, std::numeric_limits<uint8>::min(), std::numeric_limits<uint8>::max());
 }
 
 bool CBattleEntity::CanRest()
@@ -518,6 +534,13 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
 {
     PLastAttacker = attacker;
     PAI->EventHandler.triggerListener("TAKE_DAMAGE", this, amount, attacker, (uint16)attackType, (uint16)damageType);
+
+    //RoE Damage Taken Trigger
+    if (this->objtype == TYPE_PC)
+        roeutils::event(ROE_EVENT::ROE_DMGTAKEN, static_cast<CCharEntity*>(this), RoeDatagram("dmg", amount));
+    else if (PLastAttacker && PLastAttacker->objtype == TYPE_PC)
+        roeutils::event(ROE_EVENT::ROE_DMGDEALT, static_cast<CCharEntity*>(attacker), RoeDatagram("dmg", amount));
+
     return addHP(-amount);
 }
 
@@ -571,9 +594,13 @@ uint16 CBattleEntity::ATT()
     {
         ATT += (STR() * 3) / 4;
     }
+    else if (weapon && weapon->isHandToHand())
+    {
+        ATT += (STR() * 5) / 8;
+    }
     else
     {
-        ATT += (STR()) / 2;
+        ATT += (STR() * 3) / 4;
     }
 
     if (this->StatusEffectContainer->HasStatusEffect(EFFECT_ENDARK))
@@ -607,7 +634,7 @@ uint16 CBattleEntity::RATT(uint8 skill, uint16 bonusSkill)
     {
         return 0;
     }
-    int32 ATT = 8 + GetSkill(skill) + bonusSkill + m_modStat[Mod::RATT] + battleutils::GetRangedAttackBonuses(this) + STR() / 2;
+    int32 ATT = 8 + GetSkill(skill) + bonusSkill + m_modStat[Mod::RATT] + battleutils::GetRangedAttackBonuses(this) + (STR() * 3) / 4;
     return ATT + (ATT * m_modStat[Mod::RATTP] / 100) +
         std::min<int16>((ATT * m_modStat[Mod::FOOD_RATTP] / 100), m_modStat[Mod::FOOD_RATT_CAP]);
 }
@@ -623,7 +650,7 @@ uint16 CBattleEntity::RACC(uint8 skill, uint16 bonusSkill)
     uint16 acc = skill_level;
     acc += getMod(Mod::RACC);
     acc += battleutils::GetRangedAccuracyBonuses(this);
-    acc += (uint16)(AGI() * 0.75);
+    acc += (AGI() * 3) / 4;
     return acc + std::min<int16>(((100 + getMod(Mod::FOOD_RACCP) * acc) / 100), getMod(Mod::FOOD_RACC_CAP));
 }
 
@@ -650,7 +677,7 @@ uint16 CBattleEntity::ACC(uint8 attackNumber, uint8 offsetAccuracy)
                 iLvlSkill = weapon->getILvlSkill();
                 if (skill == SKILL_NONE && GetSkill(SKILL_HAND_TO_HAND) > 0)
                     if (auto main_weapon = dynamic_cast<CItemWeapon*>(m_Weapons[SLOT_MAIN]);
-                        main_weapon && main_weapon->getSkillType() == SKILL_NONE || main_weapon->getSkillType() == SKILL_HAND_TO_HAND)
+                       (main_weapon && main_weapon->getSkillType() == SKILL_NONE) || main_weapon->getSkillType() == SKILL_HAND_TO_HAND)
                     {
                         skill = SKILL_HAND_TO_HAND;
                     }
@@ -772,10 +799,38 @@ void CBattleEntity::SetMLevel(uint8 mlvl)
 
 void CBattleEntity::SetSLevel(uint8 slvl)
 {
-    m_slvl = (slvl > (m_mlvl >> 1) ? (m_mlvl == 1 ? 1 : (m_mlvl >> 1)) : slvl);
+    if (!map_config.include_mob_sj && (this->objtype == TYPE_MOB && this->objtype != TYPE_PET))
+    {
+        // Technically, we shouldn't be assuming mobs even have a ratio they must adhere to.
+        // But there is no place in the DB to set subLV right now.
+        m_slvl = (slvl > (m_mlvl >> 1) ? (m_mlvl == 1 ? 1 : (m_mlvl >> 1)) : slvl);
+    }
+    else
+    {
+        switch (map_config.subjob_ratio)
+        {
+            case 0: //no SJ...Where is your Altana now?
+                m_slvl = 0;
+                break;
+            case 1: // 1/2 (75/37, 99/49)
+                m_slvl = (slvl > (m_mlvl >> 1) ? (m_mlvl == 1 ? 1 : (m_mlvl >> 1)) : slvl);
+                break;
+            case 2: // 2/3 (75/50, 99/66)
+                m_slvl = (slvl > (m_mlvl * 2) / 3 ? (m_mlvl == 1 ? 1 : (m_mlvl * 2) / 3) : slvl);
+                break;
+            case 3: // equal (75/75, 99/99)
+                m_slvl = (slvl > m_mlvl ? (m_mlvl == 1 ? 1 : m_mlvl) : slvl);
+                break;
+            default: // Error
+                ShowError("Error setting subjob level: Invalid ratio '%s' check your map.conf file!\n", map_config.subjob_ratio);
+                break;
+        }
+    }
 
     if (this->objtype & TYPE_PC)
+    {
         Sql_Query(SqlHandle, "UPDATE char_stats SET slvl = %u WHERE charid = %u LIMIT 1;", m_slvl, this->id);
+    }
 }
 
 /************************************************************************
@@ -1163,10 +1218,28 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
     {
         if (!isDead())
         {
-            if (allegiance == (PInitiator->allegiance % 2 == 0 ? PInitiator->allegiance + 1 : PInitiator->allegiance - 1))
+            // Teams PVP
+            if (allegiance >= ALLEGIANCE_WYVERNS &&
+                PInitiator->allegiance >= ALLEGIANCE_WYVERNS)
             {
-                return true;
+                return allegiance != PInitiator->allegiance;
             }
+
+            // Nation PVP
+            if ((allegiance >= ALLEGIANCE_SAN_DORIA && allegiance <= ALLEGIANCE_WINDURST) &&
+                (PInitiator->allegiance >= ALLEGIANCE_SAN_DORIA && PInitiator->allegiance <= ALLEGIANCE_WINDURST))
+            {
+                return allegiance != PInitiator->allegiance;
+            }
+
+            // PVE
+            if (allegiance <= ALLEGIANCE_PLAYER &&
+                PInitiator->allegiance <= ALLEGIANCE_PLAYER)
+            {
+                return allegiance != PInitiator->allegiance;
+            }
+
+            return false;
         }
     }
 
@@ -1175,6 +1248,7 @@ bool CBattleEntity::ValidTarget(CBattleEntity* PInitiator, uint16 targetFlags)
     {
         return true;
     }
+
     return false;
 }
 
@@ -1194,9 +1268,20 @@ void CBattleEntity::Spawn()
 void CBattleEntity::Die()
 {
     if (CBaseEntity* PKiller = GetEntity(m_OwnerID.targid))
+    {
+        static_cast<CBattleEntity*>(PKiller)->ForAlliance([this](CBattleEntity* PMember){
+            CCharEntity* member = static_cast<CCharEntity*>(PMember);
+            if (member->PClaimedMob == this)
+            {
+                member->PClaimedMob = nullptr;
+            }
+        });
         PAI->EventHandler.triggerListener("DEATH", this, PKiller);
+    }
     else
+    {
         PAI->EventHandler.triggerListener("DEATH", this);
+    }
     SetBattleTargetID(0);
 }
 
@@ -1207,6 +1292,8 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
 {
     auto PSpell = state.GetSpell();
     auto PActionTarget = static_cast<CBattleEntity*>(state.GetTarget());
+    CBattleEntity* POriginalTarget = PActionTarget;
+    bool IsMagicCovered= false;
 
     luautils::OnSpellPrecast(this, PSpell);
 
@@ -1253,6 +1340,16 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     }
     else
     {
+        if (this->objtype == TYPE_MOB && PActionTarget->objtype == TYPE_PC)
+        {
+            CBattleEntity* PCoverAbilityUser = battleutils::GetCoverAbilityUser(PActionTarget, this);
+            IsMagicCovered = battleutils::IsMagicCovered((CCharEntity*) PCoverAbilityUser);
+
+            if (IsMagicCovered)
+            {
+                PActionTarget = PCoverAbilityUser;
+            }
+        }
         // only add target
         PAI->TargetFind->findSingleTarget(PActionTarget, flags);
     }
@@ -1267,7 +1364,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
     action.recast = state.GetRecast();
     action.spellgroup = PSpell->getSpellGroup();
 
-    uint16 msg = 0;
+    uint16 msg = MSGBASIC_NONE;
 
     for (auto PTarget : PAI->TargetFind->m_targets)
     {
@@ -1280,13 +1377,13 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         actionTarget.speceffect = SPECEFFECT_NONE;
         actionTarget.animation = PSpell->getAnimationID();
         actionTarget.param = 0;
-        actionTarget.messageID = 0;
+        actionTarget.messageID = MSGBASIC_NONE;
 
         auto ce = PSpell->getCE();
         auto ve = PSpell->getVE();
 
         // Take all shadows
-        if (PSpell->canTargetEnemy() && (aoeType > 0 || (PSpell->getFlag() & SPELLFLAG_WIPE_SHADOWS)))
+        if (PSpell->canTargetEnemy() && (aoeType > SPELLAOE_NONE || (PSpell->getFlag() & SPELLFLAG_WIPE_SHADOWS)))
         {
             PTarget->StatusEffectContainer->DelStatusEffect(EFFECT_BLINK);
             PTarget->StatusEffectContainer->DelStatusEffect(EFFECT_COPY_IMAGE);
@@ -1298,7 +1395,7 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             && !(PSpell->getFlag() & SPELLFLAG_IGNORE_SHADOWS))
         {
             // take shadow
-            msg = 31;
+            msg = MSGBASIC_SHADOW_ABSORB;
             actionTarget.param = 1;
             ve = 0;
             ce = 0;
@@ -1309,9 +1406,10 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
 
             // Remove Saboteur
             if (PSpell->getSkillType() == SKILLTYPE::SKILL_ENFEEBLING_MAGIC)
+            {
                 StatusEffectContainer->DelStatusEffect(EFFECT_SABOTEUR);
-
-            if (msg == 0)
+            }
+            if (msg == MSGBASIC_NONE)
             {
                 msg = PSpell->getMessage();
             }
@@ -1321,19 +1419,47 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
             }
         }
 
-        if (actionTarget.animation == 122 && msg == 283) // Teleport spells don't target unqualified members
-        {
-            actionList.actionTargets.pop_back();
-            continue;
+        if (actionTarget.animation == 122)
+        { // Teleport spells don't target unqualified members
+            if (PSpell->getMessage() == MSGBASIC_NONE)
+            {
+                actionTarget.animation = 0; // stop target from going invisible
+                if (PTarget != PActionTarget)
+                {
+                    action.actionLists.pop_back();
+                }
+                else
+                { // set this message in anticipation of nobody having the gate crystal
+                    actionTarget.messageID = MSGBASIC_MAGIC_NO_EFFECT;
+                }
+                continue;
+            }
+            if (msg == MSGBASIC_MAGIC_TELEPORT && PTarget != PActionTarget)
+            { // reset the no effect message above if somebody has gate crystal
+                action.actionLists[0].actionTargets[0].messageID = MSGBASIC_NONE;
+            }
         }
-
         actionTarget.messageID = msg;
 
-        state.ApplyEnmity(PTarget, ce, ve);
+        if (IsMagicCovered)
+        {
+            state.ApplyMagicCoverEnmity(POriginalTarget, PActionTarget, (CMobEntity*)this);
+        }
+        else
+        {
+            state.ApplyEnmity(PTarget, ce, ve);
+        }
 
-        if (PTarget->objtype == TYPE_MOB && msg != 31) // If message isn't the shadow loss message, because I had to move this outside of the above check for it.
+        if (PTarget->objtype == TYPE_MOB && msg != MSGBASIC_SHADOW_ABSORB) // If message isn't the shadow loss message, because I had to move this outside of the above check for it.
         {
             luautils::OnMagicHit(this, PTarget, PSpell);
+        }
+    }
+    if ((!(PSpell->isHeal()) || PSpell->tookEffect()) && PActionTarget->isAlive())
+    {
+        if (objtype != TYPE_PET)
+        {
+            battleutils::ClaimMob(PActionTarget, this);
         }
     }
 
@@ -1438,6 +1564,8 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
     list.ActionTargetID = PTarget->id;
 
+    CBattleEntity* POriginalTarget = PTarget;
+
     /////////////////////////////////////////////////////////////////////////
     //	Start of the attack loop.
     /////////////////////////////////////////////////////////////////////////
@@ -1449,6 +1577,12 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
 
         // Set the swing animation.
         actionTarget.animation = attack.GetAnimationID();
+
+        if (attack.CheckCover())
+        {
+            PTarget = attackRound.GetCoverAbilityUserEntity();
+            list.ActionTargetID = PTarget->id;
+        }
 
         if (PTarget->StatusEffectContainer->HasStatusEffect(EFFECT_PERFECT_DODGE, 0))
         {
@@ -1498,7 +1632,8 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     else
                     {
                         int16 naturalh2hDMG = 0;
-                        if (auto targ_weapon = dynamic_cast<CItemWeapon*>(PTarget->m_Weapons[SLOT_MAIN]); targ_weapon && targ_weapon->getSkillType() == SKILL_HAND_TO_HAND || (PTarget->objtype == TYPE_MOB && PTarget->GetMJob() == JOB_MNK))
+                        if (auto targ_weapon = dynamic_cast<CItemWeapon*>(PTarget->m_Weapons[SLOT_MAIN]);
+                           (targ_weapon && targ_weapon->getSkillType() == SKILL_HAND_TO_HAND) || (PTarget->objtype == TYPE_MOB && PTarget->GetMJob() == JOB_MNK))
                         {
                             naturalh2hDMG = (int16)((PTarget->GetSkill(SKILL_HAND_TO_HAND) * 0.11f) + 3);
                         }
@@ -1573,7 +1708,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                     actionTarget.reaction = REACTION_BLOCK;
                 }
 
-                actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true);
+                actionTarget.param = battleutils::TakePhysicalDamage(this, PTarget, attack.GetAttackType(), attack.GetDamage(), attack.IsBlocked(), attack.GetWeaponSlot(), 1, attackRound.GetTAEntity(), true, true, attack.IsCountered(), attack.IsCovered(), POriginalTarget);
                 if (actionTarget.param < 0)
                 {
                     actionTarget.param = -(actionTarget.param);
@@ -1627,7 +1762,6 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
         if (actionTarget.reaction != REACTION_HIT && actionTarget.reaction != REACTION_BLOCK && actionTarget.reaction != REACTION_GUARD)
         {
             actionTarget.param = 0;
-            battleutils::ClaimMob(PTarget, this);
         }
 
         if (actionTarget.reaction != REACTION_EVADE && actionTarget.reaction != REACTION_PARRY)
@@ -1659,13 +1793,15 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 attackRound.DeleteAttackSwing();
         }
         else
+        {
             attackRound.DeleteAttackSwing();
-
+        }
         if (list.actionTargets.size() == 8)
         {
             break;
         }
     }
+    battleutils::ClaimMob(PTarget, this);
     PAI->EventHandler.triggerListener("ATTACK", this, PTarget, &action);
     PTarget->PAI->EventHandler.triggerListener("ATTACKED", PTarget, this, &action);
     /////////////////////////////////////////////////////////////////////////////////////////////

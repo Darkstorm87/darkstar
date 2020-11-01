@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -103,6 +103,7 @@ namespace itemutils
     CItem*  GetItem(CItem* PItem);
     CItem*  GetItem(uint16 ItemID);
     CItem*  GetItemPointer(uint16 ItemID);
+    bool 	IsItemPointer(CItem* item);
 
     CItemWeapon* GetUnarmedItem();
     CItemWeapon* GetUnarmedH2HItem();

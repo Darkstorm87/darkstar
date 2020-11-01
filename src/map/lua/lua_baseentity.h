@@ -63,12 +63,6 @@ public:
     int32 setLocalVar(lua_State*);
     int32 resetLocalVars(lua_State*);
 
-    // Masks and Bitwise Operations
-    int32 getMaskBit(lua_State*);           // Retrieves a single bit in a character variable
-    int32 setMaskBit(lua_State*);           // Sets a single bit in a character variable
-    int32 countMaskBits(lua_State*);        // Retrieves number of true bits in a character variable
-    int32 isMaskFull(lua_State*);           // Checks if a bitmask stored in a character varable of a specified size contains all set bits
-
     // Packets, Events, and Flags
     int32 injectPacket(lua_State*);         // Send the character a packet kept in a file
     int32 injectActionPacket(lua_State*);   // ONLY FOR DEBUGGING. Injects an action packet with the specified params.
@@ -140,9 +134,14 @@ public:
     int32 sendEmote(lua_State*);             // Character emits emote packet.
 
     // Location and Positioning
-    int32 isBehind(lua_State*);              // true if you're behind the input target
+
+    int32 getWorldAngle(lua_State* L);       // return angle (rot) between two points (vector from a to b), aligned to absolute cardinal degree
+    int32 getFacingAngle(lua_State* L);      // return angle between entity rot and target pos, aligned to number of degrees of difference
     int32 isFacing(lua_State*);              // true if you are facing the target
-    int32 getAngle(lua_State* L);            // return angle (rot) between two points (vector from a to b)
+    int32 isInfront(lua_State*);             // true if you're infront of the input target
+    int32 isBehind(lua_State*);              // true if you're behind the input target
+    int32 isBeside(lua_State*);              // true if you're to the side of the input target
+
     int32 getZone(lua_State*);               // Get Entity zone
     int32 getZoneID(lua_State*);             // Get Entity zone ID
     int32 getZoneName(lua_State*);           // Get Entity zone name
@@ -181,6 +180,7 @@ public:
 
     // Items
     int32 getEquipID(lua_State*);            // Gets the Item Id of the item in specified slot
+    int32 getEquippedItem(lua_State *);      // Returns the item object from specified slot
     int32 hasItem(lua_State*);               // Check to see if Entity has item in inventory (hasItem(itemNumber))
     int32 addItem(lua_State*);               // Add item to Entity inventory (additem(itemNumber,quantity))
     int32 delItem(lua_State*);
@@ -277,6 +277,7 @@ public:
     int32 setsLevel(lua_State*);            // sets the character's level
     int32 levelCap(lua_State*);             // genkai
     int32 levelRestriction(lua_State*);     // Establish/return current level restriction
+    int32 addJobTraits(lua_State*);         // Add job traits
 
     // Player Titles and Fame
     int32 getTitle(lua_State*);             // Gets character's title
@@ -307,6 +308,13 @@ public:
     int32 getCurrentMission(lua_State*);    // Gets the current mission
     int32 hasCompletedMission(lua_State*);  // Checks if mission has been completed
     int32 completeMission(lua_State*);      // Complete Mission
+    int32 setMissionLogEx(lua_State*);      // Sets mission log extra data to correctly track progress in branching missions.
+    int32 getMissionLogEx(lua_State*);      // Gets mission log extra data.
+
+    int32 setEminenceCompleted(lua_State *L);  // Sets the complete flag for a record of eminence
+    int32 getEminenceCompleted(lua_State *L);  // Gets the record completed flag
+    int32 setEminenceProgress(lua_State *L);   // Sets progress on a record of eminence
+    int32 getEminenceProgress(lua_State *L);   // gets progress on a record of eminence
 
     int32 addAssault(lua_State*);           // Add Mission
     int32 delAssault(lua_State*);           // Delete Mission from Mission Log
@@ -427,10 +435,10 @@ public:
 
     int32 reloadParty(lua_State* L);
     int32 disableLevelSync(lua_State* L);
+    int32 isLevelSync(lua_State* L);
 
     int32 checkSoloPartyAlliance(lua_State*);        // Check if Player is in Party or Alliance 0=Solo 1=Party 2=Alliance
 
-    int32 checkFovAllianceAllowed(lua_State*);       // checks the map config, 1 if alliance is allowed to farm Fov pages
     int32 checkKillCredit(lua_State*);
 
     // Instances
@@ -460,6 +468,10 @@ public:
     int32 sendReraise(lua_State*);            // send raise request to char
     int32 sendTractor(lua_State*);            // send tractor request to char
 
+    int32 countdown(lua_State* L);
+    int32 enableEntities(lua_State* L);
+    int32 independantAnimation(lua_State* L);
+
     int32 engage(lua_State* L);
     int32 isEngaged(lua_State* L);
     int32 disengage(lua_State* L);
@@ -483,6 +495,8 @@ public:
     int32 recalculateStats(lua_State* L);
     int32 checkImbuedItems(lua_State* L);
 
+    int32 isDualWielding(lua_State*);          // Checks if the battle entity is dual wielding
+
     // Enmity
     int32 getCE(lua_State*);                   //gets current CE the mob has towards the player
     int32 getVE(lua_State*);                   //gets current VE the mob has towards the player
@@ -496,6 +510,8 @@ public:
     int32 updateEnmityFromCure(lua_State*);
     int32 resetEnmity(lua_State*);             //resets enmity to player for specificed mob
     int32 updateClaim(lua_State*);             // Adds Enmity to player for specified mob and claims
+    int32 hasEnmity(lua_State*);               // Does the player have any enmity at all from any source
+    int32 getNotorietyList(lua_State*);        // Returns a table with all of the entities on a chars notoriety list
 
     // Status Effects
     int32 addStatusEffect(lua_State*);         // Adds status effect to character

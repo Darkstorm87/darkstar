@@ -8,7 +8,7 @@ require("scripts/globals/msg")
 ---------------------------------------------
 
 function onAbilityCheck(player, target, ability)
-    return 0,0
+    return 0, 0
 end
 
 function onPetAbility(target, pet, skill)
@@ -32,9 +32,7 @@ function onPetAbility(target, pet, skill)
             effectid = tpz.effect.CHR_BOOST
         end
 
-        target:addStatusEffect(effectid,math.random(12,14),0,300)
-        skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
-    end
-    
+    target:addStatusEffect(effectid, math.random(12, 14), 0, 300)
+    skill:setMsg(tpz.msg.basic.SKILL_GAIN_EFFECT)
     return effectid
 end

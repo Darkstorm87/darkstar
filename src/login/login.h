@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2016 Darkstar Dev Teams
@@ -58,6 +58,7 @@ struct login_config_t
     uint16 msg_server_port;         // chat server port
     std::string msg_server_ip;      // chat server IP
     bool  log_user_ip;              // log user ip -> default false
+    bool  account_creation;         // allow new accounts to be created -> default true
 };
 
 struct version_info_t
@@ -92,6 +93,7 @@ void login_versionscreen(int32 flag);
 
 void login_config_read(const char *key, const char* value);
 void login_config_default();
+void login_config_read_from_env();
 
 void version_info_read(const char *key, const char* value);
 void version_info_default();

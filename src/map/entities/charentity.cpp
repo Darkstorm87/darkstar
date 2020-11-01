@@ -62,6 +62,7 @@
 #include "../utils/attackutils.h"
 #include "../utils/charutils.h"
 #include "../utils/battleutils.h"
+#include "../utils/gardenutils.h"
 #include "../item_container.h"
 #include "../items/item_weapon.h"
 #include "../items/item_usable.h"
@@ -76,7 +77,6 @@
 #include "../packets/char_job_extra.h"
 #include "../packets/status_effects.h"
 #include "../mobskill.h"
-
 
 CCharEntity::CCharEntity()
 {
@@ -110,6 +110,7 @@ CCharEntity::CCharEntity()
     m_Wardrobe4 = std::make_unique<CItemContainer>(LOC_WARDROBE4);
 
     memset(&jobs, 0, sizeof(jobs));
+    // TODO: -Wno-class-memaccess - clearing an object on non-trivial type use assignment or value-init
     memset(&keys, 0, sizeof(keys));
     memset(&equip, 0, sizeof(equip));
     memset(&equipLoc, 0, sizeof(equipLoc));
@@ -118,6 +119,7 @@ CCharEntity::CCharEntity()
     memset(&nameflags, 0, sizeof(nameflags));
     memset(&menuConfigFlags, 0, sizeof(menuConfigFlags));
 
+    // TODO: -Wno-class-memaccess - clearing an object on non-trivial type use assignment or value-init
     memset(&m_SpellList, 0, sizeof(m_SpellList));
     memset(&m_LearnedAbilities, 0, sizeof(m_LearnedAbilities));
     memset(&m_TitleList, 0, sizeof(m_TitleList));
@@ -133,6 +135,8 @@ CCharEntity::CCharEntity()
     memset(&m_missionLog, 0, sizeof(m_missionLog));
     memset(&m_assaultLog, 0, sizeof(m_assaultLog));
     memset(&m_campaignLog, 0, sizeof(m_campaignLog));
+    memset(&m_eminenceLog, 0, sizeof(m_eminenceLog));
+    m_eminenceCache.activemap.reset();
 
     memset(&teleport, 0, sizeof(teleport));
     memset(&teleport.homepoint.menu, -1, sizeof(teleport.homepoint.menu));
@@ -143,8 +147,14 @@ CCharEntity::CCharEntity()
         m_missionLog[i].current = 0xFFFF;
     }
 
-    m_missionLog[4].current = 0; // MISSION_TOAU
-    m_missionLog[5].current = 0; // MISSION_WOTG
+    m_missionLog[4].current = 0;   // MISSION_TOAU
+    m_missionLog[5].current = 0;   // MISSION_WOTG
+    m_missionLog[6].current = 101; // MISSION_COP
+    for (uint8 i = 0; i < MAX_MISSIONAREA; ++i)
+    {
+        m_missionLog[i].logExUpper = 0;
+        m_missionLog[i].logExLower = 0;
+    }
 
     m_copCurrent = 0;
     m_acpCurrent = 0;
@@ -183,6 +193,7 @@ CCharEntity::CCharEntity()
     PWideScanTarget = nullptr;
 
     PAutomaton = nullptr;
+    PClaimedMob = nullptr;
     PRecastContainer = std::make_unique<CCharRecastContainer>(this);
     PLatentEffectContainer = new CLatentEffectContainer(this);
 
@@ -200,6 +211,8 @@ CCharEntity::CCharEntity()
     m_LastYell = 0;
     m_moghouseID = 0;
     m_moghancementID = 0;
+
+    m_Substate = CHAR_SUBSTATE::SUBSTATE_NONE;
 
     PAI = std::make_unique<CAIContainer>(this, nullptr, std::make_unique<CPlayerController>(this),
         std::make_unique<CTargetFind>(this));
@@ -242,6 +255,10 @@ void CCharEntity::clearPacketList()
 
 void CCharEntity::pushPacket(CBasicPacket* packet)
 {
+    TracyZoneScoped;
+    TracyZoneIString(GetName());
+    TracyZoneHex16(packet->id());
+
     std::lock_guard<std::mutex> lk(m_PacketListMutex);
     PacketList.push_back(packet);
 }
@@ -503,6 +520,7 @@ void CCharEntity::ClearTrusts()
 
 void CCharEntity::Tick(time_point tick)
 {
+    TracyZoneScoped;
     CBattleEntity::Tick(tick);
     if (m_DeathTimestamp > 0 && tick >= m_deathSyncTime)
     {
@@ -510,10 +528,16 @@ void CCharEntity::Tick(time_point tick)
         updatemask |= UPDATE_STATUS;
         m_deathSyncTime = tick + death_update_frequency;
     }
+
+    if (m_moghouseID != 0)
+    {
+        gardenutils::UpdateGardening(this, true);
+    }
 }
 
 void CCharEntity::PostTick()
 {
+    TracyZoneScoped;
     CBattleEntity::PostTick();
     if (m_EquipSwap)
     {
@@ -634,6 +658,7 @@ bool CCharEntity::CanUseSpell(CSpell* PSpell)
 
 void CCharEntity::OnChangeTarget(CBattleEntity* PNewTarget)
 {
+    battleutils::RelinquishClaim(this);
     pushPacket(new CLockOnPacket(this, PNewTarget));
     PLatentEffectContainer->CheckLatentsTargetChange();
 }
@@ -646,6 +671,7 @@ void CCharEntity::OnEngage(CAttackState& state)
 
 void CCharEntity::OnDisengage(CAttackState& state)
 {
+    battleutils::RelinquishClaim(this);
     CBattleEntity::OnDisengage(state);
     if (state.HasErrorMsg())
     {
@@ -671,7 +697,7 @@ bool CCharEntity::CanAttack(CBattleEntity* PTarget, std::unique_ptr<CBasicPacket
         PAI->Disengage();
         return false;
     }
-    else if (!isFaceing(this->loc.p, PTarget->loc.p, 40))
+    else if (!facing(this->loc.p, PTarget->loc.p, 64))
     {
         errMsg = std::make_unique<CMessageBasicPacket>(this, PTarget, 0, 0, MSGBASIC_UNABLE_TO_SEE_TARG);
         return false;
@@ -699,7 +725,7 @@ bool CCharEntity::OnAttack(CAttackState& state, action_t& action)
             for (auto&& PPotentialTarget : this->SpawnMOBList)
             {
                 if (PPotentialTarget.second->animation == ANIMATION_ATTACK &&
-                    isFaceing(this->loc.p, PPotentialTarget.second->loc.p, 64) &&
+                    facing(this->loc.p, PPotentialTarget.second->loc.p, 64) &&
                     distance(this->loc.p, PPotentialTarget.second->loc.p) <= 10)
                 {
                     std::unique_ptr<CBasicPacket> errMsg;
@@ -913,6 +939,7 @@ void CCharEntity::OnWeaponSkillFinished(CWeaponSkillState& state, action_t& acti
                 }
             }
         }
+        battleutils::ClaimMob(PBattleTarget, this);
     }
     else
     {
@@ -1023,8 +1050,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
 
         action.id = this->id;
         action.actiontype = PAbility->getActionType();
-        //#TODO: unoffset this
-        action.actionid = PAbility->getID() + 16;
+        action.actionid = PAbility->getID();
 
         // #TODO: get rid of this to script, too
         if (PAbility->isPetAbility())
@@ -1154,7 +1180,7 @@ void CCharEntity::OnAbility(CAbilityState& state, action_t& action)
             //{
             //    battleutils::jumpAbility(this, PTarget, 3);
             //    action.messageID = 0;
-            //    this->loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CMessageBasicPacket(this, PTarget, PAbility->getID() + 16, 0, MSGBASIC_USES_JA));
+            //    this->loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CMessageBasicPacket(this, PTarget, PAbility->getID(), 0, MSGBASIC_USES_JA));
             //}
 
             //#TODO: move these 3 BST abilities to scripts
@@ -1335,9 +1361,6 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             actionTarget.reaction = REACTION_EVADE;
             actionTarget.speceffect = SPECEFFECT_NONE;
             actionTarget.messageID = 354;
-
-            battleutils::ClaimMob(PTarget, this);
-
             hitCount = i; // end barrage, shot missed
         }
 
@@ -1406,8 +1429,6 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
         actionTarget.messageID = 0;
         actionTarget.reaction = REACTION_EVADE;
         PTarget->loc.zone->PushPacket(PTarget, CHAR_INRANGE_SELF, new CMessageBasicPacket(PTarget, PTarget, 0, shadowsTaken, MSGBASIC_SHADOW_ABSORB));
-
-        battleutils::ClaimMob(PTarget, this);
     }
 
     if (actionTarget.speceffect == SPECEFFECT_HIT && actionTarget.param > 0)
@@ -1426,7 +1447,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
 
         StatusEffectContainer->DelStatusEffect(EFFECT_SANGE);
     }
-
+    battleutils::ClaimMob(PTarget, this);
     battleutils::RemoveAmmo(this, ammoConsumed);
     // only remove detectables
     StatusEffectContainer->DelStatusEffectsByFlag(EFFECTFLAG_DETECTABLE);
@@ -1672,6 +1693,7 @@ void CCharEntity::Die()
     else
         loc.zone->PushPacket(this, CHAR_INRANGE_SELF, new CMessageBasicPacket(this, this, 0, 0, MSGBASIC_FALLS_TO_GROUND));
 
+    battleutils::RelinquishClaim(this);
     Die(death_duration);
     SetDeathTimestamp((uint32)time(nullptr));
 
@@ -1692,6 +1714,9 @@ void CCharEntity::Die(duration _duration)
     m_deathSyncTime = server_clock::now() + death_update_frequency;
     PAI->ClearStateStack();
     PAI->Internal_Die(_duration);
+
+    // If player allegiance is not reset on death they will auto-homepoint
+    allegiance = ALLEGIANCE_PLAYER;
 
     // reraise modifiers
     if (this->getMod(Mod::RERAISE_I) > 0)
@@ -1976,7 +2001,7 @@ void CCharEntity::SetMoghancement(uint16 moghancementID)
                 addModifier(Mod::EXPERIENCE_RETAINED, 5);
                 break;
             case MOGHANCEMENT_GARDENING:
-                // TODO: Reduces the chances of plants withering when gardening
+                addModifier(Mod::GARDENING_WILT_BONUS, 36);
                 break;
             case MOGHANCEMENT_DESYNTHESIS:
                 addModifier(Mod::DESYNTH_SUCCESS, 2);

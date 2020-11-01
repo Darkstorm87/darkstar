@@ -31,19 +31,19 @@ local CONQUEST_UPDATE      = 2
 
 local exForceMenuData =
 {
-    0x20006,ZULK_EF,103,0x000040,20,tpz.ki.ZULKHEIM_EF_INSIGNIA,
-    0x20007,NORV_EF,104,0x000080,25,tpz.ki.NORVALLEN_EF_INSIGNIA,
-    0x20009,DERF_EF,109,0x000200,25,tpz.ki.DERFLAND_EF_INSIGNIA,
-    0x2000B,KOLS_EF,118,0x000800,20,tpz.ki.KOLSHUSHU_EF_INSIGNIA,
-    0x2000C,ARAG_EF,119,0x001000,25,tpz.ki.ARAGONEU_EF_INSIGNIA,
-    0x2000D,FAUR_EF,111,0x002000,35,tpz.ki.FAUREGANDI_EF_INSIGNIA,
-    0x2000E,VALD_EF,112,0x004000,40,tpz.ki.VALDEAUNIA_EF_INSIGNIA,
-    0x2000F,QUFI_EF,126,0x008000,25,tpz.ki.QUFIM_EF_INSIGNIA,
-    0x20010,LITE_EF,121,0x010000,35,tpz.ki.LITELOR_EF_INSIGNIA,
-    0x20011,KUZO_EF,114,0x020000,40,tpz.ki.KUZOTZ_EF_INSIGNIA,
-    0x20012,VOLL_EF,113,0x040000,65,tpz.ki.VOLLBOW_EF_INSIGNIA,
-    0x20013,ELLO_EF,123,0x080000,35,tpz.ki.ELSHIMO_LOWLANDS_EF_INSIGNIA,
-    0x20014,ELUP_EF,124,0x100000,45,tpz.ki.ELSHIMO_UPLANDS_EF_INSIGNIA
+    0x20006, ZULK_EF, 103, 0x000040, 20, tpz.ki.ZULKHEIM_EF_INSIGNIA,
+    0x20007, NORV_EF, 104, 0x000080, 25, tpz.ki.NORVALLEN_EF_INSIGNIA,
+    0x20009, DERF_EF, 109, 0x000200, 25, tpz.ki.DERFLAND_EF_INSIGNIA,
+    0x2000B, KOLS_EF, 118, 0x000800, 20, tpz.ki.KOLSHUSHU_EF_INSIGNIA,
+    0x2000C, ARAG_EF, 119, 0x001000, 25, tpz.ki.ARAGONEU_EF_INSIGNIA,
+    0x2000D, FAUR_EF, 111, 0x002000, 35, tpz.ki.FAUREGANDI_EF_INSIGNIA,
+    0x2000E, VALD_EF, 112, 0x004000, 40, tpz.ki.VALDEAUNIA_EF_INSIGNIA,
+    0x2000F, QUFI_EF, 126, 0x008000, 25, tpz.ki.QUFIM_EF_INSIGNIA,
+    0x20010, LITE_EF, 121, 0x010000, 35, tpz.ki.LITELOR_EF_INSIGNIA,
+    0x20011, KUZO_EF, 114, 0x020000, 40, tpz.ki.KUZOTZ_EF_INSIGNIA,
+    0x20012, VOLL_EF, 113, 0x040000, 65, tpz.ki.VOLLBOW_EF_INSIGNIA,
+    0x20013, ELLO_EF, 123, 0x080000, 35, tpz.ki.ELSHIMO_LOWLANDS_EF_INSIGNIA,
+    0x20014, ELUP_EF, 124, 0x100000, 45, tpz.ki.ELSHIMO_UPLANDS_EF_INSIGNIA
 }
 
 local function getExForceAvailable(player, guardNation)
@@ -82,8 +82,7 @@ local outposts =
 }
 
 local function hasOutpost(player, region)
-    local region = region + 5
-    local hasOP = player:hasTeleport(player:getNation(), region)
+    local hasOP = player:hasTeleport(player:getNation(), region + 5)
     if not hasOP then
         if UNLOCK_OUTPOST_WARPS == 2 then
             hasOP = true
@@ -834,7 +833,8 @@ local function canBuyExpRing(player, item)
     if ALLOW_MULTIPLE_EXP_RINGS ~= 1 then
         for i = 15761, 15763 do
             if player:hasItem(i) then
-                player:messageSpecial(text.ITEM_CANNOT_BE_OBTAINED, item)
+                player:messageSpecial(text.CONQUEST + 60, 0, 0, item) -- You do not meet the requirements to purchase the <item>.
+                player:messageSpecial(text.CONQUEST + 50, 0, 0, item) -- Due to its special nature, you can only purchase or recharge <item> once until the conquest results tally is performed. Also, you cannot purchase this item if a similar item is already in your possession.
                 return false
             end
         end
@@ -843,6 +843,7 @@ local function canBuyExpRing(player, item)
     -- one exp ring per conquest tally
     if BYPASS_EXP_RING_ONE_PER_WEEK ~= 1 and player:getCharVar("CONQUEST_RING_RECHARGE") > os.time() then
         player:messageSpecial(text.CONQUEST + 60, 0, 0, item)
+        player:messageSpecial(text.CONQUEST + 50, 0, 0, item)
         return false
     end
 
@@ -1194,12 +1195,12 @@ tpz.conquest.vendorOnTrigger = function(player, vendorRegion, vendorEvent)
     end
 
     local fee = tpz.conquest.outpostFee(player, vendorRegion)
-    player:startEvent(vendorEvent,nation,fee,0,fee,player:getCP(),0,0,0)
+    player:startEvent(vendorEvent, nation, fee, 0, fee, player:getCP(), 0, 0, 0)
 end
 
 tpz.conquest.vendorOnEventUpdate = function(player, vendorRegion)
     local fee = tpz.conquest.outpostFee(player, vendorRegion)
-    player:updateEvent(player:getGil(),fee,0,fee,player:getCP())
+    player:updateEvent(player:getGil(), fee, 0, fee, player:getCP())
 end
 
 tpz.conquest.vendorOnEventFinish = function(player, option, vendorRegion)
@@ -1222,30 +1223,22 @@ end
 -----------------------------------
 
 tpz.conquest.teleporterOnTrigger = function(player, teleporterNation, teleporterEvent)
-    if player:getNation() == teleporterNation then
-        local sandyRegions = getRegionsMask(tpz.nation.SANDORIA)
-        local bastokRegions = getRegionsMask(tpz.nation.BASTOK)
-        local windyRegions = getRegionsMask(tpz.nation.WINDURST)
-        local beastmenRegions = getRegionsMask(tpz.nation.BEASTMEN)
-        local allowedTeleports = getAllowedTeleports(player, teleporterNation)
-        local teleporterRegion = tpz.region.SANDORIA + teleporterNation
-        player:startEvent(teleporterEvent, sandyRegions, bastokRegions, windyRegions, beastmenRegions, bit.lshift(1, teleporterRegion), 0, player:getMainLvl(), allowedTeleports)
-    else
-        local a6 =
-        {
-            [tpz.nation.SANDORIA] = 1,
-            [tpz.nation.BASTOK]   = 256,
-            [tpz.nation.WINDURST] = 512,
-        }
-        player:startEvent(teleporterEvent, 0, 0, 0, 0, 0, a6[teleporterNation], 0, 0)
-    end
+    local sandyRegions = getRegionsMask(tpz.nation.SANDORIA)
+    local bastokRegions = getRegionsMask(tpz.nation.BASTOK)
+    local windyRegions = getRegionsMask(tpz.nation.WINDURST)
+    local beastmenRegions = getRegionsMask(tpz.nation.BEASTMEN)
+    local allowedTeleports = getAllowedTeleports(player, teleporterNation)
+    local nationBits = player:getNation() + bit.lshift(teleporterNation, 8)
+    player:startEvent(teleporterEvent, sandyRegions, bastokRegions, windyRegions, beastmenRegions, 0, nationBits, player:getMainLvl(), allowedTeleports)
 end
 
 tpz.conquest.teleporterOnEventUpdate = function(player, csid, option, teleporterEvent)
     if csid == teleporterEvent then
         local region = option - 1073741829
         local fee = tpz.conquest.outpostFee(player, region)
-        player:updateEvent(player:getGil(), fee, 0, fee, player:getCP())
+        local cpFee = fee/10
+
+        player:updateEvent(player:getGil(), fee, 0, cpFee, player:getCP())
     end
 end
 
@@ -1263,10 +1256,10 @@ tpz.conquest.teleporterOnEventFinish = function(player, csid, option, teleporter
         -- TELEPORT WITH CP
         elseif option >= 1029 and option <= 1047 then
             local region = option - 1029
-            local fee = tpz.conquest.outpostFee(player, region)
+            local cpFee = tpz.conquest.outpostFee(player, region)/10
 
-            if tpz.conquest.canTeleportToOutpost(player, region) and player:getCP() >= fee then
-                player:delCP(fee)
+            if tpz.conquest.canTeleportToOutpost(player, region) and player:getCP() >= cpFee then
+                player:delCP(cpFee)
                 player:addStatusEffectEx(tpz.effect.TELEPORT, 0, tpz.teleport.id.OUTPOST, 0, 1, 0, region)
             end
         end
@@ -1364,8 +1357,8 @@ tpz.conquest.onConquestUpdate = function(zone, updatetype)
                 player:messageText(player, messageBase + 36, 5) -- All three nations are at a deadlock.
             else
                 local sandoria = bit.band(influence, 0x03)
-                local bastok = bit.rshift(bit.band(influence, 0x0C),2)
-                local windurst = bit.rshift(bit.band(influence, 0x30),4)
+                local bastok = bit.rshift(bit.band(influence, 0x0C), 2)
+                local windurst = bit.rshift(bit.band(influence, 0x30), 4)
 
                 player:messageText(player, messageBase + 41 - sandoria, 5) -- Regional influence: San d'Oria
                 player:messageText(player, messageBase + 45 - bastok, 5)   -- Regional influence: Bastok

@@ -5,6 +5,7 @@
 -----------------------------------
 local ID = require("scripts/zones/Northern_San_dOria/IDs")
 require("scripts/globals/events/harvest_festivals")
+require("scripts/quests/flyers_for_regine")
 require("scripts/globals/conquest")
 require("scripts/globals/missions")
 require("scripts/globals/npc_util")
@@ -18,6 +19,7 @@ function onInitialize(zone)
     SetExplorerMoogles(ID.npc.EXPLORER_MOOGLE)
 
     zone:registerRegion(1, -7, -3, 110, 7, -1, 155)
+    quests.ffr.initZone(zone) -- register regions 2 through 6
 
     applyHalloweenNpcCostumes(zone:getID())
 end
@@ -28,33 +30,26 @@ function onZoneIn(player, prevZone)
     local MissionStatus = player:getCharVar("MissionStatus")
     local cs = -1
 
-    -- SOA 1-1 Optional CS
-    if
-        ENABLE_SOA and
-        player:getCurrentMission(SOA) == tpz.mission.id.soa.RUMORS_FROM_THE_WEST and
-        player:getCharVar("SOA_1_CS1") == 0
-    then
-        cs = 878
-    end
-
     -- FIRST LOGIN (START CS)
     if player:getPlaytime(false) == 0 then
-        if OPENING_CUTSCENE_ENABLE == 1 then
+        if NEW_CHARACTER_CUTSCENE == 1 then
             cs = 535
         end
         player:setPos(0, 0, -11, 191)
         player:setHomePoint()
-    end
-    -- MOG HOUSE EXIT
-    if player:getXPos() == 0 and player:getYPos() == 0 and player:getZPos() == 0 then
-        player:setPos(130, -0.2, -3, 160)
-        if player:getMainJob() ~= player:getCharVar("PlayerMainJob") and player:getGMLevel() == 0 then
-            cs = 30004
-        end
-        player:setCharVar("PlayerMainJob", 0)
-    end
+    elseif ENABLE_ROV == 1 and player:getCurrentMission(ROV) == tpz.mission.id.rov.RHAPSODIES_OF_VANADIEL and player:getMainLvl()>=3 then
+        cs = 30035
+    elseif player:getCurrentMission(ROV) == tpz.mission.id.rov.FATES_CALL and player:getCurrentMission(player:getNation()) > 15 then
+        cs = 30036
+    -- SOA 1-1 Optional CS
+    elseif
+        ENABLE_SOA == 1 and
+        player:getCurrentMission(SOA) == tpz.mission.id.soa.RUMORS_FROM_THE_WEST and
+        player:getCharVar("SOA_1_CS1") == 0
+    then
+        cs = 878
     -- RDM AF3 CS
-    if player:getCharVar("peaceForTheSpiritCS") == 5 and player:getFreeSlotsCount() >= 1 then
+    elseif player:getCharVar("peaceForTheSpiritCS") == 5 and player:getFreeSlotsCount() >= 1 then
         cs = 49
     elseif player:getCurrentMission(COP) == tpz.mission.id.cop.THE_ROAD_FORKS and player:getCharVar("EMERALD_WATERS_Status") == 1 then --EMERALD_WATERS-- COP 3-3A: San d'Oria Route
         player:setCharVar("EMERALD_WATERS_Status", 2)
@@ -66,6 +61,12 @@ function onZoneIn(player, prevZone)
     elseif player:hasCompletedMission(SANDORIA, tpz.mission.id.sandoria.COMING_OF_AGE) and tonumber(os.date("%j")) == player:getCharVar("Wait1DayM8-1_date") then
         cs = 16
     end
+
+    -- MOG HOUSE EXIT
+    if player:getXPos() == 0 and player:getYPos() == 0 and player:getZPos() == 0 then
+        player:setPos(130, -0.2, -3, 160)
+    end
+
     return cs
 end
 
@@ -86,6 +87,7 @@ function onRegionEnter(player, region)
             end
         end,
     }
+    quests.ffr.onRegionEnter(player, region) -- player approaching Flyers for Regine NPCs
 end
 
 function onRegionLeave(player, region)
@@ -101,9 +103,6 @@ function onEventFinish(player, csid, option)
         player:setCharVar("MissionStatus", 1)
     elseif csid == 0 then
         player:setCharVar("MissionStatus", 5)
-    elseif csid == 30004 and option == 0 then
-        player:setHomePoint()
-        player:messageSpecial(ID.text.HOMEPOINT_SET)
     elseif csid == 569 then
         player:setPos(0, 0, -13, 192, 233)
     elseif csid == 49 and npcUtil.completeQuest(player, SANDORIA, tpz.quest.id.sandoria.PEACE_FOR_THE_SPIRIT, {item = 12513, fame = 60, title = tpz.title.PARAGON_OF_RED_MAGE_EXCELLENCE}) then
@@ -113,5 +112,11 @@ function onEventFinish(player, csid, option)
         player:setCharVar("Mission8-1Completed", 1)
     elseif csid == 878 then
         player:setCharVar("SOA_1_CS1", 1)
+    elseif csid == 30035 then
+        player:completeMission(ROV, tpz.mission.id.rov.RHAPSODIES_OF_VANADIEL)
+        player:addMission(ROV, tpz.mission.id.rov.RESONACE)
+    elseif csid == 30036 then
+        player:completeMission(ROV, tpz.mission.id.rov.FATES_CALL)
+        player:addMission(ROV, tpz.mission.id.rov.WHAT_LIES_BEYOND)
     end
 end

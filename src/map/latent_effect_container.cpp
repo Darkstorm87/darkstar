@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
 Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -359,6 +359,7 @@ void CLatentEffectContainer::CheckLatentsDay()
 ************************************************************************/
 void CLatentEffectContainer::CheckLatentsMoonPhase()
 {
+    TracyZoneScoped;
     ProcessLatentEffects([this](CLatentEffect& latentEffect)
     {
         switch (latentEffect.GetConditionsID())
@@ -410,6 +411,7 @@ void CLatentEffectContainer::CheckLatentsWeekDay()
 ************************************************************************/
 void CLatentEffectContainer::CheckLatentsHours()
 {
+    TracyZoneScoped;
     ProcessLatentEffects([this](CLatentEffect& latentEffect)
     {
         switch (latentEffect.GetConditionsID())
@@ -654,6 +656,7 @@ void CLatentEffectContainer::CheckLatentsTargetChange()
         {
         case LATENT_SIGNET_BONUS:
         case LATENT_VS_ECOSYSTEM:
+        case LATENT_VS_FAMILY:
             return ProcessLatentEffect(latentEffect);
         default:
             break;
@@ -687,6 +690,7 @@ void CLatentEffectContainer::ProcessLatentEffects(std::function <bool(CLatentEff
 // activation/deactivation and attempts to apply
 bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
 {
+    TracyZoneScoped;
     // Our default case un-finds our latent prevent us from toggling a latent we don't have programmed
     auto expression = false;
     auto latentFound = true;
@@ -1111,6 +1115,16 @@ bool CLatentEffectContainer::ProcessLatentEffect(CLatentEffect& latentEffect)
         if (CBattleEntity* PTarget = m_POwner->GetBattleTarget())
         {
             expression = PTarget->m_EcoSystem == latentEffect.GetConditionsValue();
+        }
+        break;
+    case LATENT_VS_FAMILY:
+        if (CBattleEntity* PTarget = m_POwner->GetBattleTarget())
+        {
+            CMobEntity* PMob = dynamic_cast<CMobEntity*>(PTarget);
+            if (PMob)
+            {
+                expression = PMob->m_Family == latentEffect.GetConditionsValue();
+            }
         }
         break;
     default:

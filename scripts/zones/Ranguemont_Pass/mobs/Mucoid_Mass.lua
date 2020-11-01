@@ -1,11 +1,13 @@
 -----------------------------------
 -- Area: Ranguemont Pass
---  Mob: Mucoid Mass
+--   NM: Mucoid Mass
 -----------------------------------
+require("scripts/globals/hunts")
 
 function onMobDeath(mob, player, isKiller)
-end;
+    tpz.hunts.checkHunt(mob, player, 345)
+end
 
 function onMobDespawn(mob)
-    mob:setRespawnTime(900); -- 90 to 100 minutes
-end;
+    mob:setRespawnTime(900) -- 90 to 100 minutes
+end

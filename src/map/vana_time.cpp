@@ -30,7 +30,7 @@ CVanaTime* CVanaTime::_instance = nullptr;
 
 CVanaTime::CVanaTime()
 {
-    setCustomOffset(0);
+    setCustomEpoch(0);
 }
 
 CVanaTime* CVanaTime::getInstance()
@@ -40,6 +40,15 @@ CVanaTime* CVanaTime::getInstance()
         _instance = new CVanaTime();
     }
     return _instance;
+}
+
+void CVanaTime::delInstance()
+{
+    if(_instance)
+    {
+        delete _instance;
+        _instance = nullptr;
+    }
 }
 
 uint32 CVanaTime::getDate()
@@ -117,21 +126,78 @@ uint32 CVanaTime::getSysYearDay()
     return ltm->tm_yday;
 }
 
+uint32 CVanaTime::getJstHour()
+{
+    auto now = time(nullptr) + JST_OFFSET;
+    tm *jtm = gmtime(&now);
+
+    return jtm->tm_hour;
+}
+
+uint32 CVanaTime::getJstMinute()
+{
+    auto now = time(nullptr) + JST_OFFSET;
+    tm *jtm = gmtime(&now);
+
+    return jtm->tm_min;
+}
+
+uint32 CVanaTime::getJstSecond()
+{
+    auto now = time(nullptr) + JST_OFFSET;
+    tm *jtm = gmtime(&now);
+
+    return jtm->tm_sec;
+}
+
+uint32 CVanaTime::getJstWeekDay()
+{
+    auto now = time(nullptr) + JST_OFFSET;
+    tm *jtm = gmtime(&now);
+
+    return jtm->tm_wday;
+}
+
+uint32 CVanaTime::getJstDayOfMonth()
+{
+    auto now = time(nullptr) + JST_OFFSET;
+    tm *jtm = gmtime(&now);
+
+    return jtm->tm_mday;
+}
+
+uint32 CVanaTime::getJstYearDay()
+{
+    auto now = time(nullptr) + JST_OFFSET;
+    tm *jtm = gmtime(&now);
+
+    return jtm->tm_yday;
+}
+
+uint32 CVanaTime::getJstMidnight()
+{
+    auto now = time(nullptr) + JST_OFFSET;
+    tm* jst = gmtime(&now);
+    jst->tm_hour = 0;
+    jst->tm_min = 0;
+    jst->tm_sec = 0;
+    return static_cast<uint32>(timegm(jst) - JST_OFFSET + (60 * 60 * 24));     // Unix timestamp of the upcoming JST midnight
+}
+
 uint32 CVanaTime::getVanaTime()
 {
-    //if custom offset is re-implemented here is the place to put it
     //all functions/variables for in game time should be derived from this
-    return (uint32)time(nullptr) - VTIME_BASEDATE;
+    return (uint32)time(nullptr) - (m_customEpoch ? m_customEpoch : VTIME_BASEDATE);
 }
 
-int32 CVanaTime::getCustomOffset()
+int32 CVanaTime::getCustomEpoch()
 {
-    return m_customOffset;
+    return m_customEpoch;
 }
 
-void CVanaTime::setCustomOffset(int32 offset)
+void CVanaTime::setCustomEpoch(int32 epoch)
 {
-    m_customOffset = offset;
+    m_customEpoch = epoch;
     m_TimeType = SyncTime();
 }
 
@@ -196,8 +262,10 @@ TIMETYPE CVanaTime::SyncTime()
     m_vHour = (uint32)((m_vanaDate % VTIME_DAY)   / VTIME_HOUR);
     m_vMin  = (uint32)( m_vanaDate % VTIME_HOUR);
 
-    if (m_vMin == 0)
+    static uint8 lastTickedHour = m_vHour;
+    if (m_vHour == (lastTickedHour + 1) % 24u)
     {
+        lastTickedHour = m_vHour;
         switch (m_vHour)
         {
             case  0: m_TimeType = TIME_NIGHT;   return TIME_MIDNIGHT;

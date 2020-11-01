@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
   Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -68,6 +68,7 @@ public:
     void    RemoveTask(std::string TaskName);
 
     static CTaskMgr * getInstance();
+    static void delInstance();
 
     ~CTaskMgr() {};
 

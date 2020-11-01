@@ -9,11 +9,11 @@ require("scripts/globals/settings")
 require("scripts/globals/status")
 -----------------------------------
 
-function onAbilityCheck(player,target,ability)
-    return 0,0
+function onAbilityCheck(player, target, ability)
+    return 0, 0
 end
 
-function onUseAbility(player,target,ability)
+function onUseAbility(player, target, ability)
     local duration = 180 + player:getMod(tpz.mod.HOLY_CIRCLE_DURATION)
 
     if (player:getID() ~= target:getID()) then
@@ -27,8 +27,8 @@ function onUseAbility(player,target,ability)
             subPower = math.floor(subPower / 2);
         end
     
-        target:addStatusEffect(tpz.effect.HOLY_CIRCLE,15,0,duration,0,subPower)
+        target:addStatusEffect(tpz.effect.HOLY_CIRCLE, 15, 0, duration, 0, subPower)
     else
-        target:addStatusEffect(tpz.effect.HOLY_CIRCLE,15,0,duration)
+        target:addStatusEffect(tpz.effect.HOLY_CIRCLE, 15, 0, duration)
     end
 end

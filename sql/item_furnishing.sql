@@ -62,6 +62,7 @@ INSERT INTO `item_furnishing` VALUES (43, 'wicker_box', 4, 514, 2, 2);
 INSERT INTO `item_furnishing` VALUES (46, 'armor_box', 5, 517, 5, 2);
 INSERT INTO `item_furnishing` VALUES (49, 'coffer', 5, 517, 5, 4);
 INSERT INTO `item_furnishing` VALUES (51, 'chest', 3, 517, 5, 4);
+INSERT INTO `item_furnishing` VALUES (54, 'chocobo_commode', 6, 0, 5, 0);
 INSERT INTO `item_furnishing` VALUES (55, 'cabinet', 7, 517, 5, 9);
 INSERT INTO `item_furnishing` VALUES (56, 'commode', 6, 517, 5, 9);
 INSERT INTO `item_furnishing` VALUES (57, 'cupboard', 6, 512, 0, 6);
@@ -517,3 +518,14 @@ INSERT INTO `item_furnishing` VALUES (3737, 'doll_stand', 2, 2855, 6, 15);
 INSERT INTO `item_furnishing` VALUES (3738, 'eastern_umbrella', 1, 521, 5, 2); -- Moghancement: Gardening - From https://ffxiclopedia.fandom.com/wiki/Eastern_Umbrella (BG doesn't show Moghancement)
 INSERT INTO `item_furnishing` VALUES (3739, 'autumn_tree', 1, 515, 3, 5);
 -- INSERT INTO `item_furnishing` VALUES (3740, 'model_synergy_furnace', 8, 0, 7, 11); -- Moghancement: Synergy Skill Gains does not yet exist, so commenting this row out for now
+-- INSERT INTO `item_furnishing` VALUES (3742, 'painting_of_a_mercenary', 1, 515, 3, 1); -- Moghancement: Mandragora Mania does not yet exist
+INSERT INTO `item_furnishing` VALUES (3743, 'moogle_bed', 1, 520, 6, 8);
+
+/*
+  `itemid` smallint(5) unsigned NOT NULL,
+  `name` text NOT NULL,
+  `storage` tinyint(3) unsigned NOT NULL DEFAULT '0', -- look on bgwiki for storage value
+  `moghancement` smallint(4) unsigned NOT NULL DEFAULT '0', -- moghancements are listed in src/map/item_furnishing.h
+  `element` tinyint(3) unsigned NOT NULL DEFAULT '0', -- 0:fire, 1:ice, 2:wind, 3:earth, 4:thunder, 5:water, 6:light, 7:dark
+  `aura` tinyint(3) unsigned NOT NULL DEFAULT '0', -- look on bgwiki for aura strength
+*/

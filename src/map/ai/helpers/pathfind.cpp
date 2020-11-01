@@ -1,4 +1,4 @@
-/*
+﻿/*
 ===========================================================================
 
 Copyright (c) 2010-2015 Darkstar Dev Teams
@@ -40,6 +40,7 @@ CPathFind::~CPathFind()
 
 bool CPathFind::RoamAround(const position_t& point, float maxRadius, uint8 maxTurns, uint16 roamFlags)
 {
+    TracyZoneScoped;
     Clear();
 
     m_roamFlags = roamFlags;
@@ -75,6 +76,7 @@ bool CPathFind::RoamAround(const position_t& point, float maxRadius, uint8 maxTu
 
 bool CPathFind::PathTo(const position_t& point, uint8 pathFlags, bool clear)
 {
+    TracyZoneScoped;
     // don't follow a new path if the current path has script flag and new path doesn't
     if (IsFollowingPath() && (m_pathFlags & PATHFLAG_SCRIPT) && !(pathFlags & PATHFLAG_SCRIPT))
         return false;
@@ -119,6 +121,7 @@ bool CPathFind::PathTo(const position_t& point, uint8 pathFlags, bool clear)
 
 bool CPathFind::PathInRange(const position_t& point, float range, uint8 pathFlags /*= 0*/, bool clear /*= true*/)
 {
+    TracyZoneScoped;
     if (clear)
     {
         Clear();
@@ -129,6 +132,7 @@ bool CPathFind::PathInRange(const position_t& point, float range, uint8 pathFlag
 
 bool CPathFind::PathAround(const position_t& point, float distanceFromPoint, uint8 pathFlags)
 {
+    TracyZoneScoped;
     Clear();
     //position_t* lastPoint = &point;
 
@@ -147,6 +151,7 @@ bool CPathFind::PathAround(const position_t& point, float distanceFromPoint, uin
 
 bool CPathFind::PathThrough(std::vector<position_t>&& points, uint8 pathFlags)
 {
+    TracyZoneScoped;
     Clear();
 
     m_pathFlags = pathFlags;
@@ -158,6 +163,7 @@ bool CPathFind::PathThrough(std::vector<position_t>&& points, uint8 pathFlags)
 
 bool CPathFind::WarpTo(const position_t& point, float maxDistance)
 {
+    TracyZoneScoped;
     Clear();
 
     position_t newPoint = nearPosition(point, maxDistance, (float)M_PI);
@@ -180,6 +186,7 @@ bool CPathFind::isNavMeshEnabled()
 
 bool CPathFind::ValidPosition(const position_t& pos)
 {
+    TracyZoneScoped;
     if (isNavMeshEnabled())
     {
         return m_PTarget->loc.zone->m_navMesh->validPosition(pos);
@@ -197,6 +204,7 @@ void CPathFind::LimitDistance(float maxLength)
 
 void CPathFind::StopWithin(float within)
 {
+    TracyZoneScoped;
     if (!IsFollowingPath()) return;
     // TODO: cut up path
 
@@ -239,6 +247,7 @@ void CPathFind::StopWithin(float within)
 
 void CPathFind::FollowPath()
 {
+    TracyZoneScoped;
     if (!IsFollowingPath()) return;
 
     m_onPoint = false;
@@ -271,7 +280,7 @@ void CPathFind::FollowPath()
 
 void CPathFind::StepTo(const position_t& pos, bool run)
 {
-
+    TracyZoneScoped;
     float speed = GetRealSpeed();
 
     int8 mode = 2;
@@ -332,13 +341,13 @@ void CPathFind::StepTo(const position_t& pos, bool run)
 
 bool CPathFind::FindPath(const position_t& start, const position_t& end)
 {
-
+    TracyZoneScoped;
     m_points = m_PTarget->loc.zone->m_navMesh->findPath(start, end);
     m_currentPoint = 0;
 
     if (m_points.size() <= 0)
     {
-        ShowNavError("CPathFind::FindPath Entity (%d) could not find path\n", m_PTarget->id);
+        ShowNavError("CPathFind::FindPath Entity (%s - %d) could not find path\n", m_PTarget->GetName(), m_PTarget->id);
         return false;
     }
 
@@ -347,6 +356,7 @@ bool CPathFind::FindPath(const position_t& start, const position_t& end)
 
 bool CPathFind::FindRandomPath(const position_t& start, float maxRadius, uint8 maxTurns, uint16 roamFlags)
 {
+    TracyZoneScoped;
     auto m_turnLength = tpzrand::GetRandomNumber((int)maxTurns) + 1;
 
     position_t startPosition = start;
@@ -377,6 +387,7 @@ bool CPathFind::FindRandomPath(const position_t& start, float maxRadius, uint8 m
 
 bool CPathFind::FindClosestPath(const position_t& start, const position_t& end)
 {
+    TracyZoneScoped;
     m_points = m_PTarget->loc.zone->m_navMesh->findPath(start, end);
     m_currentPoint = 0;
     m_points.push_back(end);  // this prevents exploits with navmesh / impassible terrain
@@ -396,7 +407,7 @@ void CPathFind::LookAt(const position_t& point)
 {
     // don't look if i'm at that point
     if (!AtPoint(point)) {
-        m_PTarget->loc.p.rotation = getangle(m_PTarget->loc.p, point);
+        m_PTarget->loc.p.rotation = worldAngle(m_PTarget->loc.p, point);
         m_PTarget->updatemask |= UPDATE_POS;
     }
 }
@@ -410,19 +421,25 @@ float CPathFind::GetRealSpeed()
 {
     uint8 baseSpeed = m_PTarget->speed;
 
-    if (m_PTarget->objtype != TYPE_NPC)
+    // Lets not factor in player map conf or mod's to non players. 
+    // (Mobs should just have speed set directly instead, and NPC's don't have mods)
+    if (m_PTarget->objtype == TYPE_PC)
     {
         baseSpeed = ((CBattleEntity*)m_PTarget)->GetSpeed();
     }
 
-    if (baseSpeed == 0 && (m_roamFlags & ROAMFLAG_WORM))
+    // Lets not check mob things on non mobs
+    if (m_PTarget->objtype == TYPE_MOB)
     {
-        baseSpeed = 20;
-    }
-
-    if (m_PTarget->animation == ANIMATION_ATTACK)
-    {
-        baseSpeed = baseSpeed + map_config.mob_speed_mod;
+        if (baseSpeed == 0 && (m_roamFlags & ROAMFLAG_WORM))
+        {
+            baseSpeed = 20;
+        }
+        // using 'else if' so we don't mess with worm speed.
+        else if (m_PTarget->animation == ANIMATION_ATTACK)
+        {
+            baseSpeed = baseSpeed + map_config.mob_speed_mod;
+        }
     }
 
     return baseSpeed;
